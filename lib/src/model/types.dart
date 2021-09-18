@@ -20,3 +20,25 @@ abstract class TypeModel {
 
   get isDeprecated => accessModifiers.contains('deprecated');
 }
+
+class ClassModel extends TypeModel {
+  final String? extendedClass;
+  final List<String> implementedInterfaces;
+
+  ClassModel(
+      {required String name,
+      List<String> accessModifiers = const [],
+      this.extendedClass,
+      this.implementedInterfaces = const []})
+      : super(name: name, accessModifiers: accessModifiers);
+}
+
+class InterfaceModel extends TypeModel {
+  final List<String> extendedInterfaces;
+
+  InterfaceModel(
+      {required String name,
+      List<String> accessModifiers = const [],
+      this.extendedInterfaces = const []})
+      : super(name: name, accessModifiers: accessModifiers);
+}

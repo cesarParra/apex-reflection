@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
 
-import 'package:apexdocs_dart/src/model/interface_model.dart';
+import 'package:apexdocs_dart/src/model/types.dart';
 
 void main() {
   group('Interface Model Tests', () {

@@ -1,8 +1,6 @@
 import 'package:apexdocs_dart/src/antlr/lib/apex/ApexParser.dart';
 import 'package:apexdocs_dart/src/antlr/lib/apex/ApexParserBaseListener.dart';
-import 'package:apexdocs_dart/src/model/class_model.dart';
-import 'package:apexdocs_dart/src/model/interface_model.dart';
-import 'package:apexdocs_dart/src/model/type_model.dart';
+import 'package:apexdocs_dart/src/model/types.dart';
 
 class ApexClassListener extends ApexParserBaseListener {
   TypeModel? generatedType;

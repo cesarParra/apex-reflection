@@ -2,8 +2,7 @@
 // @dart=2.10
 
 import 'package:antlr4/antlr4.dart';
-import 'package:apexdocs_dart/src/model/class_model.dart';
-import 'package:apexdocs_dart/src/model/interface_model.dart';
+import 'package:apexdocs_dart/src/model/types.dart';
 import 'package:apexdocs_dart/src/service/apex_listener.dart';
 import 'package:test/test.dart';
 

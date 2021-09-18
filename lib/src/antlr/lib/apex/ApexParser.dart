@@ -5923,11 +5923,11 @@ class ClassDeclarationContext extends ParserRuleContext {
 
   TerminalNode EXTENDS() => getToken(ApexParser.TOKEN_EXTENDS, 0);
 
-  TypeRefContext typeRef() => getRuleContext<TypeRefContext>(0);
+  TypeRefContext? typeRef() => getRuleContext<TypeRefContext>(0);
 
   TerminalNode IMPLEMENTS() => getToken(ApexParser.TOKEN_IMPLEMENTS, 0);
 
-  TypeListContext typeList() => getRuleContext<TypeListContext>(0);
+  TypeListContext? typeList() => getRuleContext<TypeListContext>(0);
 
   ClassDeclarationContext([ParserRuleContext? parent, int? invokingState])
       : super(parent, invokingState);

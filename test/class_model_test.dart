@@ -1,5 +1,6 @@
-import 'package:apexdocs_dart/src/model/class_model.dart';
 import 'package:test/test.dart';
+
+import 'package:apexdocs_dart/src/model/class_model.dart';
 
 void main() {
   group('Class Model Tests', () {

@@ -6,7 +6,7 @@ import 'package:antlr4/antlr4.dart';
 
 import 'package:apexdocs_dart/src/antlr/lib/apex/ApexLexer.dart';
 import 'package:apexdocs_dart/src/antlr/lib/apex/ApexParser.dart';
-import 'package:apexdocs_dart/src/service/apex_class_listener.dart';
+import 'package:apexdocs_dart/src/service/apex_listener.dart';
 import 'package:apexdocs_dart/src/service/walker.dart';
 
 main(List<String> arguments) async {

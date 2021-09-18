@@ -5882,7 +5882,7 @@ class CompilationUnitContext extends ParserRuleContext {
 }
 
 class TypeDeclarationContext extends ParserRuleContext {
-  ClassDeclarationContext classDeclaration() =>
+  ClassDeclarationContext? classDeclaration() =>
       getRuleContext<ClassDeclarationContext>(0);
 
   TerminalNode DOC_COMMENT() => getToken(ApexParser.TOKEN_DOC_COMMENT, 0);
@@ -5894,7 +5894,7 @@ class TypeDeclarationContext extends ParserRuleContext {
   EnumDeclarationContext enumDeclaration() =>
       getRuleContext<EnumDeclarationContext>(0);
 
-  InterfaceDeclarationContext interfaceDeclaration() =>
+  InterfaceDeclarationContext? interfaceDeclaration() =>
       getRuleContext<InterfaceDeclarationContext>(0);
 
   TypeDeclarationContext([ParserRuleContext? parent, int? invokingState])
@@ -6011,7 +6011,7 @@ class InterfaceDeclarationContext extends ParserRuleContext {
 
   TerminalNode EXTENDS() => getToken(ApexParser.TOKEN_EXTENDS, 0);
 
-  TypeListContext typeList() => getRuleContext<TypeListContext>(0);
+  TypeListContext? typeList() => getRuleContext<TypeListContext>(0);
 
   InterfaceDeclarationContext([ParserRuleContext? parent, int? invokingState])
       : super(parent, invokingState);

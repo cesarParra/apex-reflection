@@ -2,6 +2,7 @@
 // @dart=2.10
 
 import 'package:antlr4/antlr4.dart';
+import 'package:apexdocs_dart/src/model/members.dart';
 import 'package:apexdocs_dart/src/model/types.dart';
 import 'package:apexdocs_dart/src/service/apex_listener.dart';
 import 'package:test/test.dart';
@@ -117,7 +118,7 @@ void main() {
       var classBody = '''
       public class MyClass {
         @NamespaceAccessible public String MyProperty1 { get; set; }
-        private String MyProperty2 { get; set; }
+        private Integer MyProperty2 { get; set; }
       }
       ''';
       Walker.walk(InputStream.fromString(classBody), listener);
@@ -131,21 +132,17 @@ void main() {
           generatedClass.properties
               .any((element) => element.name == 'MyProperty2'),
           isTrue);
-      expect(
-          generatedClass.properties
-              .firstWhere((element) => element.name == 'MyProperty1')
-              .isNamespaceAccessible,
-          isTrue);
-      expect(
-          generatedClass.properties
-              .firstWhere((element) => element.name == 'MyProperty1')
-              .isPublic,
-          isTrue);
-      expect(
-          generatedClass.properties
-              .firstWhere((element) => element.name == 'MyProperty2')
-              .isPrivate,
-          isTrue);
+
+      Property property1 = generatedClass.properties
+          .firstWhere((element) => element.name == 'MyProperty1');
+      expect(property1.isNamespaceAccessible, isTrue);
+      expect(property1.type, equals('String'));
+      expect(property1.isPublic, isTrue);
+
+      Property property2 = generatedClass.properties
+          .firstWhere((element) => element.name == 'MyProperty2');
+      expect(property2.isPrivate, isTrue);
+      expect(property2.type, equals('Integer'));
     });
   });
 

@@ -47,10 +47,11 @@ class ApexClassListener extends ApexParserBaseListener {
         memberDeclarationContext.propertyDeclaration()!;
 
     var propertyName = propertyDeclarationContext.id().text;
+    var propertyType = propertyDeclarationContext.typeRef().text;
     var modifiers = _getAccessModifiers(ctx);
 
-    Property property =
-        Property(name: propertyName, accessModifiers: modifiers);
+    Property property = Property(
+        name: propertyName, type: propertyType, accessModifiers: modifiers);
     (generatedType as ClassModel).addProperty(property);
   }
 

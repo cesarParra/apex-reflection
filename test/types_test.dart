@@ -99,8 +99,8 @@ void main() {
 
     test('Can have a list of properties', () {
       var classModel = ClassModel(name: 'AnyName');
-      var property1 = Property(name: 'Prop1');
-      var property2 = Property(name: 'Prop2');
+      var property1 = Property(name: 'Prop1', type: 'String');
+      var property2 = Property(name: 'Prop2', type: 'String');
 
       classModel.addProperty(property1);
       classModel.addProperty(property2);

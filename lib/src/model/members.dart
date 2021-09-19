@@ -26,9 +26,15 @@ class Field extends TypedDeclaration {
       : super(name: name, type: type, accessModifiers: accessModifiers);
 }
 
-class Method extends TypedDeclaration {
+mixin ParameterAwareness {
   List<Parameter> parameters = [];
 
+  void addParameter(Parameter parameter) {
+    parameters.add(parameter);
+  }
+}
+
+class Method extends TypedDeclaration with ParameterAwareness {
   Method(
       {required String name,
       String type = 'void',
@@ -36,10 +42,6 @@ class Method extends TypedDeclaration {
       : super(name: name, type: type, accessModifiers: accessModifiers);
 
   get isVoid => type.toLowerCase() == 'void';
-
-  void addParameter(Parameter parameter) {
-    parameters.add(parameter);
-  }
 }
 
 class Parameter extends TypedDeclaration {
@@ -48,4 +50,10 @@ class Parameter extends TypedDeclaration {
       required String type,
       List<String> accessModifiers = const []})
       : super(name: name, type: type, accessModifiers: accessModifiers);
+}
+
+class Constructor with AccessModifierAwareness, ParameterAwareness {
+  Constructor({accessModifiers = const <String>[]}) {
+    this.accessModifiers = accessModifiers;
+  }
 }

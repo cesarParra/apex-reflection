@@ -103,4 +103,26 @@ void main() {
       expect(parameter.isPublic, isTrue);
     });
   });
+
+  group('Constructor tests', () {
+    test('Can have access modifiers', () {
+      var constructor =
+          Constructor(accessModifiers: ['namespaceaccessible', 'public']);
+      expect(constructor.isNamespaceAccessible, isTrue);
+      expect(constructor.isPublic, isTrue);
+    });
+
+    test('Have no parameters by default', () {
+      var constructor = Constructor();
+      expect(constructor.parameters.isEmpty, isTrue);
+    });
+
+    test('Can receive parameters', () {
+      var constructor = Constructor();
+      var parameter = Parameter(name: 'Param', type: 'String');
+      constructor.addParameter(parameter);
+      expect(constructor.parameters.length, equals(1));
+      expect(constructor.parameters.first, equals(parameter));
+    });
+  });
 }

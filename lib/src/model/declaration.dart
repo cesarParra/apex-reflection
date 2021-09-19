@@ -1,8 +1,5 @@
-abstract class Declaration {
-  final String name;
-  final List<String> accessModifiers;
-
-  Declaration({required this.name, this.accessModifiers = const []});
+mixin AccessModifierAwareness {
+  List<String> accessModifiers = [];
 
   get isPrivate => accessModifiers.contains('private');
 
@@ -19,4 +16,12 @@ abstract class Declaration {
   get isTest => accessModifiers.contains('istest');
 
   get isDeprecated => accessModifiers.contains('deprecated');
+}
+
+abstract class Declaration with AccessModifierAwareness {
+  final String name;
+
+  Declaration({required this.name, accessModifiers}) {
+    this.accessModifiers = accessModifiers;
+  }
 }

@@ -22,4 +22,25 @@ void main() {
       expect(property.isPublic, isTrue);
     });
   });
+
+  group('Fields tests', () {
+    test('Fields have a name', () {
+      var field = Field(name: 'MyField', type: 'String');
+      expect(field.name, 'MyField');
+    });
+
+    test('Fields have a type', () {
+      var field = Field(name: 'MyField', type: 'String');
+      expect(field.type, 'String');
+    });
+
+    test('Fields can have access modifiers', () {
+      var field = Field(
+          name: 'MyField',
+          type: 'String',
+          accessModifiers: ['namespaceaccessible', 'public']);
+      expect(field.isNamespaceAccessible, isTrue);
+      expect(field.isPublic, isTrue);
+    });
+  });
 }

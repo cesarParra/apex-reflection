@@ -6198,7 +6198,7 @@ class ModifierContext extends ParserRuleContext {
 }
 
 class MemberDeclarationContext extends ParserRuleContext {
-  MethodDeclarationContext methodDeclaration() =>
+  MethodDeclarationContext? methodDeclaration() =>
       getRuleContext<MethodDeclarationContext>(0);
 
   FieldDeclarationContext? fieldDeclaration() =>
@@ -6242,7 +6242,7 @@ class MethodDeclarationContext extends ParserRuleContext {
   FormalParametersContext formalParameters() =>
       getRuleContext<FormalParametersContext>(0);
 
-  TypeRefContext typeRef() => getRuleContext<TypeRefContext>(0);
+  TypeRefContext? typeRef() => getRuleContext<TypeRefContext>(0);
 
   TerminalNode VOID() => getToken(ApexParser.TOKEN_VOID, 0);
 
@@ -6583,7 +6583,7 @@ class FormalParametersContext extends ParserRuleContext {
 
   TerminalNode RPAREN() => getToken(ApexParser.TOKEN_RPAREN, 0);
 
-  FormalParameterListContext formalParameterList() =>
+  FormalParameterListContext? formalParameterList() =>
       getRuleContext<FormalParameterListContext>(0);
 
   FormalParametersContext([ParserRuleContext? parent, int? invokingState])

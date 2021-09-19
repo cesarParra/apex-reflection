@@ -178,6 +178,44 @@ void main() {
       expect(field3.isPrivate, isTrue);
       expect(field3.type, equals('Integer'));
     });
+
+    test('Classes can have methods', () {
+      var listener = ApexClassListener();
+      var classBody = '''
+      public class MyClass {
+        @NamespaceAccessible
+        public void sayHi() {
+          System.debug(getGreeting());
+        }
+        public String getGreeting() {
+          return 'Hi!';
+        }
+      }
+      ''';
+
+      Walker.walk(InputStream.fromString(classBody), listener);
+      var generatedClass = listener.generatedType as ClassModel;
+      expect(generatedClass.methods.length, equals(2));
+      expect(generatedClass.methods.any((element) => element.name == 'sayHi'),
+          isTrue);
+      expect(
+          generatedClass.methods
+              .any((element) => element.name == 'getGreeting'),
+          isTrue);
+
+      Method method1 = generatedClass.methods
+          .firstWhere((element) => element.name == 'sayHi');
+      expect(method1.isPublic, isTrue);
+      expect(method1.isNamespaceAccessible, isTrue);
+      expect(method1.isVoid, isTrue);
+
+      Method method2 = generatedClass.methods
+          .firstWhere((element) => element.name == 'getGreeting');
+      expect(method2.isPublic, isTrue);
+      expect(method2.isNamespaceAccessible, isFalse);
+      expect(method2.isVoid, isFalse);
+      expect(method2.type, equals('String'));
+    });
   });
 
   group('Parses Apex Interfaces', () {

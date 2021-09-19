@@ -1,5 +1,4 @@
 * Class
-    * Methods
     * Inner classes
     * Inner interfaces
     * Inner enums

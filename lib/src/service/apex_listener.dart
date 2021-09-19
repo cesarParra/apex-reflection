@@ -38,6 +38,7 @@ class ApexClassListener extends ApexParserBaseListener {
 
     _parseProperties(ctx);
     _parseFields(ctx);
+    _parseMethods(ctx);
   }
 
   _parseProperties(ClassBodyDeclarationContext ctx) {
@@ -45,7 +46,7 @@ class ApexClassListener extends ApexParserBaseListener {
       return;
     }
 
-    PropertyDeclarationContext propertyDeclarationContext =
+    var propertyDeclarationContext =
         ctx.memberDeclaration()!.propertyDeclaration()!;
 
     var propertyName = propertyDeclarationContext.id().text;
@@ -62,8 +63,7 @@ class ApexClassListener extends ApexParserBaseListener {
       return;
     }
 
-    FieldDeclarationContext fieldDeclarationContext =
-        ctx.memberDeclaration()!.fieldDeclaration()!;
+    var fieldDeclarationContext = ctx.memberDeclaration()!.fieldDeclaration()!;
 
     // There can be more than one variable defined in the same line, so we
     // want to parse each individual one and use the same modifiers and types
@@ -86,6 +86,43 @@ class ApexClassListener extends ApexParserBaseListener {
     }
 
     fieldNames.forEach(addField);
+  }
+
+  _parseMethods(ClassBodyDeclarationContext ctx) {
+    if (ctx.memberDeclaration()!.methodDeclaration() == null) {
+      return;
+    }
+
+    var methodDeclarationContext =
+        ctx.memberDeclaration()!.methodDeclaration()!;
+
+    var modifiers = _getAccessModifiers(ctx);
+    var type = methodDeclarationContext.typeRef() != null
+        ? methodDeclarationContext.typeRef()!.text
+        : 'void';
+    var methodName = methodDeclarationContext.id().text;
+    var parameters = [];
+
+    var formalParametersContext = methodDeclarationContext.formalParameters();
+    if (formalParametersContext.formalParameterList() != null) {
+      parameters = formalParametersContext
+          .formalParameterList()!
+          .formalParameters()
+          .map((e) => Parameter(
+              name: e.id().text,
+              type: e.typeRef().text,
+              accessModifiers: _getAccessModifiers(e)))
+          .toList();
+    }
+
+    Method method =
+        Method(name: methodName, type: type, accessModifiers: modifiers);
+    addParameter(element) {
+      method.addParameter(element);
+    }
+
+    parameters.forEach(addParameter);
+    (generatedType as ClassModel).addMethod(method);
   }
 
   List<String> _getAccessModifiers(dynamic ctx) {

@@ -6201,7 +6201,7 @@ class MemberDeclarationContext extends ParserRuleContext {
   MethodDeclarationContext methodDeclaration() =>
       getRuleContext<MethodDeclarationContext>(0);
 
-  FieldDeclarationContext fieldDeclaration() =>
+  FieldDeclarationContext? fieldDeclaration() =>
       getRuleContext<FieldDeclarationContext>(0);
 
   ConstructorDeclarationContext constructorDeclaration() =>

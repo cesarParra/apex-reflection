@@ -1,5 +1,4 @@
 * Class
-    * Fields
     * Methods
     * Inner classes
     * Inner interfaces

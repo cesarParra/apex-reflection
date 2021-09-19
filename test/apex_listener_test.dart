@@ -144,6 +144,40 @@ void main() {
       expect(property2.isPrivate, isTrue);
       expect(property2.type, equals('Integer'));
     });
+
+    test('Classes can have fields', () {
+      var listener = ApexClassListener();
+      var classBody = '''
+      public class MyClass {
+        private String myVar1, myVar2;
+        private Integer myVar3;
+      }
+      ''';
+      Walker.walk(InputStream.fromString(classBody), listener);
+      var generatedClass = listener.generatedType as ClassModel;
+      expect(generatedClass.fields.length, equals(3));
+      expect(generatedClass.fields.any((element) => element.name == 'myVar1'),
+          isTrue);
+      expect(generatedClass.fields.any((element) => element.name == 'myVar2'),
+          isTrue);
+      expect(generatedClass.fields.any((element) => element.name == 'myVar3'),
+          isTrue);
+
+      Field field1 = generatedClass.fields
+          .firstWhere((element) => element.name == 'myVar1');
+      expect(field1.isPrivate, isTrue);
+      expect(field1.type, equals('String'));
+
+      Field field2 = generatedClass.fields
+          .firstWhere((element) => element.name == 'myVar2');
+      expect(field2.isPrivate, isTrue);
+      expect(field2.type, equals('String'));
+
+      Field field3 = generatedClass.fields
+          .firstWhere((element) => element.name == 'myVar3');
+      expect(field3.isPrivate, isTrue);
+      expect(field3.type, equals('Integer'));
+    });
   });
 
   group('Parses Apex Interfaces', () {

@@ -18,6 +18,11 @@ class ApexClassListener extends ApexParserBaseListener {
   }
 
   @override
+  void exitClassBodyDeclaration(ClassBodyDeclarationContext ctx) {
+    factory.exitClassBodyDeclaration(ctx);
+  }
+
+  @override
   void enterInterfaceMethodDeclaration(InterfaceMethodDeclarationContext ctx) {
     factory.enterInterfaceMethodDeclaration(ctx);
   }

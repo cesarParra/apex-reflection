@@ -274,11 +274,10 @@ void main() {
       expect(generatedClass.enums.first.isNamespaceAccessible, isTrue);
       expect(generatedClass.enums.first.isPublic, isTrue);
     });
-  });
 
-  test('Classes can have inner interfaces', () {
-    var listener = ApexClassListener();
-    var classBody = '''
+    test('Classes can have inner interfaces', () {
+      var listener = ApexClassListener();
+      var classBody = '''
       public class MyClass {
         @NamespaceAccessible
         public interface MyInterface {
@@ -287,16 +286,42 @@ void main() {
       }
       ''';
 
-    Walker.walk(InputStream.fromString(classBody), listener);
-    var generatedClass = listener.generatedType as ClassModel;
-    expect(generatedClass.interfaces.length, equals(1));
+      Walker.walk(InputStream.fromString(classBody), listener);
+      var generatedClass = listener.generatedType as ClassModel;
+      expect(generatedClass.interfaces.length, equals(1));
 
-    var innerInterface = generatedClass.interfaces.first;
-    expect(innerInterface.name, equals('MyInterface'));
-    expect(innerInterface.isNamespaceAccessible, isTrue);
-    expect(innerInterface.isPublic, isTrue);
-    expect(innerInterface.methods.length, equals(1));
-    expect(innerInterface.methods.first.type, 'String');
+      var innerInterface = generatedClass.interfaces.first;
+      expect(innerInterface.name, equals('MyInterface'));
+      expect(innerInterface.isNamespaceAccessible, isTrue);
+      expect(innerInterface.isPublic, isTrue);
+      expect(innerInterface.methods.length, equals(1));
+      expect(innerInterface.methods.first.type, 'String');
+    });
+
+    test('Classes can have inner classes', () {
+      var listener = ApexClassListener();
+      var classBody = '''
+      public class MyClass {
+          public class InnerClass {
+              public String innerMethod(String prop1, String prop2) {
+                  return '';
+              }
+          }
+      }
+      ''';
+
+      Walker.walk(InputStream.fromString(classBody), listener);
+      var generatedClass = listener.generatedType as ClassModel;
+      expect(generatedClass.classes.length, equals(1));
+
+      var innerClass = generatedClass.classes.first;
+      expect(innerClass.name, equals('InnerClass'));
+      expect(innerClass.isNamespaceAccessible, isFalse);
+      expect(innerClass.isPublic, isTrue);
+      expect(innerClass.methods.length, equals(1));
+      expect(innerClass.methods.first.type, 'String');
+      expect(innerClass.methods.first.parameters.length, equals(2));
+    });
   });
 
   group('Parses Apex Interfaces', () {

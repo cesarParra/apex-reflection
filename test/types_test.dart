@@ -180,7 +180,18 @@ void main() {
       expect(classModel.interfaces.first, equals(innerInterface));
     });
 
-    // TODO: can have a list of inner classes
+    test('Do not have inner classes by default', () {
+      var classModel = ClassModel(name: 'AnyName');
+      expect(classModel.classes.length, equals(0));
+    });
+
+    test('Can have inner interfaces', () {
+      var classModel = ClassModel(name: 'AnyName');
+      var innerClass = ClassModel(name: 'InnerClass');
+      classModel.addClass(innerClass);
+      expect(classModel.classes.length, equals(1));
+      expect(classModel.classes.first, equals(innerClass));
+    });
   });
 
   group('Interface Model Tests', () {

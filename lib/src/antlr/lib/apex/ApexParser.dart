@@ -6207,10 +6207,10 @@ class MemberDeclarationContext extends ParserRuleContext {
   ConstructorDeclarationContext? constructorDeclaration() =>
       getRuleContext<ConstructorDeclarationContext>(0);
 
-  InterfaceDeclarationContext interfaceDeclaration() =>
+  InterfaceDeclarationContext? interfaceDeclaration() =>
       getRuleContext<InterfaceDeclarationContext>(0);
 
-  ClassDeclarationContext classDeclaration() =>
+  ClassDeclarationContext? classDeclaration() =>
       getRuleContext<ClassDeclarationContext>(0);
 
   EnumDeclarationContext? enumDeclaration() =>

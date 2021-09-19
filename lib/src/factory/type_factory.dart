@@ -9,7 +9,6 @@ import 'apex_enum_factory.dart';
 import 'apex_interface_factory.dart';
 
 class TypeFactory extends ApexParserBaseListener {
-  final TypeDeclarationContext typeDeclarationContext;
   late Type generatedType;
 
   factory TypeFactory(TypeDeclarationContext typeDeclarationContext) {
@@ -22,5 +21,5 @@ class TypeFactory extends ApexParserBaseListener {
     return ApexEnumFactory(typeDeclarationContext);
   }
 
-  TypeFactory.construct(this.typeDeclarationContext);
+  TypeFactory.construct();
 }

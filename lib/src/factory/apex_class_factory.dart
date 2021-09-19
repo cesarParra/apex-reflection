@@ -1,39 +1,54 @@
 import 'package:apexdocs_dart/src/antlr/lib/apex/ApexParser.dart';
 import 'package:apexdocs_dart/src/factory/apex_enum_factory.dart';
+import 'package:apexdocs_dart/src/factory/apex_interface_factory.dart';
 import 'package:apexdocs_dart/src/factory/type_factory.dart';
 import 'package:apexdocs_dart/src/model/members.dart';
 import 'package:apexdocs_dart/src/model/types.dart';
 import 'package:apexdocs_dart/src/service/utils/parsing/parsing_utils.dart';
 
 class ApexClassFactory extends TypeFactory {
-  ApexClassFactory(TypeDeclarationContext ctx) : super.construct(ctx) {
+  static const int topLevel = 1, innerLevel = 2;
+
+  var currentLevel = 1;
+  Type? innerType;
+
+  @override
+  get generatedType => currentLevel == 1 ? super.generatedType : innerType!;
+
+  ApexClassFactory(TypeDeclarationContext ctx) : super.construct() {
     generatedType = ClassModel(
         name: ctx.classDeclaration()!.id().text,
         accessModifiers: getAccessModifiers(ctx),
-        extendedClass: _getExtensionClass(ctx),
-        implementedInterfaces: _getImplementedInterfaces(ctx));
-  }
-
-  String? _getExtensionClass(TypeDeclarationContext ctx) {
-    return ctx.classDeclaration()!.typeRef()?.text;
-  }
-
-  List<String> _getImplementedInterfaces(TypeDeclarationContext ctx) {
-    if (ctx.classDeclaration()!.typeList()?.typeRefs() == null) {
-      return [];
-    }
-    return ctx
-        .classDeclaration()!
-        .typeList()!
-        .typeRefs()
-        .map((typeRef) => typeRef.text)
-        .toList();
+        extendedClass: _getExtensionClass(ctx.classDeclaration()!),
+        implementedInterfaces:
+            _getImplementedInterfaces(ctx.classDeclaration()!));
   }
 
   @override
   void enterClassBodyDeclaration(ClassBodyDeclarationContext ctx) {
     if (ctx.memberDeclaration() == null) {
       return;
+    }
+
+    // TODO: We should be parsing inner enums the same way as inner interfaces
+    // and inner classes
+    if (ctx.memberDeclaration()!.classDeclaration() != null) {
+      // Entering an inner class
+      currentLevel++;
+      innerType = ClassModel(
+          name: ctx.memberDeclaration()!.classDeclaration()!.id().text,
+          accessModifiers: getAccessModifiers(ctx),
+          extendedClass:
+              _getExtensionClass(ctx.memberDeclaration()!.classDeclaration()!),
+          implementedInterfaces: _getImplementedInterfaces(
+              ctx.memberDeclaration()!.classDeclaration()!));
+    }
+
+    if (ctx.memberDeclaration()!.interfaceDeclaration() != null) {
+      // Entering an inner interface
+      currentLevel++;
+      innerType = InterfaceBuilder.build(
+          ctx.memberDeclaration()!.interfaceDeclaration()!, ctx);
     }
 
     _parseConstructor(ctx);
@@ -44,6 +59,43 @@ class ApexClassFactory extends TypeFactory {
     if (method != null) {
       (generatedType as MethodsAwareness).addMethod(method);
     }
+  }
+
+  @override
+  void exitClassBodyDeclaration(ClassBodyDeclarationContext ctx) {
+    if (currentLevel == innerLevel) {
+      currentLevel--;
+
+      if (innerType is ClassModel) {
+        (generatedType as ClassModel).addClass(innerType as ClassModel);
+      } else {
+        (generatedType as ClassModel).addInterface(innerType as InterfaceModel);
+      }
+
+      // Clear the inner type that was being generated
+      innerType = null;
+    }
+  }
+
+  // TODO: This works for parsing inner interfaces but there's some duplication, plus this logic
+  // should live in a place for parsing interfaces and not here. Let's refactor.
+  @override
+  void enterInterfaceMethodDeclaration(InterfaceMethodDeclarationContext ctx) {
+    var method = parseMethod(generatedType, ctx);
+    if (method != null) {
+      (generatedType as MethodsAwareness).addMethod(method);
+    }
+  }
+
+  String? _getExtensionClass(ClassDeclarationContext ctx) {
+    return ctx.typeRef()?.text;
+  }
+
+  List<String> _getImplementedInterfaces(ClassDeclarationContext ctx) {
+    if (ctx.typeList()?.typeRefs() == null) {
+      return [];
+    }
+    return ctx.typeList()!.typeRefs().map((typeRef) => typeRef.text).toList();
   }
 
   _parseEnum(ClassBodyDeclarationContext ctx) {

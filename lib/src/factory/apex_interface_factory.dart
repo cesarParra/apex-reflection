@@ -4,23 +4,8 @@ import 'package:apexdocs_dart/src/model/types.dart';
 import 'package:apexdocs_dart/src/service/utils/parsing/parsing_utils.dart';
 
 class ApexInterfaceFactory extends TypeFactory {
-  ApexInterfaceFactory(TypeDeclarationContext ctx) : super.construct(ctx) {
-    generatedType = InterfaceModel(
-        name: ctx.interfaceDeclaration()!.id().text,
-        accessModifiers: getAccessModifiers(ctx),
-        extendedInterfaces: _getExtensionInterfaces(ctx));
-  }
-
-  List<String> _getExtensionInterfaces(TypeDeclarationContext ctx) {
-    if (ctx.interfaceDeclaration()!.typeList()?.typeRefs() == null) {
-      return [];
-    }
-    return ctx
-        .interfaceDeclaration()!
-        .typeList()!
-        .typeRefs()
-        .map((typeRef) => typeRef.text)
-        .toList();
+  ApexInterfaceFactory(TypeDeclarationContext ctx) : super.construct() {
+    generatedType = InterfaceBuilder.build(ctx.interfaceDeclaration()!, ctx);
   }
 
   @override
@@ -29,5 +14,24 @@ class ApexInterfaceFactory extends TypeFactory {
     if (method != null) {
       (generatedType as MethodsAwareness).addMethod(method);
     }
+  }
+}
+
+class InterfaceBuilder {
+  static InterfaceModel build(
+      InterfaceDeclarationContext interfaceDeclarationContext,
+      dynamic modifierContext) {
+    return InterfaceModel(
+        name: interfaceDeclarationContext.id().text,
+        accessModifiers: getAccessModifiers(modifierContext),
+        extendedInterfaces:
+            _getExtensionInterfaces(interfaceDeclarationContext));
+  }
+
+  static List<String> _getExtensionInterfaces(InterfaceDeclarationContext ctx) {
+    if (ctx.typeList()?.typeRefs() == null) {
+      return [];
+    }
+    return ctx.typeList()!.typeRefs().map((typeRef) => typeRef.text).toList();
   }
 }

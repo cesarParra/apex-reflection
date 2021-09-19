@@ -4,7 +4,7 @@ import 'package:apexdocs_dart/src/model/types.dart';
 import 'package:apexdocs_dart/src/service/utils/parsing/parsing_utils.dart';
 
 class ApexEnumFactory extends TypeFactory {
-  ApexEnumFactory(TypeDeclarationContext ctx) : super.construct(ctx) {
+  ApexEnumFactory(TypeDeclarationContext ctx) : super.construct() {
     generatedType = EnumBuilder.build(ctx.enumDeclaration(), ctx);
   }
 }

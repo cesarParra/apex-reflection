@@ -90,13 +90,15 @@ class ApexClassListener extends ApexParserBaseListener {
   }
 
   _parseMethod(dynamic ctx) {
+    if (ctx is ClassBodyDeclarationContext) {
+      if (ctx.memberDeclaration()!.methodDeclaration() == null) {
+        return;
+      }
+    }
     var objectContext = ctx is ClassBodyDeclarationContext
         ? ApexObjectBodyDeclarationContext.fromClassBodyDeclarationContext(ctx)
         : ApexObjectBodyDeclarationContext
             .fromInterfaceMethodDeclarationContext(ctx);
-    if (!objectContext.isMethod) {
-      return;
-    }
 
     var modifiers = _getAccessModifiers(objectContext.modifiersAwareContext);
     var type = objectContext.typeAwareContext.typeRef() != null
@@ -199,7 +201,6 @@ class ApexClassListener extends ApexParserBaseListener {
 }
 
 class ApexObjectBodyDeclarationContext {
-  final bool _isMethod;
   final dynamic _modifiersAwareContext;
   final dynamic _typeAwareContext;
   final dynamic _idAwareContext;
@@ -208,8 +209,7 @@ class ApexObjectBodyDeclarationContext {
 
   ApexObjectBodyDeclarationContext.fromClassBodyDeclarationContext(
       ClassBodyDeclarationContext ctx)
-      : _isMethod = ctx.memberDeclaration()!.methodDeclaration() != null,
-        _modifiersAwareContext = ctx,
+      : _modifiersAwareContext = ctx,
         _typeAwareContext = ctx.memberDeclaration()!.methodDeclaration()!,
         _idAwareContext = ctx.memberDeclaration()!.methodDeclaration()!,
         _parametersAwareContext = ctx.memberDeclaration()!.methodDeclaration()!,
@@ -217,14 +217,11 @@ class ApexObjectBodyDeclarationContext {
 
   ApexObjectBodyDeclarationContext.fromInterfaceMethodDeclarationContext(
       InterfaceMethodDeclarationContext ctx)
-      : _isMethod = true,
-        _modifiersAwareContext = ctx,
+      : _modifiersAwareContext = ctx,
         _typeAwareContext = ctx,
         _idAwareContext = ctx,
         _parametersAwareContext = ctx,
         _inheritModifiers = true;
-
-  get isMethod => _isMethod;
 
   get modifiersAwareContext => _modifiersAwareContext;
 

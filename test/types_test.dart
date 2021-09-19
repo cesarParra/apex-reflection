@@ -1,3 +1,4 @@
+import 'package:apexdocs_dart/src/model/members.dart';
 import 'package:test/test.dart';
 
 import 'package:apexdocs_dart/src/model/types.dart';
@@ -91,8 +92,25 @@ void main() {
       expect(classModel.isDeprecated, isTrue);
     });
 
+    test('Does not have any properties by default', () {
+      var classModel = ClassModel(name: 'AnyName');
+      expect(classModel.properties.isEmpty, isTrue);
+    });
+
+    test('Can have a list of properties', () {
+      var classModel = ClassModel(name: 'AnyName');
+      var property1 = Property(name: 'Prop1');
+      var property2 = Property(name: 'Prop2');
+
+      classModel.addProperty(property1);
+      classModel.addProperty(property2);
+
+      expect(classModel.properties.length, equals(2));
+      expect(classModel.properties.contains(property1), isTrue);
+      expect(classModel.properties.contains(property2), isTrue);
+    });
+
     // TODO: can have a constructor
-    // TODO: can have a list of properties
     // TODO: can have a list of methods
     // TODO: can have a list of inner classes
   });

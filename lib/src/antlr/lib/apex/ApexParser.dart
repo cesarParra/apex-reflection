@@ -6120,7 +6120,7 @@ class ClassBodyDeclarationContext extends ParserRuleContext {
 
   TerminalNode STATIC() => getToken(ApexParser.TOKEN_STATIC, 0);
 
-  MemberDeclarationContext memberDeclaration() =>
+  MemberDeclarationContext? memberDeclaration() =>
       getRuleContext<MemberDeclarationContext>(0);
 
   List<ModifierContext> modifiers() => getRuleContexts<ModifierContext>();
@@ -6216,7 +6216,7 @@ class MemberDeclarationContext extends ParserRuleContext {
   EnumDeclarationContext enumDeclaration() =>
       getRuleContext<EnumDeclarationContext>(0);
 
-  PropertyDeclarationContext propertyDeclaration() =>
+  PropertyDeclarationContext? propertyDeclaration() =>
       getRuleContext<PropertyDeclarationContext>(0);
 
   MemberDeclarationContext([ParserRuleContext? parent, int? invokingState])

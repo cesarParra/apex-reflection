@@ -111,6 +111,42 @@ void main() {
       var generatedClass = listener.generatedType as ClassModel;
       expect(generatedClass.extendedClass, equals('ParentClass'));
     });
+
+    test('Classes can have properties', () {
+      var listener = ApexClassListener();
+      var classBody = '''
+      public class MyClass {
+        @NamespaceAccessible public String MyProperty1 { get; set; }
+        private String MyProperty2 { get; set; }
+      }
+      ''';
+      Walker.walk(InputStream.fromString(classBody), listener);
+      var generatedClass = listener.generatedType as ClassModel;
+      expect(generatedClass.properties.length, equals(2));
+      expect(
+          generatedClass.properties
+              .any((element) => element.name == 'MyProperty1'),
+          isTrue);
+      expect(
+          generatedClass.properties
+              .any((element) => element.name == 'MyProperty2'),
+          isTrue);
+      expect(
+          generatedClass.properties
+              .firstWhere((element) => element.name == 'MyProperty1')
+              .isNamespaceAccessible,
+          isTrue);
+      expect(
+          generatedClass.properties
+              .firstWhere((element) => element.name == 'MyProperty1')
+              .isPublic,
+          isTrue);
+      expect(
+          generatedClass.properties
+              .firstWhere((element) => element.name == 'MyProperty2')
+              .isPrivate,
+          isTrue);
+    });
   });
 
   group('Parses Apex Interfaces', () {

@@ -25,3 +25,27 @@ class Field extends TypedDeclaration {
       List<String> accessModifiers = const []})
       : super(name: name, type: type, accessModifiers: accessModifiers);
 }
+
+class Method extends TypedDeclaration {
+  List<Parameter> parameters = [];
+
+  Method(
+      {required String name,
+      String type = 'void',
+      List<String> accessModifiers = const []})
+      : super(name: name, type: type, accessModifiers: accessModifiers);
+
+  get isVoid => type.toLowerCase() == 'void';
+
+  void addParameter(Parameter parameter) {
+    parameters.add(parameter);
+  }
+}
+
+class Parameter extends TypedDeclaration {
+  Parameter(
+      {required String name,
+      required String type,
+      List<String> accessModifiers = const []})
+      : super(name: name, type: type, accessModifiers: accessModifiers);
+}

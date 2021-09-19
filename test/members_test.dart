@@ -43,4 +43,64 @@ void main() {
       expect(field.isPublic, isTrue);
     });
   });
+
+  group('Methods tests', () {
+    test('Methods have a name', () {
+      var method = Method(name: 'myMethod', type: 'String');
+      expect(method.name, 'myMethod');
+    });
+
+    test('Methods without a type are void', () {
+      var method = Method(name: 'myMethod');
+      expect(method.isVoid, isTrue);
+    });
+
+    test('Methods have a type', () {
+      var method = Method(name: 'myMethod', type: 'String');
+      expect(method.type, 'String');
+    });
+
+    test('Methods can have access modifiers', () {
+      var method = Method(
+          name: 'myMethod',
+          type: 'String',
+          accessModifiers: ['namespaceaccessible', 'public']);
+      expect(method.isNamespaceAccessible, isTrue);
+      expect(method.isPublic, isTrue);
+    });
+
+    test('Methods have no parameters by default', () {
+      var method = Method(name: 'myMethod');
+      expect(method.parameters.isEmpty, isTrue);
+    });
+
+    test('Can receive parameters', () {
+      var method = Method(name: 'myMethod');
+      var parameter = Parameter(name: 'Param', type: 'String');
+      method.addParameter(parameter);
+      expect(method.parameters.length, equals(1));
+      expect(method.parameters.first, equals(parameter));
+    });
+  });
+
+  group('Parameter tests', () {
+    test('Parameters have a name', () {
+      var parameter = Parameter(name: 'Param', type: 'String');
+      expect(parameter.name, 'Param');
+    });
+
+    test('Parameters have a type', () {
+      var parameter = Parameter(name: 'Param', type: 'String');
+      expect(parameter.type, 'String');
+    });
+
+    test('Parameters can have access modifiers', () {
+      var parameter = Parameter(
+          name: 'Param',
+          type: 'String',
+          accessModifiers: ['namespaceaccessible', 'public']);
+      expect(parameter.isNamespaceAccessible, isTrue);
+      expect(parameter.isPublic, isTrue);
+    });
+  });
 }

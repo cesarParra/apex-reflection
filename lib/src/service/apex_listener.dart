@@ -134,7 +134,7 @@ class ApexClassListener extends ApexParserBaseListener {
     }
 
     parameters.forEach(addParameter);
-    (generatedType as ContainsMethods).addMethod(method);
+    (generatedType as MethodsAwareness).addMethod(method);
   }
 
   List<String> _getAccessModifiers(dynamic ctx) {

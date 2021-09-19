@@ -141,7 +141,19 @@ void main() {
       expect(classModel.methods.contains(method2), isTrue);
     });
 
-    // TODO: can have a constructor
+    test('Has no constructor by default', () {
+      var classModel = ClassModel(name: 'AnyName');
+      expect(classModel.constructors, isEmpty);
+    });
+
+    test('Can receive a constructor', () {
+      var classModel = ClassModel(name: 'AnyName');
+      var constructor = Constructor();
+      classModel.addConstructor(constructor);
+      expect(classModel.constructors.length, equals(1));
+      expect(classModel.constructors.first, equals(constructor));
+    });
+
     // TODO: can have a list of inner classes
     // TODO: can have a list of inner enums
     // TODO: can have a list of inner interfaces

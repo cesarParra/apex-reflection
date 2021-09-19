@@ -167,8 +167,20 @@ void main() {
       expect(classModel.enums.first, equals(innerEnum));
     });
 
+    test('Do not have inner interfaces by default', () {
+      var classModel = ClassModel(name: 'AnyName');
+      expect(classModel.interfaces.length, equals(0));
+    });
+
+    test('Can have inner interfaces', () {
+      var classModel = ClassModel(name: 'AnyName');
+      var innerInterface = InterfaceModel(name: 'AnyEnumName');
+      classModel.addInterface(innerInterface);
+      expect(classModel.interfaces.length, equals(1));
+      expect(classModel.interfaces.first, equals(innerInterface));
+    });
+
     // TODO: can have a list of inner classes
-    // TODO: can have a list of inner interfaces
   });
 
   group('Interface Model Tests', () {

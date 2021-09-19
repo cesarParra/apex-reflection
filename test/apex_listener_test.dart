@@ -276,6 +276,29 @@ void main() {
     });
   });
 
+  test('Classes can have inner interfaces', () {
+    var listener = ApexClassListener();
+    var classBody = '''
+      public class MyClass {
+        @NamespaceAccessible
+        public interface MyInterface {
+          String sampleMethod(String prop1, String prop2);
+        }
+      }
+      ''';
+
+    Walker.walk(InputStream.fromString(classBody), listener);
+    var generatedClass = listener.generatedType as ClassModel;
+    expect(generatedClass.interfaces.length, equals(1));
+
+    var innerInterface = generatedClass.interfaces.first;
+    expect(innerInterface.name, equals('MyInterface'));
+    expect(innerInterface.isNamespaceAccessible, isTrue);
+    expect(innerInterface.isPublic, isTrue);
+    expect(innerInterface.methods.length, equals(1));
+    expect(innerInterface.methods.first.type, 'String');
+  });
+
   group('Parses Apex Interfaces', () {
     test('Creates a simple interface', () {
       var listener = ApexClassListener();
@@ -351,7 +374,7 @@ void main() {
 
       Method method1 = generatedInterface.methods
           .firstWhere((element) => element.name == 'sayHi');
-      // Interface methods must inherit the access modifiers of the parent interface
+// Interface methods must inherit the access modifiers of the parent interface
       expect(method1.isPublic, isTrue);
       expect(method1.isNamespaceAccessible, isTrue);
       expect(method1.isVoid, isTrue);

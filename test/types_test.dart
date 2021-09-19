@@ -110,6 +110,24 @@ void main() {
       expect(classModel.properties.contains(property2), isTrue);
     });
 
+    test('Does not have any fields by default', () {
+      var classModel = ClassModel(name: 'AnyName');
+      expect(classModel.fields.isEmpty, isTrue);
+    });
+
+    test('Can have a list of fields', () {
+      var classModel = ClassModel(name: 'AnyName');
+      var field1 = Field(name: 'Field1', type: 'String');
+      var field2 = Field(name: 'Field2', type: 'String');
+
+      classModel.addField(field1);
+      classModel.addField(field2);
+
+      expect(classModel.fields.length, equals(2));
+      expect(classModel.fields.contains(field1), isTrue);
+      expect(classModel.fields.contains(field2), isTrue);
+    });
+
     // TODO: can have a constructor
     // TODO: can have a list of methods
     // TODO: can have a list of inner classes

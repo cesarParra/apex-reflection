@@ -24,6 +24,7 @@ class ClassModel extends Type {
   final List<String> implementedInterfaces;
 
   List<Property> properties = [];
+  List<Field> fields = [];
 
   ClassModel(
       {required String name,
@@ -39,6 +40,10 @@ class ClassModel extends Type {
 
   addProperty(Property property) {
     properties.add(property);
+  }
+
+  addField(Field field) {
+    fields.add(field);
   }
 }
 

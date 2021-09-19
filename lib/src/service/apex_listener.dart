@@ -1,9 +1,10 @@
 import 'package:apexdocs_dart/src/antlr/lib/apex/ApexParser.dart';
 import 'package:apexdocs_dart/src/antlr/lib/apex/ApexParserBaseListener.dart';
+import 'package:apexdocs_dart/src/model/declaration.dart';
 import 'package:apexdocs_dart/src/model/types.dart';
 
 class ApexClassListener extends ApexParserBaseListener {
-  TypeModel? generatedType;
+  Declaration? generatedType;
 
   @override
   void enterTypeDeclaration(TypeDeclarationContext ctx) {

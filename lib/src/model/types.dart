@@ -1,27 +1,6 @@
-abstract class TypeModel {
-  final String name;
-  final List<String> accessModifiers;
+import 'declaration.dart';
 
-  TypeModel({required this.name, this.accessModifiers = const []});
-
-  get isPrivate => accessModifiers.contains('private');
-
-  get isPublic => accessModifiers.contains('public');
-
-  get isGlobal => accessModifiers.contains('global');
-
-  get isProtected => accessModifiers.contains('protected');
-
-  get isVirtual => accessModifiers.contains('virtual');
-
-  get isNamespaceAccessible => accessModifiers.contains('namespaceaccessible');
-
-  get isTest => accessModifiers.contains('istest');
-
-  get isDeprecated => accessModifiers.contains('deprecated');
-}
-
-class ClassModel extends TypeModel {
+class ClassModel extends Declaration {
   final String? extendedClass;
   final List<String> implementedInterfaces;
 
@@ -33,7 +12,7 @@ class ClassModel extends TypeModel {
       : super(name: name, accessModifiers: accessModifiers);
 }
 
-class InterfaceModel extends TypeModel {
+class InterfaceModel extends Declaration {
   final List<String> extendedInterfaces;
 
   InterfaceModel(
@@ -43,7 +22,7 @@ class InterfaceModel extends TypeModel {
       : super(name: name, accessModifiers: accessModifiers);
 }
 
-class EnumModel extends TypeModel {
+class EnumModel extends Declaration {
   EnumModel({required String name, List<String> accessModifiers = const []})
       : super(name: name, accessModifiers: accessModifiers);
 }

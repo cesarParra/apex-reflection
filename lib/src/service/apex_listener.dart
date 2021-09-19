@@ -2,30 +2,18 @@ import 'package:apexdocs_dart/src/antlr/lib/apex/ApexParser.dart';
 import 'package:apexdocs_dart/src/antlr/lib/apex/ApexParserBaseListener.dart';
 import 'package:apexdocs_dart/src/model/members.dart';
 import 'package:apexdocs_dart/src/model/types.dart';
+import 'package:apexdocs_dart/src/service/utils/type_factory.dart';
 
 import 'utils/parsing_utils.dart';
 
 class ApexClassListener extends ApexParserBaseListener {
-  Type? generatedType;
+  late TypeFactory factory;
+
+  get generatedType => factory.generatedType;
 
   @override
   void enterTypeDeclaration(TypeDeclarationContext ctx) {
-    if (ctx.classDeclaration() != null) {
-      generatedType = ClassModel(
-          name: ctx.classDeclaration()!.id().text,
-          accessModifiers: getAccessModifiers(ctx),
-          extendedClass: _getExtensionClass(ctx),
-          implementedInterfaces: _getImplementedInterfaces(ctx));
-    } else if (ctx.interfaceDeclaration() != null) {
-      generatedType = InterfaceModel(
-          name: ctx.interfaceDeclaration()!.id().text,
-          accessModifiers: getAccessModifiers(ctx),
-          extendedInterfaces: _getExtensionInterfaces(ctx));
-    } else {
-      generatedType = EnumModel(
-          name: ctx.enumDeclaration().id().text,
-          accessModifiers: getAccessModifiers(ctx));
-    }
+    factory = TypeFactory(ctx);
   }
 
   @override
@@ -159,34 +147,6 @@ class ApexClassListener extends ApexParserBaseListener {
             name: e.id().text,
             type: e.typeRef().text,
             accessModifiers: getAccessModifiers(e)))
-        .toList();
-  }
-
-  String? _getExtensionClass(TypeDeclarationContext ctx) {
-    return ctx.classDeclaration()!.typeRef()?.text;
-  }
-
-  List<String> _getImplementedInterfaces(TypeDeclarationContext ctx) {
-    if (ctx.classDeclaration()!.typeList()?.typeRefs() == null) {
-      return [];
-    }
-    return ctx
-        .classDeclaration()!
-        .typeList()!
-        .typeRefs()
-        .map((typeRef) => typeRef.text)
-        .toList();
-  }
-
-  List<String> _getExtensionInterfaces(TypeDeclarationContext ctx) {
-    if (ctx.interfaceDeclaration()!.typeList()?.typeRefs() == null) {
-      return [];
-    }
-    return ctx
-        .interfaceDeclaration()!
-        .typeList()!
-        .typeRefs()
-        .map((typeRef) => typeRef.text)
         .toList();
   }
 }

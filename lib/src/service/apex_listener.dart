@@ -13,11 +13,15 @@ class ApexClassListener extends ApexParserBaseListener {
           accessModifiers: _getAccessModifiers(ctx),
           extendedClass: _getExtensionClass(ctx),
           implementedInterfaces: _getImplementedInterfaces(ctx));
-    } else {
+    } else if (ctx.interfaceDeclaration() != null) {
       generatedType = InterfaceModel(
           name: ctx.interfaceDeclaration()!.id().text,
           accessModifiers: _getAccessModifiers(ctx),
           extendedInterfaces: _getExtensionInterfaces(ctx));
+    } else {
+      generatedType = EnumModel(
+          name: ctx.enumDeclaration().id().text,
+          accessModifiers: _getAccessModifiers(ctx));
     }
   }
 

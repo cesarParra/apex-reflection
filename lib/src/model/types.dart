@@ -42,3 +42,8 @@ class InterfaceModel extends TypeModel {
       this.extendedInterfaces = const []})
       : super(name: name, accessModifiers: accessModifiers);
 }
+
+class EnumModel extends TypeModel {
+  EnumModel({required String name, List<String> accessModifiers = const []})
+      : super(name: name, accessModifiers: accessModifiers);
+}

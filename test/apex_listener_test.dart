@@ -17,35 +17,15 @@ void main() {
       expect(listener.generatedType.name, 'MyClass');
     });
 
-    test('Creates a simple interface', () {
-      var listener = ApexClassListener();
-      Walker.walk(InputStream.fromString('interface MyInterface{}'), listener);
-      expect(listener.generatedType, isNotNull);
-      expect(listener.generatedType.name, 'MyInterface');
-    });
-
     test('Classes without access modifiers are private by default', () {
       var listener = ApexClassListener();
       Walker.walk(InputStream.fromString('class MyClass{}'), listener);
       expect(listener.generatedType.isPrivate, isTrue);
     });
 
-    test('Interfaces without access modifiers are private by default', () {
-      var listener = ApexClassListener();
-      Walker.walk(InputStream.fromString('interface MyClass{}'), listener);
-      expect(listener.generatedType.isPrivate, isTrue);
-    });
-
     test('Classes with private access modifiers are private', () {
       var listener = ApexClassListener();
       Walker.walk(InputStream.fromString('private class MyClass{}'), listener);
-      expect(listener.generatedType.isPrivate, isTrue);
-    });
-
-    test('Interfaces with private access modifiers are private', () {
-      var listener = ApexClassListener();
-      Walker.walk(
-          InputStream.fromString('private interface MyClass{}'), listener);
       expect(listener.generatedType.isPrivate, isTrue);
     });
 
@@ -131,6 +111,28 @@ void main() {
       var generatedClass = listener.generatedType as ClassModel;
       expect(generatedClass.extendedClass, equals('ParentClass'));
     });
+  });
+
+  group('Parses Apex Interfaces', () {
+    test('Creates a simple interface', () {
+      var listener = ApexClassListener();
+      Walker.walk(InputStream.fromString('interface MyInterface{}'), listener);
+      expect(listener.generatedType, isNotNull);
+      expect(listener.generatedType.name, 'MyInterface');
+    });
+
+    test('Interfaces without access modifiers are private by default', () {
+      var listener = ApexClassListener();
+      Walker.walk(InputStream.fromString('interface MyClass{}'), listener);
+      expect(listener.generatedType.isPrivate, isTrue);
+    });
+
+    test('Interfaces with private access modifiers are private', () {
+      var listener = ApexClassListener();
+      Walker.walk(
+          InputStream.fromString('private interface MyClass{}'), listener);
+      expect(listener.generatedType.isPrivate, isTrue);
+    });
 
     test('Interfaces can extend other interfaces', () {
       var listener = ApexClassListener();
@@ -161,6 +163,26 @@ void main() {
       expect(generatedClass.implementedInterfaces, hasLength(2));
       expect(generatedClass.implementedInterfaces[0], 'Interface1');
       expect(generatedClass.implementedInterfaces[1], 'Interface2');
+    });
+  });
+
+  group('Parses Apex enums', () {
+    test('Creates a simple enum', () {
+      var listener = ApexClassListener();
+      Walker.walk(InputStream.fromString('enum MyEnum{}'), listener);
+      expect(listener.generatedType, isNotNull);
+      expect(listener.generatedType.name, 'MyEnum');
+    });
+
+    test('Supports enums with access modifiers', () {
+      var listener = ApexClassListener();
+      Walker.walk(
+          InputStream.fromString('@NamespaceAccessible public enum MyEnum{}'),
+          listener);
+      expect(listener.generatedType, isNotNull);
+      expect(listener.generatedType.isPublic, isTrue);
+      expect(listener.generatedType.isNamespaceAccessible, isTrue);
+      expect(listener.generatedType.isPrivate, isFalse);
     });
   });
 }

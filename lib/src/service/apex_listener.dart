@@ -28,20 +28,21 @@ class ApexClassListener extends ApexParserBaseListener {
 
   @override
   void enterClassBodyDeclaration(ClassBodyDeclarationContext ctx) {
-    if (generatedType?.isClass() != true) {
-      return;
-    }
-
     if (ctx.memberDeclaration() == null) {
       return;
     }
 
-    _parseProperties(ctx);
-    _parseFields(ctx);
-    _parseMethods(ctx);
+    _parseProperty(ctx);
+    _parseField(ctx);
+    _parseMethod(ctx);
   }
 
-  _parseProperties(ClassBodyDeclarationContext ctx) {
+  @override
+  void enterInterfaceMethodDeclaration(InterfaceMethodDeclarationContext ctx) {
+    _parseMethod(ctx);
+  }
+
+  _parseProperty(ClassBodyDeclarationContext ctx) {
     if (ctx.memberDeclaration()!.propertyDeclaration() == null) {
       return;
     }
@@ -58,7 +59,7 @@ class ApexClassListener extends ApexParserBaseListener {
     (generatedType as ClassModel).addProperty(property);
   }
 
-  _parseFields(ClassBodyDeclarationContext ctx) {
+  _parseField(ClassBodyDeclarationContext ctx) {
     if (ctx.memberDeclaration()!.fieldDeclaration() == null) {
       return;
     }
@@ -88,22 +89,24 @@ class ApexClassListener extends ApexParserBaseListener {
     fieldNames.forEach(addField);
   }
 
-  _parseMethods(ClassBodyDeclarationContext ctx) {
-    if (ctx.memberDeclaration()!.methodDeclaration() == null) {
+  _parseMethod(dynamic ctx) {
+    var objectContext = ctx is ClassBodyDeclarationContext
+        ? ApexObjectBodyDeclarationContext.fromClassBodyDeclarationContext(ctx)
+        : ApexObjectBodyDeclarationContext
+            .fromInterfaceMethodDeclarationContext(ctx);
+    if (!objectContext.isMethod) {
       return;
     }
 
-    var methodDeclarationContext =
-        ctx.memberDeclaration()!.methodDeclaration()!;
-
-    var modifiers = _getAccessModifiers(ctx);
-    var type = methodDeclarationContext.typeRef() != null
-        ? methodDeclarationContext.typeRef()!.text
+    var modifiers = _getAccessModifiers(objectContext.modifiersAwareContext);
+    var type = objectContext.typeAwareContext.typeRef() != null
+        ? objectContext.typeAwareContext.typeRef()!.text
         : 'void';
-    var methodName = methodDeclarationContext.id().text;
+    var methodName = objectContext.idAwareContext.id().text;
     var parameters = [];
 
-    var formalParametersContext = methodDeclarationContext.formalParameters();
+    var formalParametersContext =
+        objectContext.parametersAwareContext.formalParameters();
     if (formalParametersContext.formalParameterList() != null) {
       parameters = formalParametersContext
           .formalParameterList()!
@@ -115,6 +118,13 @@ class ApexClassListener extends ApexParserBaseListener {
           .toList();
     }
 
+    if (objectContext.inheritModifiers) {
+      modifiers = [
+        ...modifiers,
+        if (generatedType != null) ...generatedType!.accessModifiers
+      ];
+    }
+
     Method method =
         Method(name: methodName, type: type, accessModifiers: modifiers);
     addParameter(element) {
@@ -122,11 +132,11 @@ class ApexClassListener extends ApexParserBaseListener {
     }
 
     parameters.forEach(addParameter);
-    (generatedType as ClassModel).addMethod(method);
+    (generatedType as ContainsMethods).addMethod(method);
   }
 
   List<String> _getAccessModifiers(dynamic ctx) {
-    bool _hasNoAccessModifiers(dynamic ctx) {
+    bool _hasNoVisibilityModifiers(dynamic ctx) {
       var modifiers = _allModifiers(ctx);
       return !modifiers.contains('private') &&
           !modifiers.contains('public') &&
@@ -135,7 +145,8 @@ class ApexClassListener extends ApexParserBaseListener {
     }
 
     var accessModifiers = [
-      if (_hasNoAccessModifiers(ctx)) 'private',
+      // In Apex a declaration with no visibility modifier is private by default
+      if (_hasNoVisibilityModifiers(ctx)) 'private',
       ..._allModifiers(ctx)
     ];
     return accessModifiers;
@@ -185,4 +196,43 @@ class ApexClassListener extends ApexParserBaseListener {
         .map((typeRef) => typeRef.text)
         .toList();
   }
+}
+
+class ApexObjectBodyDeclarationContext {
+  final bool _isMethod;
+  final dynamic _modifiersAwareContext;
+  final dynamic _typeAwareContext;
+  final dynamic _idAwareContext;
+  final dynamic _parametersAwareContext;
+  final bool _inheritModifiers;
+
+  ApexObjectBodyDeclarationContext.fromClassBodyDeclarationContext(
+      ClassBodyDeclarationContext ctx)
+      : _isMethod = ctx.memberDeclaration()!.methodDeclaration() != null,
+        _modifiersAwareContext = ctx,
+        _typeAwareContext = ctx.memberDeclaration()!.methodDeclaration()!,
+        _idAwareContext = ctx.memberDeclaration()!.methodDeclaration()!,
+        _parametersAwareContext = ctx.memberDeclaration()!.methodDeclaration()!,
+        _inheritModifiers = false;
+
+  ApexObjectBodyDeclarationContext.fromInterfaceMethodDeclarationContext(
+      InterfaceMethodDeclarationContext ctx)
+      : _isMethod = true,
+        _modifiersAwareContext = ctx,
+        _typeAwareContext = ctx,
+        _idAwareContext = ctx,
+        _parametersAwareContext = ctx,
+        _inheritModifiers = true;
+
+  get isMethod => _isMethod;
+
+  get modifiersAwareContext => _modifiersAwareContext;
+
+  get typeAwareContext => _typeAwareContext;
+
+  get idAwareContext => _idAwareContext;
+
+  get parametersAwareContext => _parametersAwareContext;
+
+  get inheritModifiers => _inheritModifiers;
 }

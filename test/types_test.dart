@@ -226,6 +226,17 @@ void main() {
       expect(interfaceModel.isDeprecated, isTrue);
     });
 
-    // // TODO: can have a list of methods
+    test('Can have a list of methods', () {
+      var interfaceModel = InterfaceModel(name: 'AnyName');
+      var method1 = Method(name: 'method1', type: 'String');
+      var method2 = Method(name: 'method2', type: 'String');
+
+      interfaceModel.addMethod(method1);
+      interfaceModel.addMethod(method2);
+
+      expect(interfaceModel.methods.length, equals(2));
+      expect(interfaceModel.methods.contains(method1), isTrue);
+      expect(interfaceModel.methods.contains(method2), isTrue);
+    });
   });
 }

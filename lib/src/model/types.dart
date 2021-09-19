@@ -19,13 +19,20 @@ abstract class Type extends Declaration {
   }
 }
 
-class ClassModel extends Type {
+mixin ContainsMethods {
+  List<Method> methods = [];
+
+  void addMethod(Method method) {
+    methods.add(method);
+  }
+}
+
+class ClassModel extends Type with ContainsMethods {
   final String? extendedClass;
   final List<String> implementedInterfaces;
 
   List<Property> properties = [];
   List<Field> fields = [];
-  List<Method> methods = [];
 
   ClassModel(
       {required String name,
@@ -46,13 +53,9 @@ class ClassModel extends Type {
   void addField(Field field) {
     fields.add(field);
   }
-
-  void addMethod(Method method) {
-    methods.add(method);
-  }
 }
 
-class InterfaceModel extends Type {
+class InterfaceModel extends Type with ContainsMethods {
   final List<String> extendedInterfaces;
 
   InterfaceModel(

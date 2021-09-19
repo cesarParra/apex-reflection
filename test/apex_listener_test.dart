@@ -269,6 +269,42 @@ void main() {
       expect(generatedClass.implementedInterfaces[0], 'Interface1');
       expect(generatedClass.implementedInterfaces[1], 'Interface2');
     });
+
+    test('Interfaces can have methods', () {
+      var listener = ApexClassListener();
+      var interfaceBody = '''
+      @NamespaceAccessible
+      public interface MyInterface {
+        void sayHi();
+        String getGreeting();
+      }
+      ''';
+
+      Walker.walk(InputStream.fromString(interfaceBody), listener);
+      var generatedInterface = listener.generatedType as InterfaceModel;
+      expect(generatedInterface.methods.length, equals(2));
+      expect(
+          generatedInterface.methods.any((element) => element.name == 'sayHi'),
+          isTrue);
+      expect(
+          generatedInterface.methods
+              .any((element) => element.name == 'getGreeting'),
+          isTrue);
+
+      Method method1 = generatedInterface.methods
+          .firstWhere((element) => element.name == 'sayHi');
+      // Interface methods must inherit the access modifiers of the parent interface
+      expect(method1.isPublic, isTrue);
+      expect(method1.isNamespaceAccessible, isTrue);
+      expect(method1.isVoid, isTrue);
+
+      Method method2 = generatedInterface.methods
+          .firstWhere((element) => element.name == 'getGreeting');
+      expect(method2.isPublic, isTrue);
+      expect(method2.isNamespaceAccessible, isTrue);
+      expect(method2.isVoid, isFalse);
+      expect(method2.type, equals('String'));
+    });
   });
 
   group('Parses Apex enums', () {

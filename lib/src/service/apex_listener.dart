@@ -32,6 +32,7 @@ class ApexClassListener extends ApexParserBaseListener {
       return;
     }
 
+    _parseConstructor(ctx);
     _parseProperty(ctx);
     _parseField(ctx);
     _parseMethod(ctx);
@@ -40,6 +41,25 @@ class ApexClassListener extends ApexParserBaseListener {
   @override
   void enterInterfaceMethodDeclaration(InterfaceMethodDeclarationContext ctx) {
     _parseMethod(ctx);
+  }
+
+  _parseConstructor(ClassBodyDeclarationContext ctx) {
+    if (ctx.memberDeclaration()!.constructorDeclaration() == null) {
+      return;
+    }
+
+    var modifiers = _getAccessModifiers(ctx);
+
+    var formalParametersContext =
+        ctx.memberDeclaration()!.constructorDeclaration()!.formalParameters();
+
+    var constructor = Constructor(accessModifiers: modifiers);
+    addParameter(element) {
+      constructor.addParameter(element);
+    }
+
+    _getFormalParameters(formalParametersContext).forEach(addParameter);
+    (generatedType as ClassModel).addConstructor(constructor);
   }
 
   _parseProperty(ClassBodyDeclarationContext ctx) {
@@ -105,20 +125,8 @@ class ApexClassListener extends ApexParserBaseListener {
         ? objectContext.typeAwareContext.typeRef()!.text
         : 'void';
     var methodName = objectContext.idAwareContext.id().text;
-    var parameters = [];
-
-    var formalParametersContext =
-        objectContext.parametersAwareContext.formalParameters();
-    if (formalParametersContext.formalParameterList() != null) {
-      parameters = formalParametersContext
-          .formalParameterList()!
-          .formalParameters()
-          .map((e) => Parameter(
-              name: e.id().text,
-              type: e.typeRef().text,
-              accessModifiers: _getAccessModifiers(e)))
-          .toList();
-    }
+    var parameters = _getFormalParameters(
+        objectContext.parametersAwareContext.formalParameters());
 
     if (objectContext.inheritModifiers) {
       modifiers = [
@@ -152,6 +160,21 @@ class ApexClassListener extends ApexParserBaseListener {
       ..._allModifiers(ctx)
     ];
     return accessModifiers;
+  }
+
+  List<Parameter> _getFormalParameters(
+      FormalParametersContext formalParametersContext) {
+    if (formalParametersContext.formalParameterList() == null) {
+      return <Parameter>[];
+    }
+    return formalParametersContext
+        .formalParameterList()!
+        .formalParameters()
+        .map((e) => Parameter(
+            name: e.id().text,
+            type: e.typeRef().text,
+            accessModifiers: _getAccessModifiers(e)))
+        .toList();
   }
 
   List<String> _allModifiers(dynamic ctx) {

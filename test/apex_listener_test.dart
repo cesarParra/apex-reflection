@@ -216,6 +216,45 @@ void main() {
       expect(method2.isVoid, isFalse);
       expect(method2.type, equals('String'));
     });
+
+    test('Classes can have constructors', () {
+      var listener = ApexClassListener();
+      var classBody = '''
+      public class MyClass {
+        private final String var1;
+        @NamespaceAccessible
+        public MyClass() { 
+          this.var1 = 'Hello!';
+        }
+        
+        public MyClass(String greeting) {
+          this.var1 = greeting;
+        }
+      }
+      ''';
+
+      Walker.walk(InputStream.fromString(classBody), listener);
+      var generatedClass = listener.generatedType as ClassModel;
+      expect(generatedClass.constructors.length, equals(2));
+      expect(
+          generatedClass.constructors
+              .any((element) => element.isNamespaceAccessible),
+          isTrue);
+      expect(
+          generatedClass.constructors
+              .any((element) => !element.isNamespaceAccessible),
+          isTrue);
+
+      Constructor constructor1 = generatedClass.constructors
+          .firstWhere((element) => element.isNamespaceAccessible);
+      expect(constructor1.isPublic, isTrue);
+      expect(constructor1.parameters.isEmpty, isTrue);
+
+      Constructor constructor2 = generatedClass.constructors
+          .firstWhere((element) => !element.isNamespaceAccessible);
+      expect(constructor2.isPublic, isTrue);
+      expect(constructor2.parameters.length, equals(1));
+    });
   });
 
   group('Parses Apex Interfaces', () {

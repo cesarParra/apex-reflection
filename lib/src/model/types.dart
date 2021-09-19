@@ -34,6 +34,7 @@ class ClassModel extends Type with MethodsAwareness {
   List<Property> properties = [];
   List<Field> fields = [];
   List<Constructor> constructors = [];
+  List<EnumModel> enums = [];
 
   ClassModel(
       {required String name,
@@ -57,6 +58,10 @@ class ClassModel extends Type with MethodsAwareness {
 
   void addConstructor(Constructor constructor) {
     constructors.add(constructor);
+  }
+
+  void addEnum(EnumModel innerEnum) {
+    enums.add(innerEnum);
   }
 }
 

@@ -255,6 +255,25 @@ void main() {
       expect(constructor2.isPublic, isTrue);
       expect(constructor2.parameters.length, equals(1));
     });
+
+    test('Classes can have inner enums', () {
+      var listener = ApexClassListener();
+      var classBody = '''
+      public class MyClass {
+        @NamespaceAccessible
+        public enum MyEnum { 
+          A,B,C
+        }
+      }
+      ''';
+
+      Walker.walk(InputStream.fromString(classBody), listener);
+      var generatedClass = listener.generatedType as ClassModel;
+      expect(generatedClass.enums.length, equals(1));
+      expect(generatedClass.enums.first.name, equals('MyEnum'));
+      expect(generatedClass.enums.first.isNamespaceAccessible, isTrue);
+      expect(generatedClass.enums.first.isPublic, isTrue);
+    });
   });
 
   group('Parses Apex Interfaces', () {

@@ -5,8 +5,15 @@ import 'package:apexdocs_dart/src/service/utils/parsing/parsing_utils.dart';
 
 class ApexEnumFactory extends TypeFactory {
   ApexEnumFactory(TypeDeclarationContext ctx) : super.construct(ctx) {
-    generatedType = EnumModel(
-        name: ctx.enumDeclaration().id().text,
-        accessModifiers: getAccessModifiers(ctx));
+    generatedType = EnumBuilder.build(ctx.enumDeclaration(), ctx);
+  }
+}
+
+class EnumBuilder {
+  static EnumModel build(
+      EnumDeclarationContext declarationContext, dynamic contextWithModifiers) {
+    return EnumModel(
+        name: declarationContext.id().text,
+        accessModifiers: getAccessModifiers(contextWithModifiers));
   }
 }

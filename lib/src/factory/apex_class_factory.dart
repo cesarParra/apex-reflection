@@ -1,4 +1,5 @@
 import 'package:apexdocs_dart/src/antlr/lib/apex/ApexParser.dart';
+import 'package:apexdocs_dart/src/factory/apex_enum_factory.dart';
 import 'package:apexdocs_dart/src/factory/type_factory.dart';
 import 'package:apexdocs_dart/src/model/members.dart';
 import 'package:apexdocs_dart/src/model/types.dart';
@@ -37,11 +38,21 @@ class ApexClassFactory extends TypeFactory {
 
     _parseConstructor(ctx);
     _parseProperty(ctx);
+    _parseEnum(ctx);
     _parseField(ctx);
     var method = parseMethod(generatedType, ctx);
     if (method != null) {
       (generatedType as MethodsAwareness).addMethod(method);
     }
+  }
+
+  _parseEnum(ClassBodyDeclarationContext ctx) {
+    if (ctx.memberDeclaration()!.enumDeclaration() == null) {
+      return;
+    }
+    var enumModel =
+        EnumBuilder.build(ctx.memberDeclaration()!.enumDeclaration()!, ctx);
+    (generatedType as ClassModel).addEnum(enumModel);
   }
 
   _parseConstructor(ClassBodyDeclarationContext ctx) {

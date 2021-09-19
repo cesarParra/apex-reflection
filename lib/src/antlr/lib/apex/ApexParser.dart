@@ -6213,7 +6213,7 @@ class MemberDeclarationContext extends ParserRuleContext {
   ClassDeclarationContext classDeclaration() =>
       getRuleContext<ClassDeclarationContext>(0);
 
-  EnumDeclarationContext enumDeclaration() =>
+  EnumDeclarationContext? enumDeclaration() =>
       getRuleContext<EnumDeclarationContext>(0);
 
   PropertyDeclarationContext? propertyDeclaration() =>

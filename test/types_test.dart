@@ -154,8 +154,20 @@ void main() {
       expect(classModel.constructors.first, equals(constructor));
     });
 
+    test('Do not have inner enums by default', () {
+      var classModel = ClassModel(name: 'AnyName');
+      expect(classModel.enums.length, equals(0));
+    });
+
+    test('Can have inner enums', () {
+      var classModel = ClassModel(name: 'AnyName');
+      var innerEnum = EnumModel(name: 'AnyEnumName');
+      classModel.addEnum(innerEnum);
+      expect(classModel.enums.length, equals(1));
+      expect(classModel.enums.first, equals(innerEnum));
+    });
+
     // TODO: can have a list of inner classes
-    // TODO: can have a list of inner enums
     // TODO: can have a list of inner interfaces
   });
 

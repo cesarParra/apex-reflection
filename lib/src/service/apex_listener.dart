@@ -3,6 +3,8 @@ import 'package:apexdocs_dart/src/antlr/lib/apex/ApexParserBaseListener.dart';
 import 'package:apexdocs_dart/src/model/members.dart';
 import 'package:apexdocs_dart/src/model/types.dart';
 
+import 'utils/parsing_utils.dart';
+
 class ApexClassListener extends ApexParserBaseListener {
   Type? generatedType;
 
@@ -11,18 +13,18 @@ class ApexClassListener extends ApexParserBaseListener {
     if (ctx.classDeclaration() != null) {
       generatedType = ClassModel(
           name: ctx.classDeclaration()!.id().text,
-          accessModifiers: _getAccessModifiers(ctx),
+          accessModifiers: getAccessModifiers(ctx),
           extendedClass: _getExtensionClass(ctx),
           implementedInterfaces: _getImplementedInterfaces(ctx));
     } else if (ctx.interfaceDeclaration() != null) {
       generatedType = InterfaceModel(
           name: ctx.interfaceDeclaration()!.id().text,
-          accessModifiers: _getAccessModifiers(ctx),
+          accessModifiers: getAccessModifiers(ctx),
           extendedInterfaces: _getExtensionInterfaces(ctx));
     } else {
       generatedType = EnumModel(
           name: ctx.enumDeclaration().id().text,
-          accessModifiers: _getAccessModifiers(ctx));
+          accessModifiers: getAccessModifiers(ctx));
     }
   }
 
@@ -48,7 +50,7 @@ class ApexClassListener extends ApexParserBaseListener {
       return;
     }
 
-    var modifiers = _getAccessModifiers(ctx);
+    var modifiers = getAccessModifiers(ctx);
 
     var formalParametersContext =
         ctx.memberDeclaration()!.constructorDeclaration()!.formalParameters();
@@ -72,7 +74,7 @@ class ApexClassListener extends ApexParserBaseListener {
 
     var propertyName = propertyDeclarationContext.id().text;
     var propertyType = propertyDeclarationContext.typeRef().text;
-    var modifiers = _getAccessModifiers(ctx);
+    var modifiers = getAccessModifiers(ctx);
 
     Property property = Property(
         name: propertyName, type: propertyType, accessModifiers: modifiers);
@@ -98,7 +100,7 @@ class ApexClassListener extends ApexParserBaseListener {
         .toList();
 
     var type = fieldDeclarationContext.typeRef().text;
-    var modifiers = _getAccessModifiers(ctx);
+    var modifiers = getAccessModifiers(ctx);
 
     addField(String fieldName) {
       Field field =
@@ -120,7 +122,7 @@ class ApexClassListener extends ApexParserBaseListener {
         : ApexObjectBodyDeclarationContext
             .fromInterfaceMethodDeclarationContext(ctx);
 
-    var modifiers = _getAccessModifiers(objectContext.modifiersAwareContext);
+    var modifiers = getAccessModifiers(objectContext.modifiersAwareContext);
     var type = objectContext.typeAwareContext.typeRef() != null
         ? objectContext.typeAwareContext.typeRef()!.text
         : 'void';
@@ -145,23 +147,6 @@ class ApexClassListener extends ApexParserBaseListener {
     (generatedType as MethodsAwareness).addMethod(method);
   }
 
-  List<String> _getAccessModifiers(dynamic ctx) {
-    bool _hasNoVisibilityModifiers(dynamic ctx) {
-      var modifiers = _allModifiers(ctx);
-      return !modifiers.contains('private') &&
-          !modifiers.contains('public') &&
-          !modifiers.contains('global') &&
-          !modifiers.contains('protected');
-    }
-
-    var accessModifiers = [
-      // In Apex a declaration with no visibility modifier is private by default
-      if (_hasNoVisibilityModifiers(ctx)) 'private',
-      ..._allModifiers(ctx)
-    ];
-    return accessModifiers;
-  }
-
   List<Parameter> _getFormalParameters(
       FormalParametersContext formalParametersContext) {
     if (formalParametersContext.formalParameterList() == null) {
@@ -173,25 +158,8 @@ class ApexClassListener extends ApexParserBaseListener {
         .map((e) => Parameter(
             name: e.id().text,
             type: e.typeRef().text,
-            accessModifiers: _getAccessModifiers(e)))
+            accessModifiers: getAccessModifiers(e)))
         .toList();
-  }
-
-  List<String> _allModifiers(dynamic ctx) {
-    String _sanitizeModifier(String modifier) {
-      var sanitizedString = modifier.replaceFirst('@', '').toLowerCase();
-      if (sanitizedString.contains('(')) {
-        sanitizedString = sanitizedString.replaceRange(
-            modifier.indexOf('(') - 1, modifier.indexOf(')'), '');
-      }
-      return sanitizedString;
-    }
-
-    return ctx
-        .modifiers()
-        .map((modifierContext) => _sanitizeModifier(modifierContext.text))
-        .toList()
-        .cast<String>();
   }
 
   String? _getExtensionClass(TypeDeclarationContext ctx) {

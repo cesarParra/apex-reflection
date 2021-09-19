@@ -128,9 +128,23 @@ void main() {
       expect(classModel.fields.contains(field2), isTrue);
     });
 
+    test('Can have a list of methods', () {
+      var classModel = ClassModel(name: 'AnyName');
+      var method1 = Method(name: 'method1', type: 'String');
+      var method2 = Method(name: 'method2', type: 'String');
+
+      classModel.addMethod(method1);
+      classModel.addMethod(method2);
+
+      expect(classModel.methods.length, equals(2));
+      expect(classModel.methods.contains(method1), isTrue);
+      expect(classModel.methods.contains(method2), isTrue);
+    });
+
     // TODO: can have a constructor
-    // TODO: can have a list of methods
     // TODO: can have a list of inner classes
+    // TODO: can have a list of inner enums
+    // TODO: can have a list of inner interfaces
   });
 
   group('Interface Model Tests', () {

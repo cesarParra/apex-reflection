@@ -25,6 +25,7 @@ class ClassModel extends Type {
 
   List<Property> properties = [];
   List<Field> fields = [];
+  List<Method> methods = [];
 
   ClassModel(
       {required String name,
@@ -38,12 +39,16 @@ class ClassModel extends Type {
     return true;
   }
 
-  addProperty(Property property) {
+  void addProperty(Property property) {
     properties.add(property);
   }
 
-  addField(Field field) {
+  void addField(Field field) {
     fields.add(field);
+  }
+
+  void addMethod(Method method) {
+    methods.add(method);
   }
 }
 

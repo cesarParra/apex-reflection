@@ -89,7 +89,7 @@ class ApexClassListener extends ApexParserBaseListener {
     final methodName = ctx.id().text;
     final typeName = ctx.typeRef() != null ? ctx.typeRef().text : 'void';
 
-    List<Parameter>? parameters = _parseParameters(ctx);
+    List<Parameter>? parameters = parseParameters(ctx);
 
     final method = Method(
         name: methodName, type: typeName, accessModifiers: accessModifiers);
@@ -105,7 +105,7 @@ class ApexClassListener extends ApexParserBaseListener {
     final methodName = ctx.id().text;
     final typeName = ctx.typeRef() != null ? ctx.typeRef().text : 'void';
 
-    List<Parameter>? parameters = _parseParameters(ctx);
+    List<Parameter>? parameters = parseParameters(ctx);
 
     final method = Method(
         name: methodName, type: typeName, accessModifiers: accessModifiers);
@@ -117,9 +117,7 @@ class ApexClassListener extends ApexParserBaseListener {
   @override
   void enterConstructorDeclaration(ConstructorDeclarationContext ctx) {
     final accessModifiers = _accessModifierStack.pop();
-
-    List<Parameter>? parameters = _parseParameters(ctx);
-
+    List<Parameter>? parameters = parseParameters(ctx);
     final constructorGenerated = Constructor(accessModifiers: accessModifiers);
     constructorGenerated.parameters = parameters ?? [];
 
@@ -166,23 +164,6 @@ class ApexClassListener extends ApexParserBaseListener {
 
   bool _atTheTopOfTheStack() {
     return generatedTypes.length == 1;
-  }
-
-  List<Parameter>? _parseParameters(dynamic ctx) {
-    final parameters = ctx
-        .formalParameters()
-        ?.formalParameterList()
-        ?.formalParameters()
-        .map((e) => Parameter(
-            name: e.id().text,
-            type: e.typeRef().text,
-            accessModifiers: e
-                .modifiers()
-                .map((e) => e.text as String)
-                .toList()
-                .cast<String>()))
-        .toList();
-    return parameters == null ? <Parameter>[] : parameters.cast<Parameter>();
   }
 }
 

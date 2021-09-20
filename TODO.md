@@ -1,4 +1,3 @@
-* Let's do some heavy refactoring before moving on
 * TODO: We'll want to create some kind of JSON manifest file with the info all classes so that we can make the diff
   comparison between versions
 * Parse apex docs

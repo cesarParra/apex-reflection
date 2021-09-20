@@ -223,10 +223,10 @@ void main() {
       public class MyClass {
         private final String var1;
         @NamespaceAccessible
-        public MyClass() { 
+        public MyClass() {
           this.var1 = 'Hello!';
         }
-        
+
         public MyClass(String greeting) {
           this.var1 = greeting;
         }
@@ -261,7 +261,7 @@ void main() {
       var classBody = '''
       public class MyClass {
         @NamespaceAccessible
-        public enum MyEnum { 
+        public enum MyEnum {
           A,B,C
         }
       }
@@ -357,25 +357,6 @@ void main() {
       expect(generatedInterface.extendedInterfaces[1], 'Interface2');
     });
 
-    test('Does not implement any interfaces by default', () {
-      var listener = ApexClassListener();
-      Walker.walk(InputStream.fromString('public class MyClass{}'), listener);
-      var generatedClass = listener.generatedType as ClassModel;
-      expect(generatedClass.implementedInterfaces, isEmpty);
-    });
-
-    test('Can implement interfaces', () {
-      var listener = ApexClassListener();
-      Walker.walk(
-          InputStream.fromString(
-              'public class MyClass implements Interface1, Interface2{}'),
-          listener);
-      var generatedClass = listener.generatedType as ClassModel;
-      expect(generatedClass.implementedInterfaces, hasLength(2));
-      expect(generatedClass.implementedInterfaces[0], 'Interface1');
-      expect(generatedClass.implementedInterfaces[1], 'Interface2');
-    });
-
     test('Interfaces can have methods', () {
       var listener = ApexClassListener();
       var interfaceBody = '''
@@ -399,7 +380,7 @@ void main() {
 
       Method method1 = generatedInterface.methods
           .firstWhere((element) => element.name == 'sayHi');
-// Interface methods must inherit the access modifiers of the parent interface
+      // Interface methods must inherit the access modifiers of the parent interface
       expect(method1.isPublic, isTrue);
       expect(method1.isNamespaceAccessible, isTrue);
       expect(method1.isVoid, isTrue);

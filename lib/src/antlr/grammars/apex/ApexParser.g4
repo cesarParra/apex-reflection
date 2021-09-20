@@ -22,9 +22,9 @@ compilationUnit
     ;
 
 typeDeclaration
-    : DOC_COMMENT? modifier* classDeclaration
-    | DOC_COMMENT? modifier* enumDeclaration
-    | DOC_COMMENT? modifier* interfaceDeclaration
+    : DOC_COMMENT? modifier* classDeclaration             # TypeClassDeclaration
+    | DOC_COMMENT? modifier* enumDeclaration              # TypeEnumDeclaration
+    | DOC_COMMENT? modifier* interfaceDeclaration         # TypeInterfaceDeclaration
     ;
 
 classDeclaration
@@ -60,9 +60,9 @@ interfaceBody
     ;
 
 classBodyDeclaration
-    : SEMI
-    | STATIC? block
-    | modifier* memberDeclaration
+    : SEMI                                 # EmptyClassBodyDeclaration
+    | STATIC? block                        # StaticBlockClassBodyDeclaration
+    | modifier* memberDeclaration          # MemberClassBodyDeclaration
     ;
 
 /* Unify all annotation & modifiers so we can give better error messages */
@@ -86,13 +86,13 @@ modifier
     ;
 
 memberDeclaration
-    : methodDeclaration
-    | fieldDeclaration
-    | constructorDeclaration
-    | interfaceDeclaration
-    | classDeclaration
-    | enumDeclaration
-    | propertyDeclaration
+    : methodDeclaration                   # MethodMemberDeclaration
+    | fieldDeclaration                    # FieldMemberDeclaration
+    | constructorDeclaration              # ConstructorMemberDeclaration
+    | interfaceDeclaration                # InterfaceMemberDeclaration
+    | classDeclaration                    # ClassMemberDeclaration
+    | enumDeclaration                     # EnumMemberDeclaration
+    | propertyDeclaration                 # PropertyMemberDeclaration
     ;
 
 /* We use rule this even for void methods which cannot have [] after parameters.

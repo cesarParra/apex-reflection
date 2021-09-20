@@ -677,6 +677,7 @@ class ApexParser extends Parser {
       errorHandler.sync(this);
       switch (interpreter.adaptivePredict(tokenStream, 7, context)) {
         case 1:
+          _localctx = TypeClassDeclarationContext(_localctx);
           enterOuterAlt(_localctx, 1);
           state = 202;
           errorHandler.sync(this);
@@ -718,6 +719,7 @@ class ApexParser extends Parser {
           classDeclaration();
           break;
         case 2:
+          _localctx = TypeEnumDeclarationContext(_localctx);
           enterOuterAlt(_localctx, 2);
           state = 212;
           errorHandler.sync(this);
@@ -759,6 +761,7 @@ class ApexParser extends Parser {
           enumDeclaration();
           break;
         case 3:
+          _localctx = TypeInterfaceDeclarationContext(_localctx);
           enterOuterAlt(_localctx, 3);
           state = 222;
           errorHandler.sync(this);
@@ -1132,11 +1135,13 @@ class ApexParser extends Parser {
       errorHandler.sync(this);
       switch (interpreter.adaptivePredict(tokenStream, 18, context)) {
         case 1:
+          _localctx = EmptyClassBodyDeclarationContext(_localctx);
           enterOuterAlt(_localctx, 1);
           state = 295;
           match(TOKEN_SEMI);
           break;
         case 2:
+          _localctx = StaticBlockClassBodyDeclarationContext(_localctx);
           enterOuterAlt(_localctx, 2);
           state = 297;
           errorHandler.sync(this);
@@ -1150,6 +1155,7 @@ class ApexParser extends Parser {
           block();
           break;
         case 3:
+          _localctx = MemberClassBodyDeclarationContext(_localctx);
           enterOuterAlt(_localctx, 3);
           state = 303;
           errorHandler.sync(this);
@@ -1291,36 +1297,43 @@ class ApexParser extends Parser {
       errorHandler.sync(this);
       switch (interpreter.adaptivePredict(tokenStream, 20, context)) {
         case 1:
+          _localctx = MethodMemberDeclarationContext(_localctx);
           enterOuterAlt(_localctx, 1);
           state = 330;
           methodDeclaration();
           break;
         case 2:
+          _localctx = FieldMemberDeclarationContext(_localctx);
           enterOuterAlt(_localctx, 2);
           state = 331;
           fieldDeclaration();
           break;
         case 3:
+          _localctx = ConstructorMemberDeclarationContext(_localctx);
           enterOuterAlt(_localctx, 3);
           state = 332;
           constructorDeclaration();
           break;
         case 4:
+          _localctx = InterfaceMemberDeclarationContext(_localctx);
           enterOuterAlt(_localctx, 4);
           state = 333;
           interfaceDeclaration();
           break;
         case 5:
+          _localctx = ClassMemberDeclarationContext(_localctx);
           enterOuterAlt(_localctx, 5);
           state = 334;
           classDeclaration();
           break;
         case 6:
+          _localctx = EnumMemberDeclarationContext(_localctx);
           enterOuterAlt(_localctx, 6);
           state = 335;
           enumDeclaration();
           break;
         case 7:
+          _localctx = PropertyMemberDeclarationContext(_localctx);
           enterOuterAlt(_localctx, 7);
           state = 336;
           propertyDeclaration();
@@ -5882,21 +5895,6 @@ class CompilationUnitContext extends ParserRuleContext {
 }
 
 class TypeDeclarationContext extends ParserRuleContext {
-  ClassDeclarationContext? classDeclaration() =>
-      getRuleContext<ClassDeclarationContext>(0);
-
-  TerminalNode DOC_COMMENT() => getToken(ApexParser.TOKEN_DOC_COMMENT, 0);
-
-  List<ModifierContext> modifiers() => getRuleContexts<ModifierContext>();
-
-  ModifierContext modifier(int i) => getRuleContext<ModifierContext>(i);
-
-  EnumDeclarationContext enumDeclaration() =>
-      getRuleContext<EnumDeclarationContext>(0);
-
-  InterfaceDeclarationContext? interfaceDeclaration() =>
-      getRuleContext<InterfaceDeclarationContext>(0);
-
   TypeDeclarationContext([ParserRuleContext? parent, int? invokingState])
       : super(parent, invokingState);
 
@@ -5904,13 +5902,8 @@ class TypeDeclarationContext extends ParserRuleContext {
   int get ruleIndex => RULE_typeDeclaration;
 
   @override
-  void enterRule(ParseTreeListener listener) {
-    if (listener is ApexParserListener) listener.enterTypeDeclaration(this);
-  }
-
-  @override
-  void exitRule(ParseTreeListener listener) {
-    if (listener is ApexParserListener) listener.exitTypeDeclaration(this);
+  void copyFrom(ParserRuleContext ctx) {
+    super.copyFrom(ctx);
   }
 }
 
@@ -5923,11 +5916,11 @@ class ClassDeclarationContext extends ParserRuleContext {
 
   TerminalNode EXTENDS() => getToken(ApexParser.TOKEN_EXTENDS, 0);
 
-  TypeRefContext? typeRef() => getRuleContext<TypeRefContext>(0);
+  TypeRefContext typeRef() => getRuleContext<TypeRefContext>(0);
 
   TerminalNode IMPLEMENTS() => getToken(ApexParser.TOKEN_IMPLEMENTS, 0);
 
-  TypeListContext? typeList() => getRuleContext<TypeListContext>(0);
+  TypeListContext typeList() => getRuleContext<TypeListContext>(0);
 
   ClassDeclarationContext([ParserRuleContext? parent, int? invokingState])
       : super(parent, invokingState);
@@ -6011,7 +6004,7 @@ class InterfaceDeclarationContext extends ParserRuleContext {
 
   TerminalNode EXTENDS() => getToken(ApexParser.TOKEN_EXTENDS, 0);
 
-  TypeListContext? typeList() => getRuleContext<TypeListContext>(0);
+  TypeListContext typeList() => getRuleContext<TypeListContext>(0);
 
   InterfaceDeclarationContext([ParserRuleContext? parent, int? invokingState])
       : super(parent, invokingState);
@@ -6114,19 +6107,6 @@ class InterfaceBodyContext extends ParserRuleContext {
 }
 
 class ClassBodyDeclarationContext extends ParserRuleContext {
-  TerminalNode SEMI() => getToken(ApexParser.TOKEN_SEMI, 0);
-
-  BlockContext block() => getRuleContext<BlockContext>(0);
-
-  TerminalNode STATIC() => getToken(ApexParser.TOKEN_STATIC, 0);
-
-  MemberDeclarationContext? memberDeclaration() =>
-      getRuleContext<MemberDeclarationContext>(0);
-
-  List<ModifierContext> modifiers() => getRuleContexts<ModifierContext>();
-
-  ModifierContext modifier(int i) => getRuleContext<ModifierContext>(i);
-
   ClassBodyDeclarationContext([ParserRuleContext? parent, int? invokingState])
       : super(parent, invokingState);
 
@@ -6134,14 +6114,8 @@ class ClassBodyDeclarationContext extends ParserRuleContext {
   int get ruleIndex => RULE_classBodyDeclaration;
 
   @override
-  void enterRule(ParseTreeListener listener) {
-    if (listener is ApexParserListener)
-      listener.enterClassBodyDeclaration(this);
-  }
-
-  @override
-  void exitRule(ParseTreeListener listener) {
-    if (listener is ApexParserListener) listener.exitClassBodyDeclaration(this);
+  void copyFrom(ParserRuleContext ctx) {
+    super.copyFrom(ctx);
   }
 }
 
@@ -6198,27 +6172,6 @@ class ModifierContext extends ParserRuleContext {
 }
 
 class MemberDeclarationContext extends ParserRuleContext {
-  MethodDeclarationContext? methodDeclaration() =>
-      getRuleContext<MethodDeclarationContext>(0);
-
-  FieldDeclarationContext? fieldDeclaration() =>
-      getRuleContext<FieldDeclarationContext>(0);
-
-  ConstructorDeclarationContext? constructorDeclaration() =>
-      getRuleContext<ConstructorDeclarationContext>(0);
-
-  InterfaceDeclarationContext? interfaceDeclaration() =>
-      getRuleContext<InterfaceDeclarationContext>(0);
-
-  ClassDeclarationContext? classDeclaration() =>
-      getRuleContext<ClassDeclarationContext>(0);
-
-  EnumDeclarationContext? enumDeclaration() =>
-      getRuleContext<EnumDeclarationContext>(0);
-
-  PropertyDeclarationContext? propertyDeclaration() =>
-      getRuleContext<PropertyDeclarationContext>(0);
-
   MemberDeclarationContext([ParserRuleContext? parent, int? invokingState])
       : super(parent, invokingState);
 
@@ -6226,13 +6179,8 @@ class MemberDeclarationContext extends ParserRuleContext {
   int get ruleIndex => RULE_memberDeclaration;
 
   @override
-  void enterRule(ParseTreeListener listener) {
-    if (listener is ApexParserListener) listener.enterMemberDeclaration(this);
-  }
-
-  @override
-  void exitRule(ParseTreeListener listener) {
-    if (listener is ApexParserListener) listener.exitMemberDeclaration(this);
+  void copyFrom(ParserRuleContext ctx) {
+    super.copyFrom(ctx);
   }
 }
 
@@ -6242,7 +6190,7 @@ class MethodDeclarationContext extends ParserRuleContext {
   FormalParametersContext formalParameters() =>
       getRuleContext<FormalParametersContext>(0);
 
-  TypeRefContext? typeRef() => getRuleContext<TypeRefContext>(0);
+  TypeRefContext typeRef() => getRuleContext<TypeRefContext>(0);
 
   TerminalNode VOID() => getToken(ApexParser.TOKEN_VOID, 0);
 
@@ -6583,7 +6531,7 @@ class FormalParametersContext extends ParserRuleContext {
 
   TerminalNode RPAREN() => getToken(ApexParser.TOKEN_RPAREN, 0);
 
-  FormalParameterListContext? formalParameterList() =>
+  FormalParameterListContext formalParameterList() =>
       getRuleContext<FormalParameterListContext>(0);
 
   FormalParametersContext([ParserRuleContext? parent, int? invokingState])
@@ -8401,6 +8349,299 @@ class AnyIdContext extends ParserRuleContext {
   @override
   void exitRule(ParseTreeListener listener) {
     if (listener is ApexParserListener) listener.exitAnyId(this);
+  }
+}
+
+class TypeClassDeclarationContext extends TypeDeclarationContext {
+  ClassDeclarationContext classDeclaration() =>
+      getRuleContext<ClassDeclarationContext>(0);
+
+  TerminalNode DOC_COMMENT() => getToken(ApexParser.TOKEN_DOC_COMMENT, 0);
+
+  List<ModifierContext> modifiers() => getRuleContexts<ModifierContext>();
+
+  ModifierContext modifier(int i) => getRuleContext<ModifierContext>(i);
+
+  TypeClassDeclarationContext(TypeDeclarationContext ctx) {
+    copyFrom(ctx);
+  }
+
+  @override
+  void enterRule(ParseTreeListener listener) {
+    if (listener is ApexParserListener)
+      listener.enterTypeClassDeclaration(this);
+  }
+
+  @override
+  void exitRule(ParseTreeListener listener) {
+    if (listener is ApexParserListener) listener.exitTypeClassDeclaration(this);
+  }
+}
+
+class TypeInterfaceDeclarationContext extends TypeDeclarationContext {
+  InterfaceDeclarationContext interfaceDeclaration() =>
+      getRuleContext<InterfaceDeclarationContext>(0);
+
+  TerminalNode DOC_COMMENT() => getToken(ApexParser.TOKEN_DOC_COMMENT, 0);
+
+  List<ModifierContext> modifiers() => getRuleContexts<ModifierContext>();
+
+  ModifierContext modifier(int i) => getRuleContext<ModifierContext>(i);
+
+  TypeInterfaceDeclarationContext(TypeDeclarationContext ctx) {
+    copyFrom(ctx);
+  }
+
+  @override
+  void enterRule(ParseTreeListener listener) {
+    if (listener is ApexParserListener)
+      listener.enterTypeInterfaceDeclaration(this);
+  }
+
+  @override
+  void exitRule(ParseTreeListener listener) {
+    if (listener is ApexParserListener)
+      listener.exitTypeInterfaceDeclaration(this);
+  }
+}
+
+class TypeEnumDeclarationContext extends TypeDeclarationContext {
+  EnumDeclarationContext enumDeclaration() =>
+      getRuleContext<EnumDeclarationContext>(0);
+
+  TerminalNode DOC_COMMENT() => getToken(ApexParser.TOKEN_DOC_COMMENT, 0);
+
+  List<ModifierContext> modifiers() => getRuleContexts<ModifierContext>();
+
+  ModifierContext modifier(int i) => getRuleContext<ModifierContext>(i);
+
+  TypeEnumDeclarationContext(TypeDeclarationContext ctx) {
+    copyFrom(ctx);
+  }
+
+  @override
+  void enterRule(ParseTreeListener listener) {
+    if (listener is ApexParserListener) listener.enterTypeEnumDeclaration(this);
+  }
+
+  @override
+  void exitRule(ParseTreeListener listener) {
+    if (listener is ApexParserListener) listener.exitTypeEnumDeclaration(this);
+  }
+}
+
+class StaticBlockClassBodyDeclarationContext
+    extends ClassBodyDeclarationContext {
+  BlockContext block() => getRuleContext<BlockContext>(0);
+
+  TerminalNode STATIC() => getToken(ApexParser.TOKEN_STATIC, 0);
+
+  StaticBlockClassBodyDeclarationContext(ClassBodyDeclarationContext ctx) {
+    copyFrom(ctx);
+  }
+
+  @override
+  void enterRule(ParseTreeListener listener) {
+    if (listener is ApexParserListener)
+      listener.enterStaticBlockClassBodyDeclaration(this);
+  }
+
+  @override
+  void exitRule(ParseTreeListener listener) {
+    if (listener is ApexParserListener)
+      listener.exitStaticBlockClassBodyDeclaration(this);
+  }
+}
+
+class MemberClassBodyDeclarationContext extends ClassBodyDeclarationContext {
+  MemberDeclarationContext memberDeclaration() =>
+      getRuleContext<MemberDeclarationContext>(0);
+
+  List<ModifierContext> modifiers() => getRuleContexts<ModifierContext>();
+
+  ModifierContext modifier(int i) => getRuleContext<ModifierContext>(i);
+
+  MemberClassBodyDeclarationContext(ClassBodyDeclarationContext ctx) {
+    copyFrom(ctx);
+  }
+
+  @override
+  void enterRule(ParseTreeListener listener) {
+    if (listener is ApexParserListener)
+      listener.enterMemberClassBodyDeclaration(this);
+  }
+
+  @override
+  void exitRule(ParseTreeListener listener) {
+    if (listener is ApexParserListener)
+      listener.exitMemberClassBodyDeclaration(this);
+  }
+}
+
+class EmptyClassBodyDeclarationContext extends ClassBodyDeclarationContext {
+  TerminalNode SEMI() => getToken(ApexParser.TOKEN_SEMI, 0);
+
+  EmptyClassBodyDeclarationContext(ClassBodyDeclarationContext ctx) {
+    copyFrom(ctx);
+  }
+
+  @override
+  void enterRule(ParseTreeListener listener) {
+    if (listener is ApexParserListener)
+      listener.enterEmptyClassBodyDeclaration(this);
+  }
+
+  @override
+  void exitRule(ParseTreeListener listener) {
+    if (listener is ApexParserListener)
+      listener.exitEmptyClassBodyDeclaration(this);
+  }
+}
+
+class MethodMemberDeclarationContext extends MemberDeclarationContext {
+  MethodDeclarationContext methodDeclaration() =>
+      getRuleContext<MethodDeclarationContext>(0);
+
+  MethodMemberDeclarationContext(MemberDeclarationContext ctx) {
+    copyFrom(ctx);
+  }
+
+  @override
+  void enterRule(ParseTreeListener listener) {
+    if (listener is ApexParserListener)
+      listener.enterMethodMemberDeclaration(this);
+  }
+
+  @override
+  void exitRule(ParseTreeListener listener) {
+    if (listener is ApexParserListener)
+      listener.exitMethodMemberDeclaration(this);
+  }
+}
+
+class ConstructorMemberDeclarationContext extends MemberDeclarationContext {
+  ConstructorDeclarationContext constructorDeclaration() =>
+      getRuleContext<ConstructorDeclarationContext>(0);
+
+  ConstructorMemberDeclarationContext(MemberDeclarationContext ctx) {
+    copyFrom(ctx);
+  }
+
+  @override
+  void enterRule(ParseTreeListener listener) {
+    if (listener is ApexParserListener)
+      listener.enterConstructorMemberDeclaration(this);
+  }
+
+  @override
+  void exitRule(ParseTreeListener listener) {
+    if (listener is ApexParserListener)
+      listener.exitConstructorMemberDeclaration(this);
+  }
+}
+
+class EnumMemberDeclarationContext extends MemberDeclarationContext {
+  EnumDeclarationContext enumDeclaration() =>
+      getRuleContext<EnumDeclarationContext>(0);
+
+  EnumMemberDeclarationContext(MemberDeclarationContext ctx) {
+    copyFrom(ctx);
+  }
+
+  @override
+  void enterRule(ParseTreeListener listener) {
+    if (listener is ApexParserListener)
+      listener.enterEnumMemberDeclaration(this);
+  }
+
+  @override
+  void exitRule(ParseTreeListener listener) {
+    if (listener is ApexParserListener)
+      listener.exitEnumMemberDeclaration(this);
+  }
+}
+
+class ClassMemberDeclarationContext extends MemberDeclarationContext {
+  ClassDeclarationContext classDeclaration() =>
+      getRuleContext<ClassDeclarationContext>(0);
+
+  ClassMemberDeclarationContext(MemberDeclarationContext ctx) {
+    copyFrom(ctx);
+  }
+
+  @override
+  void enterRule(ParseTreeListener listener) {
+    if (listener is ApexParserListener)
+      listener.enterClassMemberDeclaration(this);
+  }
+
+  @override
+  void exitRule(ParseTreeListener listener) {
+    if (listener is ApexParserListener)
+      listener.exitClassMemberDeclaration(this);
+  }
+}
+
+class FieldMemberDeclarationContext extends MemberDeclarationContext {
+  FieldDeclarationContext fieldDeclaration() =>
+      getRuleContext<FieldDeclarationContext>(0);
+
+  FieldMemberDeclarationContext(MemberDeclarationContext ctx) {
+    copyFrom(ctx);
+  }
+
+  @override
+  void enterRule(ParseTreeListener listener) {
+    if (listener is ApexParserListener)
+      listener.enterFieldMemberDeclaration(this);
+  }
+
+  @override
+  void exitRule(ParseTreeListener listener) {
+    if (listener is ApexParserListener)
+      listener.exitFieldMemberDeclaration(this);
+  }
+}
+
+class InterfaceMemberDeclarationContext extends MemberDeclarationContext {
+  InterfaceDeclarationContext interfaceDeclaration() =>
+      getRuleContext<InterfaceDeclarationContext>(0);
+
+  InterfaceMemberDeclarationContext(MemberDeclarationContext ctx) {
+    copyFrom(ctx);
+  }
+
+  @override
+  void enterRule(ParseTreeListener listener) {
+    if (listener is ApexParserListener)
+      listener.enterInterfaceMemberDeclaration(this);
+  }
+
+  @override
+  void exitRule(ParseTreeListener listener) {
+    if (listener is ApexParserListener)
+      listener.exitInterfaceMemberDeclaration(this);
+  }
+}
+
+class PropertyMemberDeclarationContext extends MemberDeclarationContext {
+  PropertyDeclarationContext propertyDeclaration() =>
+      getRuleContext<PropertyDeclarationContext>(0);
+
+  PropertyMemberDeclarationContext(MemberDeclarationContext ctx) {
+    copyFrom(ctx);
+  }
+
+  @override
+  void enterRule(ParseTreeListener listener) {
+    if (listener is ApexParserListener)
+      listener.enterPropertyMemberDeclaration(this);
+  }
+
+  @override
+  void exitRule(ParseTreeListener listener) {
+    if (listener is ApexParserListener)
+      listener.exitPropertyMemberDeclaration(this);
   }
 }
 

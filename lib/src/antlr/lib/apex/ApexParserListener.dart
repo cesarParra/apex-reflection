@@ -28,12 +28,32 @@ abstract class ApexParserListener extends ParseTreeListener {
   /// [ctx] the parse tree
   void exitCompilationUnit(CompilationUnitContext ctx);
 
-  /// Enter a parse tree produced by [ApexParser.typeDeclaration].
+  /// Enter a parse tree produced by the [TypeClassDeclaration]
+  /// labeled alternative in [file.parserName>.typeDeclaration].
   /// [ctx] the parse tree
-  void enterTypeDeclaration(TypeDeclarationContext ctx);
-  /// Exit a parse tree produced by [ApexParser.typeDeclaration].
+  void enterTypeClassDeclaration(TypeClassDeclarationContext ctx);
+  /// Exit a parse tree produced by the [TypeClassDeclaration]
+  /// labeled alternative in [ApexParser.typeDeclaration].
   /// [ctx] the parse tree
-  void exitTypeDeclaration(TypeDeclarationContext ctx);
+  void exitTypeClassDeclaration(TypeClassDeclarationContext ctx);
+
+  /// Enter a parse tree produced by the [TypeEnumDeclaration]
+  /// labeled alternative in [file.parserName>.typeDeclaration].
+  /// [ctx] the parse tree
+  void enterTypeEnumDeclaration(TypeEnumDeclarationContext ctx);
+  /// Exit a parse tree produced by the [TypeEnumDeclaration]
+  /// labeled alternative in [ApexParser.typeDeclaration].
+  /// [ctx] the parse tree
+  void exitTypeEnumDeclaration(TypeEnumDeclarationContext ctx);
+
+  /// Enter a parse tree produced by the [TypeInterfaceDeclaration]
+  /// labeled alternative in [file.parserName>.typeDeclaration].
+  /// [ctx] the parse tree
+  void enterTypeInterfaceDeclaration(TypeInterfaceDeclarationContext ctx);
+  /// Exit a parse tree produced by the [TypeInterfaceDeclaration]
+  /// labeled alternative in [ApexParser.typeDeclaration].
+  /// [ctx] the parse tree
+  void exitTypeInterfaceDeclaration(TypeInterfaceDeclarationContext ctx);
 
   /// Enter a parse tree produced by [ApexParser.classDeclaration].
   /// [ctx] the parse tree
@@ -84,12 +104,32 @@ abstract class ApexParserListener extends ParseTreeListener {
   /// [ctx] the parse tree
   void exitInterfaceBody(InterfaceBodyContext ctx);
 
-  /// Enter a parse tree produced by [ApexParser.classBodyDeclaration].
+  /// Enter a parse tree produced by the [EmptyClassBodyDeclaration]
+  /// labeled alternative in [file.parserName>.classBodyDeclaration].
   /// [ctx] the parse tree
-  void enterClassBodyDeclaration(ClassBodyDeclarationContext ctx);
-  /// Exit a parse tree produced by [ApexParser.classBodyDeclaration].
+  void enterEmptyClassBodyDeclaration(EmptyClassBodyDeclarationContext ctx);
+  /// Exit a parse tree produced by the [EmptyClassBodyDeclaration]
+  /// labeled alternative in [ApexParser.classBodyDeclaration].
   /// [ctx] the parse tree
-  void exitClassBodyDeclaration(ClassBodyDeclarationContext ctx);
+  void exitEmptyClassBodyDeclaration(EmptyClassBodyDeclarationContext ctx);
+
+  /// Enter a parse tree produced by the [StaticBlockClassBodyDeclaration]
+  /// labeled alternative in [file.parserName>.classBodyDeclaration].
+  /// [ctx] the parse tree
+  void enterStaticBlockClassBodyDeclaration(StaticBlockClassBodyDeclarationContext ctx);
+  /// Exit a parse tree produced by the [StaticBlockClassBodyDeclaration]
+  /// labeled alternative in [ApexParser.classBodyDeclaration].
+  /// [ctx] the parse tree
+  void exitStaticBlockClassBodyDeclaration(StaticBlockClassBodyDeclarationContext ctx);
+
+  /// Enter a parse tree produced by the [MemberClassBodyDeclaration]
+  /// labeled alternative in [file.parserName>.classBodyDeclaration].
+  /// [ctx] the parse tree
+  void enterMemberClassBodyDeclaration(MemberClassBodyDeclarationContext ctx);
+  /// Exit a parse tree produced by the [MemberClassBodyDeclaration]
+  /// labeled alternative in [ApexParser.classBodyDeclaration].
+  /// [ctx] the parse tree
+  void exitMemberClassBodyDeclaration(MemberClassBodyDeclarationContext ctx);
 
   /// Enter a parse tree produced by [ApexParser.modifier].
   /// [ctx] the parse tree
@@ -98,12 +138,68 @@ abstract class ApexParserListener extends ParseTreeListener {
   /// [ctx] the parse tree
   void exitModifier(ModifierContext ctx);
 
-  /// Enter a parse tree produced by [ApexParser.memberDeclaration].
+  /// Enter a parse tree produced by the [MethodMemberDeclaration]
+  /// labeled alternative in [file.parserName>.memberDeclaration].
   /// [ctx] the parse tree
-  void enterMemberDeclaration(MemberDeclarationContext ctx);
-  /// Exit a parse tree produced by [ApexParser.memberDeclaration].
+  void enterMethodMemberDeclaration(MethodMemberDeclarationContext ctx);
+  /// Exit a parse tree produced by the [MethodMemberDeclaration]
+  /// labeled alternative in [ApexParser.memberDeclaration].
   /// [ctx] the parse tree
-  void exitMemberDeclaration(MemberDeclarationContext ctx);
+  void exitMethodMemberDeclaration(MethodMemberDeclarationContext ctx);
+
+  /// Enter a parse tree produced by the [FieldMemberDeclaration]
+  /// labeled alternative in [file.parserName>.memberDeclaration].
+  /// [ctx] the parse tree
+  void enterFieldMemberDeclaration(FieldMemberDeclarationContext ctx);
+  /// Exit a parse tree produced by the [FieldMemberDeclaration]
+  /// labeled alternative in [ApexParser.memberDeclaration].
+  /// [ctx] the parse tree
+  void exitFieldMemberDeclaration(FieldMemberDeclarationContext ctx);
+
+  /// Enter a parse tree produced by the [ConstructorMemberDeclaration]
+  /// labeled alternative in [file.parserName>.memberDeclaration].
+  /// [ctx] the parse tree
+  void enterConstructorMemberDeclaration(ConstructorMemberDeclarationContext ctx);
+  /// Exit a parse tree produced by the [ConstructorMemberDeclaration]
+  /// labeled alternative in [ApexParser.memberDeclaration].
+  /// [ctx] the parse tree
+  void exitConstructorMemberDeclaration(ConstructorMemberDeclarationContext ctx);
+
+  /// Enter a parse tree produced by the [InterfaceMemberDeclaration]
+  /// labeled alternative in [file.parserName>.memberDeclaration].
+  /// [ctx] the parse tree
+  void enterInterfaceMemberDeclaration(InterfaceMemberDeclarationContext ctx);
+  /// Exit a parse tree produced by the [InterfaceMemberDeclaration]
+  /// labeled alternative in [ApexParser.memberDeclaration].
+  /// [ctx] the parse tree
+  void exitInterfaceMemberDeclaration(InterfaceMemberDeclarationContext ctx);
+
+  /// Enter a parse tree produced by the [ClassMemberDeclaration]
+  /// labeled alternative in [file.parserName>.memberDeclaration].
+  /// [ctx] the parse tree
+  void enterClassMemberDeclaration(ClassMemberDeclarationContext ctx);
+  /// Exit a parse tree produced by the [ClassMemberDeclaration]
+  /// labeled alternative in [ApexParser.memberDeclaration].
+  /// [ctx] the parse tree
+  void exitClassMemberDeclaration(ClassMemberDeclarationContext ctx);
+
+  /// Enter a parse tree produced by the [EnumMemberDeclaration]
+  /// labeled alternative in [file.parserName>.memberDeclaration].
+  /// [ctx] the parse tree
+  void enterEnumMemberDeclaration(EnumMemberDeclarationContext ctx);
+  /// Exit a parse tree produced by the [EnumMemberDeclaration]
+  /// labeled alternative in [ApexParser.memberDeclaration].
+  /// [ctx] the parse tree
+  void exitEnumMemberDeclaration(EnumMemberDeclarationContext ctx);
+
+  /// Enter a parse tree produced by the [PropertyMemberDeclaration]
+  /// labeled alternative in [file.parserName>.memberDeclaration].
+  /// [ctx] the parse tree
+  void enterPropertyMemberDeclaration(PropertyMemberDeclarationContext ctx);
+  /// Exit a parse tree produced by the [PropertyMemberDeclaration]
+  /// labeled alternative in [ApexParser.memberDeclaration].
+  /// [ctx] the parse tree
+  void exitPropertyMemberDeclaration(PropertyMemberDeclarationContext ctx);
 
   /// Enter a parse tree produced by [ApexParser.methodDeclaration].
   /// [ctx] the parse tree

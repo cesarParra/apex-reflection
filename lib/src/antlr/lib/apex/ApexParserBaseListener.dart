@@ -36,11 +36,27 @@ class ApexParserBaseListener implements ApexParserListener {
 
   /// The default implementation does nothing.
   @override
-  void enterTypeDeclaration(TypeDeclarationContext ctx) {}
+  void enterTypeClassDeclaration(TypeClassDeclarationContext ctx) {}
 
   /// The default implementation does nothing.
   @override
-  void exitTypeDeclaration(TypeDeclarationContext ctx) {}
+  void exitTypeClassDeclaration(TypeClassDeclarationContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterTypeEnumDeclaration(TypeEnumDeclarationContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitTypeEnumDeclaration(TypeEnumDeclarationContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterTypeInterfaceDeclaration(TypeInterfaceDeclarationContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitTypeInterfaceDeclaration(TypeInterfaceDeclarationContext ctx) {}
 
   /// The default implementation does nothing.
   @override
@@ -100,11 +116,27 @@ class ApexParserBaseListener implements ApexParserListener {
 
   /// The default implementation does nothing.
   @override
-  void enterClassBodyDeclaration(ClassBodyDeclarationContext ctx) {}
+  void enterEmptyClassBodyDeclaration(EmptyClassBodyDeclarationContext ctx) {}
 
   /// The default implementation does nothing.
   @override
-  void exitClassBodyDeclaration(ClassBodyDeclarationContext ctx) {}
+  void exitEmptyClassBodyDeclaration(EmptyClassBodyDeclarationContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterStaticBlockClassBodyDeclaration(StaticBlockClassBodyDeclarationContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitStaticBlockClassBodyDeclaration(StaticBlockClassBodyDeclarationContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterMemberClassBodyDeclaration(MemberClassBodyDeclarationContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitMemberClassBodyDeclaration(MemberClassBodyDeclarationContext ctx) {}
 
   /// The default implementation does nothing.
   @override
@@ -116,11 +148,59 @@ class ApexParserBaseListener implements ApexParserListener {
 
   /// The default implementation does nothing.
   @override
-  void enterMemberDeclaration(MemberDeclarationContext ctx) {}
+  void enterMethodMemberDeclaration(MethodMemberDeclarationContext ctx) {}
 
   /// The default implementation does nothing.
   @override
-  void exitMemberDeclaration(MemberDeclarationContext ctx) {}
+  void exitMethodMemberDeclaration(MethodMemberDeclarationContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterFieldMemberDeclaration(FieldMemberDeclarationContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitFieldMemberDeclaration(FieldMemberDeclarationContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterConstructorMemberDeclaration(ConstructorMemberDeclarationContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitConstructorMemberDeclaration(ConstructorMemberDeclarationContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterInterfaceMemberDeclaration(InterfaceMemberDeclarationContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitInterfaceMemberDeclaration(InterfaceMemberDeclarationContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterClassMemberDeclaration(ClassMemberDeclarationContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitClassMemberDeclaration(ClassMemberDeclarationContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterEnumMemberDeclaration(EnumMemberDeclarationContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitEnumMemberDeclaration(EnumMemberDeclarationContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterPropertyMemberDeclaration(PropertyMemberDeclarationContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitPropertyMemberDeclaration(PropertyMemberDeclarationContext ctx) {}
 
   /// The default implementation does nothing.
   @override

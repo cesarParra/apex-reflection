@@ -15,3 +15,15 @@ ClassModel buildClass(
       extendedClass: extendedClass,
       implementedInterfaces: implementedInterfaces);
 }
+
+InterfaceModel buildInterface(
+    List<String> accessModifiers, InterfaceDeclarationContext ctx) {
+  final interfaceName = ctx.id().text;
+  final extendsInterfaces = ctx.EXTENDS() != null
+      ? ctx.typeList().typeRefs().map((e) => e.text).toList()
+      : <String>[];
+  return InterfaceModel(
+      name: interfaceName,
+      accessModifiers: accessModifiers,
+      extendedInterfaces: extendsInterfaces);
+}

@@ -44,15 +44,7 @@ class ApexClassListener extends ApexParserBaseListener {
   @override
   void enterInterfaceDeclaration(InterfaceDeclarationContext ctx) {
     final accessModifiers = _accessModifierStack.pop();
-    final interfaceName = ctx.id().text;
-    final extendsInterfaces = ctx.EXTENDS() != null
-        ? ctx.typeList().typeRefs().map((e) => e.text).toList()
-        : <String>[];
-    final interfaceModel = InterfaceModel(
-        name: interfaceName,
-        accessModifiers: accessModifiers,
-        extendedInterfaces: extendsInterfaces);
-    generatedTypes.push(interfaceModel);
+    generatedTypes.push(buildInterface(accessModifiers, ctx));
   }
 
   @override

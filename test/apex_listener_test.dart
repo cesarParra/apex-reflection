@@ -158,6 +158,29 @@ void main() {
       expect(property2.type, equals('Integer'));
     });
 
+    test('Classes can have properties with apex docs', () {
+      var listener = ApexClassListener();
+      var classBody = '''
+      public class MyClass {
+        /**
+         * @description Some description
+         */
+        @NamespaceAccessible public String MyProperty1 { get; set; }
+      }
+      ''';
+      Walker.walk(InputStream.fromString(classBody), listener);
+      var generatedClass = listener.generatedType as ClassModel;
+      expect(generatedClass.properties.length, equals(1));
+      expect(
+          generatedClass.properties
+              .any((element) => element.name == 'MyProperty1'),
+          isTrue);
+
+      Property property1 = generatedClass.properties
+          .firstWhere((element) => element.name == 'MyProperty1');
+      expect(property1.docComment, isNotNull);
+    });
+
     test('Classes can have fields', () {
       var listener = ApexClassListener();
       var classBody = '''
@@ -190,6 +213,27 @@ void main() {
           .firstWhere((element) => element.name == 'myVar3');
       expect(field3.isPrivate, isTrue);
       expect(field3.type, equals('Integer'));
+    });
+
+    test('Classes can have fields with doc comments', () {
+      var listener = ApexClassListener();
+      var classBody = '''
+      public class MyClass {
+        /**
+         * @description Some description
+         */
+        private String myVar1;
+      }
+      ''';
+      Walker.walk(InputStream.fromString(classBody), listener);
+      var generatedClass = listener.generatedType as ClassModel;
+      expect(generatedClass.fields.length, equals(1));
+      expect(generatedClass.fields.any((element) => element.name == 'myVar1'),
+          isTrue);
+
+      Field field1 = generatedClass.fields
+          .firstWhere((element) => element.name == 'myVar1');
+      expect(field1.docComment, isNotNull);
     });
 
     test('Classes can have methods', () {
@@ -228,6 +272,31 @@ void main() {
       expect(method2.isNamespaceAccessible, isFalse);
       expect(method2.isVoid, isFalse);
       expect(method2.type, equals('String'));
+    });
+
+    test('Classes can have methods with doc comments', () {
+      var listener = ApexClassListener();
+      var classBody = '''
+      public class MyClass {
+        /**
+         * @description Some description
+         */
+        @NamespaceAccessible
+        public void sayHi() {
+          System.debug(getGreeting());
+        }
+      }
+      ''';
+
+      Walker.walk(InputStream.fromString(classBody), listener);
+      var generatedClass = listener.generatedType as ClassModel;
+      expect(generatedClass.methods.length, equals(1));
+      expect(generatedClass.methods.any((element) => element.name == 'sayHi'),
+          isTrue);
+
+      Method method1 = generatedClass.methods
+          .firstWhere((element) => element.name == 'sayHi');
+      expect(method1.docComment, isNotNull);
     });
 
     test('Classes can have constructors', () {
@@ -269,6 +338,34 @@ void main() {
       expect(constructor2.parameters.length, equals(1));
     });
 
+    test('Classes can have constructors with doc comments', () {
+      var listener = ApexClassListener();
+      var classBody = '''
+      public class MyClass {
+        private final String var1;
+        /**
+         * @description Some description
+         */
+        @NamespaceAccessible
+        public MyClass() {
+          this.var1 = 'Hello!';
+        }
+      }
+      ''';
+
+      Walker.walk(InputStream.fromString(classBody), listener);
+      var generatedClass = listener.generatedType as ClassModel;
+      expect(generatedClass.constructors.length, equals(1));
+      expect(
+          generatedClass.constructors
+              .any((element) => element.isNamespaceAccessible),
+          isTrue);
+
+      Constructor constructor1 = generatedClass.constructors
+          .firstWhere((element) => element.isNamespaceAccessible);
+      expect(constructor1.docComment, isNotNull);
+    });
+
     test('Classes can have inner enums', () {
       var listener = ApexClassListener();
       var classBody = '''
@@ -286,6 +383,26 @@ void main() {
       expect(generatedClass.enums.first.name, equals('MyEnum'));
       expect(generatedClass.enums.first.isNamespaceAccessible, isTrue);
       expect(generatedClass.enums.first.isPublic, isTrue);
+    });
+
+    test('Classes can have inner enums with documents', () {
+      var listener = ApexClassListener();
+      var classBody = '''
+      public class MyClass {
+        /**
+         * @description Some description
+         */
+        @NamespaceAccessible
+        public enum MyEnum {
+          A,B,C
+        }
+      }
+      ''';
+
+      Walker.walk(InputStream.fromString(classBody), listener);
+      var generatedClass = listener.generatedType as ClassModel;
+      expect(generatedClass.enums.length, equals(1));
+      expect(generatedClass.enums.first.docComment, isNotNull);
     });
 
     test('Classes can have inner interfaces', () {
@@ -309,6 +426,28 @@ void main() {
       expect(innerInterface.isPublic, isTrue);
       expect(innerInterface.methods.length, equals(1));
       expect(innerInterface.methods.first.type, 'String');
+    });
+
+    test('Classes can have inner interfaces with doc comments', () {
+      var listener = ApexClassListener();
+      var classBody = '''
+      public class MyClass {
+        /**
+         * @description Some description
+         */
+        @NamespaceAccessible
+        public interface MyInterface {
+          String sampleMethod(String prop1, String prop2);
+        }
+      }
+      ''';
+
+      Walker.walk(InputStream.fromString(classBody), listener);
+      var generatedClass = listener.generatedType as ClassModel;
+      expect(generatedClass.interfaces.length, equals(1));
+
+      var innerInterface = generatedClass.interfaces.first;
+      expect(innerInterface.docComment, isNotNull);
     });
 
     test('Classes can have inner classes', () {
@@ -335,6 +474,29 @@ void main() {
       expect(innerClass.methods.first.type, 'String');
       expect(innerClass.methods.first.parameters.length, equals(2));
     });
+
+    test('Classes can have inner classes with doc comments', () {
+      var listener = ApexClassListener();
+      var classBody = '''
+      public class MyClass {
+        /**
+         * @description Some description
+         */
+          public class InnerClass {
+              public String innerMethod(String prop1, String prop2) {
+                  return '';
+              }
+          }
+      }
+      ''';
+
+      Walker.walk(InputStream.fromString(classBody), listener);
+      var generatedClass = listener.generatedType as ClassModel;
+      expect(generatedClass.classes.length, equals(1));
+
+      var innerClass = generatedClass.classes.first;
+      expect(innerClass.docComment, isNotNull);
+    });
   });
 
   group('Parses Apex Interfaces', () {
@@ -343,6 +505,19 @@ void main() {
       Walker.walk(InputStream.fromString('interface MyInterface{}'), listener);
       expect(listener.generatedType, isNotNull);
       expect(listener.generatedType.name, 'MyInterface');
+    });
+
+    test('Interfaces can have doc comments', () {
+      var listener = ApexClassListener();
+      const interfaceBody = '''
+      /**
+       * @description Some description
+       */
+      interface MyInterface{}
+      ''';
+      Walker.walk(InputStream.fromString(interfaceBody), listener);
+      expect(listener.generatedType, isNotNull);
+      expect(listener.generatedType.docComment, isNotNull);
     });
 
     test('Interfaces without access modifiers are private by default', () {
@@ -405,6 +580,30 @@ void main() {
       expect(method2.isVoid, isFalse);
       expect(method2.type, equals('String'));
     });
+
+    test('Interfaces can have methods with doc comments', () {
+      var listener = ApexClassListener();
+      var interfaceBody = '''
+      @NamespaceAccessible
+      public interface MyInterface {
+       /**
+        * @description Some description
+        */
+        void sayHi();
+      }
+      ''';
+
+      Walker.walk(InputStream.fromString(interfaceBody), listener);
+      var generatedInterface = listener.generatedType as InterfaceModel;
+      expect(generatedInterface.methods.length, equals(1));
+      expect(
+          generatedInterface.methods.any((element) => element.name == 'sayHi'),
+          isTrue);
+
+      Method method1 = generatedInterface.methods
+          .firstWhere((element) => element.name == 'sayHi');
+      expect(method1.docComment, isNotNull);
+    });
   });
 
   group('Parses Apex enums', () {
@@ -413,6 +612,19 @@ void main() {
       Walker.walk(InputStream.fromString('enum MyEnum{}'), listener);
       expect(listener.generatedType, isNotNull);
       expect(listener.generatedType.name, 'MyEnum');
+    });
+
+    test('Enums can have doc comments', () {
+      var listener = ApexClassListener();
+      const enumBody = '''
+      /**
+       * @description Some description
+       */
+      enum MyEnum{}
+      ''';
+      Walker.walk(InputStream.fromString(enumBody), listener);
+      expect(listener.generatedType, isNotNull);
+      expect(listener.generatedType.docComment, isNotNull);
     });
 
     test('Supports enums with access modifiers', () {

@@ -19,13 +19,14 @@ ClassModel buildClass(
 }
 
 InterfaceModel buildInterface(
-    List<String> accessModifiers, InterfaceDeclarationContext ctx) {
+    DeclarationDescriptor descriptor, InterfaceDeclarationContext ctx) {
   final interfaceName = ctx.id().text;
   final extendsInterfaces = ctx.EXTENDS() != null
       ? ctx.typeList().typeRefs().map((e) => e.text).toList()
       : <String>[];
   return InterfaceModel(
       name: interfaceName,
-      accessModifiers: accessModifiers,
+      docComment: descriptor.docComment,
+      accessModifiers: descriptor.accessModifiers,
       extendedInterfaces: extendsInterfaces);
 }

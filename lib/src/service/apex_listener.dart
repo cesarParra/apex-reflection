@@ -56,8 +56,7 @@ class ApexClassListener extends ApexParserBaseListener {
   @override
   void enterInterfaceDeclaration(InterfaceDeclarationContext ctx) {
     final declarationDescriptor = _declaratorDescriptorStack.pop();
-    generatedTypes
-        .push(buildInterface(declarationDescriptor.accessModifiers, ctx));
+    generatedTypes.push(buildInterface(declarationDescriptor, ctx));
   }
 
   @override
@@ -65,16 +64,18 @@ class ApexClassListener extends ApexParserBaseListener {
     final declarationDescriptor = _declaratorDescriptorStack.pop();
     final enumName = ctx.id().text;
     final enumModel = EnumModel(
-        name: enumName, accessModifiers: declarationDescriptor.accessModifiers);
+        name: enumName,
+        docComment: declarationDescriptor.docComment,
+        accessModifiers: declarationDescriptor.accessModifiers);
     generatedTypes.push(enumModel);
   }
 
   @override
   void enterMemberClassBodyDeclaration(MemberClassBodyDeclarationContext ctx) {
     final accessModifiers = getAccessModifiers(ctx);
-    // TODO: Parse doc comments
-    _declaratorDescriptorStack
-        .push(DeclarationDescriptor(accessModifiers: accessModifiers));
+    final docComment = ctx.DOC_COMMENT()?.text;
+    _declaratorDescriptorStack.push(DeclarationDescriptor(
+        accessModifiers: accessModifiers, docComment: docComment));
   }
 
   @override
@@ -85,6 +86,7 @@ class ApexClassListener extends ApexParserBaseListener {
 
     final property = Property(
         name: propertyName,
+        docComment: declarationDescriptor.docComment,
         type: type,
         accessModifiers: declarationDescriptor.accessModifiers);
     (generatedTypes.peak() as ClassModel).addProperty(property);
@@ -99,6 +101,7 @@ class ApexClassListener extends ApexParserBaseListener {
     (generatedTypes.peak() as ClassModel).fields.addAll(fieldNames.map((e) =>
         Field(
             name: e,
+            docComment: declarationDescriptor.docComment,
             type: typeName,
             accessModifiers: declarationDescriptor.accessModifiers)));
   }
@@ -113,6 +116,7 @@ class ApexClassListener extends ApexParserBaseListener {
 
     final method = Method(
         name: methodName,
+        docComment: declarationDescriptor.docComment,
         type: typeName,
         accessModifiers: declarationDescriptor.accessModifiers);
     method.parameters = parameters ?? [];
@@ -123,6 +127,7 @@ class ApexClassListener extends ApexParserBaseListener {
   @override
   void enterInterfaceMethodDeclaration(InterfaceMethodDeclarationContext ctx) {
     // Interface methods inherit the access modifiers of the parent declaration.
+    final docComment = ctx.DOC_COMMENT()?.text;
     final accessModifiers = generatedTypes.peak().accessModifiers;
     final methodName = ctx.id().text;
     final typeName = ctx.typeRef() != null ? ctx.typeRef().text : 'void';
@@ -130,7 +135,10 @@ class ApexClassListener extends ApexParserBaseListener {
     List<Parameter>? parameters = parseParameters(ctx);
 
     final method = Method(
-        name: methodName, type: typeName, accessModifiers: accessModifiers);
+        name: methodName,
+        docComment: docComment,
+        type: typeName,
+        accessModifiers: accessModifiers);
     method.parameters = parameters ?? [];
 
     (generatedTypes.peak() as MethodsAwareness).methods.add(method);
@@ -140,8 +148,9 @@ class ApexClassListener extends ApexParserBaseListener {
   void enterConstructorDeclaration(ConstructorDeclarationContext ctx) {
     final declaratorDescriptor = _declaratorDescriptorStack.pop();
     List<Parameter>? parameters = parseParameters(ctx);
-    final constructorGenerated =
-        Constructor(accessModifiers: declaratorDescriptor.accessModifiers);
+    final constructorGenerated = Constructor(
+        docComment: declaratorDescriptor.docComment,
+        accessModifiers: declaratorDescriptor.accessModifiers);
     constructorGenerated.parameters = parameters ?? [];
 
     (generatedTypes.peak() as ClassModel)

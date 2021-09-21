@@ -3,8 +3,14 @@ import 'package:apexdocs_dart/src/model/members.dart';
 import 'declaration.dart';
 
 abstract class Type extends Declaration {
-  Type({required String name, List<String> accessModifiers = const []})
-      : super(name: name, accessModifiers: accessModifiers);
+  Type(
+      {required String name,
+      String? docComment,
+      List<String> accessModifiers = const []})
+      : super(
+            name: name,
+            docComment: docComment,
+            accessModifiers: accessModifiers);
 
   bool isClass() {
     return false;
@@ -40,10 +46,14 @@ class ClassModel extends Type with MethodsAwareness {
 
   ClassModel(
       {required String name,
+      String? docComment,
       List<String> accessModifiers = const [],
       this.extendedClass,
       this.implementedInterfaces = const []})
-      : super(name: name, accessModifiers: accessModifiers);
+      : super(
+            name: name,
+            docComment: docComment,
+            accessModifiers: accessModifiers);
 
   ClassModel.fromJson(Map<String, dynamic> json)
       : super(

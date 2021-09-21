@@ -1,8 +1,9 @@
 import 'package:apexdocs_dart/src/antlr/lib/apex/ApexParser.dart';
 import 'package:apexdocs_dart/src/model/types.dart';
+import 'package:apexdocs_dart/src/service/apex_listener.dart';
 
 ClassModel buildClass(
-    List<String> accessModifiers, ClassDeclarationContext ctx) {
+    DeclarationDescriptor descriptor, ClassDeclarationContext ctx) {
   final className = ctx.id().text;
   final extendedClass = ctx.EXTENDS() != null ? ctx.typeRef().text : null;
   final implementedInterfaces = ctx.IMPLEMENTS() != null
@@ -11,7 +12,8 @@ ClassModel buildClass(
 
   return ClassModel(
       name: className,
-      accessModifiers: accessModifiers,
+      accessModifiers: descriptor.accessModifiers,
+      docComment: descriptor.docComment,
       extendedClass: extendedClass,
       implementedInterfaces: implementedInterfaces);
 }

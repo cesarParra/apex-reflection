@@ -62,7 +62,7 @@ interfaceBody
 classBodyDeclaration
     : SEMI                                 # EmptyClassBodyDeclaration
     | STATIC? block                        # StaticBlockClassBodyDeclaration
-    | modifier* memberDeclaration          # MemberClassBodyDeclaration
+    | DOC_COMMENT? modifier* memberDeclaration          # MemberClassBodyDeclaration
     ;
 
 /* Unify all annotation & modifiers so we can give better error messages */
@@ -122,7 +122,7 @@ propertyDeclaration
     ;
 
 interfaceMethodDeclaration
-    : modifier* (typeRef|VOID) id formalParameters SEMI
+    : DOC_COMMENT? modifier* (typeRef|VOID) id formalParameters SEMI
     ;
 
 variableDeclarators

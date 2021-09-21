@@ -212,11 +212,11 @@ JavaLetterOrDigit
 // Whitespace and comments
 //
 
-WS  :  [ \t\r\n\u000C]+ -> channel(WHITESPACE_CHANNEL)
-    ;
-
 DOC_COMMENT
     :   '/**' [\r\n] .*? '*/'
+    ;
+
+WS  :  [ \t\r\n\u000C]+ -> channel(WHITESPACE_CHANNEL)
     ;
 
 COMMENT

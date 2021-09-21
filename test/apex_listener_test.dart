@@ -18,6 +18,19 @@ void main() {
       expect(listener.generatedType.name, 'MyClass');
     });
 
+    test('Classes can have Apex docs', () {
+      var listener = ApexClassListener();
+      const classBody = '''
+      /**
+       * @description Class description
+       */
+      class MyClass{}
+      ''';
+      Walker.walk(InputStream.fromString(classBody), listener);
+      print(listener.generatedType.docComment);
+      expect(listener.generatedType.docComment, isNotNull);
+    });
+
     test('Classes without access modifiers are private by default', () {
       var listener = ApexClassListener();
       Walker.walk(InputStream.fromString('class MyClass{}'), listener);

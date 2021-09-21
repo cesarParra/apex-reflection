@@ -22,6 +22,17 @@ void main() {
       expect(classModel.accessModifiers.length, 1);
     });
 
+    test('Does not have doc comments by default', () {
+      final classModel = ClassModel(name: 'AnyName');
+      expect(classModel.docComment, isNull);
+    });
+
+    test('Can receive doc comments', () {
+      final classModel = ClassModel(
+          name: 'AnyName', docComment: '@description Some description');
+      expect(classModel.docComment, isNotNull);
+    });
+
     test('Does not extend another class by default', () {
       final classModel = ClassModel(name: 'AnyName');
       expect(classModel.extendedClass, null);

@@ -7,92 +7,114 @@ import 'package:apexdocs_dart/src/model/members.dart';
 import 'package:apexdocs_dart/src/model/types.dart';
 import 'package:apexdocs_dart/src/service/utils/parsing/parsing_utils.dart';
 
+class DeclarationDescriptor {
+  List<String> accessModifiers = [];
+  String? docComment;
+
+  DeclarationDescriptor({required this.accessModifiers, this.docComment});
+}
+
 class ApexClassListener extends ApexParserBaseListener {
-  // TODO: Access modifiers are part of the model and should be represented by an object
-  final Stack<List<String>> _accessModifierStack;
+  final Stack<DeclarationDescriptor> _declaratorDescriptorStack;
   final Stack<Type> generatedTypes;
   late Type generatedType;
 
   ApexClassListener()
       : generatedTypes = Stack<Type>(),
-        _accessModifierStack = Stack<List<String>>();
+        _declaratorDescriptorStack = Stack<DeclarationDescriptor>();
 
   @override
   void enterTypeClassDeclaration(TypeClassDeclarationContext ctx) {
     final accessModifiers = getAccessModifiers(ctx);
-    _accessModifierStack.push(accessModifiers);
+    final docComment = ctx.DOC_COMMENT()?.text;
+    _declaratorDescriptorStack.push(DeclarationDescriptor(
+        accessModifiers: accessModifiers, docComment: docComment));
   }
 
   @override
   void enterTypeEnumDeclaration(TypeEnumDeclarationContext ctx) {
     final accessModifiers = getAccessModifiers(ctx);
-    _accessModifierStack.push(accessModifiers);
+    final docComment = ctx.DOC_COMMENT()?.text;
+    _declaratorDescriptorStack.push(DeclarationDescriptor(
+        accessModifiers: accessModifiers, docComment: docComment));
   }
 
   @override
   void enterTypeInterfaceDeclaration(TypeInterfaceDeclarationContext ctx) {
     final accessModifiers = getAccessModifiers(ctx);
-    _accessModifierStack.push(accessModifiers);
+    final docComment = ctx.DOC_COMMENT()?.text;
+    _declaratorDescriptorStack.push(DeclarationDescriptor(
+        accessModifiers: accessModifiers, docComment: docComment));
   }
 
   @override
   void enterClassDeclaration(ClassDeclarationContext ctx) {
-    final accessModifiers = _accessModifierStack.pop();
-    generatedTypes.push(buildClass(accessModifiers, ctx));
+    final declarationDescriptor = _declaratorDescriptorStack.pop();
+    generatedTypes.push(buildClass(declarationDescriptor, ctx));
   }
 
   @override
   void enterInterfaceDeclaration(InterfaceDeclarationContext ctx) {
-    final accessModifiers = _accessModifierStack.pop();
-    generatedTypes.push(buildInterface(accessModifiers, ctx));
+    final declarationDescriptor = _declaratorDescriptorStack.pop();
+    generatedTypes
+        .push(buildInterface(declarationDescriptor.accessModifiers, ctx));
   }
 
   @override
   void enterEnumDeclaration(EnumDeclarationContext ctx) {
-    final accessModifiers = _accessModifierStack.pop();
+    final declarationDescriptor = _declaratorDescriptorStack.pop();
     final enumName = ctx.id().text;
-    final enumModel =
-        EnumModel(name: enumName, accessModifiers: accessModifiers);
+    final enumModel = EnumModel(
+        name: enumName, accessModifiers: declarationDescriptor.accessModifiers);
     generatedTypes.push(enumModel);
   }
 
   @override
   void enterMemberClassBodyDeclaration(MemberClassBodyDeclarationContext ctx) {
     final accessModifiers = getAccessModifiers(ctx);
-    _accessModifierStack.push(accessModifiers);
+    // TODO: Parse doc comments
+    _declaratorDescriptorStack
+        .push(DeclarationDescriptor(accessModifiers: accessModifiers));
   }
 
   @override
   void enterPropertyDeclaration(PropertyDeclarationContext ctx) {
-    final accessModifiers = _accessModifierStack.pop();
+    final declarationDescriptor = _declaratorDescriptorStack.pop();
     final propertyName = ctx.id().text;
     final type = ctx.typeRef().text;
 
     final property = Property(
-        name: propertyName, type: type, accessModifiers: accessModifiers);
+        name: propertyName,
+        type: type,
+        accessModifiers: declarationDescriptor.accessModifiers);
     (generatedTypes.peak() as ClassModel).addProperty(property);
   }
 
   @override
   void enterFieldDeclaration(FieldDeclarationContext ctx) {
-    final accessModifiers = _accessModifierStack.pop();
+    final declarationDescriptor = _declaratorDescriptorStack.pop();
     final typeName = ctx.typeRef().text;
     final fieldNames =
         ctx.variableDeclarators().variableDeclarators().map((e) => e.text);
     (generatedTypes.peak() as ClassModel).fields.addAll(fieldNames.map((e) =>
-        Field(name: e, type: typeName, accessModifiers: accessModifiers)));
+        Field(
+            name: e,
+            type: typeName,
+            accessModifiers: declarationDescriptor.accessModifiers)));
   }
 
   @override
   void enterMethodDeclaration(MethodDeclarationContext ctx) {
-    final accessModifiers = _accessModifierStack.pop();
+    final declarationDescriptor = _declaratorDescriptorStack.pop();
     final methodName = ctx.id().text;
     final typeName = ctx.typeRef() != null ? ctx.typeRef().text : 'void';
 
     List<Parameter>? parameters = parseParameters(ctx);
 
     final method = Method(
-        name: methodName, type: typeName, accessModifiers: accessModifiers);
+        name: methodName,
+        type: typeName,
+        accessModifiers: declarationDescriptor.accessModifiers);
     method.parameters = parameters ?? [];
 
     (generatedTypes.peak() as MethodsAwareness).methods.add(method);
@@ -116,9 +138,10 @@ class ApexClassListener extends ApexParserBaseListener {
 
   @override
   void enterConstructorDeclaration(ConstructorDeclarationContext ctx) {
-    final accessModifiers = _accessModifierStack.pop();
+    final declaratorDescriptor = _declaratorDescriptorStack.pop();
     List<Parameter>? parameters = parseParameters(ctx);
-    final constructorGenerated = Constructor(accessModifiers: accessModifiers);
+    final constructorGenerated =
+        Constructor(accessModifiers: declaratorDescriptor.accessModifiers);
     constructorGenerated.parameters = parameters ?? [];
 
     (generatedTypes.peak() as ClassModel)

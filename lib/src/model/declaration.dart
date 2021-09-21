@@ -18,10 +18,15 @@ mixin AccessModifierAwareness {
   get isDeprecated => accessModifiers.contains('deprecated');
 }
 
+mixin DocsCommentAwareness {
+  String? docComment;
+}
+
 abstract class Declaration with AccessModifierAwareness {
   final String name;
+  final String? docComment;
 
-  Declaration({required this.name, accessModifiers}) {
+  Declaration({required this.name, this.docComment, accessModifiers}) {
     this.accessModifiers = accessModifiers;
   }
 }

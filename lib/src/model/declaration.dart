@@ -22,11 +22,11 @@ mixin DocsCommentAwareness {
   String? docComment;
 }
 
-abstract class Declaration with AccessModifierAwareness {
+abstract class Declaration with AccessModifierAwareness, DocsCommentAwareness {
   final String name;
-  final String? docComment;
 
-  Declaration({required this.name, this.docComment, accessModifiers}) {
+  Declaration({required this.name, docComment, accessModifiers}) {
     this.accessModifiers = accessModifiers;
+    this.docComment = docComment;
   }
 }

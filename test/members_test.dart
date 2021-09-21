@@ -47,6 +47,19 @@ void main() {
       expect(field.type, 'String');
     });
 
+    test('Do not have doc comments by default', () {
+      final field = Field(name: 'AnyName', type: 'String');
+      expect(field.docComment, isNull);
+    });
+
+    test('Can receive doc comments', () {
+      final field = Field(
+          name: 'AnyName',
+          type: 'String',
+          docComment: '@description Some description');
+      expect(field.docComment, isNotNull);
+    });
+
     test('Fields can have access modifiers', () {
       var field = Field(
           name: 'MyField',
@@ -61,6 +74,19 @@ void main() {
     test('Methods have a name', () {
       var method = Method(name: 'myMethod', type: 'String');
       expect(method.name, 'myMethod');
+    });
+
+    test('Do not have doc comments by default', () {
+      final method = Method(name: 'AnyName', type: 'String');
+      expect(method.docComment, isNull);
+    });
+
+    test('Can receive doc comments', () {
+      final method = Method(
+          name: 'AnyName',
+          type: 'String',
+          docComment: '@description Some description');
+      expect(method.docComment, isNotNull);
     });
 
     test('Methods without a type are void', () {
@@ -123,6 +149,17 @@ void main() {
           Constructor(accessModifiers: ['namespaceaccessible', 'public']);
       expect(constructor.isNamespaceAccessible, isTrue);
       expect(constructor.isPublic, isTrue);
+    });
+
+    test('Do not have doc comments by default', () {
+      final constructor = Constructor();
+      expect(constructor.docComment, isNull);
+    });
+
+    test('Can receive doc comments', () {
+      final constructor =
+          Constructor(docComment: '@description Some description');
+      expect(constructor.docComment, isNotNull);
     });
 
     test('Have no parameters by default', () {

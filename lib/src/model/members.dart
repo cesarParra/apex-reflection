@@ -39,9 +39,14 @@ class Property extends TypedDeclaration {
 class Field extends TypedDeclaration {
   Field(
       {required String name,
+      String? docComment,
       required String type,
       List<String> accessModifiers = const []})
-      : super(name: name, type: type, accessModifiers: accessModifiers);
+      : super(
+            name: name,
+            docComment: docComment,
+            type: type,
+            accessModifiers: accessModifiers);
 
   Field.fromJson(Map<String, dynamic> json)
       : super(
@@ -64,9 +69,14 @@ mixin ParameterAwareness {
 class Method extends TypedDeclaration with ParameterAwareness {
   Method(
       {required String name,
+      String? docComment,
       String type = 'void',
       List<String> accessModifiers = const []})
-      : super(name: name, type: type, accessModifiers: accessModifiers);
+      : super(
+            name: name,
+            docComment: docComment,
+            type: type,
+            accessModifiers: accessModifiers);
 
   Method.fromJson(Map<String, dynamic> json)
       : super(
@@ -106,13 +116,15 @@ class Parameter extends TypedDeclaration {
       {'name': name, 'type': type, 'access_modifiers': accessModifiers};
 }
 
-class Constructor with AccessModifierAwareness, ParameterAwareness {
-  _initialize(List<String> accessModifiers) {
+class Constructor
+    with AccessModifierAwareness, ParameterAwareness, DocsCommentAwareness {
+  _initialize(List<String> accessModifiers, [String? docComment]) {
     this.accessModifiers = accessModifiers;
+    this.docComment = docComment;
   }
 
-  Constructor({accessModifiers = const <String>[]}) {
-    _initialize(accessModifiers);
+  Constructor({accessModifiers = const <String>[], String? docComment}) {
+    _initialize(accessModifiers, docComment);
   }
 
   Constructor.fromJson(Map<String, dynamic> json) {

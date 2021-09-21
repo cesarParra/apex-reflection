@@ -168,7 +168,6 @@ void main() {
           name: 'EnumName', accessModifiers: ['namespaceaccessible', 'public']);
 
       String encodedEnum = jsonEncode(enumModel);
-      print(encodedEnum);
       expect(encodedEnum, isNotNull);
     });
 

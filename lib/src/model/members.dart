@@ -16,6 +16,15 @@ class Property extends TypedDeclaration {
       required String type,
       List<String> accessModifiers = const []})
       : super(name: name, type: type, accessModifiers: accessModifiers);
+
+  Property.fromJson(Map<String, dynamic> json)
+      : super(
+            name: json['name'],
+            type: json['type'],
+            accessModifiers: json['access_modifiers'].cast<String>());
+
+  Map<String, dynamic> toJson() =>
+      {'name': name, 'type': type, 'access_modifiers': accessModifiers};
 }
 
 class Field extends TypedDeclaration {

@@ -85,7 +85,8 @@ void main() {
       expect(method.name, equals('MethodName'));
       expect(method.type, equals('String'));
       expect(method.accessModifiers, equals(['namespaceaccessible', 'public']));
-      //expect(method.para)
+      expect(method.parameters.length, equals(1));
+      expect(method.parameters.first.name, equals('Param1'));
     });
   });
 
@@ -114,6 +115,32 @@ void main() {
       expect(parameter.type, equals('String'));
       expect(
           parameter.accessModifiers, equals(['namespaceaccessible', 'public']));
+    });
+  });
+
+  group('Constructor serialization', () {
+    test('Constructors can be serialized', () {
+      var constructor =
+          Constructor(accessModifiers: ['namespaceaccessible', 'public']);
+      constructor.addParameter(Parameter(name: 'Param1', type: 'String'));
+
+      String encodedMethod = jsonEncode(constructor);
+      expect(encodedMethod, isNotNull);
+    });
+
+    test('Constructors can be deserialized', () {
+      final constructorAsJson = '''
+      {
+        "access_modifiers":["namespaceaccessible","public"],
+        "parameters":[{"name":"Param1","type":"String","access_modifiers":[]}]
+      }
+      ''';
+
+      final constructor = Constructor.fromJson(jsonDecode(constructorAsJson));
+      expect(constructor.accessModifiers,
+          equals(['namespaceaccessible', 'public']));
+      expect(constructor.parameters.length, equals(1));
+      expect(constructor.parameters.first.name, equals('Param1'));
     });
   });
 }

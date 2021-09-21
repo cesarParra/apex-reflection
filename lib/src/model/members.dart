@@ -98,7 +98,24 @@ class Parameter extends TypedDeclaration {
 }
 
 class Constructor with AccessModifierAwareness, ParameterAwareness {
-  Constructor({accessModifiers = const <String>[]}) {
+  _initialize(List<String> accessModifiers) {
     this.accessModifiers = accessModifiers;
   }
+
+  Constructor({accessModifiers = const <String>[]}) {
+    _initialize(accessModifiers);
+  }
+
+  Constructor.fromJson(Map<String, dynamic> json) {
+    _initialize(json['access_modifiers'].cast<String>());
+    List<dynamic> encodedParameters = json['parameters'];
+    parameters = encodedParameters
+        .map((e) => Parameter.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
+  Map<String, dynamic> toJson() => {
+        'access_modifiers': accessModifiers,
+        'parameters': parameters.map((e) => e.toJson()).toList()
+      };
 }

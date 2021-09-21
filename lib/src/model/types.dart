@@ -187,8 +187,14 @@ class InterfaceModel extends Type with MethodsAwareness {
 }
 
 class EnumModel extends Type {
-  EnumModel({required String name, List<String> accessModifiers = const []})
-      : super(name: name, accessModifiers: accessModifiers);
+  EnumModel(
+      {required String name,
+      String? docComment,
+      List<String> accessModifiers = const []})
+      : super(
+            name: name,
+            docComment: docComment,
+            accessModifiers: accessModifiers);
 
   @override
   bool isEnum() {

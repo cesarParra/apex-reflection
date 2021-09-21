@@ -59,7 +59,25 @@ class Method extends TypedDeclaration with ParameterAwareness {
       List<String> accessModifiers = const []})
       : super(name: name, type: type, accessModifiers: accessModifiers);
 
+  Method.fromJson(Map<String, dynamic> json)
+      : super(
+            name: json['name'],
+            type: json['type'],
+            accessModifiers: json['access_modifiers'].cast<String>()) {
+    List<dynamic> encodedParameters = json['parameters'];
+    parameters = encodedParameters
+        .map((e) => Parameter.fromJson(e as Map<String, dynamic>))
+        .toList();
+  }
+
   get isVoid => type.toLowerCase() == 'void';
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'type': type,
+        'access_modifiers': accessModifiers,
+        'parameters': parameters.map((e) => e.toJson()).toList()
+      };
 }
 
 class Parameter extends TypedDeclaration {
@@ -68,6 +86,15 @@ class Parameter extends TypedDeclaration {
       required String type,
       List<String> accessModifiers = const []})
       : super(name: name, type: type, accessModifiers: accessModifiers);
+
+  Parameter.fromJson(Map<String, dynamic> json)
+      : super(
+            name: json['name'],
+            type: json['type'],
+            accessModifiers: json['access_modifiers'].cast<String>());
+
+  Map<String, dynamic> toJson() =>
+      {'name': name, 'type': type, 'access_modifiers': accessModifiers};
 }
 
 class Constructor with AccessModifierAwareness, ParameterAwareness {

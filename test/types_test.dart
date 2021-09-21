@@ -212,6 +212,17 @@ void main() {
       expect(interfaceModel.name, expectedClassName);
     });
 
+    test('Does not have doc comments by default', () {
+      final interfaceModel = InterfaceModel(name: 'AnyName');
+      expect(interfaceModel.docComment, isNull);
+    });
+
+    test('Can receive doc comments', () {
+      final interfaceModel = InterfaceModel(
+          name: 'AnyName', docComment: '@description Some description');
+      expect(interfaceModel.docComment, isNotNull);
+    });
+
     test('Does not have access modifiers by default', () {
       final interfaceModel = InterfaceModel(name: 'AnyName');
       expect(interfaceModel.accessModifiers.length, 0);

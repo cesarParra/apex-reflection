@@ -154,9 +154,13 @@ class InterfaceModel extends Type with MethodsAwareness {
 
   InterfaceModel(
       {required String name,
+      String? docComment,
       List<String> accessModifiers = const [],
       this.extendedInterfaces = const []})
-      : super(name: name, accessModifiers: accessModifiers);
+      : super(
+            name: name,
+            docComment: docComment,
+            accessModifiers: accessModifiers);
 
   InterfaceModel.fromJson(Map<String, dynamic> json)
       : super(

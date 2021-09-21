@@ -13,6 +13,19 @@ void main() {
       expect(property.type, 'String');
     });
 
+    test('Do not have doc comments by default', () {
+      final property = Property(name: 'AnyName', type: 'String');
+      expect(property.docComment, isNull);
+    });
+
+    test('Can receive doc comments', () {
+      final property = Property(
+          name: 'AnyName',
+          type: 'String',
+          docComment: '@description Some description');
+      expect(property.docComment, isNotNull);
+    });
+
     test('Properties can have access modifiers', () {
       var property = Property(
           name: 'MyProp',

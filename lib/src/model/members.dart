@@ -5,17 +5,26 @@ abstract class TypedDeclaration extends Declaration {
 
   TypedDeclaration(
       {required String name,
+      String? docComment,
       required this.type,
       List<String> accessModifiers = const []})
-      : super(name: name, accessModifiers: accessModifiers);
+      : super(
+            name: name,
+            docComment: docComment,
+            accessModifiers: accessModifiers);
 }
 
 class Property extends TypedDeclaration {
   Property(
       {required String name,
+      String? docComment,
       required String type,
       List<String> accessModifiers = const []})
-      : super(name: name, type: type, accessModifiers: accessModifiers);
+      : super(
+            name: name,
+            docComment: docComment,
+            type: type,
+            accessModifiers: accessModifiers);
 
   Property.fromJson(Map<String, dynamic> json)
       : super(

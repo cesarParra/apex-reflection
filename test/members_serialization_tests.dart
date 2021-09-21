@@ -31,4 +31,31 @@ void main() {
           property.accessModifiers, equals(['namespaceaccessible', 'public']));
     });
   });
+
+  group('Field serialization', () {
+    test('Fields can be serialized', () {
+      var field = Field(
+          name: 'FieldNAme',
+          type: 'String',
+          accessModifiers: ['namespaceaccessible', 'public']);
+
+      String encodedField = jsonEncode(field);
+      expect(encodedField, isNotNull);
+    });
+
+    test('Fields can be deserialized', () {
+      final fieldAsJson = '''
+      {
+        "name": "FieldName",
+        "type": "String",
+        "access_modifiers": ["namespaceaccessible", "public"]
+      }
+      ''';
+
+      final field = Field.fromJson(jsonDecode(fieldAsJson));
+      expect(field.name, equals('FieldName'));
+      expect(field.type, equals('String'));
+      expect(field.accessModifiers, equals(['namespaceaccessible', 'public']));
+    });
+  });
 }

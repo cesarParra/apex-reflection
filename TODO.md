@@ -1,3 +1,3 @@
-* Parse apex docs
+* Apex docs should be parsed using the JavaDoc .g4 (with ApexDoc improvements)
 * Everything should be case insensitive, including references to classes, methods and such. That way something can be
   declared uppercased somethere but lowercased somewhere else and the references still work.

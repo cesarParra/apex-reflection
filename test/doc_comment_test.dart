@@ -16,6 +16,12 @@ main() {
       expect(comment.paramAnnotations.first.paramName, equals('param1'));
     });
 
+    test('Can have a return annotation', () {
+      final comment = DocComment('Any Description');
+      comment.returnAnnotation = ReturnDocCommentAnnotation('description');
+      expect(comment.returnAnnotation, isNotNull);
+    });
+
     test('Can have annotations', () {
       final comment = DocComment('Any Description');
       comment.annotations.add(DocCommentAnnotation('see'));
@@ -50,6 +56,14 @@ main() {
       expect(paramAnnotation.name, equals('param'));
       expect(paramAnnotation.paramName, equals('param1'));
       expect(paramAnnotation.body, equals('Some description'));
+    });
+  });
+
+  group('Return annotations', () {
+    test('Has a body', () {
+      final returnAnnotation = ReturnDocCommentAnnotation('Some description');
+      expect(returnAnnotation.name, equals('return'));
+      expect(returnAnnotation.body, equals('Some description'));
     });
   });
 }

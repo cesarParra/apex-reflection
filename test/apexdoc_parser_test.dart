@@ -112,7 +112,6 @@ main() {
         equals('description1 The description continues here.'));
   });
 
-  // param tag that spawns multiple lines
   // return tag
   // throws tag
   // exception tag

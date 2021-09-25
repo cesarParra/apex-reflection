@@ -2,6 +2,7 @@ class DocComment {
   late String _description;
   List<ParamDocCommentAnnotation> paramAnnotations = [];
   List<DocCommentAnnotation> annotations = [];
+  ReturnDocCommentAnnotation? returnAnnotation;
 
   DocComment(String description) {
     _description = description;
@@ -34,4 +35,8 @@ class ParamDocCommentAnnotation extends DocCommentAnnotation {
   final String paramName;
 
   ParamDocCommentAnnotation(this.paramName, body) : super('param', body: body);
+}
+
+class ReturnDocCommentAnnotation extends DocCommentAnnotation {
+  ReturnDocCommentAnnotation(body) : super('return', body: body);
 }

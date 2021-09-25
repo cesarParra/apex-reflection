@@ -8,6 +8,14 @@ main() {
       expect(comment.description, equals('Any Description'));
     });
 
+    test(
+        'Supports the description being a tag when there is no default description',
+        () {
+      final comment = DocComment('');
+      comment.annotations.add(DocCommentAnnotation('description', 'some body'));
+      expect(comment.description, equals('some body'));
+    });
+
     test('Can have param annotations', () {
       final comment = DocComment('Any Description');
       comment.paramAnnotations
@@ -24,7 +32,7 @@ main() {
 
     test('Can have annotations', () {
       final comment = DocComment('Any Description');
-      comment.annotations.add(DocCommentAnnotation('see'));
+      comment.annotations.add(DocCommentAnnotation('see', 'body'));
       expect(comment.annotations.length, equals(1));
       expect(comment.annotations.first.name, equals('see'));
     });
@@ -32,17 +40,12 @@ main() {
 
   group('Doc Comment Annotation', () {
     test('Has a name', () {
-      final annotation = DocCommentAnnotation('description');
+      final annotation = DocCommentAnnotation('description', 'body');
       expect(annotation.name, equals('description'));
     });
 
-    test('Has an empty body by default', () {
-      final annotation = DocCommentAnnotation('description');
-      expect(annotation.body, isEmpty);
-    });
-
     test('Can have a body', () {
-      final annotation = DocCommentAnnotation('description', body: 'body');
+      final annotation = DocCommentAnnotation('description', ['body']);
       expect(annotation.body, equals('body'));
     });
   });

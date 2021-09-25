@@ -84,19 +84,67 @@ class ApexdocParserBaseListener implements ApexdocParserListener {
 
   /// The default implementation does nothing.
   @override
-  void enterBlockTag(BlockTagContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void exitBlockTag(BlockTagContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
   void enterTagSection(TagSectionContext ctx) {}
 
   /// The default implementation does nothing.
   @override
   void exitTagSection(TagSectionContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterParamBlockTag(ParamBlockTagContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitParamBlockTag(ParamBlockTagContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterThrowsBlockTag(ThrowsBlockTagContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitThrowsBlockTag(ThrowsBlockTagContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterReturnBlockTag(ReturnBlockTagContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitReturnBlockTag(ReturnBlockTagContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterExampleBlockTag(ExampleBlockTagContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitExampleBlockTag(ExampleBlockTagContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterDefaultBlockTag(DefaultBlockTagContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitDefaultBlockTag(DefaultBlockTagContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterParamName(ParamNameContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitParamName(ParamNameContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterExceptionName(ExceptionNameContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitExceptionName(ExceptionNameContext ctx) {}
 
   /// The default implementation does nothing.
   @override

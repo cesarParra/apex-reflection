@@ -13,8 +13,8 @@ main() {
 
   test('Can parse a multi line simple doc comment', () {
     final docBody = '''
-    /** 
-      * This is a description 
+    /**
+      * This is a description
       */
     ''';
     final docComment = ApexdocParser.parseFromBody(docBody);
@@ -64,8 +64,9 @@ main() {
       */
     ''';
     final docComment = ApexdocParser.parseFromBody(docBody);
+    expect(docComment.descriptionLines.length, equals(2));
     expect(docComment.description,
-        'This is a description. The description continues here');
+        equals('This is a description. The description continues here'));
   });
 
   test('Can parse a tag', () {
@@ -145,6 +146,36 @@ main() {
     expect(docComment.throwsAnnotations[1].body, equals('description2'));
   });
 
-  // example tag
+  test('Can parse an example tag', () {
+    final docBody = '''
+    /**
+      * @description This is a description.
+      * @param param1 description1
+      * @return Returns something
+      * @throws ExceptionName1 description1
+      * @throws ExceptionName2 description2
+      * @example
+      * String testString = 'MyString';
+      */
+    ''';
+    final docComment = ApexdocParser.parseFromBody(docBody);
+    expect(docComment.exampleAnnotation, isNotNull);
+    expect(docComment.exampleAnnotation.bodyLines.length, equals(1));
+    expect(docComment.exampleAnnotation.body,
+        equals("String testString = 'MyString';"));
+  });
+
+  test('Can parse custom tags', () {
+    final docBody = '''
+    /**
+      * @author Some Author
+      */
+    ''';
+    final docComment = ApexdocParser.parseFromBody(docBody);
+    expect(docComment.annotationsByName('author').length, equals(1));
+    expect(docComment.annotationsByName('author').first.body,
+        equals('Some Author'));
+  });
+
   // Inline {@name link}
 }

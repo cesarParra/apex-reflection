@@ -1,5 +1,5 @@
 class DocComment {
-  late String _description;
+  late List<String> _descriptionLines;
   List<ParamDocCommentAnnotation> paramAnnotations = [];
   ReturnDocCommentAnnotation? returnAnnotation;
   ExampleDocCommentAnnotation? exampleAnnotation;
@@ -7,16 +7,25 @@ class DocComment {
   List<DocCommentAnnotation> annotations = [];
 
   DocComment(String description) {
-    _description = description;
+    _descriptionLines = [if (description.isNotEmpty) description];
   }
 
-  String get description => _description.isNotEmpty
-      ? _description
-      : annotations.firstWhere((element) => element.name == 'description').body;
-
-  set description(String description) {
-    _description = description;
+  DocComment.withLines(List<String> descriptionLines) {
+    _descriptionLines = descriptionLines;
   }
+
+  List<String> get descriptionLines => _descriptionLines.isNotEmpty
+      ? _descriptionLines
+      : annotations
+          .firstWhere((element) => element.name == 'description')
+          .bodyLines;
+
+  set descriptionLines(List<String> descriptionLines) {
+    _descriptionLines = descriptionLines;
+  }
+
+  /// Gets the description as a single line.
+  String get description => descriptionLines.join(' ');
 
   List<DocCommentAnnotation> annotationsByName(String annotationName) {
     return annotations
@@ -28,28 +37,37 @@ class DocComment {
 class DocCommentAnnotation {
   final String name;
 
-  String body;
+  List<String> bodyLines = [];
 
-  DocCommentAnnotation(this.name, {this.body = ''});
+  String get body => bodyLines.join(' ');
+
+  DocCommentAnnotation(this.name, body) {
+    if (body is String) {
+      bodyLines = [body];
+      return;
+    }
+    bodyLines = body;
+  }
 }
 
 class ParamDocCommentAnnotation extends DocCommentAnnotation {
   final String paramName;
 
-  ParamDocCommentAnnotation(this.paramName, body) : super('param', body: body);
+  ParamDocCommentAnnotation(this.paramName, bodyLines)
+      : super('param', bodyLines);
 }
 
 class ReturnDocCommentAnnotation extends DocCommentAnnotation {
-  ReturnDocCommentAnnotation(body) : super('return', body: body);
+  ReturnDocCommentAnnotation(bodyLines) : super('return', bodyLines);
 }
 
 class ThrowsDocCommentAnnotation extends DocCommentAnnotation {
   final String exceptionName;
 
-  ThrowsDocCommentAnnotation(this.exceptionName, body)
-      : super('throws', body: body);
+  ThrowsDocCommentAnnotation(this.exceptionName, bodyLines)
+      : super('throws', bodyLines);
 }
 
 class ExampleDocCommentAnnotation extends DocCommentAnnotation {
-  ExampleDocCommentAnnotation(body) : super('example', body: body);
+  ExampleDocCommentAnnotation(bodyLines) : super('example', bodyLines);
 }

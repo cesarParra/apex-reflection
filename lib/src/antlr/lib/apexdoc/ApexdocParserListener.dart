@@ -70,19 +70,71 @@ abstract class ApexdocParserListener extends ParseTreeListener {
   /// [ctx] the parse tree
   void exitDescriptionNewline(DescriptionNewlineContext ctx);
 
-  /// Enter a parse tree produced by [ApexdocParser.blockTag].
-  /// [ctx] the parse tree
-  void enterBlockTag(BlockTagContext ctx);
-  /// Exit a parse tree produced by [ApexdocParser.blockTag].
-  /// [ctx] the parse tree
-  void exitBlockTag(BlockTagContext ctx);
-
   /// Enter a parse tree produced by [ApexdocParser.tagSection].
   /// [ctx] the parse tree
   void enterTagSection(TagSectionContext ctx);
   /// Exit a parse tree produced by [ApexdocParser.tagSection].
   /// [ctx] the parse tree
   void exitTagSection(TagSectionContext ctx);
+
+  /// Enter a parse tree produced by the [ParamBlockTag]
+  /// labeled alternative in [file.parserName>.blockTag].
+  /// [ctx] the parse tree
+  void enterParamBlockTag(ParamBlockTagContext ctx);
+  /// Exit a parse tree produced by the [ParamBlockTag]
+  /// labeled alternative in [ApexdocParser.blockTag].
+  /// [ctx] the parse tree
+  void exitParamBlockTag(ParamBlockTagContext ctx);
+
+  /// Enter a parse tree produced by the [ThrowsBlockTag]
+  /// labeled alternative in [file.parserName>.blockTag].
+  /// [ctx] the parse tree
+  void enterThrowsBlockTag(ThrowsBlockTagContext ctx);
+  /// Exit a parse tree produced by the [ThrowsBlockTag]
+  /// labeled alternative in [ApexdocParser.blockTag].
+  /// [ctx] the parse tree
+  void exitThrowsBlockTag(ThrowsBlockTagContext ctx);
+
+  /// Enter a parse tree produced by the [ReturnBlockTag]
+  /// labeled alternative in [file.parserName>.blockTag].
+  /// [ctx] the parse tree
+  void enterReturnBlockTag(ReturnBlockTagContext ctx);
+  /// Exit a parse tree produced by the [ReturnBlockTag]
+  /// labeled alternative in [ApexdocParser.blockTag].
+  /// [ctx] the parse tree
+  void exitReturnBlockTag(ReturnBlockTagContext ctx);
+
+  /// Enter a parse tree produced by the [ExampleBlockTag]
+  /// labeled alternative in [file.parserName>.blockTag].
+  /// [ctx] the parse tree
+  void enterExampleBlockTag(ExampleBlockTagContext ctx);
+  /// Exit a parse tree produced by the [ExampleBlockTag]
+  /// labeled alternative in [ApexdocParser.blockTag].
+  /// [ctx] the parse tree
+  void exitExampleBlockTag(ExampleBlockTagContext ctx);
+
+  /// Enter a parse tree produced by the [DefaultBlockTag]
+  /// labeled alternative in [file.parserName>.blockTag].
+  /// [ctx] the parse tree
+  void enterDefaultBlockTag(DefaultBlockTagContext ctx);
+  /// Exit a parse tree produced by the [DefaultBlockTag]
+  /// labeled alternative in [ApexdocParser.blockTag].
+  /// [ctx] the parse tree
+  void exitDefaultBlockTag(DefaultBlockTagContext ctx);
+
+  /// Enter a parse tree produced by [ApexdocParser.paramName].
+  /// [ctx] the parse tree
+  void enterParamName(ParamNameContext ctx);
+  /// Exit a parse tree produced by [ApexdocParser.paramName].
+  /// [ctx] the parse tree
+  void exitParamName(ParamNameContext ctx);
+
+  /// Enter a parse tree produced by [ApexdocParser.exceptionName].
+  /// [ctx] the parse tree
+  void enterExceptionName(ExceptionNameContext ctx);
+  /// Exit a parse tree produced by [ApexdocParser.exceptionName].
+  /// [ctx] the parse tree
+  void exitExceptionName(ExceptionNameContext ctx);
 
   /// Enter a parse tree produced by [ApexdocParser.blockTagName].
   /// [ctx] the parse tree

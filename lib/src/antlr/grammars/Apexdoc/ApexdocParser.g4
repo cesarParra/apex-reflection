@@ -77,12 +77,24 @@ descriptionNewline
 	: NEWLINE
 	;
 
-blockTag
-	: STAR* SPACE? AT blockTagName SPACE? blockTagContent*
-	;
-
 tagSection
 	: blockTag*
+	;
+
+blockTag
+	: STAR* SPACE? PARAM SPACE+ paramName SPACE+ blockTagContent*                         #ParamBlockTag
+	| STAR* SPACE? (THROWS | EXCEPTION) SPACE+ exceptionName SPACE+ blockTagContent*      #ThrowsBlockTag
+	| STAR* SPACE? RETURN SPACE+ blockTagContent*                                         #ReturnBlockTag
+	| STAR* SPACE? EXAMPLE SPACE+ blockTagContent*                                        #ExampleBlockTag
+	| STAR* SPACE? AT blockTagName SPACE+ blockTagContent*                                #DefaultBlockTag
+	;
+
+paramName
+	: blockTagTextElement
+	;
+
+exceptionName
+	: blockTagTextElement
 	;
 
 blockTagName

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:apexdocs_dart/src/antlr/lib/apexdoc/ApexdocParser.dart';
 import 'package:apexdocs_dart/src/antlr/lib/apexdoc/ApexdocParserBaseListener.dart';
 import 'package:apexdocs_dart/src/model/doc_comment.dart';
@@ -7,7 +9,7 @@ class ApexdocListener extends ApexdocParserBaseListener {
 
   DocComment generatedDocComment = DocComment('');
 
-  /// Description
+  /* Description */
 
   @override
   void enterDescriptionLineStart(DescriptionLineStartContext ctx) {
@@ -17,71 +19,64 @@ class ApexdocListener extends ApexdocParserBaseListener {
 
   @override
   void exitDescriptionLineStart(DescriptionLineStartContext ctx) {
-    generatedDocComment.description = descriptionLines.join(' ');
+    generatedDocComment.descriptionLines = descriptionLines;
   }
 
-  // Block tag
+  /* Block tag (annotations) */
 
   @override
-  void enterBlockTag(BlockTagContext ctx) {
+  void enterDefaultBlockTag(DefaultBlockTagContext ctx) {
     final tagName = ctx.blockTagName().text;
-    final tagContentLines = ctx
-        .blockTagContents()
-        .where((element) => element.blockTagText() != null)
-        .map((e) => _sanitizeLineStart(e.blockTagText().text));
-    final tagText = tagContentLines.join(' ').trimRight();
-    if (tagName.toLowerCase() == 'param') {
-      // @param tags are followed by the name of the param, so we extract that fist.
-      if (tagText.contains(' ')) {
-        final paramName = tagText.substring(0, tagText.indexOf(' '));
-        final paramBody =
-            tagText.substring(tagText.indexOf(' ') + 1, tagText.length);
-        generatedDocComment.paramAnnotations
-            .add(ParamDocCommentAnnotation(paramName, paramBody));
-      } else {
-        generatedDocComment.paramAnnotations
-            .add(ParamDocCommentAnnotation(tagText, ''));
-      }
+    generatedDocComment.annotations.add(DocCommentAnnotation(
+        tagName, _getContentLines(ctx.blockTagContents())));
+  }
 
-      return;
-    }
+  @override
+  void enterParamBlockTag(ParamBlockTagContext ctx) {
+    final paramName = ctx.paramName().text;
+    final contentLines = _getContentLines(ctx.blockTagContents());
+    generatedDocComment.paramAnnotations
+        .add(ParamDocCommentAnnotation(paramName, contentLines));
+  }
 
-    if (tagName.toLowerCase() == 'return') {
-      generatedDocComment.returnAnnotation =
-          ReturnDocCommentAnnotation(tagText);
-      return;
-    }
+  @override
+  void enterReturnBlockTag(ReturnBlockTagContext ctx) {
+    final contentLines = _getContentLines(ctx.blockTagContents());
+    generatedDocComment.returnAnnotation =
+        ReturnDocCommentAnnotation(contentLines);
+  }
 
-    if (tagName.toLowerCase() == 'throws' ||
-        tagName.toLowerCase() == 'exception') {
-      // @throws tags are followed by the exception name, so we extract that fist.
-      if (tagText.contains(' ')) {
-        final exceptionName = tagText.substring(0, tagText.indexOf(' '));
-        final paramBody =
-            tagText.substring(tagText.indexOf(' ') + 1, tagText.length);
-        generatedDocComment.throwsAnnotations
-            .add(ThrowsDocCommentAnnotation(exceptionName, paramBody));
-      } else {
-        generatedDocComment.throwsAnnotations
-            .add(ThrowsDocCommentAnnotation(tagText, ''));
-      }
+  @override
+  void enterThrowsBlockTag(ThrowsBlockTagContext ctx) {
+    final exceptionName = ctx.exceptionName().text;
+    final contentLines = _getContentLines(ctx.blockTagContents());
+    generatedDocComment.throwsAnnotations
+        .add(ThrowsDocCommentAnnotation(exceptionName, contentLines));
+  }
 
-      return;
-    }
+  @override
+  void enterExampleBlockTag(ExampleBlockTagContext ctx) {
+    final contentLines = _getContentLines(ctx.blockTagContents());
+    generatedDocComment.exampleAnnotation =
+        ExampleDocCommentAnnotation(contentLines);
+  }
 
-    // @description or any other custom annotations
-    generatedDocComment.annotations
-        .add(DocCommentAnnotation(tagName, body: tagContentLines.join(' ')));
+  List<String> _getContentLines(List<BlockTagContentContext> blockTagContents) {
+    final rawContent = blockTagContents.map((e) => e.text).join('');
+    return LineSplitter.split(rawContent)
+        .map((e) => _sanitizeLineStart(e))
+        .where((element) => element.isNotEmpty)
+        .toList();
   }
 
   String _sanitizeLineStart(String line) {
-    var sanitizedLine = line;
+    var sanitizedLine = line.trimLeft();
     if (sanitizedLine.startsWith('*')) {
       sanitizedLine = sanitizedLine.replaceFirst('*', '');
     }
     if (sanitizedLine.startsWith(' ')) {
       sanitizedLine = sanitizedLine.replaceFirst(' ', '');
     }
-    return sanitizedLine;
+    return sanitizedLine.trimRight();
   }
 }

@@ -116,18 +116,19 @@ class Parameter extends TypedDeclaration {
       {'name': name, 'type': type, 'access_modifiers': accessModifiers};
 }
 
-class Constructor
-    with AccessModifierAwareness, ParameterAwareness, DocsCommentAwareness {
+class Constructor extends Declaration with ParameterAwareness {
   _initialize(List<String> accessModifiers, [String? docComment]) {
     this.accessModifiers = accessModifiers;
     this.docComment = docComment;
   }
 
-  Constructor({accessModifiers = const <String>[], String? docComment}) {
+  Constructor({accessModifiers = const <String>[], String? docComment})
+      : super(name: '<init>', accessModifiers: <String>[]) {
     _initialize(accessModifiers, docComment);
   }
 
-  Constructor.fromJson(Map<String, dynamic> json) {
+  Constructor.fromJson(Map<String, dynamic> json)
+      : super(name: '<init>', accessModifiers: <String>[]) {
     _initialize(json['access_modifiers'].cast<String>());
     List<dynamic> encodedParameters = json['parameters'];
     parameters = encodedParameters

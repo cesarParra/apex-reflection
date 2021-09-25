@@ -23,6 +23,8 @@ abstract class Type extends Declaration {
   bool isEnum() {
     return false;
   }
+
+  Map<String, dynamic> toJson();
 }
 
 mixin MethodsAwareness {
@@ -134,6 +136,7 @@ class ClassModel extends Type with MethodsAwareness {
     classes.add(innerClass);
   }
 
+  @override
   Map<String, dynamic> toJson() => {
         'name': name,
         'extended_class': extendedClass,
@@ -146,6 +149,7 @@ class ClassModel extends Type with MethodsAwareness {
         'interfaces': interfaces.map((e) => e.toJson()).toList(),
         'enums': enums.map((e) => e.toJson()).toList(),
         'classes': classes.map((e) => e.toJson()).toList(),
+        'type': 'class'
       };
 }
 
@@ -178,11 +182,13 @@ class InterfaceModel extends Type with MethodsAwareness {
     return true;
   }
 
+  @override
   Map<String, dynamic> toJson() => {
         'name': name,
         'extended_interfaces': extendedInterfaces,
         'access_modifiers': accessModifiers,
-        'methods': methods.map((e) => e.toJson()).toList()
+        'methods': methods.map((e) => e.toJson()).toList(),
+        'type': 'interface'
       };
 }
 
@@ -206,6 +212,7 @@ class EnumModel extends Type {
             name: json['name'],
             accessModifiers: json['access_modifiers'].cast<String>());
 
+  @override
   Map<String, dynamic> toJson() =>
-      {'name': name, 'access_modifiers': accessModifiers};
+      {'name': name, 'access_modifiers': accessModifiers, 'type': 'enum'};
 }

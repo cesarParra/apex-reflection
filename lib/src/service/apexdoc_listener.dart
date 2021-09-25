@@ -30,7 +30,7 @@ class ApexdocListener extends ApexdocParserBaseListener {
         .where((element) => element.blockTagText() != null)
         .map((e) => _sanitizeLineStart(e.blockTagText().text));
     final tagText = tagContentLines.join(' ').trimRight();
-    if (tagName == 'param') {
+    if (tagName.toLowerCase() == 'param') {
       // @param tags are followed by the name of the param, so we extract that fist.
       if (tagText.contains(' ')) {
         final paramName = tagText.substring(0, tagText.indexOf(' '));
@@ -46,13 +46,14 @@ class ApexdocListener extends ApexdocParserBaseListener {
       return;
     }
 
-    if (tagName == 'return') {
+    if (tagName.toLowerCase() == 'return') {
       generatedDocComment.returnAnnotation =
           ReturnDocCommentAnnotation(tagText);
       return;
     }
 
-    if (tagName == 'throws') {
+    if (tagName.toLowerCase() == 'throws' ||
+        tagName.toLowerCase() == 'exception') {
       // @throws tags are followed by the exception name, so we extract that fist.
       if (tagText.contains(' ')) {
         final exceptionName = tagText.substring(0, tagText.indexOf(' '));

@@ -2,6 +2,7 @@ class DocComment {
   late String _description;
   List<ParamDocCommentAnnotation> paramAnnotations = [];
   ReturnDocCommentAnnotation? returnAnnotation;
+  ExampleDocCommentAnnotation? exampleAnnotation;
   List<ThrowsDocCommentAnnotation> throwsAnnotations = [];
   List<DocCommentAnnotation> annotations = [];
 
@@ -47,4 +48,8 @@ class ThrowsDocCommentAnnotation extends DocCommentAnnotation {
 
   ThrowsDocCommentAnnotation(this.exceptionName, body)
       : super('throws', body: body);
+}
+
+class ExampleDocCommentAnnotation extends DocCommentAnnotation {
+  ExampleDocCommentAnnotation(body) : super('example', body: body);
 }

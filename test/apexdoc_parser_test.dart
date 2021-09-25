@@ -145,8 +145,6 @@ main() {
     expect(docComment.throwsAnnotations[1].body, equals('description2'));
   });
 
-  // exception tag
   // example tag
-  // multiple tags
   // Inline {@name link}
 }

@@ -24,13 +24,13 @@ void main() {
 
     test('Does not have doc comments by default', () {
       final classModel = ClassModel(name: 'AnyName');
-      expect(classModel.docComment, isNull);
+      expect(classModel.rawDocComment, isNull);
     });
 
     test('Can receive doc comments', () {
       final classModel = ClassModel(
           name: 'AnyName', docComment: '@description Some description');
-      expect(classModel.docComment, isNotNull);
+      expect(classModel.rawDocComment, isNotNull);
     });
 
     test('Does not extend another class by default', () {
@@ -214,13 +214,13 @@ void main() {
 
     test('Does not have doc comments by default', () {
       final interfaceModel = InterfaceModel(name: 'AnyName');
-      expect(interfaceModel.docComment, isNull);
+      expect(interfaceModel.rawDocComment, isNull);
     });
 
     test('Can receive doc comments', () {
       final interfaceModel = InterfaceModel(
           name: 'AnyName', docComment: '@description Some description');
-      expect(interfaceModel.docComment, isNotNull);
+      expect(interfaceModel.rawDocComment, isNotNull);
     });
 
     test('Does not have access modifiers by default', () {

@@ -59,10 +59,20 @@ class Field extends TypedDeclaration {
 }
 
 mixin ParameterAwareness {
-  List<Parameter> parameters = [];
+  List<Parameter> _parameters = [];
+
+  List<Parameter> get parameters => _parameters;
+
+  set parameters(List<Parameter> value) {
+    for (var element in value) {
+      element.parent = this;
+    }
+    _parameters = value;
+  }
 
   void addParameter(Parameter parameter) {
-    parameters.add(parameter);
+    parameter.parent = this;
+    _parameters.add(parameter);
   }
 }
 
@@ -100,11 +110,25 @@ class Method extends TypedDeclaration with ParameterAwareness {
 }
 
 class Parameter extends TypedDeclaration {
+  ParameterAwareness? parent;
+
   Parameter(
       {required String name,
       required String type,
       List<String> accessModifiers = const []})
       : super(name: name, type: type, accessModifiers: accessModifiers);
+
+  @override
+  String? get docDescription {
+    if (parent is DocsCommentAwareness) {
+      return (parent as DocsCommentAwareness)
+          .docComment
+          ?.paramAnnotations
+          .firstWhere((element) => element.paramName == name)
+          .body;
+    }
+    return null;
+  }
 
   Parameter.fromJson(Map<String, dynamic> json)
       : super(
@@ -119,7 +143,7 @@ class Parameter extends TypedDeclaration {
 class Constructor extends Declaration with ParameterAwareness {
   _initialize(List<String> accessModifiers, [String? docComment]) {
     this.accessModifiers = accessModifiers;
-    this.docComment = docComment;
+    this.rawDocComment = docComment;
   }
 
   Constructor({accessModifiers = const <String>[], String? docComment})

@@ -28,8 +28,11 @@ void main() {
       class MyClass{}
       ''';
       Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
-      print(apexWalkerDefinition.getGeneratedApexType().docComment);
-      expect(apexWalkerDefinition.getGeneratedApexType().docComment, isNotNull);
+      print(apexWalkerDefinition.getGeneratedApexType().rawDocComment);
+      expect(
+          apexWalkerDefinition.getGeneratedApexType().rawDocComment, isNotNull);
+      expect(apexWalkerDefinition.getGeneratedApexType().docDescription,
+          equals('Class description'));
     });
 
     test('Classes without access modifiers are private by default', () {
@@ -189,7 +192,7 @@ void main() {
 
       Property property1 = generatedClass.properties
           .firstWhere((element) => element.name == 'MyProperty1');
-      expect(property1.docComment, isNotNull);
+      expect(property1.rawDocComment, isNotNull);
     });
 
     test('Classes can have fields', () {
@@ -246,7 +249,7 @@ void main() {
 
       Field field1 = generatedClass.fields
           .firstWhere((element) => element.name == 'myVar1');
-      expect(field1.docComment, isNotNull);
+      expect(field1.rawDocComment, isNotNull);
     });
 
     test('Classes can have methods', () {
@@ -311,7 +314,36 @@ void main() {
 
       Method method1 = generatedClass.methods
           .firstWhere((element) => element.name == 'sayHi');
-      expect(method1.docComment, isNotNull);
+      expect(method1.rawDocComment, isNotNull);
+    });
+
+    test('Classes can have methods with doc comments and parameters', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var classBody = '''
+      public class MyClass {
+        /**
+         * @description Some description
+         * @param param1 The description for param1
+         */
+        @NamespaceAccessible
+        public void sayHi(String param1) {
+          System.debug(getGreeting());
+        }
+      }
+      ''';
+
+      Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
+      var generatedClass =
+          apexWalkerDefinition.getGeneratedApexType() as ClassModel;
+      expect(generatedClass.methods.length, equals(1));
+      expect(generatedClass.methods.any((element) => element.name == 'sayHi'),
+          isTrue);
+
+      Method method1 = generatedClass.methods
+          .firstWhere((element) => element.name == 'sayHi');
+      expect(method1.docDescription, 'Some description');
+      expect(method1.parameters.first.docDescription,
+          'The description for param1');
     });
 
     test('Classes can have constructors', () {
@@ -380,7 +412,7 @@ void main() {
 
       Constructor constructor1 = generatedClass.constructors
           .firstWhere((element) => element.isNamespaceAccessible);
-      expect(constructor1.docComment, isNotNull);
+      expect(constructor1.rawDocComment, isNotNull);
     });
 
     test('Classes can have inner enums', () {
@@ -421,7 +453,7 @@ void main() {
       var generatedClass =
           apexWalkerDefinition.getGeneratedApexType() as ClassModel;
       expect(generatedClass.enums.length, equals(1));
-      expect(generatedClass.enums.first.docComment, isNotNull);
+      expect(generatedClass.enums.first.rawDocComment, isNotNull);
     });
 
     test('Classes can have inner interfaces', () {
@@ -468,7 +500,7 @@ void main() {
       expect(generatedClass.interfaces.length, equals(1));
 
       var innerInterface = generatedClass.interfaces.first;
-      expect(innerInterface.docComment, isNotNull);
+      expect(innerInterface.rawDocComment, isNotNull);
     });
 
     test('Classes can have inner classes', () {
@@ -518,7 +550,7 @@ void main() {
       expect(generatedClass.classes.length, equals(1));
 
       var innerClass = generatedClass.classes.first;
-      expect(innerClass.docComment, isNotNull);
+      expect(innerClass.rawDocComment, isNotNull);
     });
   });
 
@@ -541,7 +573,8 @@ void main() {
       ''';
       Walker.walk(InputStream.fromString(interfaceBody), apexWalkerDefinition);
       expect(apexWalkerDefinition.getGeneratedApexType(), isNotNull);
-      expect(apexWalkerDefinition.getGeneratedApexType().docComment, isNotNull);
+      expect(
+          apexWalkerDefinition.getGeneratedApexType().rawDocComment, isNotNull);
     });
 
     test('Interfaces without access modifiers are private by default', () {
@@ -630,7 +663,7 @@ void main() {
 
       Method method1 = generatedInterface.methods
           .firstWhere((element) => element.name == 'sayHi');
-      expect(method1.docComment, isNotNull);
+      expect(method1.rawDocComment, isNotNull);
     });
   });
 
@@ -653,7 +686,8 @@ void main() {
       ''';
       Walker.walk(InputStream.fromString(enumBody), apexWalkerDefinition);
       expect(apexWalkerDefinition.getGeneratedApexType(), isNotNull);
-      expect(apexWalkerDefinition.getGeneratedApexType().docComment, isNotNull);
+      expect(
+          apexWalkerDefinition.getGeneratedApexType().rawDocComment, isNotNull);
     });
 
     test('Supports enums with access modifiers', () {

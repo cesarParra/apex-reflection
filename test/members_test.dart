@@ -15,7 +15,7 @@ void main() {
 
     test('Do not have doc comments by default', () {
       final property = Property(name: 'AnyName', type: 'String');
-      expect(property.docComment, isNull);
+      expect(property.rawDocComment, isNull);
     });
 
     test('Can receive doc comments', () {
@@ -23,7 +23,7 @@ void main() {
           name: 'AnyName',
           type: 'String',
           docComment: '@description Some description');
-      expect(property.docComment, isNotNull);
+      expect(property.rawDocComment, isNotNull);
     });
 
     test('Properties can have access modifiers', () {
@@ -49,7 +49,7 @@ void main() {
 
     test('Do not have doc comments by default', () {
       final field = Field(name: 'AnyName', type: 'String');
-      expect(field.docComment, isNull);
+      expect(field.rawDocComment, isNull);
     });
 
     test('Can receive doc comments', () {
@@ -57,7 +57,7 @@ void main() {
           name: 'AnyName',
           type: 'String',
           docComment: '@description Some description');
-      expect(field.docComment, isNotNull);
+      expect(field.rawDocComment, isNotNull);
     });
 
     test('Fields can have access modifiers', () {
@@ -78,7 +78,7 @@ void main() {
 
     test('Do not have doc comments by default', () {
       final method = Method(name: 'AnyName', type: 'String');
-      expect(method.docComment, isNull);
+      expect(method.rawDocComment, isNull);
     });
 
     test('Can receive doc comments', () {
@@ -86,7 +86,7 @@ void main() {
           name: 'AnyName',
           type: 'String',
           docComment: '@description Some description');
-      expect(method.docComment, isNotNull);
+      expect(method.rawDocComment, isNotNull);
     });
 
     test('Methods without a type are void', () {
@@ -153,13 +153,13 @@ void main() {
 
     test('Do not have doc comments by default', () {
       final constructor = Constructor();
-      expect(constructor.docComment, isNull);
+      expect(constructor.rawDocComment, isNull);
     });
 
     test('Can receive doc comments', () {
       final constructor =
           Constructor(docComment: '@description Some description');
-      expect(constructor.docComment, isNotNull);
+      expect(constructor.rawDocComment, isNotNull);
     });
 
     test('Have no parameters by default', () {

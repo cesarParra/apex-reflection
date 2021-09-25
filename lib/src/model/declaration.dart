@@ -1,3 +1,6 @@
+import 'package:apexdocs_dart/src/model/doc_comment.dart';
+import 'package:apexdocs_dart/src/service/parsers.dart';
+
 mixin AccessModifierAwareness {
   List<String> accessModifiers = [];
 
@@ -19,7 +22,20 @@ mixin AccessModifierAwareness {
 }
 
 mixin DocsCommentAwareness {
-  String? docComment;
+  DocComment? _docComment;
+  String? rawDocComment;
+
+  DocComment? get docComment => _docComment ??= _parseDocComment();
+
+  DocComment? _parseDocComment() {
+    if (rawDocComment == null) {
+      return null;
+    }
+    _docComment = ApexdocParser.parseFromBody(rawDocComment!);
+    return _docComment;
+  }
+
+  String? get docDescription => docComment?.description;
 }
 
 abstract class Declaration with AccessModifierAwareness, DocsCommentAwareness {
@@ -27,6 +43,6 @@ abstract class Declaration with AccessModifierAwareness, DocsCommentAwareness {
 
   Declaration({required this.name, docComment, accessModifiers}) {
     this.accessModifiers = accessModifiers;
-    this.docComment = docComment;
+    rawDocComment = docComment;
   }
 }

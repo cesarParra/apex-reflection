@@ -32,17 +32,39 @@ class ApexdocListener extends ApexdocParserBaseListener {
     final tagText = tagContentLines.join(' ').trimRight();
     if (tagName == 'param') {
       // @param tags are followed by the name of the param, so we extract that fist.
-      final paramName = tagText.substring(0, tagText.indexOf(' '));
-      final paramBody =
-          tagText.substring(tagText.indexOf(' ') + 1, tagText.length);
-      generatedDocComment.paramAnnotations
-          .add(ParamDocCommentAnnotation(paramName, paramBody));
+      if (tagText.contains(' ')) {
+        final paramName = tagText.substring(0, tagText.indexOf(' '));
+        final paramBody =
+            tagText.substring(tagText.indexOf(' ') + 1, tagText.length);
+        generatedDocComment.paramAnnotations
+            .add(ParamDocCommentAnnotation(paramName, paramBody));
+      } else {
+        generatedDocComment.paramAnnotations
+            .add(ParamDocCommentAnnotation(tagText, ''));
+      }
+
       return;
     }
 
     if (tagName == 'return') {
       generatedDocComment.returnAnnotation =
           ReturnDocCommentAnnotation(tagText);
+      return;
+    }
+
+    if (tagName == 'throws') {
+      // @throws tags are followed by the exception name, so we extract that fist.
+      if (tagText.contains(' ')) {
+        final exceptionName = tagText.substring(0, tagText.indexOf(' '));
+        final paramBody =
+            tagText.substring(tagText.indexOf(' ') + 1, tagText.length);
+        generatedDocComment.throwsAnnotations
+            .add(ThrowsDocCommentAnnotation(exceptionName, paramBody));
+      } else {
+        generatedDocComment.throwsAnnotations
+            .add(ThrowsDocCommentAnnotation(tagText, ''));
+      }
+
       return;
     }
 

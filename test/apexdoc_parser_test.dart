@@ -125,7 +125,26 @@ main() {
     expect(docComment.returnAnnotation.body, equals('Returns something'));
   });
 
-  // throws tag
+  test('Can parse a throws tag', () {
+    final docBody = '''
+    /**
+      * @description This is a description.
+      * @param param1 description1
+      * @return Returns something
+      * @throws ExceptionName1 description1
+      * @throws ExceptionName2 description2
+      */
+    ''';
+    final docComment = ApexdocParser.parseFromBody(docBody);
+    expect(docComment.throwsAnnotations.length, equals(2));
+    expect(docComment.throwsAnnotations.first.exceptionName,
+        equals('ExceptionName1'));
+    expect(docComment.throwsAnnotations.first.body, equals('description1'));
+    expect(docComment.throwsAnnotations[1].exceptionName,
+        equals('ExceptionName2'));
+    expect(docComment.throwsAnnotations[1].body, equals('description2'));
+  });
+
   // exception tag
   // example tag
   // multiple tags

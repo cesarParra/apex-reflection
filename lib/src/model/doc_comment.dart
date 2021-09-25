@@ -1,8 +1,9 @@
 class DocComment {
   late String _description;
   List<ParamDocCommentAnnotation> paramAnnotations = [];
-  List<DocCommentAnnotation> annotations = [];
   ReturnDocCommentAnnotation? returnAnnotation;
+  List<ThrowsDocCommentAnnotation> throwsAnnotations = [];
+  List<DocCommentAnnotation> annotations = [];
 
   DocComment(String description) {
     _description = description;

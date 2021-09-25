@@ -112,7 +112,19 @@ main() {
         equals('description1 The description continues here.'));
   });
 
-  // return tag
+  test('Can parse a return tag', () {
+    final docBody = '''
+    /**
+      * @description This is a description.
+      * @param param1 description1
+      * @return Returns something
+      */
+    ''';
+    final docComment = ApexdocParser.parseFromBody(docBody);
+    expect(docComment.returnAnnotation, isNotNull);
+    expect(docComment.returnAnnotation.body, equals('Returns something'));
+  });
+
   // throws tag
   // exception tag
   // example tag

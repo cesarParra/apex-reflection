@@ -40,6 +40,12 @@ class ApexdocListener extends ApexdocParserBaseListener {
       return;
     }
 
+    if (tagName == 'return') {
+      generatedDocComment.returnAnnotation =
+          ReturnDocCommentAnnotation(tagText);
+      return;
+    }
+
     // @description or any other custom annotations
     generatedDocComment.annotations
         .add(DocCommentAnnotation(tagName, body: tagContentLines.join(' ')));

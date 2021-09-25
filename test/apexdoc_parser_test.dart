@@ -176,6 +176,4 @@ main() {
     expect(docComment.annotationsByName('author').first.body,
         equals('Some Author'));
   });
-
-  // Inline {@name link}
 }

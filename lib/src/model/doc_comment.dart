@@ -13,6 +13,12 @@ class DocComment {
   set description(String description) {
     _description = description;
   }
+
+  List<DocCommentAnnotation> annotationsByName(String annotationName) {
+    return annotations
+        .where((element) => element.name == annotationName)
+        .toList();
+  }
 }
 
 class DocCommentAnnotation {

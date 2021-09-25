@@ -68,7 +68,33 @@ main() {
         'This is a description. The description continues here');
   });
 
-  // param tag
+  test('Can parse a tag', () {
+    final docBody = '''
+    /**
+      * @description This is a description.
+      * @param param1 description
+      */
+    ''';
+    final docComment = ApexdocParser.parseFromBody(docBody);
+    expect(docComment.annotationsByName('param').length, equals(1));
+    expect(docComment.annotationsByName('param').first.body,
+        equals('param1 description'));
+  });
+
+  test('Can parse multiple of the same tag', () {
+    final docBody = '''
+    /**
+      * @description This is a description.
+      * @param param1 description
+      * @param param2 
+      */
+    ''';
+    final docComment = ApexdocParser.parseFromBody(docBody);
+    expect(docComment.annotationsByName('param').length, equals(1));
+    expect(docComment.annotationsByName('param').first.body,
+        equals('param1 description'));
+  });
+
   // multiple param tags
   // param tag that spawns multiple lines
   // throws tag

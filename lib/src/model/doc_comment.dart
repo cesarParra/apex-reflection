@@ -1,8 +1,18 @@
 class DocComment {
-  final String description;
-  List<DocCommentAnnotation> annotations;
+  late String _description;
+  List<DocCommentAnnotation> annotations = [];
 
-  DocComment(this.description, {this.annotations = const []});
+  DocComment(String description) {
+    _description = description;
+  }
+
+  String get description => _description.isNotEmpty
+      ? _description
+      : annotations.firstWhere((element) => element.name == 'description').body;
+
+  set description(String description) {
+    _description = description;
+  }
 }
 
 class DocCommentAnnotation {

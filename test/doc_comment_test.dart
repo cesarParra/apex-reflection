@@ -9,8 +9,8 @@ main() {
     });
 
     test('Can have annotations', () {
-      final comment = DocComment('Any Description',
-          annotations: [DocCommentAnnotation('see')]);
+      final comment = DocComment('Any Description');
+      comment.annotations.add(DocCommentAnnotation('see'));
       expect(comment.annotations.length, equals(1));
       expect(comment.annotations.first.name, equals('see'));
     });

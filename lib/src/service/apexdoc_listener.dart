@@ -29,6 +29,18 @@ class ApexdocListener extends ApexdocParserBaseListener {
         .blockTagContents()
         .where((element) => element.blockTagText() != null)
         .map((e) => _sanitizeLineStart(e.blockTagText().text));
+    final tagText = tagContentLines.join(' ').trimRight();
+    if (tagName == 'param') {
+      // @param tags are followed by the name of the param, so we extract that fist.
+      final paramName = tagText.substring(0, tagText.indexOf(' '));
+      final paramBody =
+          tagText.substring(tagText.indexOf(' ') + 1, tagText.length);
+      generatedDocComment.paramAnnotations
+          .add(ParamDocCommentAnnotation(paramName, paramBody));
+      return;
+    }
+
+    // @description or any other custom annotations
     generatedDocComment.annotations
         .add(DocCommentAnnotation(tagName, body: tagContentLines.join(' ')));
   }

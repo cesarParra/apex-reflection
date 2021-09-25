@@ -8,6 +8,14 @@ main() {
       expect(comment.description, equals('Any Description'));
     });
 
+    test('Can have param annotations', () {
+      final comment = DocComment('Any Description');
+      comment.paramAnnotations
+          .add(ParamDocCommentAnnotation('param1', 'Some description'));
+      expect(comment.paramAnnotations.length, equals(1));
+      expect(comment.paramAnnotations.first.paramName, equals('param1'));
+    });
+
     test('Can have annotations', () {
       final comment = DocComment('Any Description');
       comment.annotations.add(DocCommentAnnotation('see'));
@@ -33,5 +41,15 @@ main() {
     });
 
     // TODO: Body have have links {@link ClassName}
+  });
+
+  group('Param annotations', () {
+    test('Has an annotation name of param, the parameter name, and a body', () {
+      final paramAnnotation =
+          ParamDocCommentAnnotation('param1', 'Some description');
+      expect(paramAnnotation.name, equals('param'));
+      expect(paramAnnotation.paramName, equals('param1'));
+      expect(paramAnnotation.body, equals('Some description'));
+    });
   });
 }

@@ -76,26 +76,27 @@ main() {
       */
     ''';
     final docComment = ApexdocParser.parseFromBody(docBody);
-    expect(docComment.annotationsByName('param').length, equals(1));
-    expect(docComment.annotationsByName('param').first.body,
-        equals('param1 description'));
+    expect(docComment.paramAnnotations.length, equals(1));
+    expect(docComment.paramAnnotations.first.paramName, equals('param1'));
+    expect(docComment.paramAnnotations.first.body, equals('description'));
   });
 
   test('Can parse multiple of the same tag', () {
     final docBody = '''
     /**
       * @description This is a description.
-      * @param param1 description
-      * @param param2 
+      * @param param1 description1
+      * @param param2 description2
       */
     ''';
     final docComment = ApexdocParser.parseFromBody(docBody);
-    expect(docComment.annotationsByName('param').length, equals(1));
-    expect(docComment.annotationsByName('param').first.body,
-        equals('param1 description'));
+    expect(docComment.paramAnnotations.length, equals(2));
+    expect(docComment.paramAnnotations.first.paramName, equals('param1'));
+    expect(docComment.paramAnnotations.first.body, equals('description1'));
+    expect(docComment.paramAnnotations[1].paramName, equals('param2'));
+    expect(docComment.paramAnnotations[1].body, equals('description2'));
   });
 
-  // multiple param tags
   // param tag that spawns multiple lines
   // throws tag
   // exception tag

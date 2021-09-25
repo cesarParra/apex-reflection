@@ -14,7 +14,6 @@ void main() {
       final apexWalkerDefinition = ApexWalkerDefinition();
       Walker.walk(
           InputStream.fromString('class MyClass{}'), apexWalkerDefinition);
-      print(apexWalkerDefinition.getGeneratedApexType());
       expect(apexWalkerDefinition.getGeneratedApexType(), isNotNull);
       expect(apexWalkerDefinition.getGeneratedApexType().name, 'MyClass');
     });
@@ -28,7 +27,6 @@ void main() {
       class MyClass{}
       ''';
       Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
-      print(apexWalkerDefinition.getGeneratedApexType().rawDocComment);
       expect(
           apexWalkerDefinition.getGeneratedApexType().rawDocComment, isNotNull);
       expect(apexWalkerDefinition.getGeneratedApexType().docDescription,

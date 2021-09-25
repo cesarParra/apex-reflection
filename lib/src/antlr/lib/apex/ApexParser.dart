@@ -6340,7 +6340,7 @@ class InterfaceMethodDeclarationContext extends ParserRuleContext {
 
   TerminalNode VOID() => getToken(ApexParser.TOKEN_VOID, 0);
 
-  TerminalNode DOC_COMMENT() => getToken(ApexParser.TOKEN_DOC_COMMENT, 0);
+  TerminalNode? DOC_COMMENT() => getToken(ApexParser.TOKEN_DOC_COMMENT, 0);
 
   List<ModifierContext> modifiers() => getRuleContexts<ModifierContext>();
 
@@ -8386,7 +8386,7 @@ class TypeClassDeclarationContext extends TypeDeclarationContext {
   ClassDeclarationContext classDeclaration() =>
       getRuleContext<ClassDeclarationContext>(0);
 
-  TerminalNode DOC_COMMENT() => getToken(ApexParser.TOKEN_DOC_COMMENT, 0);
+  TerminalNode? DOC_COMMENT() => getToken(ApexParser.TOKEN_DOC_COMMENT, 0);
 
   List<ModifierContext> modifiers() => getRuleContexts<ModifierContext>();
 
@@ -8412,7 +8412,7 @@ class TypeInterfaceDeclarationContext extends TypeDeclarationContext {
   InterfaceDeclarationContext interfaceDeclaration() =>
       getRuleContext<InterfaceDeclarationContext>(0);
 
-  TerminalNode DOC_COMMENT() => getToken(ApexParser.TOKEN_DOC_COMMENT, 0);
+  TerminalNode? DOC_COMMENT() => getToken(ApexParser.TOKEN_DOC_COMMENT, 0);
 
   List<ModifierContext> modifiers() => getRuleContexts<ModifierContext>();
 
@@ -8439,7 +8439,7 @@ class TypeEnumDeclarationContext extends TypeDeclarationContext {
   EnumDeclarationContext enumDeclaration() =>
       getRuleContext<EnumDeclarationContext>(0);
 
-  TerminalNode DOC_COMMENT() => getToken(ApexParser.TOKEN_DOC_COMMENT, 0);
+  TerminalNode? DOC_COMMENT() => getToken(ApexParser.TOKEN_DOC_COMMENT, 0);
 
   List<ModifierContext> modifiers() => getRuleContexts<ModifierContext>();
 
@@ -8487,7 +8487,7 @@ class MemberClassBodyDeclarationContext extends ClassBodyDeclarationContext {
   MemberDeclarationContext memberDeclaration() =>
       getRuleContext<MemberDeclarationContext>(0);
 
-  TerminalNode DOC_COMMENT() => getToken(ApexParser.TOKEN_DOC_COMMENT, 0);
+  TerminalNode? DOC_COMMENT() => getToken(ApexParser.TOKEN_DOC_COMMENT, 0);
 
   List<ModifierContext> modifiers() => getRuleContexts<ModifierContext>();
 

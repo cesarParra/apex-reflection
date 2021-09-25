@@ -893,7 +893,7 @@ class ApexdocParser extends Parser {
             switch (_alt) {
               case 1:
                 state = 252;
-                match(TOKEN_SPACE);
+                skipWhitespace();
                 break;
               default:
                 throw NoViableAltException(this);
@@ -1588,7 +1588,7 @@ class ApexdocParser extends Parser {
       '\u{F8}\u{FB}\u{3}\u{2}\u{2}\u{2}\u{F9}\u{F7}\u{3}\u{2}\u{2}\u{2}\u{FA}'
       '\u{FC}\u{7}\u{A}\u{2}\u{2}\u{FB}\u{FA}\u{3}\u{2}\u{2}\u{2}\u{FB}\u{FC}'
       '\u{3}\u{2}\u{2}\u{2}\u{FC}\u{FD}\u{3}\u{2}\u{2}\u{2}\u{FD}\u{FF}\u{7}'
-      '\u{5}\u{2}\u{2}\u{FE}\u{100}\u{7}\u{A}\u{2}\u{2}\u{FF}\u{FE}\u{3}\u{2}'
+      '\u{5}\u{2}\u{2}\u{FE}\u{100}\u{5}\u{2E}\u{18}\u{2}\u{FF}\u{FE}\u{3}\u{2}'
       '\u{2}\u{2}\u{100}\u{101}\u{3}\u{2}\u{2}\u{2}\u{101}\u{FF}\u{3}\u{2}\u{2}'
       '\u{2}\u{101}\u{102}\u{3}\u{2}\u{2}\u{2}\u{102}\u{106}\u{3}\u{2}\u{2}'
       '\u{2}\u{103}\u{105}\u{5}\u{1E}\u{10}\u{2}\u{104}\u{103}\u{3}\u{2}\u{2}'
@@ -2404,9 +2404,13 @@ class ExampleBlockTagContext extends BlockTagContext {
 
   TerminalNode STAR(int i) => getToken(ApexdocParser.TOKEN_STAR, i);
 
-  List<TerminalNode> SPACEs() => getTokens(ApexdocParser.TOKEN_SPACE);
+  TerminalNode SPACE() => getToken(ApexdocParser.TOKEN_SPACE, 0);
 
-  TerminalNode SPACE(int i) => getToken(ApexdocParser.TOKEN_SPACE, i);
+  List<SkipWhitespaceContext> skipWhitespaces() =>
+      getRuleContexts<SkipWhitespaceContext>();
+
+  SkipWhitespaceContext skipWhitespace(int i) =>
+      getRuleContext<SkipWhitespaceContext>(i);
 
   List<BlockTagContentContext> blockTagContents() =>
       getRuleContexts<BlockTagContentContext>();

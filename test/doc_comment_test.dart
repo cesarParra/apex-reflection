@@ -45,8 +45,6 @@ main() {
       final annotation = DocCommentAnnotation('description', body: 'body');
       expect(annotation.body, equals('body'));
     });
-
-    // TODO: Body have have links {@link ClassName}
   });
 
   group('Param annotations', () {
@@ -64,6 +62,17 @@ main() {
       final returnAnnotation = ReturnDocCommentAnnotation('Some description');
       expect(returnAnnotation.name, equals('return'));
       expect(returnAnnotation.body, equals('Some description'));
+    });
+  });
+
+  group('Throws annotations', () {
+    test('Has an annotation name of throws, the exception name, and a body',
+        () {
+      final throwsAnnotation =
+          ThrowsDocCommentAnnotation('ExceptionName', 'Some description');
+      expect(throwsAnnotation.name, equals('throws'));
+      expect(throwsAnnotation.exceptionName, equals('ExceptionName'));
+      expect(throwsAnnotation.body, equals('Some description'));
     });
   });
 }

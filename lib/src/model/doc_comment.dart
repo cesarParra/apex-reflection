@@ -40,3 +40,10 @@ class ParamDocCommentAnnotation extends DocCommentAnnotation {
 class ReturnDocCommentAnnotation extends DocCommentAnnotation {
   ReturnDocCommentAnnotation(body) : super('return', body: body);
 }
+
+class ThrowsDocCommentAnnotation extends DocCommentAnnotation {
+  final String exceptionName;
+
+  ThrowsDocCommentAnnotation(this.exceptionName, body)
+      : super('throws', body: body);
+}

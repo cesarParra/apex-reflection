@@ -97,7 +97,23 @@ main() {
     expect(docComment.paramAnnotations[1].body, equals('description2'));
   });
 
+  test('Can parse a param with a multi line body', () {
+    final docBody = '''
+    /**
+      * @description This is a description.
+      * @param param1 description1
+      * The description continues here.
+      */
+    ''';
+    final docComment = ApexdocParser.parseFromBody(docBody);
+    expect(docComment.paramAnnotations.length, equals(1));
+    expect(docComment.paramAnnotations.first.paramName, equals('param1'));
+    expect(docComment.paramAnnotations.first.body,
+        equals('description1 The description continues here.'));
+  });
+
   // param tag that spawns multiple lines
+  // return tag
   // throws tag
   // exception tag
   // example tag

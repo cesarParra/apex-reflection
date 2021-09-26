@@ -126,8 +126,8 @@ class ApexClassListener extends ApexParserBaseListener {
 
   @override
   void enterInterfaceMethodDeclaration(InterfaceMethodDeclarationContext ctx) {
-    // Interface methods inherit the access modifiers of the parent declaration.
     final docComment = ctx.DOC_COMMENT()?.text;
+    // Interface methods inherit the access modifiers of the parent declaration.
     final accessModifiers = generatedTypes.peak().accessModifiers;
     final methodName = ctx.id().text;
     final typeName = ctx.typeRef() != null ? ctx.typeRef().text : 'void';

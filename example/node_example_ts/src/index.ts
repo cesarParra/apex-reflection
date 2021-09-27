@@ -1,4 +1,5 @@
-const {reflect} = require('../../js');
+import {reflect} from '@cparra/apex-reflection';
+
 const classBody = `
 /** 
  * @description My Class description 

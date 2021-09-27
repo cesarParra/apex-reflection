@@ -196,7 +196,7 @@ void main() {
       expect(classModel.classes.length, equals(0));
     });
 
-    test('Can have inner interfaces', () {
+    test('Can have inner classes', () {
       var classModel = ClassModel(name: 'AnyName');
       var innerClass = ClassModel(name: 'InnerClass');
       classModel.addClass(innerClass);

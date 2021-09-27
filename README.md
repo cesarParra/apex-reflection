@@ -1,3 +1,16 @@
+# Creating JS from Dart code:
+
+To generate the JS file from the Dart code:
+
+1. Run
+
+```
+dart2js lib/apexdocs_dart.dart -o js/out.js
+```
+
+2. Copy the `js/preamble.js` contents to the top of the `js/out.js` file
+3. Edit the `index.d.ts` files according to the changes to provide TS typings
+
 # Running Antlr4
 
 To generate the Antlr4 Apex output run:

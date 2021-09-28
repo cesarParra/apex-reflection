@@ -1,8 +1,14 @@
 import 'package:apexdocs_dart/src/model/members.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 import 'declaration.dart';
 
+part 'types.g.dart';
+
 abstract class Type extends Declaration {
+  @JsonKey(name: 'type_name')
+  String typeName = '';
+
   Type(
       {required String name,
       String? docComment,
@@ -35,8 +41,11 @@ mixin MethodsAwareness {
   }
 }
 
+@JsonSerializable()
 class ClassModel extends Type with MethodsAwareness {
+  @JsonKey(name: 'extended_class')
   late final String? extendedClass;
+  @JsonKey(name: 'implemented_interfaces')
   late final List<String> implementedInterfaces;
 
   List<Property> properties = [];
@@ -55,57 +64,15 @@ class ClassModel extends Type with MethodsAwareness {
       : super(
             name: name,
             docComment: docComment,
-            accessModifiers: accessModifiers);
-
-  ClassModel.fromJson(Map<String, dynamic> json)
-      : super(
-            name: json['name'],
-            accessModifiers: json['access_modifiers'].cast<String>()) {
-    extendedClass = json['extended_class'];
-    implementedInterfaces = json['implemented_interfaces'].cast<String>();
-
-    // Constructor deserialization
-    List<dynamic> encodedConstructors = json['constructors'];
-    constructors = encodedConstructors
-        .map((e) => Constructor.fromJson(e as Map<String, dynamic>))
-        .toList();
-
-    // Property deserialization
-    List<dynamic> encodedProperties = json['properties'];
-    properties = encodedProperties
-        .map((e) => Property.fromJson(e as Map<String, dynamic>))
-        .toList();
-
-    // Field deserialization
-    List<dynamic> encodedFields = json['fields'];
-    fields = encodedFields
-        .map((e) => Field.fromJson(e as Map<String, dynamic>))
-        .toList();
-
-    // Method deserialization
-    List<dynamic> encodedMethods = json['methods'];
-    methods = encodedMethods
-        .map((e) => Method.fromJson(e as Map<String, dynamic>))
-        .toList();
-
-    // Interface deserialization
-    List<dynamic> encodedInterfaces = json['interfaces'];
-    interfaces = encodedInterfaces
-        .map((e) => InterfaceModel.fromJson(e as Map<String, dynamic>))
-        .toList();
-
-    // Enum deserialization
-    List<dynamic> encodedEnums = json['enums'];
-    enums = encodedEnums
-        .map((e) => EnumModel.fromJson(e as Map<String, dynamic>))
-        .toList();
-
-    // Class deserialization
-    List<dynamic> encodedClasses = json['classes'];
-    classes = encodedClasses
-        .map((e) => ClassModel.fromJson(e as Map<String, dynamic>))
-        .toList();
+            accessModifiers: accessModifiers) {
+    typeName = 'class';
   }
+
+  factory ClassModel.fromJson(Map<String, dynamic> json) =>
+      _$ClassModelFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$ClassModelToJson(this);
 
   @override
   bool isClass() {
@@ -135,25 +102,11 @@ class ClassModel extends Type with MethodsAwareness {
   void addClass(ClassModel innerClass) {
     classes.add(innerClass);
   }
-
-  @override
-  Map<String, dynamic> toJson() => {
-        'name': name,
-        'extended_class': extendedClass,
-        'implemented_interfaces': implementedInterfaces,
-        'access_modifiers': accessModifiers,
-        'fields': fields.map((e) => e.toJson()).toList(),
-        'constructors': constructors.map((e) => e.toJson()).toList(),
-        'properties': properties.map((e) => e.toJson()).toList(),
-        'methods': methods.map((e) => e.toJson()).toList(),
-        'interfaces': interfaces.map((e) => e.toJson()).toList(),
-        'enums': enums.map((e) => e.toJson()).toList(),
-        'classes': classes.map((e) => e.toJson()).toList(),
-        'type': 'class'
-      };
 }
 
+@JsonSerializable()
 class InterfaceModel extends Type with MethodsAwareness {
+  @JsonKey(name: 'extended_interfaces')
   late final List<String> extendedInterfaces;
 
   InterfaceModel(
@@ -164,34 +117,23 @@ class InterfaceModel extends Type with MethodsAwareness {
       : super(
             name: name,
             docComment: docComment,
-            accessModifiers: accessModifiers);
-
-  InterfaceModel.fromJson(Map<String, dynamic> json)
-      : super(
-            name: json['name'],
-            accessModifiers: json['access_modifiers'].cast<String>()) {
-    extendedInterfaces = json['extended_interfaces'].cast<String>();
-    List<dynamic> encodedMethods = json['methods'];
-    methods = encodedMethods
-        .map((e) => Method.fromJson(e as Map<String, dynamic>))
-        .toList();
+            accessModifiers: accessModifiers) {
+    typeName = 'interface';
   }
+
+  factory InterfaceModel.fromJson(Map<String, dynamic> json) =>
+      _$InterfaceModelFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$InterfaceModelToJson(this);
 
   @override
   bool isInterface() {
     return true;
   }
-
-  @override
-  Map<String, dynamic> toJson() => {
-        'name': name,
-        'extended_interfaces': extendedInterfaces,
-        'access_modifiers': accessModifiers,
-        'methods': methods.map((e) => e.toJson()).toList(),
-        'type': 'interface'
-      };
 }
 
+@JsonSerializable()
 class EnumModel extends Type {
   EnumModel(
       {required String name,
@@ -200,19 +142,18 @@ class EnumModel extends Type {
       : super(
             name: name,
             docComment: docComment,
-            accessModifiers: accessModifiers);
+            accessModifiers: accessModifiers) {
+    typeName = 'enum';
+  }
+
+  factory EnumModel.fromJson(Map<String, dynamic> json) =>
+      _$EnumModelFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$EnumModelToJson(this);
 
   @override
   bool isEnum() {
     return true;
   }
-
-  EnumModel.fromJson(Map<String, dynamic> json)
-      : super(
-            name: json['name'],
-            accessModifiers: json['access_modifiers'].cast<String>());
-
-  @override
-  Map<String, dynamic> toJson() =>
-      {'name': name, 'access_modifiers': accessModifiers, 'type': 'enum'};
 }

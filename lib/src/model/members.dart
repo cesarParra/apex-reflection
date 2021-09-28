@@ -1,4 +1,7 @@
 import 'package:apexdocs_dart/src/model/declaration.dart';
+import 'package:json_annotation/json_annotation.dart';
+
+part 'members.g.dart';
 
 abstract class TypedDeclaration extends Declaration {
   final String type;
@@ -14,6 +17,7 @@ abstract class TypedDeclaration extends Declaration {
             accessModifiers: accessModifiers);
 }
 
+@JsonSerializable()
 class Property extends TypedDeclaration {
   Property(
       {required String name,
@@ -26,16 +30,13 @@ class Property extends TypedDeclaration {
             type: type,
             accessModifiers: accessModifiers);
 
-  Property.fromJson(Map<String, dynamic> json)
-      : super(
-            name: json['name'],
-            type: json['type'],
-            accessModifiers: json['access_modifiers'].cast<String>());
+  factory Property.fromJson(Map<String, dynamic> json) =>
+      _$PropertyFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      {'name': name, 'type': type, 'access_modifiers': accessModifiers};
+  Map<String, dynamic> toJson() => _$PropertyToJson(this);
 }
 
+@JsonSerializable()
 class Field extends TypedDeclaration {
   Field(
       {required String name,
@@ -48,14 +49,9 @@ class Field extends TypedDeclaration {
             type: type,
             accessModifiers: accessModifiers);
 
-  Field.fromJson(Map<String, dynamic> json)
-      : super(
-            name: json['name'],
-            type: json['type'],
-            accessModifiers: json['access_modifiers'].cast<String>());
+  factory Field.fromJson(Map<String, dynamic> json) => _$FieldFromJson(json);
 
-  Map<String, dynamic> toJson() =>
-      {'name': name, 'type': type, 'access_modifiers': accessModifiers};
+  Map<String, dynamic> toJson() => _$FieldToJson(this);
 }
 
 mixin ParameterAwareness {
@@ -76,6 +72,7 @@ mixin ParameterAwareness {
   }
 }
 
+@JsonSerializable()
 class Method extends TypedDeclaration with ParameterAwareness {
   Method(
       {required String name,
@@ -88,28 +85,16 @@ class Method extends TypedDeclaration with ParameterAwareness {
             type: type,
             accessModifiers: accessModifiers);
 
-  Method.fromJson(Map<String, dynamic> json)
-      : super(
-            name: json['name'],
-            type: json['type'],
-            accessModifiers: json['access_modifiers'].cast<String>()) {
-    List<dynamic> encodedParameters = json['parameters'];
-    parameters = encodedParameters
-        .map((e) => Parameter.fromJson(e as Map<String, dynamic>))
-        .toList();
-  }
+  factory Method.fromJson(Map<String, dynamic> json) => _$MethodFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MethodToJson(this);
 
   get isVoid => type.toLowerCase() == 'void';
-
-  Map<String, dynamic> toJson() => {
-        'name': name,
-        'type': type,
-        'access_modifiers': accessModifiers,
-        'parameters': parameters.map((e) => e.toJson()).toList()
-      };
 }
 
+@JsonSerializable()
 class Parameter extends TypedDeclaration {
+  @JsonKey(ignore: true)
   ParameterAwareness? parent;
 
   Parameter(
@@ -117,6 +102,11 @@ class Parameter extends TypedDeclaration {
       required String type,
       List<String> accessModifiers = const []})
       : super(name: name, type: type, accessModifiers: accessModifiers);
+
+  factory Parameter.fromJson(Map<String, dynamic> json) =>
+      _$ParameterFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ParameterToJson(this);
 
   @override
   String? get docDescription {
@@ -129,21 +119,16 @@ class Parameter extends TypedDeclaration {
     }
     return null;
   }
-
-  Parameter.fromJson(Map<String, dynamic> json)
-      : super(
-            name: json['name'],
-            type: json['type'],
-            accessModifiers: json['access_modifiers'].cast<String>());
-
-  Map<String, dynamic> toJson() =>
-      {'name': name, 'type': type, 'access_modifiers': accessModifiers};
 }
 
+@JsonSerializable()
 class Constructor extends Declaration with ParameterAwareness {
-  _initialize(List<String> accessModifiers, [String? docComment]) {
+  _initialize(dynamic accessModifiers, [String? docComment]) {
+    if (accessModifiers is List<dynamic>) {
+      accessModifiers = accessModifiers.cast<String>();
+    }
     this.accessModifiers = accessModifiers;
-    this.rawDocComment = docComment;
+    rawDocComment = docComment;
   }
 
   Constructor({accessModifiers = const <String>[], String? docComment})
@@ -151,17 +136,8 @@ class Constructor extends Declaration with ParameterAwareness {
     _initialize(accessModifiers, docComment);
   }
 
-  Constructor.fromJson(Map<String, dynamic> json)
-      : super(name: '<init>', accessModifiers: <String>[]) {
-    _initialize(json['access_modifiers'].cast<String>());
-    List<dynamic> encodedParameters = json['parameters'];
-    parameters = encodedParameters
-        .map((e) => Parameter.fromJson(e as Map<String, dynamic>))
-        .toList();
-  }
+  factory Constructor.fromJson(Map<String, dynamic> json) =>
+      _$ConstructorFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-        'access_modifiers': accessModifiers,
-        'parameters': parameters.map((e) => e.toJson()).toList()
-      };
+  Map<String, dynamic> toJson() => _$ConstructorToJson(this);
 }

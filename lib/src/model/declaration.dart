@@ -1,7 +1,9 @@
 import 'package:apexdocs_dart/src/model/doc_comment.dart';
 import 'package:apexdocs_dart/src/service/parsers.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 mixin AccessModifierAwareness {
+  @JsonKey(name: 'access_modifiers')
   List<String> accessModifiers = [];
 
   get isPrivate => accessModifiers.contains('private');

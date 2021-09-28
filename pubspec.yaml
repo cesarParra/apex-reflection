@@ -8,10 +8,8 @@ environment:
 
 dev_dependencies:
     lints: ^1.0.0
-    test:
-    js:
+    test: ^1.16.5
+    js: ^0.6.3
 dependencies:
     antlr4:
         path: antlr4-4.9.2
-    args:
-    node_interop:

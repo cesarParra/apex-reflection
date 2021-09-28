@@ -6,13 +6,15 @@ import 'package:apexdocs_dart/src/model/members.dart';
 void main() {
   group('Property serialization', () {
     test('Properties can be serialized', () {
-      var property = Property(
+      final property = Property(
           name: 'PropName',
           type: 'String',
           accessModifiers: ['namespaceaccessible', 'public']);
 
       String encodedProperty = jsonEncode(property);
       expect(encodedProperty, isNotNull);
+      final decodedProperty = Property.fromJson(jsonDecode(encodedProperty));
+      expect(property.name, equals(decodedProperty.name));
     });
 
     test('Properties can be deserialized', () {
@@ -41,6 +43,8 @@ void main() {
 
       String encodedField = jsonEncode(field);
       expect(encodedField, isNotNull);
+      final decodedField = Field.fromJson(jsonDecode(encodedField));
+      expect(field.name, equals(decodedField.name));
     });
 
     test('Fields can be deserialized', () {
@@ -69,6 +73,8 @@ void main() {
 
       String encodedMethod = jsonEncode(method);
       expect(encodedMethod, isNotNull);
+      final decodedMethod = Method.fromJson(jsonDecode(encodedMethod));
+      expect(method.name, equals(decodedMethod.name));
     });
 
     test('Methods can be deserialized', () {
@@ -99,6 +105,8 @@ void main() {
 
       String encodedParameter = jsonEncode(parameter);
       expect(encodedParameter, isNotNull);
+      final decodedParameter = Parameter.fromJson(jsonDecode(encodedParameter));
+      expect(parameter.name, equals(decodedParameter.name));
     });
 
     test('Parameters can be deserialized', () {
@@ -124,8 +132,12 @@ void main() {
           Constructor(accessModifiers: ['namespaceaccessible', 'public']);
       constructor.addParameter(Parameter(name: 'Param1', type: 'String'));
 
-      String encodedMethod = jsonEncode(constructor);
-      expect(encodedMethod, isNotNull);
+      String encodedConstructor = jsonEncode(constructor);
+      expect(encodedConstructor, isNotNull);
+      final decodedConstructor =
+          Constructor.fromJson(jsonDecode(encodedConstructor));
+      expect(constructor.accessModifiers,
+          equals(decodedConstructor.accessModifiers));
     });
 
     test('Constructors can be deserialized', () {

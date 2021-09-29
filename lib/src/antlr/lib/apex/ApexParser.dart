@@ -6336,7 +6336,7 @@ class InterfaceMethodDeclarationContext extends ParserRuleContext {
 
   TerminalNode SEMI() => getToken(ApexParser.TOKEN_SEMI, 0);
 
-  TypeRefContext typeRef() => getRuleContext<TypeRefContext>(0);
+  TypeRefContext? typeRef() => getRuleContext<TypeRefContext>(0);
 
   TerminalNode VOID() => getToken(ApexParser.TOKEN_VOID, 0);
 

@@ -130,7 +130,7 @@ class ApexClassListener extends ApexParserBaseListener {
     // Interface methods inherit the access modifiers of the parent declaration.
     final accessModifiers = generatedTypes.peak().accessModifiers;
     final methodName = ctx.id().text;
-    final typeName = ctx.typeRef() != null ? ctx.typeRef().text : 'void';
+    final typeName = ctx.typeRef() != null ? ctx.typeRef()!.text : 'void';
 
     List<Parameter>? parameters = parseParameters(ctx);
 

@@ -213,7 +213,7 @@ JavaLetterOrDigit
 //
 
 DOC_COMMENT
-    :   '/**' [\r\n] .*? '*/'
+    :   '/**' WS* [\r\n] .*? '*/'
     ;
 
 WS  :  [ \t\r\n\u000C]+ -> channel(WHITESPACE_CHANNEL)

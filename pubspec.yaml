@@ -15,5 +15,5 @@ dev_dependencies:
     grinder: ^0.9.0
 dependencies:
     antlr4:
-        path: antlr4-4.9.2
+        path: './lib/antlr4-4.9.2'
     json_annotation: ^4.0.1

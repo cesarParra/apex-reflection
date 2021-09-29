@@ -4,7 +4,7 @@
  * can be found in the LICENSE.txt file in the project root.
  */
 
-import './util/bit_set.dart';
+import 'util/bit_set.dart';
 import 'atn/atn.dart';
 import 'interval_set.dart';
 import 'prediction_context.dart';

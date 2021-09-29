@@ -1,4 +1,4 @@
-const {reflect} = require('../../js');
+const {reflect} = require('../../js/apex-reflection-node');
 const classBody = `
 /** 
  * @description My Class description 

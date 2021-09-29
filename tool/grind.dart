@@ -4,17 +4,32 @@ import 'package:grinder/grinder.dart';
 
 main(args) => grind(args);
 
-@Task('Converts Dart code to Node compatible JS code')
+@DefaultTask()
+build() {
+  toJs();
+}
+
 toJs() async {
   log("Converting to JS");
-  final file = FilePath('./lib/apexdocs_dart.dart');
-  const outputDir = './js';
-  const compiledOutputJsPath = '$outputDir/dart2jsout.js';
-  Dart2js.compile(file.asFile, outFile: FilePath(compiledOutputJsPath).asFile);
+  final file = FilePath('./lib/apex_reflection.dart');
+  const jsRoot = './js';
+  const nodeOutputDir = '$jsRoot/apex-reflection-node';
+  const compiledOutputJsPath = '$nodeOutputDir/dart2jsout.js';
 
-  final preambleContents = await File('$outputDir/preamble.js').readAsString();
-  final nodeOutputFile = File('$outputDir/out.js');
+  log('Running dart2js compile');
+  final compiledOutputJs = FilePath(compiledOutputJsPath);
+  Dart2js.compile(file.asFile, outFile: compiledOutputJs.asFile, minify: true);
+
+  log('Building Node file');
+  final preambleContents =
+      await File('$jsRoot/preamble/preamble.js').readAsString();
+  final nodeOutputFile = File('$jsRoot/out.js');
   nodeOutputFile.writeAsString(preambleContents, mode: FileMode.write);
   final compiledJsContents = await File(compiledOutputJsPath).readAsString();
   nodeOutputFile.writeAsString(compiledJsContents, mode: FileMode.append);
+
+  log('Cleaning up Node module');
+  compiledOutputJs.delete();
+  FilePath('$nodeOutputDir/dart2jsout.js.deps').delete();
+  FilePath('$nodeOutputDir/dart2jsout.js.map').delete();
 }

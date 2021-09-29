@@ -1,0 +1,14 @@
+{
+  "scripts": {
+    "test": "dart --no-sound-null-safety run test",
+    "prepare": "husky install"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run test"
+    }
+  },
+  "devDependencies": {
+    "husky": "^7.0.2"
+  }
+}

@@ -23,7 +23,7 @@ toJs() async {
   log('Building Node file');
   final preambleContents =
       await File('$jsRoot/preamble/preamble.js').readAsString();
-  final nodeOutputFile = File('$jsRoot/out.js');
+  final nodeOutputFile = File('$nodeOutputDir/out.js');
   nodeOutputFile.writeAsString(preambleContents, mode: FileMode.write);
   final compiledJsContents = await File(compiledOutputJsPath).readAsString();
   nodeOutputFile.writeAsString(compiledJsContents, mode: FileMode.append);

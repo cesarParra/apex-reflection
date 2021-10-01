@@ -11,7 +11,7 @@ build() {
 
 toJs() async {
   log("Converting to JS");
-  final file = FilePath('./lib/apex_reflection.dart');
+  final file = FilePath('./lib/src/node/node.dart');
   const jsRoot = './js';
   const nodeOutputDir = '$jsRoot/apex-reflection-node';
   const compiledOutputJsPath = '$nodeOutputDir/dart2jsout.js';

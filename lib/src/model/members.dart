@@ -1,9 +1,9 @@
-import 'package:apexdocs_dart/src/model/declaration.dart';
+import 'package:apexdocs_dart/src/model/declaration_mirror.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'members.g.dart';
 
-abstract class TypedDeclaration extends Declaration {
+abstract class TypedDeclaration extends DeclarationMirror {
   final String type;
 
   TypedDeclaration(
@@ -122,7 +122,7 @@ class Parameter extends TypedDeclaration {
 }
 
 @JsonSerializable()
-class Constructor extends Declaration with ParameterAwareness {
+class Constructor extends DeclarationMirror with ParameterAwareness {
   _initialize(dynamic accessModifiers, [String? docComment]) {
     if (accessModifiers is List<dynamic>) {
       accessModifiers = accessModifiers.cast<String>();

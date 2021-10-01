@@ -1,11 +1,11 @@
 import 'package:apexdocs_dart/src/model/members.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import 'declaration.dart';
+import 'declaration_mirror.dart';
 
 part 'types.g.dart';
 
-abstract class Type extends Declaration {
+abstract class Type extends DeclarationMirror {
   @JsonKey(name: 'type_name')
   String typeName = '';
 

@@ -22,6 +22,12 @@ void main() {
       expect(classModel.accessModifiers.length, 1);
     });
 
+    test('Supports access modifiers no matter the case', () {
+      final classModel =
+          ClassModel(name: 'AnyName', accessModifiers: ['PuBlIc']);
+      expect(classModel.isPublic, equals(true));
+    });
+
     test('Does not have doc comments by default', () {
       final classModel = ClassModel(name: 'AnyName');
       expect(classModel.rawDocComment, isNull);

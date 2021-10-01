@@ -108,6 +108,13 @@ void main() {
       expect(apexWalkerDefinition.getGeneratedApexType().isTest, isTrue);
     });
 
+    test('Supports the abstract access modifier', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      Walker.walk(InputStream.fromString('public abstract class MyClass{}'),
+          apexWalkerDefinition);
+      expect(apexWalkerDefinition.getGeneratedApexType().isAbstract, isTrue);
+    });
+
     test('Supports annotations with extra parameters', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
       Walker.walk(

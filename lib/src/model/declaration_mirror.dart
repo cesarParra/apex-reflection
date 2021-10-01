@@ -36,8 +36,6 @@ mixin AccessModifierAwareness {
 }
 
 /// Allows declarations to be aware of doc comments.
-/// Doc comments should follow the format
-/// /** [\r\n] DOC CONTENTS */
 mixin DocsCommentAwareness {
   DocComment? _docComment;
   String? rawDocComment;

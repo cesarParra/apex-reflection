@@ -6,7 +6,7 @@ part 'apex_file_manifest.g.dart';
 @JsonSerializable()
 class ApexFileManifest {
   @JsonKey(fromJson: typeFromJson, toJson: typeToJson)
-  late final List<Type> generatedTypes;
+  late final List<TypeMirror> generatedTypes;
 
   ApexFileManifest(this.generatedTypes);
 
@@ -15,23 +15,23 @@ class ApexFileManifest {
 
   Map<String, dynamic> toJson() => _$ApexFileManifestToJson(this);
 
-  static List<Type> typeFromJson(List<dynamic> json) {
+  static List<TypeMirror> typeFromJson(List<dynamic> json) {
     return json.map((e) {
       final currentJsonMap = e as Map<String, dynamic>;
       switch (currentJsonMap['type_name'] as String) {
         case 'class':
-          return ClassModel.fromJson(currentJsonMap);
+          return ClassMirror.fromJson(currentJsonMap);
         case 'interface':
-          return InterfaceModel.fromJson(currentJsonMap);
+          return InterfaceMirror.fromJson(currentJsonMap);
         case 'enum':
-          return EnumModel.fromJson(currentJsonMap);
+          return EnumMirror.fromJson(currentJsonMap);
         default:
           throw Exception('Unknown type');
       }
     }).toList();
   }
 
-  static List<dynamic> typeToJson(List<Type> types) {
+  static List<dynamic> typeToJson(List<TypeMirror> types) {
     return types.map((e) => e.toJson()).toList();
   }
 }

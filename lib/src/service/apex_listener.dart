@@ -16,11 +16,11 @@ class DeclarationDescriptor {
 
 class ApexClassListener extends ApexParserBaseListener {
   final Stack<DeclarationDescriptor> _declaratorDescriptorStack;
-  final Stack<Type> generatedTypes;
-  late Type generatedType;
+  final Stack<TypeMirror> generatedTypes;
+  late TypeMirror generatedType;
 
   ApexClassListener()
-      : generatedTypes = Stack<Type>(),
+      : generatedTypes = Stack<TypeMirror>(),
         _declaratorDescriptorStack = Stack<DeclarationDescriptor>();
 
   @override
@@ -63,7 +63,7 @@ class ApexClassListener extends ApexParserBaseListener {
   void enterEnumDeclaration(EnumDeclarationContext ctx) {
     final declarationDescriptor = _declaratorDescriptorStack.pop();
     final enumName = ctx.id().text;
-    final enumModel = EnumModel(
+    final enumModel = EnumMirror(
         name: enumName,
         docComment: declarationDescriptor.docComment,
         accessModifiers: declarationDescriptor.accessModifiers);
@@ -84,12 +84,12 @@ class ApexClassListener extends ApexParserBaseListener {
     final propertyName = ctx.id().text;
     final type = ctx.typeRef().text;
 
-    final property = Property(
+    final property = PropertyMirror(
         name: propertyName,
         docComment: declarationDescriptor.docComment,
         type: type,
         accessModifiers: declarationDescriptor.accessModifiers);
-    (generatedTypes.peak() as ClassModel).addProperty(property);
+    (generatedTypes.peak() as ClassMirror).addProperty(property);
   }
 
   @override
@@ -98,8 +98,8 @@ class ApexClassListener extends ApexParserBaseListener {
     final typeName = ctx.typeRef().text;
     final fieldNames =
         ctx.variableDeclarators().variableDeclarators().map((e) => e.text);
-    (generatedTypes.peak() as ClassModel).fields.addAll(fieldNames.map((e) =>
-        Field(
+    (generatedTypes.peak() as ClassMirror).fields.addAll(fieldNames.map((e) =>
+        FieldMirror(
             name: e,
             docComment: declarationDescriptor.docComment,
             type: typeName,
@@ -112,9 +112,9 @@ class ApexClassListener extends ApexParserBaseListener {
     final methodName = ctx.id().text;
     final typeName = ctx.typeRef() != null ? ctx.typeRef().text : 'void';
 
-    List<Parameter>? parameters = parseParameters(ctx);
+    List<ParameterMirror>? parameters = parseParameters(ctx);
 
-    final method = Method(
+    final method = MethodMirror(
         name: methodName,
         docComment: declarationDescriptor.docComment,
         type: typeName,
@@ -132,9 +132,9 @@ class ApexClassListener extends ApexParserBaseListener {
     final methodName = ctx.id().text;
     final typeName = ctx.typeRef() != null ? ctx.typeRef()!.text : 'void';
 
-    List<Parameter>? parameters = parseParameters(ctx);
+    List<ParameterMirror>? parameters = parseParameters(ctx);
 
-    final method = Method(
+    final method = MethodMirror(
         name: methodName,
         docComment: docComment,
         type: typeName,
@@ -147,13 +147,13 @@ class ApexClassListener extends ApexParserBaseListener {
   @override
   void enterConstructorDeclaration(ConstructorDeclarationContext ctx) {
     final declaratorDescriptor = _declaratorDescriptorStack.pop();
-    List<Parameter>? parameters = parseParameters(ctx);
-    final constructorGenerated = Constructor(
+    List<ParameterMirror>? parameters = parseParameters(ctx);
+    final constructorGenerated = ConstructorMirror(
         docComment: declaratorDescriptor.docComment,
         accessModifiers: declaratorDescriptor.accessModifiers);
     constructorGenerated.parameters = parameters ?? [];
 
-    (generatedTypes.peak() as ClassModel)
+    (generatedTypes.peak() as ClassMirror)
         .constructors
         .add(constructorGenerated);
   }
@@ -184,13 +184,13 @@ class ApexClassListener extends ApexParserBaseListener {
 
     // Otherwise then we want to add this as an inner class to whoever is on top.
     final currentGeneratedType = generatedTypes.pop();
-    var topLevelClass = generatedTypes.peak() as ClassModel;
+    var topLevelClass = generatedTypes.peak() as ClassMirror;
     if (currentGeneratedType.isClass()) {
-      topLevelClass.addClass(currentGeneratedType as ClassModel);
+      topLevelClass.addClass(currentGeneratedType as ClassMirror);
     } else if (currentGeneratedType.isEnum()) {
-      topLevelClass.addEnum(currentGeneratedType as EnumModel);
+      topLevelClass.addEnum(currentGeneratedType as EnumMirror);
     } else {
-      topLevelClass.addInterface(currentGeneratedType as InterfaceModel);
+      topLevelClass.addInterface(currentGeneratedType as InterfaceMirror);
     }
   }
 

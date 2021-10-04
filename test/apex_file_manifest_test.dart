@@ -7,7 +7,7 @@ import 'package:test/test.dart';
 
 main() {
   test('Can serialize and deserialize from object', () {
-    var classModel = ClassModel(name: 'ClassName');
+    var classModel = ClassMirror(name: 'ClassName');
     var manifest = ApexFileManifest([classModel]);
     final manifestAsJson = jsonEncode(manifest);
     var decodedManifest = ApexFileManifest.fromJson(jsonDecode(manifestAsJson));

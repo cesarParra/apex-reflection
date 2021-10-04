@@ -1,11 +1,11 @@
 import 'package:apexdocs_dart/src/model/members.dart';
 
-List<Parameter>? parseParameters(dynamic ctx) {
+List<ParameterMirror>? parseParameters(dynamic ctx) {
   final parameters = ctx
       .formalParameters()
       ?.formalParameterList()
       ?.formalParameters()
-      .map((e) => Parameter(
+      .map((e) => ParameterMirror(
           name: e.id().text,
           type: e.typeRef().text,
           accessModifiers: e
@@ -14,5 +14,5 @@ List<Parameter>? parseParameters(dynamic ctx) {
               .toList()
               .cast<String>()))
       .toList();
-  return parameters == null ? <Parameter>[] : parameters.cast<Parameter>();
+  return parameters == null ? <ParameterMirror>[] : parameters.cast<ParameterMirror>();
 }

@@ -7,19 +7,19 @@ import 'package:test/test.dart';
 void main() {
   group('Class serialization', () {
     test('Classes can be serialized', () {
-      var classModel = ClassModel(
+      var classModel = ClassMirror(
           name: 'ClassName',
           extendedClass: 'ParentClass',
           implementedInterfaces: ['Interface1', 'Interface2'],
           accessModifiers: ['namespaceaccessible', 'public']);
-      classModel.addInterface(InterfaceModel(name: 'ChildInterface'));
-      classModel.addEnum(EnumModel(name: 'ChildEnum'));
-      classModel.addClass(ClassModel(name: 'ChildClass'));
-      classModel.addProperty(Property(name: 'Prop1', type: 'String'));
+      classModel.addInterface(InterfaceMirror(name: 'ChildInterface'));
+      classModel.addEnum(EnumMirror(name: 'ChildEnum'));
+      classModel.addClass(ClassMirror(name: 'ChildClass'));
+      classModel.addProperty(PropertyMirror(name: 'Prop1', type: 'String'));
       classModel.addConstructor(
-          Constructor(accessModifiers: ['namespaceaccessible', 'public']));
-      classModel.addMethod(Method(name: 'doSomething'));
-      classModel.addField(Field(name: 'var1', type: 'String'));
+          ConstructorMirror(accessModifiers: ['namespaceaccessible', 'public']));
+      classModel.addMethod(MethodMirror(name: 'doSomething'));
+      classModel.addField(FieldMirror(name: 'var1', type: 'String'));
 
       String encodedClass = jsonEncode(classModel);
       expect(encodedClass, isNotNull);
@@ -100,7 +100,7 @@ void main() {
       }
       ''';
 
-      final classModel = ClassModel.fromJson(jsonDecode(classAsJson));
+      final classModel = ClassMirror.fromJson(jsonDecode(classAsJson));
       expect(classModel.name, equals('ClassName'));
       expect(classModel.extendedClass, equals('ParentClass'));
       expect(classModel.implementedInterfaces,
@@ -119,11 +119,11 @@ void main() {
 
   group('Interface serialization', () {
     test('Interfaces can be serialized', () {
-      var interfaceModel = InterfaceModel(
+      var interfaceModel = InterfaceMirror(
           name: 'InterfaceName',
           extendedInterfaces: ['Interface1', 'Interface2'],
           accessModifiers: ['namespaceaccessible', 'public']);
-      interfaceModel.addMethod(Method(name: 'doSomething'));
+      interfaceModel.addMethod(MethodMirror(name: 'doSomething'));
 
       String encodedClass = jsonEncode(interfaceModel);
       expect(encodedClass, isNotNull);
@@ -153,7 +153,7 @@ void main() {
       ''';
 
       final interfaceModel =
-          InterfaceModel.fromJson(jsonDecode(interfaceAsJson));
+          InterfaceMirror.fromJson(jsonDecode(interfaceAsJson));
       expect(interfaceModel.name, equals('InterfaceName'));
       expect(interfaceModel.accessModifiers,
           equals(['namespaceaccessible', 'public']));
@@ -164,7 +164,7 @@ void main() {
 
   group('Enum serialization', () {
     test('Enums can be serialized', () {
-      var enumModel = EnumModel(
+      var enumModel = EnumMirror(
           name: 'EnumName', accessModifiers: ['namespaceaccessible', 'public']);
 
       String encodedEnum = jsonEncode(enumModel);
@@ -182,7 +182,7 @@ void main() {
       }
       ''';
 
-      final enumModel = EnumModel.fromJson(jsonDecode(enumAsJson));
+      final enumModel = EnumMirror.fromJson(jsonDecode(enumAsJson));
       expect(enumModel.name, equals('EnumName'));
       expect(
           enumModel.accessModifiers, equals(['namespaceaccessible', 'public']));

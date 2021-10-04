@@ -6,17 +6,17 @@ import 'package:apexdocs_dart/src/model/types.dart';
 import 'package:apexdocs_dart/src/service/walker.dart';
 
 class ApexParser {
-  static Future<Type> parseFromPath(String path) async {
+  static Future<TypeMirror> parseFromPath(String path) async {
     final input = await InputStream.fromPath(path);
     return _parse(input);
   }
 
-  static Type parseFromBody(String body) {
+  static TypeMirror parseFromBody(String body) {
     final input = InputStream.fromString(body);
     return _parse(input);
   }
 
-  static Type _parse(InputStream input) {
+  static TypeMirror _parse(InputStream input) {
     final walkerDefinition = ApexWalkerDefinition();
     Walker.walk(input, walkerDefinition);
     return walkerDefinition.getGeneratedApexType()!;

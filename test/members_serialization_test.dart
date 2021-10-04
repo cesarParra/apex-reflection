@@ -6,14 +6,14 @@ import 'package:apexdocs_dart/src/model/members.dart';
 void main() {
   group('Property serialization', () {
     test('Properties can be serialized', () {
-      final property = Property(
+      final property = PropertyMirror(
           name: 'PropName',
           type: 'String',
           accessModifiers: ['namespaceaccessible', 'public']);
 
       String encodedProperty = jsonEncode(property);
       expect(encodedProperty, isNotNull);
-      final decodedProperty = Property.fromJson(jsonDecode(encodedProperty));
+      final decodedProperty = PropertyMirror.fromJson(jsonDecode(encodedProperty));
       expect(property.name, equals(decodedProperty.name));
     });
 
@@ -26,7 +26,7 @@ void main() {
       }
       ''';
 
-      final property = Property.fromJson(jsonDecode(propertyAsJson));
+      final property = PropertyMirror.fromJson(jsonDecode(propertyAsJson));
       expect(property.name, equals('PropName'));
       expect(property.type, equals('String'));
       expect(
@@ -36,14 +36,14 @@ void main() {
 
   group('Field serialization', () {
     test('Fields can be serialized', () {
-      var field = Field(
+      var field = FieldMirror(
           name: 'FieldNAme',
           type: 'String',
           accessModifiers: ['namespaceaccessible', 'public']);
 
       String encodedField = jsonEncode(field);
       expect(encodedField, isNotNull);
-      final decodedField = Field.fromJson(jsonDecode(encodedField));
+      final decodedField = FieldMirror.fromJson(jsonDecode(encodedField));
       expect(field.name, equals(decodedField.name));
     });
 
@@ -56,7 +56,7 @@ void main() {
       }
       ''';
 
-      final field = Field.fromJson(jsonDecode(fieldAsJson));
+      final field = FieldMirror.fromJson(jsonDecode(fieldAsJson));
       expect(field.name, equals('FieldName'));
       expect(field.type, equals('String'));
       expect(field.accessModifiers, equals(['namespaceaccessible', 'public']));
@@ -65,15 +65,15 @@ void main() {
 
   group('Method serialization', () {
     test('Methods can be serialized', () {
-      var method = Method(
+      var method = MethodMirror(
           name: 'MethodName',
           type: 'String',
           accessModifiers: ['namespaceaccessible', 'public']);
-      method.addParameter(Parameter(name: 'Param1', type: 'String'));
+      method.addParameter(ParameterMirror(name: 'Param1', type: 'String'));
 
       String encodedMethod = jsonEncode(method);
       expect(encodedMethod, isNotNull);
-      final decodedMethod = Method.fromJson(jsonDecode(encodedMethod));
+      final decodedMethod = MethodMirror.fromJson(jsonDecode(encodedMethod));
       expect(method.name, equals(decodedMethod.name));
     });
 
@@ -87,7 +87,7 @@ void main() {
       }
       ''';
 
-      final method = Method.fromJson(jsonDecode(methodAsJson));
+      final method = MethodMirror.fromJson(jsonDecode(methodAsJson));
       expect(method.name, equals('MethodName'));
       expect(method.type, equals('String'));
       expect(method.accessModifiers, equals(['namespaceaccessible', 'public']));
@@ -98,14 +98,14 @@ void main() {
 
   group('Parameter serialization', () {
     test('Parameters can be serialized', () {
-      var parameter = Parameter(
+      var parameter = ParameterMirror(
           name: 'ParameterName',
           type: 'String',
           accessModifiers: ['namespaceaccessible', 'public']);
 
       String encodedParameter = jsonEncode(parameter);
       expect(encodedParameter, isNotNull);
-      final decodedParameter = Parameter.fromJson(jsonDecode(encodedParameter));
+      final decodedParameter = ParameterMirror.fromJson(jsonDecode(encodedParameter));
       expect(parameter.name, equals(decodedParameter.name));
     });
 
@@ -118,7 +118,7 @@ void main() {
       }
       ''';
 
-      final parameter = Parameter.fromJson(jsonDecode(parameterAsJson));
+      final parameter = ParameterMirror.fromJson(jsonDecode(parameterAsJson));
       expect(parameter.name, equals('ParameterName'));
       expect(parameter.type, equals('String'));
       expect(
@@ -129,13 +129,13 @@ void main() {
   group('Constructor serialization', () {
     test('Constructors can be serialized', () {
       var constructor =
-          Constructor(accessModifiers: ['namespaceaccessible', 'public']);
-      constructor.addParameter(Parameter(name: 'Param1', type: 'String'));
+          ConstructorMirror(accessModifiers: ['namespaceaccessible', 'public']);
+      constructor.addParameter(ParameterMirror(name: 'Param1', type: 'String'));
 
       String encodedConstructor = jsonEncode(constructor);
       expect(encodedConstructor, isNotNull);
       final decodedConstructor =
-          Constructor.fromJson(jsonDecode(encodedConstructor));
+          ConstructorMirror.fromJson(jsonDecode(encodedConstructor));
       expect(constructor.accessModifiers,
           equals(decodedConstructor.accessModifiers));
     });
@@ -148,7 +148,7 @@ void main() {
       }
       ''';
 
-      final constructor = Constructor.fromJson(jsonDecode(constructorAsJson));
+      final constructor = ConstructorMirror.fromJson(jsonDecode(constructorAsJson));
       expect(constructor.accessModifiers,
           equals(['namespaceaccessible', 'public']));
       expect(constructor.parameters.length, equals(1));

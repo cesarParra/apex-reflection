@@ -5,11 +5,12 @@ import 'declaration_mirror.dart';
 
 part 'types.g.dart';
 
-abstract class Type extends DeclarationMirror {
+/// Represents a type declaration (class, interface, or enum).
+abstract class TypeMirror extends DeclarationMirror {
   @JsonKey(name: 'type_name')
   String typeName = '';
 
-  Type(
+  TypeMirror(
       {required String name,
       String? docComment,
       List<String> accessModifiers = const []})
@@ -33,29 +34,31 @@ abstract class Type extends DeclarationMirror {
   Map<String, dynamic> toJson();
 }
 
+/// Allows for types to contain method declarations.
 mixin MethodsAwareness {
-  List<Method> methods = [];
+  List<MethodMirror> methods = [];
 
-  void addMethod(Method method) {
+  void addMethod(MethodMirror method) {
     methods.add(method);
   }
 }
 
+/// Represents a class declaration.
 @JsonSerializable()
-class ClassModel extends Type with MethodsAwareness {
+class ClassMirror extends TypeMirror with MethodsAwareness {
   @JsonKey(name: 'extended_class')
   late final String? extendedClass;
   @JsonKey(name: 'implemented_interfaces')
   late final List<String> implementedInterfaces;
 
-  List<Property> properties = [];
-  List<Field> fields = [];
-  List<Constructor> constructors = [];
-  List<EnumModel> enums = [];
-  List<InterfaceModel> interfaces = [];
-  List<ClassModel> classes = [];
+  List<PropertyMirror> properties = [];
+  List<FieldMirror> fields = [];
+  List<ConstructorMirror> constructors = [];
+  List<EnumMirror> enums = [];
+  List<InterfaceMirror> interfaces = [];
+  List<ClassMirror> classes = [];
 
-  ClassModel(
+  ClassMirror(
       {required String name,
       String? docComment,
       List<String> accessModifiers = const [],
@@ -68,7 +71,7 @@ class ClassModel extends Type with MethodsAwareness {
     typeName = 'class';
   }
 
-  factory ClassModel.fromJson(Map<String, dynamic> json) =>
+  factory ClassMirror.fromJson(Map<String, dynamic> json) =>
       _$ClassModelFromJson(json);
 
   @override
@@ -79,37 +82,38 @@ class ClassModel extends Type with MethodsAwareness {
     return true;
   }
 
-  void addProperty(Property property) {
+  void addProperty(PropertyMirror property) {
     properties.add(property);
   }
 
-  void addField(Field field) {
+  void addField(FieldMirror field) {
     fields.add(field);
   }
 
-  void addConstructor(Constructor constructor) {
+  void addConstructor(ConstructorMirror constructor) {
     constructors.add(constructor);
   }
 
-  void addEnum(EnumModel innerEnum) {
+  void addEnum(EnumMirror innerEnum) {
     enums.add(innerEnum);
   }
 
-  void addInterface(InterfaceModel innerInterface) {
+  void addInterface(InterfaceMirror innerInterface) {
     interfaces.add(innerInterface);
   }
 
-  void addClass(ClassModel innerClass) {
+  void addClass(ClassMirror innerClass) {
     classes.add(innerClass);
   }
 }
 
+/// Represents an interface declaration.
 @JsonSerializable()
-class InterfaceModel extends Type with MethodsAwareness {
+class InterfaceMirror extends TypeMirror with MethodsAwareness {
   @JsonKey(name: 'extended_interfaces')
   late final List<String> extendedInterfaces;
 
-  InterfaceModel(
+  InterfaceMirror(
       {required String name,
       String? docComment,
       List<String> accessModifiers = const [],
@@ -121,7 +125,7 @@ class InterfaceModel extends Type with MethodsAwareness {
     typeName = 'interface';
   }
 
-  factory InterfaceModel.fromJson(Map<String, dynamic> json) =>
+  factory InterfaceMirror.fromJson(Map<String, dynamic> json) =>
       _$InterfaceModelFromJson(json);
 
   @override
@@ -133,9 +137,10 @@ class InterfaceModel extends Type with MethodsAwareness {
   }
 }
 
+/// Represents an enum declaration.
 @JsonSerializable()
-class EnumModel extends Type {
-  EnumModel(
+class EnumMirror extends TypeMirror {
+  EnumMirror(
       {required String name,
       String? docComment,
       List<String> accessModifiers = const []})
@@ -146,7 +151,7 @@ class EnumModel extends Type {
     typeName = 'enum';
   }
 
-  factory EnumModel.fromJson(Map<String, dynamic> json) =>
+  factory EnumMirror.fromJson(Map<String, dynamic> json) =>
       _$EnumModelFromJson(json);
 
   @override

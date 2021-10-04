@@ -49,7 +49,7 @@ class ApexWalkerDefinition extends WalkerDefinition {
     return _listener;
   }
 
-  Type? getGeneratedApexType() {
+  TypeMirror? getGeneratedApexType() {
     return _listener.generatedType;
   }
 }

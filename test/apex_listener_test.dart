@@ -129,7 +129,7 @@ void main() {
       Walker.walk(InputStream.fromString('public class MyClass{}'),
           apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassModel;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.extendedClass, isNull);
     });
 
@@ -139,7 +139,7 @@ void main() {
           InputStream.fromString('public class MyClass extends ParentClass{}'),
           apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassModel;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.extendedClass, equals('ParentClass'));
     });
 
@@ -153,7 +153,7 @@ void main() {
       ''';
       Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassModel;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.properties.length, equals(2));
       expect(
           generatedClass.properties
@@ -164,13 +164,13 @@ void main() {
               .any((element) => element.name == 'MyProperty2'),
           isTrue);
 
-      Property property1 = generatedClass.properties
+      PropertyMirror property1 = generatedClass.properties
           .firstWhere((element) => element.name == 'MyProperty1');
       expect(property1.isNamespaceAccessible, isTrue);
       expect(property1.type, equals('String'));
       expect(property1.isPublic, isTrue);
 
-      Property property2 = generatedClass.properties
+      PropertyMirror property2 = generatedClass.properties
           .firstWhere((element) => element.name == 'MyProperty2');
       expect(property2.isPrivate, isTrue);
       expect(property2.type, equals('Integer'));
@@ -188,14 +188,14 @@ void main() {
       ''';
       Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassModel;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.properties.length, equals(1));
       expect(
           generatedClass.properties
               .any((element) => element.name == 'MyProperty1'),
           isTrue);
 
-      Property property1 = generatedClass.properties
+      PropertyMirror property1 = generatedClass.properties
           .firstWhere((element) => element.name == 'MyProperty1');
       expect(property1.rawDocComment, isNotNull);
     });
@@ -210,7 +210,7 @@ void main() {
       ''';
       Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassModel;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(3));
       expect(generatedClass.fields.any((element) => element.name == 'myVar1'),
           isTrue);
@@ -219,17 +219,17 @@ void main() {
       expect(generatedClass.fields.any((element) => element.name == 'myVar3'),
           isTrue);
 
-      Field field1 = generatedClass.fields
+      FieldMirror field1 = generatedClass.fields
           .firstWhere((element) => element.name == 'myVar1');
       expect(field1.isPrivate, isTrue);
       expect(field1.type, equals('String'));
 
-      Field field2 = generatedClass.fields
+      FieldMirror field2 = generatedClass.fields
           .firstWhere((element) => element.name == 'myVar2');
       expect(field2.isPrivate, isTrue);
       expect(field2.type, equals('String'));
 
-      Field field3 = generatedClass.fields
+      FieldMirror field3 = generatedClass.fields
           .firstWhere((element) => element.name == 'myVar3');
       expect(field3.isPrivate, isTrue);
       expect(field3.type, equals('Integer'));
@@ -247,12 +247,12 @@ void main() {
       ''';
       Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassModel;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
       expect(generatedClass.fields.any((element) => element.name == 'myVar1'),
           isTrue);
 
-      Field field1 = generatedClass.fields
+      FieldMirror field1 = generatedClass.fields
           .firstWhere((element) => element.name == 'myVar1');
       expect(field1.rawDocComment, isNotNull);
     });
@@ -273,7 +273,7 @@ void main() {
 
       Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassModel;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.methods.length, equals(2));
       expect(generatedClass.methods.any((element) => element.name == 'sayHi'),
           isTrue);
@@ -282,13 +282,13 @@ void main() {
               .any((element) => element.name == 'getGreeting'),
           isTrue);
 
-      Method method1 = generatedClass.methods
+      MethodMirror method1 = generatedClass.methods
           .firstWhere((element) => element.name == 'sayHi');
       expect(method1.isPublic, isTrue);
       expect(method1.isNamespaceAccessible, isTrue);
       expect(method1.isVoid, isTrue);
 
-      Method method2 = generatedClass.methods
+      MethodMirror method2 = generatedClass.methods
           .firstWhere((element) => element.name == 'getGreeting');
       expect(method2.isPublic, isTrue);
       expect(method2.isNamespaceAccessible, isFalse);
@@ -312,12 +312,12 @@ void main() {
 
       Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassModel;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.methods.length, equals(1));
       expect(generatedClass.methods.any((element) => element.name == 'sayHi'),
           isTrue);
 
-      Method method1 = generatedClass.methods
+      MethodMirror method1 = generatedClass.methods
           .firstWhere((element) => element.name == 'sayHi');
       expect(method1.rawDocComment, isNotNull);
     });
@@ -339,12 +339,12 @@ void main() {
 
       Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassModel;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.methods.length, equals(1));
       expect(generatedClass.methods.any((element) => element.name == 'sayHi'),
           isTrue);
 
-      Method method1 = generatedClass.methods
+      MethodMirror method1 = generatedClass.methods
           .firstWhere((element) => element.name == 'sayHi');
       expect(method1.docDescription, 'Some description');
       expect(method1.parameters.first.docDescription,
@@ -369,7 +369,7 @@ void main() {
 
       Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassModel;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.constructors.length, equals(2));
       expect(
           generatedClass.constructors
@@ -380,12 +380,12 @@ void main() {
               .any((element) => !element.isNamespaceAccessible),
           isTrue);
 
-      Constructor constructor1 = generatedClass.constructors
+      ConstructorMirror constructor1 = generatedClass.constructors
           .firstWhere((element) => element.isNamespaceAccessible);
       expect(constructor1.isPublic, isTrue);
       expect(constructor1.parameters.isEmpty, isTrue);
 
-      Constructor constructor2 = generatedClass.constructors
+      ConstructorMirror constructor2 = generatedClass.constructors
           .firstWhere((element) => !element.isNamespaceAccessible);
       expect(constructor2.isPublic, isTrue);
       expect(constructor2.parameters.length, equals(1));
@@ -408,14 +408,14 @@ void main() {
 
       Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassModel;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.constructors.length, equals(1));
       expect(
           generatedClass.constructors
               .any((element) => element.isNamespaceAccessible),
           isTrue);
 
-      Constructor constructor1 = generatedClass.constructors
+      ConstructorMirror constructor1 = generatedClass.constructors
           .firstWhere((element) => element.isNamespaceAccessible);
       expect(constructor1.rawDocComment, isNotNull);
     });
@@ -433,7 +433,7 @@ void main() {
 
       Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassModel;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.enums.length, equals(1));
       expect(generatedClass.enums.first.name, equals('MyEnum'));
       expect(generatedClass.enums.first.isNamespaceAccessible, isTrue);
@@ -456,7 +456,7 @@ void main() {
 
       Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassModel;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.enums.length, equals(1));
       expect(generatedClass.enums.first.rawDocComment, isNotNull);
     });
@@ -474,7 +474,7 @@ void main() {
 
       Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassModel;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.interfaces.length, equals(1));
 
       var innerInterface = generatedClass.interfaces.first;
@@ -501,7 +501,7 @@ void main() {
 
       Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassModel;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.interfaces.length, equals(1));
 
       var innerInterface = generatedClass.interfaces.first;
@@ -522,7 +522,7 @@ void main() {
 
       Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassModel;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.classes.length, equals(1));
 
       var innerClass = generatedClass.classes.first;
@@ -551,7 +551,7 @@ void main() {
 
       Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassModel;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.classes.length, equals(1));
 
       var innerClass = generatedClass.classes.first;
@@ -603,7 +603,7 @@ void main() {
               'public interface MyInterface extends Interface1, Interface2{}'),
           apexWalkerDefinition);
       var generatedInterface =
-          apexWalkerDefinition.getGeneratedApexType() as InterfaceModel;
+          apexWalkerDefinition.getGeneratedApexType() as InterfaceMirror;
       expect(generatedInterface.extendedInterfaces, isNotEmpty);
       expect(generatedInterface.extendedInterfaces[0], 'Interface1');
       expect(generatedInterface.extendedInterfaces[1], 'Interface2');
@@ -621,7 +621,7 @@ void main() {
 
       Walker.walk(InputStream.fromString(interfaceBody), apexWalkerDefinition);
       var generatedInterface =
-          apexWalkerDefinition.getGeneratedApexType() as InterfaceModel;
+          apexWalkerDefinition.getGeneratedApexType() as InterfaceMirror;
       expect(generatedInterface.methods.length, equals(2));
       expect(
           generatedInterface.methods.any((element) => element.name == 'sayHi'),
@@ -631,14 +631,14 @@ void main() {
               .any((element) => element.name == 'getGreeting'),
           isTrue);
 
-      Method method1 = generatedInterface.methods
+      MethodMirror method1 = generatedInterface.methods
           .firstWhere((element) => element.name == 'sayHi');
       // Interface methods must inherit the access modifiers of the parent interface
       expect(method1.isPublic, isTrue);
       expect(method1.isNamespaceAccessible, isTrue);
       expect(method1.isVoid, isTrue);
 
-      Method method2 = generatedInterface.methods
+      MethodMirror method2 = generatedInterface.methods
           .firstWhere((element) => element.name == 'getGreeting');
       expect(method2.isPublic, isTrue);
       expect(method2.isNamespaceAccessible, isTrue);
@@ -660,13 +660,13 @@ void main() {
 
       Walker.walk(InputStream.fromString(interfaceBody), apexWalkerDefinition);
       var generatedInterface =
-          apexWalkerDefinition.getGeneratedApexType() as InterfaceModel;
+          apexWalkerDefinition.getGeneratedApexType() as InterfaceMirror;
       expect(generatedInterface.methods.length, equals(1));
       expect(
           generatedInterface.methods.any((element) => element.name == 'sayHi'),
           isTrue);
 
-      Method method1 = generatedInterface.methods
+      MethodMirror method1 = generatedInterface.methods
           .firstWhere((element) => element.name == 'sayHi');
       expect(method1.rawDocComment, isNotNull);
     });

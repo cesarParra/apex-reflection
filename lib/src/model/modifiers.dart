@@ -88,10 +88,10 @@ class Annotation {
     return sanitizedString;
   }
 
-  // TODO: Parse custom annotations as "other"
   AnnotationType _parseAnnotationTypeFromString(String name) {
-    return AnnotationType.values
-        .firstWhere((element) => describeEnum(element).toLowerCase() == name);
+    return AnnotationType.values.firstWhere(
+        (element) => describeEnum(element).toLowerCase() == name,
+        orElse: () => AnnotationType.other);
   }
 }
 

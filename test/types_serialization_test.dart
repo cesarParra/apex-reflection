@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:apexdocs_dart/src/model/members.dart';
+import 'package:apexdocs_dart/src/model/modifiers.dart';
 import 'package:apexdocs_dart/src/model/types.dart';
 import 'package:test/test.dart';
 
@@ -10,14 +11,16 @@ void main() {
       var classModel = ClassMirror(
           name: 'ClassName',
           extendedClass: 'ParentClass',
-          implementedInterfaces: ['Interface1', 'Interface2'],
-          accessModifiers: ['namespaceaccessible', 'public']);
+          implementedInterfaces: ['Interface1', 'Interface2'])
+        ..accessModifier = AccessModifier.public
+        ..annotations = [Annotation('@NamespaceAccessible')];
       classModel.addInterface(InterfaceMirror(name: 'ChildInterface'));
       classModel.addEnum(EnumMirror(name: 'ChildEnum'));
       classModel.addClass(ClassMirror(name: 'ChildClass'));
       classModel.addProperty(PropertyMirror(name: 'Prop1', type: 'String'));
-      classModel.addConstructor(
-          ConstructorMirror(accessModifiers: ['namespaceaccessible', 'public']));
+      classModel.addConstructor(ConstructorMirror()
+        ..accessModifier = AccessModifier.public
+        ..annotations = [Annotation('@NamespaceAccessible')]);
       classModel.addMethod(MethodMirror(name: 'doSomething'));
       classModel.addField(FieldMirror(name: 'var1', type: 'String'));
 
@@ -28,76 +31,93 @@ void main() {
     test('Classes can be deserialized', () {
       final classAsJson = '''
       {
-        "name": "ClassName",
-        "extended_class": "ParentClass",
-        "implemented_interfaces": [
-          "Interface1",
-          "Interface2"
-        ],
-        "access_modifiers": [
-          "namespaceaccessible",
-          "public"
-        ],
-        "fields": [
-          {
-            "name": "var1",
-            "type": "String",
-            "access_modifiers": []
-          }
-        ],
-        "constructors": [
-          {
-            "access_modifiers": [
-              "namespaceaccessible",
-              "public"
-            ],
-            "parameters": []
-          }
-        ],
-        "properties": [
-          {
-            "name": "Prop1",
-            "type": "String",
-            "access_modifiers": []
-          }
-        ],
-        "methods": [
-          {
-            "name": "doSomething",
-            "type": "void",
-            "access_modifiers": [],
-            "parameters": []
-          }
-        ],
-        "interfaces": [
-          {
-            "name": "ChildInterface",
-            "extended_interfaces": [],
-            "access_modifiers": [],
-            "methods": []
-          }
-        ],
-        "enums": [
-          {
-            "name": "ChildEnum",
-            "access_modifiers": []
-          }
-        ],
-        "classes": [
-          {
-            "name": "ChildClass",
-            "implemented_interfaces": [],
-            "access_modifiers": [],
-            "fields": [],
-            "constructors": [],
-            "properties": [],
-            "methods": [],
-            "interfaces": [],
-            "enums": [],
-            "classes": []
-          }
-        ]
-      }
+      "access_modifier": "public",
+      "annotations": [
+        {
+          "rawDeclaration": "@NamespaceAccessible",
+          "name": "namespaceaccessible",
+          "type": "namespaceAccessible"
+        }
+      ],
+      "name": "ClassName",
+      "type_name": "class",
+      "methods": [
+        {
+          "annotations": [],
+          "name": "doSomething",
+          "memberModifiers": [],
+          "type": "void",
+          "parameters": []
+        }
+      ],
+      "classModifiers": [],
+      "extended_class": "ParentClass",
+      "implemented_interfaces": [
+        "Interface1",
+        "Interface2"
+      ],
+      "properties": [
+        {
+          "annotations": [],
+          "name": "Prop1",
+          "memberModifiers": [],
+          "type": "String"
+        }
+      ],
+      "fields": [
+        {
+          "annotations": [],
+          "name": "var1",
+          "memberModifiers": [],
+          "type": "String"
+        }
+      ],
+      "constructors": [
+        {
+          "access_modifier": "public",
+          "annotations": [
+            {
+              "rawDeclaration": "@NamespaceAccessible",
+              "name": "namespaceaccessible",
+              "type": "namespaceAccessible"
+            }
+          ],
+          "parameters": []
+        }
+      ],
+      "enums": [
+        {
+          "annotations": [],
+          "name": "ChildEnum",
+          "type_name": "enum"
+        }
+      ],
+      "interfaces": [
+        {
+          "annotations": [],
+          "name": "ChildInterface",
+          "type_name": "interface",
+          "methods": [],
+          "extended_interfaces": []
+        }
+      ],
+      "classes": [
+        {
+          "annotations": [],
+          "name": "ChildClass",
+          "type_name": "class",
+          "methods": [],
+          "classModifiers": [],
+          "implemented_interfaces": [],
+          "properties": [],
+          "fields": [],
+          "constructors": [],
+          "enums": [],
+          "interfaces": [],
+          "classes": []
+        }
+      ]
+    }
       ''';
 
       final classModel = ClassMirror.fromJson(jsonDecode(classAsJson));
@@ -105,8 +125,8 @@ void main() {
       expect(classModel.extendedClass, equals('ParentClass'));
       expect(classModel.implementedInterfaces,
           equals(['Interface1', 'Interface2']));
-      expect(classModel.accessModifiers,
-          equals(['namespaceaccessible', 'public']));
+      expect(classModel.isNamespaceAccessible, equals(true));
+      expect(classModel.isPublic, equals(true));
       expect(classModel.fields, hasLength(1));
       expect(classModel.properties, hasLength(1));
       expect(classModel.constructors, hasLength(1));
@@ -121,33 +141,40 @@ void main() {
     test('Interfaces can be serialized', () {
       var interfaceModel = InterfaceMirror(
           name: 'InterfaceName',
-          extendedInterfaces: ['Interface1', 'Interface2'],
-          accessModifiers: ['namespaceaccessible', 'public']);
+          extendedInterfaces: ['Interface1', 'Interface2'])
+        ..accessModifier = AccessModifier.public
+        ..annotations = [Annotation('@NamespaceAccessible')];
       interfaceModel.addMethod(MethodMirror(name: 'doSomething'));
 
-      String encodedClass = jsonEncode(interfaceModel);
-      expect(encodedClass, isNotNull);
+      String encodedInterface = jsonEncode(interfaceModel);
+      expect(encodedInterface, isNotNull);
     });
 
     test('Interfaces can be deserialized', () {
       final interfaceAsJson = '''
       {
+        "access_modifier": "public",
+        "annotations": [
+          {
+            "rawDeclaration": "@NamespaceAccessible",
+            "name": "namespaceaccessible",
+            "type": "namespaceAccessible"
+          }
+        ],
         "name": "InterfaceName",
+        "type_name": "interface",
+        "methods": [
+          {
+            "annotations": [],
+            "name": "doSomething",
+            "memberModifiers": [],
+            "type": "void",
+            "parameters": []
+          }
+        ],
         "extended_interfaces": [
           "Interface1",
           "Interface2"
-        ],
-        "access_modifiers": [
-          "namespaceaccessible",
-          "public"
-        ],
-        "methods": [
-          {
-            "name": "doSomething",
-            "type": "void",
-            "access_modifiers": [],
-            "parameters": []
-          }
         ]
       }
       ''';
@@ -155,8 +182,8 @@ void main() {
       final interfaceModel =
           InterfaceMirror.fromJson(jsonDecode(interfaceAsJson));
       expect(interfaceModel.name, equals('InterfaceName'));
-      expect(interfaceModel.accessModifiers,
-          equals(['namespaceaccessible', 'public']));
+      expect(interfaceModel.isPublic, equals(true));
+      expect(interfaceModel.isNamespaceAccessible, equals(true));
       expect(interfaceModel.methods, hasLength(1));
       expect(interfaceModel.methods.first.name, 'doSomething');
     });
@@ -164,8 +191,9 @@ void main() {
 
   group('Enum serialization', () {
     test('Enums can be serialized', () {
-      var enumModel = EnumMirror(
-          name: 'EnumName', accessModifiers: ['namespaceaccessible', 'public']);
+      var enumModel = EnumMirror(name: 'EnumName')
+        ..accessModifier = AccessModifier.public
+        ..annotations = [Annotation('@NamespaceAccessible')];
 
       String encodedEnum = jsonEncode(enumModel);
       expect(encodedEnum, isNotNull);
@@ -174,18 +202,23 @@ void main() {
     test('Fields can be deserialized', () {
       final enumAsJson = '''
       {
+        "access_modifier": "public",
+        "annotations": [
+          {
+            "rawDeclaration": "@NamespaceAccessible",
+            "name": "namespaceaccessible",
+            "type": "namespaceAccessible"
+          }
+        ],
         "name": "EnumName",
-        "access_modifiers": [
-          "namespaceaccessible",
-          "public"
-        ]
+        "type_name": "enum"
       }
       ''';
 
       final enumModel = EnumMirror.fromJson(jsonDecode(enumAsJson));
       expect(enumModel.name, equals('EnumName'));
-      expect(
-          enumModel.accessModifiers, equals(['namespaceaccessible', 'public']));
+      expect(enumModel.isPublic, equals(true));
+      expect(enumModel.isNamespaceAccessible, equals(true));
     });
   });
 }

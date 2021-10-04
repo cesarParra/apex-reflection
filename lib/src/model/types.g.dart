@@ -6,22 +6,28 @@ part of 'types.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ClassMirror _$ClassModelFromJson(Map<String, dynamic> json) {
+ClassMirror _$ClassMirrorFromJson(Map<String, dynamic> json) {
   return ClassMirror(
     name: json['name'] as String,
-    docComment: json['docComment'] as String?,
-    accessModifiers: (json['access_modifiers'] as List<dynamic>)
-        .map((e) => e as String)
-        .toList(),
+    rawDocComment: json['rawDocComment'] as String?,
     extendedClass: json['extended_class'] as String?,
     implementedInterfaces: (json['implemented_interfaces'] as List<dynamic>)
         .map((e) => e as String)
         .toList(),
   )
-    ..rawDocComment = json['rawDocComment'] as String?
+    ..accessModifier =
+        _$enumDecodeNullable(_$AccessModifierEnumMap, json['access_modifier'])
+    ..annotations = (json['annotations'] as List<dynamic>)
+        .map((e) => Annotation.fromJson(e as Map<String, dynamic>))
+        .toList()
     ..typeName = json['type_name'] as String
     ..methods = (json['methods'] as List<dynamic>)
         .map((e) => MethodMirror.fromJson(e as Map<String, dynamic>))
+        .toList()
+    ..sharingModifier =
+        _$enumDecodeNullable(_$SharingModifierEnumMap, json['sharingModifier'])
+    ..classModifiers = (json['classModifiers'] as List<dynamic>)
+        .map((e) => _$enumDecode(_$ClassModifierEnumMap, e))
         .toList()
     ..properties = (json['properties'] as List<dynamic>)
         .map((e) => PropertyMirror.fromJson(e as Map<String, dynamic>))
@@ -43,14 +49,18 @@ ClassMirror _$ClassModelFromJson(Map<String, dynamic> json) {
         .toList();
 }
 
-Map<String, dynamic> _$ClassModelToJson(ClassMirror instance) =>
+Map<String, dynamic> _$ClassMirrorToJson(ClassMirror instance) =>
     <String, dynamic>{
-      'access_modifiers': instance.accessModifiers,
       'rawDocComment': instance.rawDocComment,
-      'docComment': instance.docComment,
+      'access_modifier': _$AccessModifierEnumMap[instance.accessModifier],
+      'annotations': instance.annotations,
       'name': instance.name,
       'type_name': instance.typeName,
       'methods': instance.methods,
+      'sharingModifier': _$SharingModifierEnumMap[instance.sharingModifier],
+      'classModifiers': instance.classModifiers
+          .map((e) => _$ClassModifierEnumMap[e])
+          .toList(),
       'extended_class': instance.extendedClass,
       'implemented_interfaces': instance.implementedInterfaces,
       'properties': instance.properties,
@@ -61,51 +71,112 @@ Map<String, dynamic> _$ClassModelToJson(ClassMirror instance) =>
       'classes': instance.classes,
     };
 
-InterfaceMirror _$InterfaceModelFromJson(Map<String, dynamic> json) {
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
+  }
+
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
+}
+
+K? _$enumDecodeNullable<K, V>(
+  Map<K, V> enumValues,
+  dynamic source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<K, V>(enumValues, source, unknownValue: unknownValue);
+}
+
+const _$AccessModifierEnumMap = {
+  AccessModifier.private: 'private',
+  AccessModifier.protected: 'protected',
+  AccessModifier.public: 'public',
+  AccessModifier.global: 'global',
+};
+
+const _$SharingModifierEnumMap = {
+  SharingModifier.withSharing: 'withSharing',
+  SharingModifier.withoutSharing: 'withoutSharing',
+  SharingModifier.inheritedSharing: 'inheritedSharing',
+};
+
+const _$ClassModifierEnumMap = {
+  ClassModifier.virtual: 'virtual',
+  ClassModifier.abstract: 'abstract',
+};
+
+InterfaceMirror _$InterfaceMirrorFromJson(Map<String, dynamic> json) {
   return InterfaceMirror(
     name: json['name'] as String,
-    docComment: json['docComment'] as String?,
-    accessModifiers: (json['access_modifiers'] as List<dynamic>)
-        .map((e) => e as String)
-        .toList(),
+    rawDocComment: json['rawDocComment'] as String?,
     extendedInterfaces: (json['extended_interfaces'] as List<dynamic>)
         .map((e) => e as String)
         .toList(),
   )
-    ..rawDocComment = json['rawDocComment'] as String?
+    ..accessModifier =
+        _$enumDecodeNullable(_$AccessModifierEnumMap, json['access_modifier'])
+    ..annotations = (json['annotations'] as List<dynamic>)
+        .map((e) => Annotation.fromJson(e as Map<String, dynamic>))
+        .toList()
     ..typeName = json['type_name'] as String
     ..methods = (json['methods'] as List<dynamic>)
         .map((e) => MethodMirror.fromJson(e as Map<String, dynamic>))
-        .toList();
+        .toList()
+    ..sharingModifier =
+        _$enumDecodeNullable(_$SharingModifierEnumMap, json['sharingModifier']);
 }
 
-Map<String, dynamic> _$InterfaceModelToJson(InterfaceMirror instance) =>
+Map<String, dynamic> _$InterfaceMirrorToJson(InterfaceMirror instance) =>
     <String, dynamic>{
-      'access_modifiers': instance.accessModifiers,
       'rawDocComment': instance.rawDocComment,
-      'docComment': instance.docComment,
+      'access_modifier': _$AccessModifierEnumMap[instance.accessModifier],
+      'annotations': instance.annotations,
       'name': instance.name,
       'type_name': instance.typeName,
       'methods': instance.methods,
+      'sharingModifier': _$SharingModifierEnumMap[instance.sharingModifier],
       'extended_interfaces': instance.extendedInterfaces,
     };
 
-EnumMirror _$EnumModelFromJson(Map<String, dynamic> json) {
+EnumMirror _$EnumMirrorFromJson(Map<String, dynamic> json) {
   return EnumMirror(
     name: json['name'] as String,
-    docComment: json['docComment'] as String?,
-    accessModifiers: (json['access_modifiers'] as List<dynamic>)
-        .map((e) => e as String)
-        .toList(),
+    rawDocComment: json['rawDocComment'] as String?,
   )
-    ..rawDocComment = json['rawDocComment'] as String?
+    ..accessModifier =
+        _$enumDecodeNullable(_$AccessModifierEnumMap, json['access_modifier'])
+    ..annotations = (json['annotations'] as List<dynamic>)
+        .map((e) => Annotation.fromJson(e as Map<String, dynamic>))
+        .toList()
     ..typeName = json['type_name'] as String;
 }
 
-Map<String, dynamic> _$EnumModelToJson(EnumMirror instance) => <String, dynamic>{
-      'access_modifiers': instance.accessModifiers,
+Map<String, dynamic> _$EnumMirrorToJson(EnumMirror instance) =>
+    <String, dynamic>{
       'rawDocComment': instance.rawDocComment,
-      'docComment': instance.docComment,
+      'access_modifier': _$AccessModifierEnumMap[instance.accessModifier],
+      'annotations': instance.annotations,
       'name': instance.name,
       'type_name': instance.typeName,
     };

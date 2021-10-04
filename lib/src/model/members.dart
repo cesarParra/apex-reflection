@@ -1,62 +1,44 @@
 import 'package:apexdocs_dart/src/model/declaration_mirror.dart';
+import 'package:apexdocs_dart/src/model/modifiers.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'members.g.dart';
 
 /// Represents a member of a class or interface, like properties, fields,
 /// constructors or methods.
-abstract class MemberMirror extends DeclarationMirror {
+abstract class MemberMirror extends DeclarationMirror
+    with MemberModifiersAwareness {
   final String type;
 
   MemberMirror(
-      {required String name,
-      String? docComment,
-      required this.type,
-      List<String> accessModifiers = const []})
-      : super(
-            name: name,
-            docComment: docComment,
-            accessModifiers: accessModifiers);
+      {required String name, String? rawDocComment, required this.type})
+      : super(name: name, rawDocComment: rawDocComment);
 }
 
 /// Represents a property declaration.
 @JsonSerializable()
 class PropertyMirror extends MemberMirror {
   PropertyMirror(
-      {required String name,
-      String? docComment,
-      required String type,
-      List<String> accessModifiers = const []})
-      : super(
-            name: name,
-            docComment: docComment,
-            type: type,
-            accessModifiers: accessModifiers);
+      {required String name, String? rawDocComment, required String type})
+      : super(name: name, rawDocComment: rawDocComment, type: type);
 
   factory PropertyMirror.fromJson(Map<String, dynamic> json) =>
-      _$PropertyFromJson(json);
+      _$PropertyMirrorFromJson(json);
 
-  Map<String, dynamic> toJson() => _$PropertyToJson(this);
+  Map<String, dynamic> toJson() => _$PropertyMirrorToJson(this);
 }
 
 /// Represents a field declaration.
 @JsonSerializable()
 class FieldMirror extends MemberMirror {
   FieldMirror(
-      {required String name,
-      String? docComment,
-      required String type,
-      List<String> accessModifiers = const []})
-      : super(
-            name: name,
-            docComment: docComment,
-            type: type,
-            accessModifiers: accessModifiers);
+      {required String name, String? rawDocComment, required String type})
+      : super(name: name, rawDocComment: rawDocComment, type: type);
 
   factory FieldMirror.fromJson(Map<String, dynamic> json) =>
-      _$FieldFromJson(json);
+      _$FieldMirrorFromJson(json);
 
-  Map<String, dynamic> toJson() => _$FieldToJson(this);
+  Map<String, dynamic> toJson() => _$FieldMirrorToJson(this);
 }
 
 /// Allows for the support of parameters.
@@ -82,42 +64,33 @@ mixin ParameterAwareness {
 @JsonSerializable()
 class MethodMirror extends MemberMirror with ParameterAwareness {
   MethodMirror(
-      {required String name,
-      String? docComment,
-      String type = 'void',
-      List<String> accessModifiers = const []})
-      : super(
-            name: name,
-            docComment: docComment,
-            type: type,
-            accessModifiers: accessModifiers);
+      {required String name, String? rawDocComment, String type = 'void'})
+      : super(name: name, rawDocComment: rawDocComment, type: type);
 
   factory MethodMirror.fromJson(Map<String, dynamic> json) =>
-      _$MethodFromJson(json);
+      _$MethodMirrorFromJson(json);
 
-  Map<String, dynamic> toJson() => _$MethodToJson(this);
+  Map<String, dynamic> toJson() => _$MethodMirrorToJson(this);
 
   get isVoid => type.toLowerCase() == 'void';
 }
 
 /// Represents a parameter declaration.
 @JsonSerializable()
-class ParameterMirror extends MemberMirror {
+class ParameterMirror with MemberModifiersAwareness {
   @JsonKey(ignore: true)
   ParameterAwareness? parent;
 
-  ParameterMirror(
-      {required String name,
-      required String type,
-      List<String> accessModifiers = const []})
-      : super(name: name, type: type, accessModifiers: accessModifiers);
+  String name;
+  String type;
+
+  ParameterMirror({required this.name, required this.type});
 
   factory ParameterMirror.fromJson(Map<String, dynamic> json) =>
-      _$ParameterFromJson(json);
+      _$ParameterMirrorFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ParameterToJson(this);
+  Map<String, dynamic> toJson() => _$ParameterMirrorToJson(this);
 
-  @override
   String? get docDescription {
     if (parent is DocsCommentAwareness) {
       return (parent as DocsCommentAwareness)
@@ -133,21 +106,16 @@ class ParameterMirror extends MemberMirror {
 /// Represents a constructor declaration.
 @JsonSerializable()
 class ConstructorMirror extends DeclarationMirror with ParameterAwareness {
-  _initialize(dynamic accessModifiers, [String? docComment]) {
-    if (accessModifiers is List<dynamic>) {
-      accessModifiers = accessModifiers.cast<String>();
-    }
-    this.accessModifiers = accessModifiers;
-    rawDocComment = docComment;
+  _initialize([String? rawDocComment]) {
+    this.rawDocComment = rawDocComment;
   }
 
-  ConstructorMirror({accessModifiers = const <String>[], String? docComment})
-      : super(name: '<init>', accessModifiers: <String>[]) {
-    _initialize(accessModifiers, docComment);
+  ConstructorMirror({String? rawDocComment}) : super(name: '<init>') {
+    _initialize(rawDocComment);
   }
 
   factory ConstructorMirror.fromJson(Map<String, dynamic> json) =>
-      _$ConstructorFromJson(json);
+      _$ConstructorMirrorFromJson(json);
 
-  Map<String, dynamic> toJson() => _$ConstructorToJson(this);
+  Map<String, dynamic> toJson() => _$ConstructorMirrorToJson(this);
 }

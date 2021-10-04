@@ -1,4 +1,5 @@
 import 'package:apexdocs_dart/src/model/members.dart';
+import 'package:apexdocs_dart/src/model/modifiers.dart';
 import 'package:test/test.dart';
 
 import 'package:apexdocs_dart/src/model/types.dart';
@@ -13,19 +14,13 @@ void main() {
 
     test('Does not have access modifiers by default', () {
       final classModel = ClassMirror(name: 'AnyName');
-      expect(classModel.accessModifiers.length, 0);
+      expect(classModel.accessModifier, isNull);
     });
 
     test('Can receive access modifiers', () {
-      final classModel =
-          ClassMirror(name: 'AnyName', accessModifiers: ['public']);
-      expect(classModel.accessModifiers.length, 1);
-    });
-
-    test('Supports access modifiers no matter the case', () {
-      final classModel =
-          ClassMirror(name: 'AnyName', accessModifiers: ['PuBlIc']);
-      expect(classModel.isPublic, equals(true));
+      final classModel = ClassMirror(name: 'AnyName')
+        ..accessModifier = AccessModifier.public;
+      expect(classModel.accessModifier, equals(AccessModifier.public));
     });
 
     test('Does not have doc comments by default', () {
@@ -35,7 +30,7 @@ void main() {
 
     test('Can receive doc comments', () {
       final classModel = ClassMirror(
-          name: 'AnyName', docComment: '@description Some description');
+          name: 'AnyName', rawDocComment: '@description Some description');
       expect(classModel.rawDocComment, isNotNull);
     });
 
@@ -62,50 +57,50 @@ void main() {
     });
 
     test('Can determine if is private', () {
-      final classModel =
-          ClassMirror(name: 'AnyName', accessModifiers: ['private']);
+      final classModel = ClassMirror(name: 'AnyName')
+        ..accessModifier = AccessModifier.private;
       expect(classModel.isPrivate, isTrue);
     });
 
     test('Can determine if is public', () {
-      final classModel =
-          ClassMirror(name: 'AnyName', accessModifiers: ['public']);
+      final classModel = ClassMirror(name: 'AnyName')
+        ..accessModifier = AccessModifier.public;
       expect(classModel.isPublic, isTrue);
     });
 
     test('Can determine if is global', () {
-      final classModel =
-          ClassMirror(name: 'AnyName', accessModifiers: ['global']);
+      final classModel = ClassMirror(name: 'AnyName')
+        ..accessModifier = AccessModifier.global;
       expect(classModel.isGlobal, isTrue);
     });
 
     test('Can determine if is protected', () {
-      final classModel =
-          ClassMirror(name: 'AnyName', accessModifiers: ['protected']);
+      final classModel = ClassMirror(name: 'AnyName')
+        ..accessModifier = AccessModifier.protected;
       expect(classModel.isProtected, isTrue);
     });
 
     test('Can determine if is virtual', () {
-      final classModel =
-          ClassMirror(name: 'AnyName', accessModifiers: ['public', 'virtual']);
+      final classModel = ClassMirror(name: 'AnyName')
+        ..classModifiers = [ClassModifier.virtual];
       expect(classModel.isVirtual, isTrue);
     });
 
     test('Can determine if is NamespaceAccessible', () {
-      final classModel =
-          ClassMirror(name: 'AnyName', accessModifiers: ['namespaceaccessible']);
+      final classModel = ClassMirror(name: 'AnyName')
+        ..annotations = [Annotation('@NamespaceAccessible')];
       expect(classModel.isNamespaceAccessible, isTrue);
     });
 
     test('Can determine if is test', () {
-      final classModel =
-          ClassMirror(name: 'AnyName', accessModifiers: ['istest']);
+      final classModel = ClassMirror(name: 'AnyName')
+        ..annotations = [Annotation('@IsTest')];
       expect(classModel.isTest, isTrue);
     });
 
     test('Can determine if is deprecated', () {
-      final classModel =
-          ClassMirror(name: 'AnyName', accessModifiers: ['deprecated']);
+      final classModel = ClassMirror(name: 'AnyName')
+        ..annotations = [Annotation('@Deprecated')];
       expect(classModel.isDeprecated, isTrue);
     });
 
@@ -225,19 +220,19 @@ void main() {
 
     test('Can receive doc comments', () {
       final interfaceModel = InterfaceMirror(
-          name: 'AnyName', docComment: '@description Some description');
+          name: 'AnyName', rawDocComment: '@description Some description');
       expect(interfaceModel.rawDocComment, isNotNull);
     });
 
     test('Does not have access modifiers by default', () {
       final interfaceModel = InterfaceMirror(name: 'AnyName');
-      expect(interfaceModel.accessModifiers.length, 0);
+      expect(interfaceModel.accessModifier, isNull);
     });
 
     test('Can receive access modifiers', () {
-      final interfaceModel =
-          InterfaceMirror(name: 'AnyName', accessModifiers: ['public']);
-      expect(interfaceModel.accessModifiers.length, 1);
+      final interfaceModel = InterfaceMirror(name: 'AnyName')
+        ..accessModifier = AccessModifier.public;
+      expect(interfaceModel.accessModifier, equals(AccessModifier.public));
     });
 
     test('Does not extend another interface by default', () {
@@ -254,50 +249,44 @@ void main() {
     });
 
     test('Can determine if is private', () {
-      final interfaceModel =
-          InterfaceMirror(name: 'AnyName', accessModifiers: ['private']);
+      final interfaceModel = InterfaceMirror(name: 'AnyName')
+        ..accessModifier = AccessModifier.private;
       expect(interfaceModel.isPrivate, isTrue);
     });
 
     test('Can determine if is public', () {
-      final interfaceModel =
-          InterfaceMirror(name: 'AnyName', accessModifiers: ['public']);
+      final interfaceModel = InterfaceMirror(name: 'AnyName')
+        ..accessModifier = AccessModifier.public;
       expect(interfaceModel.isPublic, isTrue);
     });
 
     test('Can determine if is global', () {
-      final interfaceModel =
-          InterfaceMirror(name: 'AnyName', accessModifiers: ['global']);
+      final interfaceModel = InterfaceMirror(name: 'AnyName')
+        ..accessModifier = AccessModifier.global;
       expect(interfaceModel.isGlobal, isTrue);
     });
 
     test('Can determine if is protected', () {
-      final interfaceModel =
-          InterfaceMirror(name: 'AnyName', accessModifiers: ['protected']);
+      final interfaceModel = InterfaceMirror(name: 'AnyName')
+        ..accessModifier = AccessModifier.protected;
       expect(interfaceModel.isProtected, isTrue);
     });
 
-    test('Can determine if is virtual', () {
-      final interfaceModel = InterfaceMirror(
-          name: 'AnyName', accessModifiers: ['public', 'virtual']);
-      expect(interfaceModel.isVirtual, isTrue);
-    });
-
     test('Can determine if is NamespaceAccessible', () {
-      final interfaceModel = InterfaceMirror(
-          name: 'AnyName', accessModifiers: ['namespaceaccessible']);
+      final interfaceModel = InterfaceMirror(name: 'AnyName')
+        ..annotations = [Annotation('@NamespaceAccessible')];
       expect(interfaceModel.isNamespaceAccessible, isTrue);
     });
 
     test('Can determine if is test', () {
-      final interfaceModel =
-          InterfaceMirror(name: 'AnyName', accessModifiers: ['istest']);
+      final interfaceModel = InterfaceMirror(name: 'AnyName')
+        ..annotations = [Annotation('IsTest')];
       expect(interfaceModel.isTest, isTrue);
     });
 
     test('Can determine if is deprecated', () {
-      final interfaceModel =
-          InterfaceMirror(name: 'AnyName', accessModifiers: ['deprecated']);
+      final interfaceModel = InterfaceMirror(name: 'AnyName')
+        ..annotations = [Annotation('@Deprecated')];
       expect(interfaceModel.isDeprecated, isTrue);
     });
 

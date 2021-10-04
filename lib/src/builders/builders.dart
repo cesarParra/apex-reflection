@@ -1,6 +1,11 @@
 import 'package:apexdocs_dart/src/antlr/lib/apex/ApexParser.dart';
+import 'package:apexdocs_dart/src/model/members.dart';
+import 'package:apexdocs_dart/src/model/modifiers.dart';
 import 'package:apexdocs_dart/src/model/types.dart';
 import 'package:apexdocs_dart/src/service/apex_listener.dart';
+import 'package:apexdocs_dart/src/service/utils/parsing/parsing_utils.dart';
+
+// Types
 
 ClassMirror buildClass(
     DeclarationDescriptor descriptor, ClassDeclarationContext ctx) {
@@ -12,10 +17,13 @@ ClassMirror buildClass(
 
   return ClassMirror(
       name: className,
-      accessModifiers: descriptor.accessModifiers,
-      docComment: descriptor.docComment,
+      rawDocComment: descriptor.docComment,
       extendedClass: extendedClass,
-      implementedInterfaces: implementedInterfaces);
+      implementedInterfaces: implementedInterfaces)
+    ..accessModifier = descriptor.accessModifier
+    ..sharingModifier = descriptor.sharingModifier
+    ..classModifiers = descriptor.classModifiers
+    ..annotations = descriptor.annotations;
 }
 
 InterfaceMirror buildInterface(
@@ -26,7 +34,85 @@ InterfaceMirror buildInterface(
       : <String>[];
   return InterfaceMirror(
       name: interfaceName,
-      docComment: descriptor.docComment,
-      accessModifiers: descriptor.accessModifiers,
-      extendedInterfaces: extendsInterfaces);
+      rawDocComment: descriptor.docComment,
+      extendedInterfaces: extendsInterfaces)
+    ..accessModifier = descriptor.accessModifier
+    ..sharingModifier = descriptor.sharingModifier
+    ..annotations = descriptor.annotations;
+}
+
+EnumMirror buildEnum(
+    DeclarationDescriptor descriptor, EnumDeclarationContext ctx) {
+  final enumName = ctx.id().text;
+  return EnumMirror(name: enumName, rawDocComment: descriptor.docComment)
+    ..accessModifier = descriptor.accessModifier
+    ..annotations = descriptor.annotations;
+}
+
+// Members
+
+PropertyMirror buildProperty(
+    DeclarationDescriptor descriptor, PropertyDeclarationContext ctx) {
+  final propertyName = ctx.id().text;
+  final type = ctx.typeRef().text;
+
+  return PropertyMirror(
+      name: propertyName, rawDocComment: descriptor.docComment, type: type)
+    ..accessModifier = descriptor.accessModifier
+    ..annotations = descriptor.annotations
+    ..memberModifiers = descriptor.memberModifiers;
+}
+
+List<FieldMirror> buildFields(
+    DeclarationDescriptor descriptor, FieldDeclarationContext ctx) {
+  final typeName = ctx.typeRef().text;
+  final fieldNames =
+      ctx.variableDeclarators().variableDeclarators().map((e) => e.text);
+
+  return fieldNames
+      .map((e) => FieldMirror(
+          name: e, rawDocComment: descriptor.docComment, type: typeName)
+        ..accessModifier = descriptor.accessModifier
+        ..annotations = descriptor.annotations
+        ..memberModifiers = descriptor.memberModifiers)
+      .toList();
+}
+
+MethodMirror buildMethod(
+    DeclarationDescriptor descriptor, MethodDeclarationContext ctx) {
+  final methodName = ctx.id().text;
+  final typeName = ctx.typeRef() != null ? ctx.typeRef().text : 'void';
+
+  List<ParameterMirror>? parameters = parseParameters(ctx);
+
+  return MethodMirror(
+      name: methodName, rawDocComment: descriptor.docComment, type: typeName)
+    ..parameters = parameters ?? []
+    ..accessModifier = descriptor.accessModifier
+    ..annotations = descriptor.annotations
+    ..memberModifiers = descriptor.memberModifiers;
+}
+
+MethodMirror buildInterfaceMethod(InterfaceMethodDeclarationContext ctx,
+    AccessModifier? parentAccessModifier, List<Annotation> parentAnnotations) {
+  final docComment = ctx.DOC_COMMENT()?.text;
+  final methodName = ctx.id().text;
+  final typeName = ctx.typeRef() != null ? ctx.typeRef()!.text : 'void';
+
+  List<ParameterMirror>? parameters = parseParameters(ctx);
+
+  return MethodMirror(
+      name: methodName, rawDocComment: docComment, type: typeName)
+    ..parameters = parameters ?? []
+    ..accessModifier = parentAccessModifier
+    ..annotations = parentAnnotations;
+}
+
+ConstructorMirror buildConstructor(
+    DeclarationDescriptor descriptor, ConstructorDeclarationContext ctx) {
+  List<ParameterMirror>? parameters = parseParameters(ctx);
+  return ConstructorMirror(rawDocComment: descriptor.docComment)
+    ..parameters = parameters ?? []
+    ..accessModifier = descriptor.accessModifier
+    ..annotations = descriptor.annotations;
 }

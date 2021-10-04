@@ -1,3 +1,4 @@
+import 'package:apexdocs_dart/src/model/modifiers.dart';
 import 'package:test/test.dart';
 import 'package:apexdocs_dart/src/model/members.dart';
 
@@ -22,17 +23,20 @@ void main() {
       final property = PropertyMirror(
           name: 'AnyName',
           type: 'String',
-          docComment: '@description Some description');
+          rawDocComment: '@description Some description');
       expect(property.rawDocComment, isNotNull);
     });
 
     test('Properties can have access modifiers', () {
-      var property = PropertyMirror(
-          name: 'MyProp',
-          type: 'String',
-          accessModifiers: ['namespaceaccessible', 'public']);
-      expect(property.isNamespaceAccessible, isTrue);
+      var property = PropertyMirror(name: 'MyProp', type: 'String')
+        ..accessModifier = AccessModifier.public;
       expect(property.isPublic, isTrue);
+    });
+
+    test('Properties can have annotation modifiers', () {
+      var property = PropertyMirror(name: 'MyProp', type: 'String')
+        ..annotations = [Annotation('@NamespaceAccessible')];
+      expect(property.isNamespaceAccessible, isTrue);
     });
   });
 
@@ -56,17 +60,20 @@ void main() {
       final field = FieldMirror(
           name: 'AnyName',
           type: 'String',
-          docComment: '@description Some description');
+          rawDocComment: '@description Some description');
       expect(field.rawDocComment, isNotNull);
     });
 
     test('Fields can have access modifiers', () {
-      var field = FieldMirror(
-          name: 'MyField',
-          type: 'String',
-          accessModifiers: ['namespaceaccessible', 'public']);
-      expect(field.isNamespaceAccessible, isTrue);
+      var field = FieldMirror(name: 'MyField', type: 'String')
+        ..accessModifier = AccessModifier.public;
       expect(field.isPublic, isTrue);
+    });
+
+    test('Fields can have annotation modifiers', () {
+      var field = FieldMirror(name: 'MyField', type: 'String')
+        ..annotations = [Annotation('@NamespaceAccessible')];
+      expect(field.isNamespaceAccessible, isTrue);
     });
   });
 
@@ -85,7 +92,7 @@ void main() {
       final method = MethodMirror(
           name: 'AnyName',
           type: 'String',
-          docComment: '@description Some description');
+          rawDocComment: '@description Some description');
       expect(method.rawDocComment, isNotNull);
     });
 
@@ -100,12 +107,15 @@ void main() {
     });
 
     test('Methods can have access modifiers', () {
-      var method = MethodMirror(
-          name: 'myMethod',
-          type: 'String',
-          accessModifiers: ['namespaceaccessible', 'public']);
-      expect(method.isNamespaceAccessible, isTrue);
+      var method = MethodMirror(name: 'myMethod', type: 'String')
+        ..accessModifier = AccessModifier.public;
       expect(method.isPublic, isTrue);
+    });
+
+    test('Methods can have annotation modifiers', () {
+      var method = MethodMirror(name: 'myMethod', type: 'String')
+        ..annotations = [Annotation('@NamespaceAccessible')];
+      expect(method.isNamespaceAccessible, isTrue);
     });
 
     test('Methods have no parameters by default', () {
@@ -132,23 +142,19 @@ void main() {
       var parameter = ParameterMirror(name: 'Param', type: 'String');
       expect(parameter.type, 'String');
     });
-
-    test('Parameters can have access modifiers', () {
-      var parameter = ParameterMirror(
-          name: 'Param',
-          type: 'String',
-          accessModifiers: ['namespaceaccessible', 'public']);
-      expect(parameter.isNamespaceAccessible, isTrue);
-      expect(parameter.isPublic, isTrue);
-    });
   });
 
   group('Constructor tests', () {
     test('Can have access modifiers', () {
-      var constructor =
-          ConstructorMirror(accessModifiers: ['namespaceaccessible', 'public']);
-      expect(constructor.isNamespaceAccessible, isTrue);
+      var constructor = ConstructorMirror()
+        ..accessModifier = AccessModifier.public;
       expect(constructor.isPublic, isTrue);
+    });
+
+    test('Can have annotation modifiers', () {
+      var constructor = ConstructorMirror()
+        ..annotations = [Annotation('@NamespaceAccessible')];
+      expect(constructor.isNamespaceAccessible, isTrue);
     });
 
     test('Do not have doc comments by default', () {
@@ -158,7 +164,7 @@ void main() {
 
     test('Can receive doc comments', () {
       final constructor =
-          ConstructorMirror(docComment: '@description Some description');
+          ConstructorMirror(rawDocComment: '@description Some description');
       expect(constructor.rawDocComment, isNotNull);
     });
 

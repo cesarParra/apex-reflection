@@ -5,14 +5,9 @@ List<ParameterMirror>? parseParameters(dynamic ctx) {
       .formalParameters()
       ?.formalParameterList()
       ?.formalParameters()
-      .map((e) => ParameterMirror(
-          name: e.id().text,
-          type: e.typeRef().text,
-          accessModifiers: e
-              .modifiers()
-              .map((e) => e.text as String)
-              .toList()
-              .cast<String>()))
+      .map((e) => ParameterMirror(name: e.id().text, type: e.typeRef().text))
       .toList();
-  return parameters == null ? <ParameterMirror>[] : parameters.cast<ParameterMirror>();
+  return parameters == null
+      ? <ParameterMirror>[]
+      : parameters.cast<ParameterMirror>();
 }

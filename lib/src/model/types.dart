@@ -1,4 +1,5 @@
 import 'package:apexdocs_dart/src/model/members.dart';
+import 'package:apexdocs_dart/src/model/modifiers.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'declaration_mirror.dart';
@@ -10,14 +11,8 @@ abstract class TypeMirror extends DeclarationMirror {
   @JsonKey(name: 'type_name')
   String typeName = '';
 
-  TypeMirror(
-      {required String name,
-      String? docComment,
-      List<String> accessModifiers = const []})
-      : super(
-            name: name,
-            docComment: docComment,
-            accessModifiers: accessModifiers);
+  TypeMirror({required String name, String? rawDocComment})
+      : super(name: name, rawDocComment: rawDocComment);
 
   bool isClass() {
     return false;
@@ -45,7 +40,8 @@ mixin MethodsAwareness {
 
 /// Represents a class declaration.
 @JsonSerializable()
-class ClassMirror extends TypeMirror with MethodsAwareness {
+class ClassMirror extends TypeMirror
+    with MethodsAwareness, SharingModifierAwareness, ClassModifiersAwareness {
   @JsonKey(name: 'extended_class')
   late final String? extendedClass;
   @JsonKey(name: 'implemented_interfaces')
@@ -60,22 +56,18 @@ class ClassMirror extends TypeMirror with MethodsAwareness {
 
   ClassMirror(
       {required String name,
-      String? docComment,
-      List<String> accessModifiers = const [],
+      String? rawDocComment,
       this.extendedClass,
       this.implementedInterfaces = const []})
-      : super(
-            name: name,
-            docComment: docComment,
-            accessModifiers: accessModifiers) {
+      : super(name: name, rawDocComment: rawDocComment) {
     typeName = 'class';
   }
 
   factory ClassMirror.fromJson(Map<String, dynamic> json) =>
-      _$ClassModelFromJson(json);
+      _$ClassMirrorFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$ClassModelToJson(this);
+  Map<String, dynamic> toJson() => _$ClassMirrorToJson(this);
 
   @override
   bool isClass() {
@@ -109,27 +101,28 @@ class ClassMirror extends TypeMirror with MethodsAwareness {
 
 /// Represents an interface declaration.
 @JsonSerializable()
-class InterfaceMirror extends TypeMirror with MethodsAwareness {
+class InterfaceMirror extends TypeMirror
+    with
+        MethodsAwareness,
+        AccessModifierAwareness,
+        SharingModifierAwareness,
+        AnnotationsAwareness {
   @JsonKey(name: 'extended_interfaces')
   late final List<String> extendedInterfaces;
 
   InterfaceMirror(
       {required String name,
-      String? docComment,
-      List<String> accessModifiers = const [],
+      String? rawDocComment,
       this.extendedInterfaces = const []})
-      : super(
-            name: name,
-            docComment: docComment,
-            accessModifiers: accessModifiers) {
+      : super(name: name, rawDocComment: rawDocComment) {
     typeName = 'interface';
   }
 
   factory InterfaceMirror.fromJson(Map<String, dynamic> json) =>
-      _$InterfaceModelFromJson(json);
+      _$InterfaceMirrorFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$InterfaceModelToJson(this);
+  Map<String, dynamic> toJson() => _$InterfaceMirrorToJson(this);
 
   @override
   bool isInterface() {
@@ -140,22 +133,16 @@ class InterfaceMirror extends TypeMirror with MethodsAwareness {
 /// Represents an enum declaration.
 @JsonSerializable()
 class EnumMirror extends TypeMirror {
-  EnumMirror(
-      {required String name,
-      String? docComment,
-      List<String> accessModifiers = const []})
-      : super(
-            name: name,
-            docComment: docComment,
-            accessModifiers: accessModifiers) {
+  EnumMirror({required String name, String? rawDocComment})
+      : super(name: name, rawDocComment: rawDocComment) {
     typeName = 'enum';
   }
 
   factory EnumMirror.fromJson(Map<String, dynamic> json) =>
-      _$EnumModelFromJson(json);
+      _$EnumMirrorFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() => _$EnumModelToJson(this);
+  Map<String, dynamic> toJson() => _$EnumMirrorToJson(this);
 
   @override
   bool isEnum() {

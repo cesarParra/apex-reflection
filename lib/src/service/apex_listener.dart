@@ -3,13 +3,26 @@ import 'dart:collection';
 import 'package:apexdocs_dart/src/antlr/lib/apex/ApexParser.dart';
 import 'package:apexdocs_dart/src/antlr/lib/apex/ApexParserBaseListener.dart';
 import 'package:apexdocs_dart/src/builders/builders.dart';
-import 'package:apexdocs_dart/src/model/members.dart';
+import 'package:apexdocs_dart/src/model/modifiers.dart';
 import 'package:apexdocs_dart/src/model/types.dart';
 import 'package:apexdocs_dart/src/service/utils/parsing/parsing_utils.dart';
 
 class DeclarationDescriptor {
-  List<String> accessModifiers = [];
+  List<dynamic> accessModifiers = [];
   String? docComment;
+
+  get accessModifier =>
+      accessModifiers.firstWhere((element) => element is AccessModifier,
+          orElse: () => AccessModifier.private);
+
+  get sharingModifier => accessModifiers
+      .firstWhere((element) => element is SharingModifier, orElse: () => null);
+
+  get classModifiers => accessModifiers.whereType<ClassModifier>().toList();
+
+  get annotations => accessModifiers.whereType<Annotation>().toList();
+
+  get memberModifiers => accessModifiers.whereType<MemberModifier>().toList();
 
   DeclarationDescriptor({required this.accessModifiers, this.docComment});
 }
@@ -62,12 +75,8 @@ class ApexClassListener extends ApexParserBaseListener {
   @override
   void enterEnumDeclaration(EnumDeclarationContext ctx) {
     final declarationDescriptor = _declaratorDescriptorStack.pop();
-    final enumName = ctx.id().text;
-    final enumModel = EnumMirror(
-        name: enumName,
-        docComment: declarationDescriptor.docComment,
-        accessModifiers: declarationDescriptor.accessModifiers);
-    generatedTypes.push(enumModel);
+    final enumMirror = buildEnum(declarationDescriptor, ctx);
+    generatedTypes.push(enumMirror);
   }
 
   @override
@@ -81,65 +90,31 @@ class ApexClassListener extends ApexParserBaseListener {
   @override
   void enterPropertyDeclaration(PropertyDeclarationContext ctx) {
     final declarationDescriptor = _declaratorDescriptorStack.pop();
-    final propertyName = ctx.id().text;
-    final type = ctx.typeRef().text;
-
-    final property = PropertyMirror(
-        name: propertyName,
-        docComment: declarationDescriptor.docComment,
-        type: type,
-        accessModifiers: declarationDescriptor.accessModifiers);
+    final property = buildProperty(declarationDescriptor, ctx);
     (generatedTypes.peak() as ClassMirror).addProperty(property);
   }
 
   @override
   void enterFieldDeclaration(FieldDeclarationContext ctx) {
     final declarationDescriptor = _declaratorDescriptorStack.pop();
-    final typeName = ctx.typeRef().text;
-    final fieldNames =
-        ctx.variableDeclarators().variableDeclarators().map((e) => e.text);
-    (generatedTypes.peak() as ClassMirror).fields.addAll(fieldNames.map((e) =>
-        FieldMirror(
-            name: e,
-            docComment: declarationDescriptor.docComment,
-            type: typeName,
-            accessModifiers: declarationDescriptor.accessModifiers)));
+    (generatedTypes.peak() as ClassMirror)
+        .fields
+        .addAll(buildFields(declarationDescriptor, ctx));
   }
 
   @override
   void enterMethodDeclaration(MethodDeclarationContext ctx) {
     final declarationDescriptor = _declaratorDescriptorStack.pop();
-    final methodName = ctx.id().text;
-    final typeName = ctx.typeRef() != null ? ctx.typeRef().text : 'void';
-
-    List<ParameterMirror>? parameters = parseParameters(ctx);
-
-    final method = MethodMirror(
-        name: methodName,
-        docComment: declarationDescriptor.docComment,
-        type: typeName,
-        accessModifiers: declarationDescriptor.accessModifiers);
-    method.parameters = parameters ?? [];
-
+    final method = buildMethod(declarationDescriptor, ctx);
     (generatedTypes.peak() as MethodsAwareness).methods.add(method);
   }
 
   @override
   void enterInterfaceMethodDeclaration(InterfaceMethodDeclarationContext ctx) {
-    final docComment = ctx.DOC_COMMENT()?.text;
-    // Interface methods inherit the access modifiers of the parent declaration.
-    final accessModifiers = generatedTypes.peak().accessModifiers;
-    final methodName = ctx.id().text;
-    final typeName = ctx.typeRef() != null ? ctx.typeRef()!.text : 'void';
-
-    List<ParameterMirror>? parameters = parseParameters(ctx);
-
-    final method = MethodMirror(
-        name: methodName,
-        docComment: docComment,
-        type: typeName,
-        accessModifiers: accessModifiers);
-    method.parameters = parameters ?? [];
+    final method = buildInterfaceMethod(
+        ctx,
+        generatedTypes.peak().accessModifier,
+        generatedTypes.peak().annotations);
 
     (generatedTypes.peak() as MethodsAwareness).methods.add(method);
   }
@@ -147,11 +122,7 @@ class ApexClassListener extends ApexParserBaseListener {
   @override
   void enterConstructorDeclaration(ConstructorDeclarationContext ctx) {
     final declaratorDescriptor = _declaratorDescriptorStack.pop();
-    List<ParameterMirror>? parameters = parseParameters(ctx);
-    final constructorGenerated = ConstructorMirror(
-        docComment: declaratorDescriptor.docComment,
-        accessModifiers: declaratorDescriptor.accessModifiers);
-    constructorGenerated.parameters = parameters ?? [];
+    final constructorGenerated = buildConstructor(declaratorDescriptor, ctx);
 
     (generatedTypes.peak() as ClassMirror)
         .constructors

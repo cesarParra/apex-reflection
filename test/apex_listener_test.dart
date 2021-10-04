@@ -88,7 +88,18 @@ void main() {
       final apexWalkerDefinition = ApexWalkerDefinition();
       Walker.walk(InputStream.fromString('public virtual class MyClass{}'),
           apexWalkerDefinition);
-      expect(apexWalkerDefinition.getGeneratedApexType().isVirtual, isTrue);
+      final generatedClass =
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      expect(generatedClass.isVirtual, isTrue);
+    });
+
+    test('Supports the abstract access modifier', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      Walker.walk(InputStream.fromString('public abstract class MyClass{}'),
+          apexWalkerDefinition);
+      final generatedClass =
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      expect(generatedClass.isAbstract, isTrue);
     });
 
     test('Supports the NamespaceAccessible annotation', () {
@@ -106,13 +117,6 @@ void main() {
       Walker.walk(InputStream.fromString('@IsTest private class MyClass{}'),
           apexWalkerDefinition);
       expect(apexWalkerDefinition.getGeneratedApexType().isTest, isTrue);
-    });
-
-    test('Supports the abstract access modifier', () {
-      final apexWalkerDefinition = ApexWalkerDefinition();
-      Walker.walk(InputStream.fromString('public abstract class MyClass{}'),
-          apexWalkerDefinition);
-      expect(apexWalkerDefinition.getGeneratedApexType().isAbstract, isTrue);
     });
 
     test('Supports annotations with extra parameters', () {

@@ -1,3 +1,9 @@
+# Running the build
+
+```
+pub run build_runner build
+```
+
 # Creating JS from Dart code:
 
 To generate the JS file from the Dart code:

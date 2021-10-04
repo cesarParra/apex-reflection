@@ -9,12 +9,14 @@ part of 'types.dart';
 ClassMirror _$ClassMirrorFromJson(Map<String, dynamic> json) {
   return ClassMirror(
     name: json['name'] as String,
-    rawDocComment: json['rawDocComment'] as String?,
     extendedClass: json['extended_class'] as String?,
     implementedInterfaces: (json['implemented_interfaces'] as List<dynamic>)
         .map((e) => e as String)
         .toList(),
   )
+    ..docComment = json['docComment'] == null
+        ? null
+        : DocComment.fromJson(json['docComment'] as Map<String, dynamic>)
     ..accessModifier =
         _$enumDecodeNullable(_$AccessModifierEnumMap, json['access_modifier'])
     ..annotations = (json['annotations'] as List<dynamic>)
@@ -51,7 +53,7 @@ ClassMirror _$ClassMirrorFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$ClassMirrorToJson(ClassMirror instance) =>
     <String, dynamic>{
-      'rawDocComment': instance.rawDocComment,
+      'docComment': instance.docComment,
       'access_modifier': _$AccessModifierEnumMap[instance.accessModifier],
       'annotations': instance.annotations,
       'name': instance.name,
@@ -129,11 +131,13 @@ const _$ClassModifierEnumMap = {
 InterfaceMirror _$InterfaceMirrorFromJson(Map<String, dynamic> json) {
   return InterfaceMirror(
     name: json['name'] as String,
-    rawDocComment: json['rawDocComment'] as String?,
     extendedInterfaces: (json['extended_interfaces'] as List<dynamic>)
         .map((e) => e as String)
         .toList(),
   )
+    ..docComment = json['docComment'] == null
+        ? null
+        : DocComment.fromJson(json['docComment'] as Map<String, dynamic>)
     ..accessModifier =
         _$enumDecodeNullable(_$AccessModifierEnumMap, json['access_modifier'])
     ..annotations = (json['annotations'] as List<dynamic>)
@@ -149,7 +153,7 @@ InterfaceMirror _$InterfaceMirrorFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$InterfaceMirrorToJson(InterfaceMirror instance) =>
     <String, dynamic>{
-      'rawDocComment': instance.rawDocComment,
+      'docComment': instance.docComment,
       'access_modifier': _$AccessModifierEnumMap[instance.accessModifier],
       'annotations': instance.annotations,
       'name': instance.name,
@@ -162,8 +166,10 @@ Map<String, dynamic> _$InterfaceMirrorToJson(InterfaceMirror instance) =>
 EnumMirror _$EnumMirrorFromJson(Map<String, dynamic> json) {
   return EnumMirror(
     name: json['name'] as String,
-    rawDocComment: json['rawDocComment'] as String?,
   )
+    ..docComment = json['docComment'] == null
+        ? null
+        : DocComment.fromJson(json['docComment'] as Map<String, dynamic>)
     ..accessModifier =
         _$enumDecodeNullable(_$AccessModifierEnumMap, json['access_modifier'])
     ..annotations = (json['annotations'] as List<dynamic>)
@@ -174,7 +180,7 @@ EnumMirror _$EnumMirrorFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$EnumMirrorToJson(EnumMirror instance) =>
     <String, dynamic>{
-      'rawDocComment': instance.rawDocComment,
+      'docComment': instance.docComment,
       'access_modifier': _$AccessModifierEnumMap[instance.accessModifier],
       'annotations': instance.annotations,
       'name': instance.name,

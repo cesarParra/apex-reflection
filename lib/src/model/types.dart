@@ -1,5 +1,6 @@
 import 'package:apexdocs_dart/src/model/members.dart';
 import 'package:apexdocs_dart/src/model/modifiers.dart';
+import 'package:apexdocs_dart/src/model/doc_comment.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'declaration_mirror.dart';

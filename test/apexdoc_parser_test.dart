@@ -1,6 +1,8 @@
 // Disabling null safety since this test relies on the antrl4 package
 // @dart=2.10
 
+import 'dart:convert';
+
 import 'package:apexdocs_dart/src/service/parsers.dart';
 import 'package:test/test.dart';
 
@@ -154,6 +156,7 @@ main() {
       * @return Returns something
       * @throws ExceptionName1 description1
       * @throws ExceptionName2 description2
+      * @author John Doe
       * @example
       * String testString = 'MyString';
       */

@@ -12,6 +12,9 @@ void main() {
           name: 'ClassName',
           extendedClass: 'ParentClass',
           implementedInterfaces: ['Interface1', 'Interface2'])
+        ..classModifiers = [ClassModifier.abstract]
+        ..rawDocComment = '/** Class description */'
+        ..sharingModifier = SharingModifier.withSharing
         ..accessModifier = AccessModifier.public
         ..annotations = [Annotation('@NamespaceAccessible')];
       classModel.addInterface(InterfaceMirror(name: 'ChildInterface'));
@@ -21,7 +24,20 @@ void main() {
       classModel.addConstructor(ConstructorMirror()
         ..accessModifier = AccessModifier.public
         ..annotations = [Annotation('@NamespaceAccessible')]);
-      classModel.addMethod(MethodMirror(name: 'doSomething'));
+      final methodDocComment = '''
+      /**
+       * @description Method description
+       * @param param1 Param1 description
+       * @return Returns description
+       * @throws ExceptionName exception description
+       * @see Other Class
+       * @example An Example
+       */
+      ''';
+      classModel.addMethod(MethodMirror(
+          name: 'doSomething', rawDocComment: methodDocComment.trim())
+        ..addParameter(ParameterMirror(name: 'param1', type: 'String')
+          ..memberModifiers = [MemberModifier.isFinal]));
       classModel.addField(FieldMirror(name: 'var1', type: 'String'));
 
       String encodedClass = jsonEncode(classModel);

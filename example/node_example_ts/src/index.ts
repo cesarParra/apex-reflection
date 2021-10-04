@@ -6,4 +6,6 @@ const classBody = `
  */
  public with sharing class MyClass{}
 `;
-console.log(reflect(classBody));
+
+let generatedType = reflect(classBody);
+console.log(generatedType);

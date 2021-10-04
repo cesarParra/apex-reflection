@@ -8,6 +8,7 @@ part 'doc_comment.g.dart';
 @JsonSerializable()
 class DocComment {
   late List<String> _descriptionLines;
+  String? rawDeclaration;
   List<ParamDocCommentAnnotation> paramAnnotations = [];
   ReturnDocCommentAnnotation? returnAnnotation;
   ExampleDocCommentAnnotation? exampleAnnotation;

@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "declaration": true,
-    "emitDeclarationOnly": true,
-    "outDir": "dist"
-  }
+    "declaration": true
+  },
+  "include": [
+    "index.ts"
+  ]
 }

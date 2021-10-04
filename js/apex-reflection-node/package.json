@@ -1,15 +1,16 @@
 {
   "name": "@cparra/apex-reflection",
-  "version": "0.1.1-alpha.4",
+  "version": "0.1.1-alpha.8",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build:types": "js/node_modules/.bin/tsc"
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^16.10.2",
     "@types/typescript": "^2.0.0",
     "typescript": "^4.4.3"
   },

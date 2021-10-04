@@ -10,6 +10,7 @@ DocComment _$DocCommentFromJson(Map<String, dynamic> json) {
   return DocComment(
     json['description'] as String,
   )
+    ..rawDeclaration = json['rawDeclaration'] as String?
     ..paramAnnotations = (json['paramAnnotations'] as List<dynamic>)
         .map((e) =>
             ParamDocCommentAnnotation.fromJson(e as Map<String, dynamic>))
@@ -36,6 +37,7 @@ DocComment _$DocCommentFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$DocCommentToJson(DocComment instance) =>
     <String, dynamic>{
+      'rawDeclaration': instance.rawDeclaration,
       'paramAnnotations': instance.paramAnnotations,
       'returnAnnotation': instance.returnAnnotation,
       'exampleAnnotation': instance.exampleAnnotation,

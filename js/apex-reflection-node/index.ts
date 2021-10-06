@@ -1,7 +1,7 @@
 const lib = require('./out');
 
 export function reflect(declarationBody: string): Type {
-  return lib.reflect(declarationBody) as Type;
+  return JSON.parse(lib.reflect(declarationBody)) as Type;
 }
 
 export interface ParamAnnotation {
@@ -84,16 +84,18 @@ export interface ConstructorMirror {
   docComment?: DocComment;
 }
 
+// Types
+
+type TypeName = 'class' | 'interface' | 'enum';
+export type Type = InterfaceMirror | ClassMirror | EnumMirror;
+
 export interface EnumMirror {
   annotations: Annotation[];
   name: string;
-  type_name: string;
+  type_name: TypeName;
   access_modifier: string;
   docComment?: DocComment;
 }
-
-type TypeName = 'class' | 'interface' | 'enum';
-type Type = InterfaceMirror | ClassMirror | EnumMirror;
 
 export interface InterfaceMirror {
   annotations: Annotation[];

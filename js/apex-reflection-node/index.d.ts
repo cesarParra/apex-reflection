@@ -67,15 +67,15 @@ export interface ConstructorMirror {
     parameters: ParameterMirror[];
     docComment?: DocComment;
 }
+declare type TypeName = 'class' | 'interface' | 'enum';
+export declare type Type = InterfaceMirror | ClassMirror | EnumMirror;
 export interface EnumMirror {
     annotations: Annotation[];
     name: string;
-    type_name: string;
+    type_name: TypeName;
     access_modifier: string;
     docComment?: DocComment;
 }
-declare type TypeName = 'class' | 'interface' | 'enum';
-declare type Type = InterfaceMirror | ClassMirror | EnumMirror;
 export interface InterfaceMirror {
     annotations: Annotation[];
     name: string;

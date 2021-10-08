@@ -127,4 +127,130 @@ describe('Class reflection', () => {
     const result = reflect(classBody) as ClassMirror;
     expect(result.classModifier).toBe('abstract');
   });
+
+  test('Can extend a class', () => {
+    const classBody = 'public with sharing class MyClass extends Class2 {}';
+    const result = reflect(classBody) as ClassMirror;
+    expect(result.extended_class).toBe('Class2');
+  });
+
+  test('Can implement interfaces', () => {
+    const classBody = 'public with sharing class MyClass implements Interface1, Interface2 {}';
+    const result = reflect(classBody) as ClassMirror;
+    expect(result.implemented_interfaces.length).toBe(2);
+    expect(result.implemented_interfaces[0]).toBe('Interface1');
+    expect(result.implemented_interfaces[1]).toBe('Interface2');
+  });
+
+  test('Can have properties', () => {
+    const classBody = `
+    public with sharing class MyClass {
+      public String Prop1 { get; set; }
+      public Integer Prop2 { get; set; }
+    }
+    `;
+    const result = reflect(classBody) as ClassMirror;
+    expect(result.properties.length).toBe(2);
+    expect(result.properties[0].type).toBe('String');
+    expect(result.properties[0].name).toBe('Prop1');
+    expect(result.properties[1].type).toBe('Integer');
+    expect(result.properties[1].name).toBe('Prop2');
+  });
+
+  test('Can have fields', () => {
+    const classBody = `
+    public with sharing class MyClass {
+      private String var1, var2;
+    }
+    `;
+    const result = reflect(classBody) as ClassMirror;
+    expect(result.fields.length).toBe(2);
+    expect(result.fields[0].type).toBe('String');
+    expect(result.fields[1].type).toBe('String');
+    expect(result.fields[0].name).toBe('var1');
+    expect(result.fields[1].name).toBe('var2');
+  });
+
+  test('Can have constructors', () => {
+    const classBody = `
+    public with sharing class MyClass {
+      public MyClass() {}
+      public MyClass(String var1) {}
+    }
+    `;
+    const result = reflect(classBody) as ClassMirror;
+    expect(result.constructors.length).toBe(2);
+    expect(result.constructors[0].parameters.length).toBe(0);
+    expect(result.constructors[0].access_modifier).toBe('public');
+    expect(result.constructors[1].parameters.length).toBe(1);
+    expect(result.constructors[1].parameters[0].name).toBe('var1');
+    expect(result.constructors[1].parameters[0].type).toBe('String');
+    expect(result.constructors[1].access_modifier).toBe('public');
+  });
+
+  test('Can have methods', () => {
+    const classBody = `
+    public with sharing class MyClass {
+      public static String method1() {
+        return '';
+      }
+      
+      private void method2(){}
+    }
+    `;
+    const result = reflect(classBody) as ClassMirror;
+    expect(result.methods.length).toBe(2);
+    expect(result.methods[0].memberModifiers.length).toBe(1);
+    expect(result.methods[0].memberModifiers[0]).toBe('static');
+    expect(result.methods[0].access_modifier).toBe('public');
+    expect(result.methods[0].type).toBe('String');
+    expect(result.methods[0].name).toBe('method1');
+
+    expect(result.methods[1].memberModifiers.length).toBe(0);
+    expect(result.methods[1].access_modifier).toBe('private');
+    expect(result.methods[1].type).toBe('void');
+    expect(result.methods[1].name).toBe('method2');
+  });
+
+  test('Can have inner enums', () => {
+    const classBody = `
+    public with sharing class MyClass {
+      public enum MyEnum {}
+    }
+    `;
+    const result = reflect(classBody) as ClassMirror;
+    expect(result.enums.length).toBe(1);
+    expect(result.enums[0].access_modifier).toBe('public');
+    expect(result.enums[0].name).toBe('MyEnum');
+  });
+
+  test('Can have inner interfaces', () => {
+    const classBody = `
+    public with sharing class MyClass {
+      public interface MyInterface {
+        void method1();
+        void method2();
+      }
+    }
+    `;
+    const result = reflect(classBody) as ClassMirror;
+    expect(result.interfaces.length).toBe(1);
+    expect(result.interfaces[0].name).toBe('MyInterface');
+    expect(result.interfaces[0].methods.length).toBe(2);
+  });
+
+  test('Can have inner classes', () => {
+    const classBody = `
+    public with sharing class MyClass {
+      public class MyClass {
+        public void method1();
+        public void method2();
+      }
+    }
+    `;
+    const result = reflect(classBody) as ClassMirror;
+    expect(result.classes.length).toBe(1);
+    expect(result.classes[0].name).toBe('MyClass');
+    expect(result.classes[0].methods.length).toBe(2);
+  });
 });

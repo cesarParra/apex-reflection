@@ -96,7 +96,7 @@ export interface ClassMirror {
     type_name: TypeName;
     methods: MethodMirror[];
     sharingModifier?: string;
-    classModifiers: string[];
+    classModifier?: string;
     extended_class?: string;
     implemented_interfaces: string[];
     properties: PropertyMirror[];

@@ -82,7 +82,7 @@ void main() {
 
     test('Can determine if is virtual', () {
       final classModel = ClassMirror(name: 'AnyName')
-        ..classModifiers = [ClassModifier.virtual];
+        ..classModifier = ClassModifier.virtual;
       expect(classModel.isVirtual, isTrue);
     });
 

@@ -28,9 +28,8 @@ ClassMirror _$ClassMirrorFromJson(Map<String, dynamic> json) {
         .toList()
     ..sharingModifier =
         _$enumDecodeNullable(_$SharingModifierEnumMap, json['sharingModifier'])
-    ..classModifiers = (json['classModifiers'] as List<dynamic>)
-        .map((e) => _$enumDecode(_$ClassModifierEnumMap, e))
-        .toList()
+    ..classModifier =
+        _$enumDecodeNullable(_$ClassModifierEnumMap, json['classModifier'])
     ..properties = (json['properties'] as List<dynamic>)
         .map((e) => PropertyMirror.fromJson(e as Map<String, dynamic>))
         .toList()
@@ -60,9 +59,7 @@ Map<String, dynamic> _$ClassMirrorToJson(ClassMirror instance) =>
       'type_name': instance.typeName,
       'methods': instance.methods,
       'sharingModifier': _$SharingModifierEnumMap[instance.sharingModifier],
-      'classModifiers': instance.classModifiers
-          .map((e) => _$ClassModifierEnumMap[e])
-          .toList(),
+      'classModifier': _$ClassModifierEnumMap[instance.classModifier],
       'extended_class': instance.extendedClass,
       'implemented_interfaces': instance.implementedInterfaces,
       'properties': instance.properties,

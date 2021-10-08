@@ -127,13 +127,11 @@ mixin AnnotationsAwareness {
 }
 
 mixin ClassModifiersAwareness {
-  List<ClassModifier> classModifiers = [];
+  ClassModifier? classModifier;
 
-  get isVirtual =>
-      classModifiers.any((element) => element == ClassModifier.virtual);
+  get isVirtual => classModifier == ClassModifier.virtual;
 
-  get isAbstract =>
-      classModifiers.any((element) => element == ClassModifier.abstract);
+  get isAbstract => classModifier == ClassModifier.abstract;
 }
 
 mixin MemberModifiersAwareness {

@@ -22,7 +22,7 @@ ClassMirror buildClass(
       implementedInterfaces: implementedInterfaces)
     ..accessModifier = descriptor.accessModifier
     ..sharingModifier = descriptor.sharingModifier
-    ..classModifiers = descriptor.classModifiers
+    ..classModifier = descriptor.classModifier
     ..annotations = descriptor.annotations;
 }
 

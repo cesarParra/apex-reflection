@@ -12,7 +12,7 @@ void main() {
           name: 'ClassName',
           extendedClass: 'ParentClass',
           implementedInterfaces: ['Interface1', 'Interface2'])
-        ..classModifiers = [ClassModifier.abstract]
+        ..classModifier = ClassModifier.abstract
         ..rawDocComment = '/** Class description */'
         ..sharingModifier = SharingModifier.withSharing
         ..accessModifier = AccessModifier.public

@@ -6,6 +6,7 @@ import 'package:apexdocs_dart/src/builders/builders.dart';
 import 'package:apexdocs_dart/src/model/modifiers.dart';
 import 'package:apexdocs_dart/src/model/types.dart';
 import 'package:apexdocs_dart/src/service/utils/parsing/parsing_utils.dart';
+import 'package:apexdocs_dart/src/extension_methods/list_extensions.dart';
 
 class DeclarationDescriptor {
   List<dynamic> accessModifiers = [];
@@ -18,7 +19,8 @@ class DeclarationDescriptor {
   get sharingModifier => accessModifiers
       .firstWhere((element) => element is SharingModifier, orElse: () => null);
 
-  get classModifiers => accessModifiers.whereType<ClassModifier>().toList();
+  get classModifier =>
+      accessModifiers.firstWhereOrNull((element) => element is ClassModifier);
 
   get annotations => accessModifiers.whereType<Annotation>().toList();
 

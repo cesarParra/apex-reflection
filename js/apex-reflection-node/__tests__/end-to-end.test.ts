@@ -1,4 +1,4 @@
-import {InterfaceMirror, reflect} from '../index';
+import {ClassMirror, InterfaceMirror, reflect} from '../index';
 
 describe('Enum Reflection', () => {
   test('Simple, single line declaration', () => {
@@ -93,5 +93,38 @@ describe('Interface Reflection', () => {
     const result = reflect(interfaceBody) as InterfaceMirror;
     expect(result.annotations.length).toBe(1);
     expect(result.annotations[0].name).toBe('namespaceaccessible');
+  });
+});
+
+describe('Class reflection', () => {
+  test('Single line class definition', () => {
+    const classBody = 'class MyClass{}';
+    const result = reflect(classBody);
+    expect(result.type_name).toBe('class');
+    expect(result.name).toBe('MyClass');
+  });
+
+  test('When no access modifier is defined it is private', () => {
+    const classBody = 'class MyClass{}';
+    const result = reflect(classBody);
+    expect(result.access_modifier).toBe('private');
+  });
+
+  test('Can have access modifier', () => {
+    const interfaceBody = 'public class MyClass{}';
+    const result = reflect(interfaceBody);
+    expect(result.access_modifier).toBe('public');
+  });
+
+  test('Can have a sharing modifier', () => {
+    const classBody = 'public with sharing class MyClass{}';
+    const result = reflect(classBody) as ClassMirror;
+    expect(result.sharingModifier).toBe('withSharing');
+  });
+
+  test('Can have a class modifier', () => {
+    const classBody = 'public with sharing abstract class MyClass{}';
+    const result = reflect(classBody) as ClassMirror;
+    expect(result.classModifier).toBe('abstract');
   });
 });

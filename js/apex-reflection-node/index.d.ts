@@ -40,6 +40,7 @@ export interface ParameterMirror {
     docComment?: DocComment;
 }
 export interface MethodMirror {
+    access_modifier: string;
     annotations: Annotation[];
     name: string;
     memberModifiers: string[];
@@ -48,6 +49,7 @@ export interface MethodMirror {
     docComment?: DocComment;
 }
 export interface PropertyMirror {
+    access_modifier: string;
     annotations: Annotation[];
     name: string;
     memberModifiers: string[];
@@ -55,6 +57,7 @@ export interface PropertyMirror {
     docComment?: DocComment;
 }
 export interface FieldMirror {
+    access_modifier: string;
     annotations: Annotation[];
     name: string;
     memberModifiers: string[];
@@ -82,7 +85,9 @@ export interface InterfaceMirror {
     type_name: TypeName;
     methods: MethodMirror[];
     extended_interfaces: string[];
+    access_modifier: string;
     docComment?: DocComment;
+    sharingModifier?: string;
 }
 export interface ClassMirror {
     string: any;
@@ -90,7 +95,7 @@ export interface ClassMirror {
     name: string;
     type_name: TypeName;
     methods: MethodMirror[];
-    sharingModifier: string;
+    sharingModifier?: string;
     classModifiers: string[];
     extended_class?: string;
     implemented_interfaces: string[];
@@ -100,6 +105,7 @@ export interface ClassMirror {
     enums: EnumMirror[];
     interfaces: InterfaceMirror[];
     classes: ClassMirror[];
+    access_modifier: string;
     docComment?: DocComment;
 }
 export {};

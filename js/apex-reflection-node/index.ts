@@ -1,7 +1,7 @@
 const lib = require('./out');
 
-export function reflect(declarationBody: string): Type {
-  return JSON.parse(lib.reflect(declarationBody)) as Type;
+export function reflect(declarationBody: string): ReflectionResult {
+  return JSON.parse(lib.reflect(declarationBody)) as ReflectionResult;
 }
 
 export interface ParamAnnotation {
@@ -85,6 +85,15 @@ export interface ConstructorMirror {
   annotations: Annotation[];
   parameters: ParameterMirror[];
   docComment?: DocComment;
+}
+
+export interface ReflectionResult {
+  typeMirror?: Type;
+  error?: ParsingError;
+}
+
+export interface ParsingError {
+  message: string;
 }
 
 // Types

@@ -1,5 +1,13 @@
-const {reflect} = require('../../js/apex-reflection-node');
-const classBody = `
+// @dart=2.10
+
+import 'dart:convert';
+
+import 'package:apexdocs_dart/src/service/parsers.dart';
+import 'package:test/test.dart';
+
+main() {
+  test('reflecting', () {
+    final classBody = '''
       /**
  * @description This is a class description.
  * @group Sample Classes
@@ -14,15 +22,14 @@ public with sharing class SampleClass {
      */
     @NamespaceAccessible
     public SampleClass() {
-        System.debug('Constructor');
+        //System.debug('Constructor');
     }
-
     /**
      * @description Constructs a SampleClass with an argument.
      * @param argument Argument definition
      */
     public SampleClass(String argument) {
-        System.debug('Constructor');
+        //System.debug('Constructor');
     }
 
     /**
@@ -36,7 +43,7 @@ public with sharing class SampleClass {
      */
     @NamespaceAccessible
     public static String sampleMethod(String argument) {
-        System.debug('Execute');
+        //System.debug('Execute');
         return '';
     }
 
@@ -74,7 +81,7 @@ public with sharing class SampleClass {
          * @description Executes from the inner class.
          */
         public void innerMethod() {
-            System.debug('Executing inner method.');
+            //System.debug('Executing inner method.');
         }
     }
 
@@ -97,6 +104,11 @@ public with sharing class SampleClass {
             System.debug('Executing inner method.');
         }
     }
-}`;
+}
 
-console.log(reflect(classBody.replace('\r', '')));
+    ''';
+
+    final reflectionResult = Reflection.reflect(classBody);
+    print(jsonEncode(reflectionResult));
+  });
+}

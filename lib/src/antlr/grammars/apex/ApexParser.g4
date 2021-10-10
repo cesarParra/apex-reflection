@@ -208,7 +208,7 @@ elementValueArrayInitializer
 // STATEMENTS / BLOCKS
 
 block
-    : LBRACE statement* RBRACE
+    : LBRACE .*? RBRACE
     ;
 
 localVariableDeclarationStatement

@@ -1,4 +1,5 @@
 import 'package:antlr4/antlr4.dart';
+import 'package:antlr4/src/recognizer.dart';
 
 import 'package:apexdocs_dart/src/antlr/lib/apex/ApexLexer.dart';
 import 'package:apexdocs_dart/src/antlr/lib/apex/ApexParser.dart';
@@ -41,6 +42,8 @@ class ApexWalkerDefinition extends WalkerDefinition {
   ParserRuleContext initializeTree(TokenStream stream) {
     final parser = ApexParser(stream);
     parser.buildParseTree = true;
+    parser.removeErrorListeners();
+    parser.addErrorListener(ExceptionErrorListener('apex'));
     return parser.compilationUnit();
   }
 
@@ -68,6 +71,8 @@ class ApexdocWalkerDefinition extends WalkerDefinition {
   ParserRuleContext initializeTree(TokenStream stream) {
     final parser = ApexdocParser(stream);
     parser.buildParseTree = true;
+    parser.removeErrorListeners();
+    parser.addErrorListener(ExceptionErrorListener('doc'));
     return parser.documentation();
   }
 
@@ -78,5 +83,20 @@ class ApexdocWalkerDefinition extends WalkerDefinition {
 
   DocComment getGeneratedDocComment() {
     return _listener.generatedDocComment;
+  }
+}
+
+class ExceptionErrorListener extends BaseErrorListener {
+  final String errorSource;
+
+  ExceptionErrorListener(this.errorSource);
+
+  @override
+  void syntaxError(Recognizer<ATNSimulator> recognizer, Object offendingSymbol,
+      int line, int charPositionInLine, String msg, RecognitionException e) {
+    final errorPrefix = errorSource == 'apex'
+        ? 'Error parsing Apex Body'
+        : 'Error parsing Apex doc';
+    throw Exception('$errorPrefix. Line $line:$charPositionInLine - $msg');
   }
 }

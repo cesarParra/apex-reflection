@@ -1,4 +1,4 @@
-export declare function reflect(declarationBody: string): Type;
+export declare function reflect(declarationBody: string): ReflectionResult;
 export interface ParamAnnotation {
     bodyLines: string[];
     paramName: string;
@@ -69,6 +69,13 @@ export interface ConstructorMirror {
     annotations: Annotation[];
     parameters: ParameterMirror[];
     docComment?: DocComment;
+}
+export interface ReflectionResult {
+    typeMirror?: Type;
+    error?: ParsingError;
+}
+export interface ParsingError {
+    message: string;
 }
 declare type TypeName = 'class' | 'interface' | 'enum';
 export declare type Type = InterfaceMirror | ClassMirror | EnumMirror;

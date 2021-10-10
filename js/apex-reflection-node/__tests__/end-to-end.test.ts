@@ -3,7 +3,7 @@ import {ClassMirror, InterfaceMirror, reflect} from '../index';
 describe('Enum Reflection', () => {
   test('Simple, single line declaration', () => {
     const enumBody = 'enum MyEnumName {}';
-    const result = reflect(enumBody);
+    const result = reflect(enumBody).typeMirror;
     expect(result.type_name).toBe('enum');
     expect(result.name).toBe('MyEnumName');
   });
@@ -15,7 +15,7 @@ describe('Enum Reflection', () => {
       VALUE2
     }
     `;
-    const result = reflect(enumBody);
+    const result = reflect(enumBody).typeMirror;
     expect(result.type_name).toBe('enum');
     expect(result.name).toBe('MyEnumName');
   });
@@ -30,7 +30,7 @@ describe('Enum Reflection', () => {
       VALUE2
     }
     `;
-    const result = reflect(enumBody);
+    const result = reflect(enumBody).typeMirror;
     expect(result.docComment.description).toBe('My enum description');
   });
 });
@@ -38,20 +38,20 @@ describe('Enum Reflection', () => {
 describe('Interface Reflection', () => {
   test('Single line interface definition', () => {
     const interfaceBody = 'interface MyInterface{}';
-    const result = reflect(interfaceBody);
+    const result = reflect(interfaceBody).typeMirror;
     expect(result.type_name).toBe('interface');
     expect(result.name).toBe('MyInterface');
   });
 
   test('When no access modifier is defined it is private', () => {
     const interfaceBody = 'interface MyInterface{}';
-    const result = reflect(interfaceBody);
+    const result = reflect(interfaceBody).typeMirror;
     expect(result.access_modifier).toBe('private');
   });
 
   test('Can have access modifier', () => {
     const interfaceBody = 'public interface MyInterface{}';
-    const result = reflect(interfaceBody);
+    const result = reflect(interfaceBody).typeMirror;
     expect(result.access_modifier).toBe('public');
   });
 
@@ -99,20 +99,20 @@ describe('Interface Reflection', () => {
 describe('Class reflection', () => {
   test('Single line class definition', () => {
     const classBody = 'class MyClass{}';
-    const result = reflect(classBody);
+    const result = reflect(classBody).typeMirror;
     expect(result.type_name).toBe('class');
     expect(result.name).toBe('MyClass');
   });
 
   test('When no access modifier is defined it is private', () => {
     const classBody = 'class MyClass{}';
-    const result = reflect(classBody);
+    const result = reflect(classBody).typeMirror;
     expect(result.access_modifier).toBe('private');
   });
 
   test('Can have access modifier', () => {
     const interfaceBody = 'public class MyClass{}';
-    const result = reflect(interfaceBody);
+    const result = reflect(interfaceBody).typeMirror;
     expect(result.access_modifier).toBe('public');
   });
 

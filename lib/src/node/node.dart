@@ -19,7 +19,7 @@ class Exports {
 external Exports get exports;
 
 String _parseFromDeclarationBody(String declarationBody) {
-  return jsonEncode(ApexParser.parseFromBody(declarationBody));
+  return jsonEncode(Reflection.reflect(declarationBody));
 }
 
 void main() {

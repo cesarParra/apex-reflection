@@ -121,7 +121,6 @@ export interface InterfaceMirror {
 }
 
 export interface ClassMirror {
-  string;
   annotations: Annotation[];
   name: string;
   type_name: TypeName;

@@ -6,6 +6,7 @@ const classBody = `
  */
 @NamespaceAccessible
 public with sharing class SampleClass {
+    private String myVariableWithAValue = 'Some value';
     /**
      * @description Constructs a SampleClass without any arguments.
      * @example
@@ -99,4 +100,4 @@ public with sharing class SampleClass {
     }
 }`;
 
-console.log(reflect(classBody.replace('\r', '')));
+console.log(JSON.stringify(reflect(classBody.replace('\r', ''))));

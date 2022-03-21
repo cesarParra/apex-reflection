@@ -52,17 +52,21 @@ typeList
     ;
 
 classBody
-    : LBRACE classBodyDeclaration* RBRACE
+    : LBRACE (groupedDeclarations | classBodyDeclaration)* RBRACE
     ;
+
+groupedDeclarations
+	  : START_GROUP_COMMENT classBodyDeclaration* END_GROUP_COMMENT
+	  ;
 
 interfaceBody
     : LBRACE interfaceMethodDeclaration* RBRACE
     ;
 
 classBodyDeclaration
-    : SEMI                                 # EmptyClassBodyDeclaration
-    | STATIC? block                        # StaticBlockClassBodyDeclaration
-    | DOC_COMMENT? modifier* memberDeclaration          # MemberClassBodyDeclaration
+    : SEMI                                                                                    # EmptyClassBodyDeclaration
+    | STATIC? block                                                                           # StaticBlockClassBodyDeclaration
+    | DOC_COMMENT? modifier* memberDeclaration                                                # MemberClassBodyDeclaration
     ;
 
 /* Unify all annotation & modifiers so we can give better error messages */

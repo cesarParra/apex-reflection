@@ -1,4 +1,4 @@
-// Generated from lib/src/antlr/grammars/apex/ApexParser.g4 by ANTLR 4.9.2
+// Generated from lib/src/antlr/grammars/apex/ApexParser.g4 by ANTLR 4.9.3
 // ignore_for_file: unused_import, unused_local_variable, prefer_single_quotes
 import 'package:antlr4/antlr4.dart';
 
@@ -105,6 +105,14 @@ class ApexParserBaseListener implements ApexParserListener {
   /// The default implementation does nothing.
   @override
   void exitClassBody(ClassBodyContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterGroupedDeclarations(GroupedDeclarationsContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitGroupedDeclarations(GroupedDeclarationsContext ctx) {}
 
   /// The default implementation does nothing.
   @override

@@ -75,11 +75,7 @@ pub run build_runner build
 
 ### Parsing
 
-The parsing algorithm relies on using ANTLR4 and its Dart target. Currently `dart2js` is not able to transpile the
-source from the `antrl4` library hosted in pub.dev, so we rely on a local copy that fixes the transpilation issues,
-which lives in `lib/antrl4-4.9.2`.
-
-To generate the Antlr4 Apex output run:
+The parsing algorithm relies on using ANTLR4 and its Dart target. To generate the Antlr4 Apex output run:
 
 ```
 antlr4 -Dlanguage=Dart lib/src/antlr/grammars/apex/ApexLexer.g4 lib/src/antlr/grammars/apex/ApexParser.g4 -o lib/src/antlr/lib/apex/

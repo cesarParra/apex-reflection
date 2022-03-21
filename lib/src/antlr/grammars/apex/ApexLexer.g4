@@ -212,6 +212,14 @@ JavaLetterOrDigit
 // Whitespace and comments
 //
 
+START_GROUP_COMMENT
+	  :   '//' WS* AT  S T A R T SUB G R O U P WS* Identifier ~[\r\n]*
+	  ;
+
+END_GROUP_COMMENT
+	  :   '//' WS* AT  E N D SUB G R O U P ~[\r\n]*
+	  ;
+
 DOC_COMMENT
     :   '/**' WS* [\r\n] .*? '*/'
     ;

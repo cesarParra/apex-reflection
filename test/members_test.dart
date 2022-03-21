@@ -3,6 +3,18 @@ import 'package:test/test.dart';
 import 'package:apexdocs_dart/src/model/members.dart';
 
 void main() {
+  group('Common tests', () {
+    test('Declarations don\'t have a group by default', () {
+      var property = PropertyMirror(name: 'MyProperty', type: 'String');
+      expect(property.group, null);
+    });
+
+    test('Declarations can belong to a group', () {
+      var property = PropertyMirror(name: 'MyProperty', type: 'String');
+      property.setGroup('group name');
+      expect(property.group, 'group name');
+    });
+  });
   group('Properties tests', () {
     test('Properties have a name', () {
       var property = PropertyMirror(name: 'MyProperty', type: 'String');

@@ -1,4 +1,4 @@
-// Generated from lib/src/antlr/grammars/apex/ApexParser.g4 by ANTLR 4.9.2
+// Generated from lib/src/antlr/grammars/apex/ApexParser.g4 by ANTLR 4.9.3
 // ignore_for_file: unused_import, unused_local_variable, prefer_single_quotes
 import 'package:antlr4/antlr4.dart';
 
@@ -96,6 +96,13 @@ abstract class ApexParserListener extends ParseTreeListener {
   /// Exit a parse tree produced by [ApexParser.classBody].
   /// [ctx] the parse tree
   void exitClassBody(ClassBodyContext ctx);
+
+  /// Enter a parse tree produced by [ApexParser.groupedDeclarations].
+  /// [ctx] the parse tree
+  void enterGroupedDeclarations(GroupedDeclarationsContext ctx);
+  /// Exit a parse tree produced by [ApexParser.groupedDeclarations].
+  /// [ctx] the parse tree
+  void exitGroupedDeclarations(GroupedDeclarationsContext ctx);
 
   /// Enter a parse tree produced by [ApexParser.interfaceBody].
   /// [ctx] the parse tree

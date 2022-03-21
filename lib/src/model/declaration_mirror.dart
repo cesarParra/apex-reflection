@@ -33,8 +33,13 @@ mixin DocsCommentAwareness {
 abstract class DeclarationMirror
     with DocsCommentAwareness, AccessModifierAwareness, AnnotationsAwareness {
   final String name;
+  String? group;
 
   DeclarationMirror({required this.name, rawDocComment}) {
     this.rawDocComment = rawDocComment;
+  }
+
+  void setGroup(String? group) {
+    this.group = group;
   }
 }

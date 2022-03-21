@@ -9,10 +9,10 @@ import 'package:apexdocs_dart/src/service/utils/parsing/parsing_utils.dart';
 
 ClassMirror buildClass(
     DeclarationDescriptor descriptor, ClassDeclarationContext ctx) {
-  final className = ctx.id().text;
-  final extendedClass = ctx.EXTENDS() != null ? ctx.typeRef().text : null;
+  final className = ctx.id()!.text;
+  final extendedClass = ctx.EXTENDS() != null ? ctx.typeRef()!.text : null;
   final implementedInterfaces = ctx.IMPLEMENTS() != null
-      ? ctx.typeList().typeRefs().map((e) => e.text).toList()
+      ? ctx.typeList()!.typeRefs().map((e) => e.text).toList()
       : <String>[];
 
   return ClassMirror(
@@ -28,9 +28,9 @@ ClassMirror buildClass(
 
 InterfaceMirror buildInterface(
     DeclarationDescriptor descriptor, InterfaceDeclarationContext ctx) {
-  final interfaceName = ctx.id().text;
+  final interfaceName = ctx.id()!.text;
   final extendsInterfaces = ctx.EXTENDS() != null
-      ? ctx.typeList().typeRefs().map((e) => e.text).toList()
+      ? ctx.typeList()!.typeRefs().map((e) => e.text).toList()
       : <String>[];
   return InterfaceMirror(
       name: interfaceName,
@@ -43,7 +43,7 @@ InterfaceMirror buildInterface(
 
 EnumMirror buildEnum(
     DeclarationDescriptor descriptor, EnumDeclarationContext ctx) {
-  final enumName = ctx.id().text;
+  final enumName = ctx.id()!.text;
   return EnumMirror(name: enumName, rawDocComment: descriptor.docComment)
     ..accessModifier = descriptor.accessModifier
     ..annotations = descriptor.annotations;
@@ -53,8 +53,8 @@ EnumMirror buildEnum(
 
 PropertyMirror buildProperty(
     DeclarationDescriptor descriptor, PropertyDeclarationContext ctx) {
-  final propertyName = ctx.id().text;
-  final type = ctx.typeRef().text;
+  final propertyName = ctx.id()!.text;
+  final type = ctx.typeRef()!.text;
 
   return PropertyMirror(
       name: propertyName, rawDocComment: descriptor.docComment, type: type)
@@ -65,9 +65,9 @@ PropertyMirror buildProperty(
 
 List<FieldMirror> buildFields(
     DeclarationDescriptor descriptor, FieldDeclarationContext ctx) {
-  final typeName = ctx.typeRef().text;
+  final typeName = ctx.typeRef()!.text;
   final fieldNames =
-      ctx.variableDeclarators().variableDeclarators().map((e) => e.id().text);
+      ctx.variableDeclarators()!.variableDeclarators().map((e) => e.id()!.text);
 
   return fieldNames
       .map((e) => FieldMirror(
@@ -80,8 +80,8 @@ List<FieldMirror> buildFields(
 
 MethodMirror buildMethod(
     DeclarationDescriptor descriptor, MethodDeclarationContext ctx) {
-  final methodName = ctx.id().text;
-  final typeName = ctx.typeRef() != null ? ctx.typeRef().text : 'void';
+  final methodName = ctx.id()!.text;
+  final typeName = ctx.typeRef() != null ? ctx.typeRef()!.text : 'void';
 
   List<ParameterMirror>? parameters = parseParameters(ctx);
 
@@ -96,7 +96,7 @@ MethodMirror buildMethod(
 MethodMirror buildInterfaceMethod(InterfaceMethodDeclarationContext ctx,
     AccessModifier? parentAccessModifier, List<Annotation> parentAnnotations) {
   final docComment = ctx.DOC_COMMENT()?.text;
-  final methodName = ctx.id().text;
+  final methodName = ctx.id()!.text;
   final typeName = ctx.typeRef() != null ? ctx.typeRef()!.text : 'void';
 
   List<ParameterMirror>? parameters = parseParameters(ctx);

@@ -1,7 +1,6 @@
-// Generated from lib/src/antlr/grammars/apexdoc/ApexdocParser.g4 by ANTLR 4.9.2
+// Generated from lib/src/antlr/grammars/apexdoc/ApexdocParser.g4 by ANTLR 4.9.3
 // ignore_for_file: unused_import, unused_local_variable, prefer_single_quotes
 import 'package:antlr4/antlr4.dart';
-import 'dart:io';
 
 import 'ApexdocParserListener.dart';
 import 'ApexdocParserBaseListener.dart';
@@ -33,7 +32,7 @@ const int RULE_documentation = 0,
 
 class ApexdocParser extends Parser {
   static final checkVersion =
-      () => RuntimeMetaData.checkVersion('4.9.2', RuntimeMetaData.VERSION);
+      () => RuntimeMetaData.checkVersion('4.9.3', RuntimeMetaData.VERSION);
   static const int TOKEN_EOF = IntStream.EOF;
 
   static final List<DFA> _decisionToDFA = List.generate(
@@ -157,7 +156,7 @@ class ApexdocParser extends Parser {
       int _alt;
       state = 69;
       errorHandler.sync(this);
-      switch (interpreter.adaptivePredict(tokenStream, 2, context)) {
+      switch (interpreter!.adaptivePredict(tokenStream, 2, context)) {
         case 1:
           enterOuterAlt(_localctx, 1);
           state = 48;
@@ -169,7 +168,7 @@ class ApexdocParser extends Parser {
           match(TOKEN_JAVADOC_START);
           state = 53;
           errorHandler.sync(this);
-          _alt = interpreter.adaptivePredict(tokenStream, 0, context);
+          _alt = interpreter!.adaptivePredict(tokenStream, 0, context);
           while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
             if (_alt == 1) {
               state = 50;
@@ -177,7 +176,7 @@ class ApexdocParser extends Parser {
             }
             state = 55;
             errorHandler.sync(this);
-            _alt = interpreter.adaptivePredict(tokenStream, 0, context);
+            _alt = interpreter!.adaptivePredict(tokenStream, 0, context);
           }
           state = 56;
           documentationContent();
@@ -190,7 +189,7 @@ class ApexdocParser extends Parser {
           enterOuterAlt(_localctx, 3);
           state = 63;
           errorHandler.sync(this);
-          _alt = interpreter.adaptivePredict(tokenStream, 1, context);
+          _alt = interpreter!.adaptivePredict(tokenStream, 1, context);
           while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
             if (_alt == 1) {
               state = 60;
@@ -198,7 +197,7 @@ class ApexdocParser extends Parser {
             }
             state = 65;
             errorHandler.sync(this);
-            _alt = interpreter.adaptivePredict(tokenStream, 1, context);
+            _alt = interpreter!.adaptivePredict(tokenStream, 1, context);
           }
           state = 66;
           documentationContent();
@@ -224,27 +223,27 @@ class ApexdocParser extends Parser {
       int _alt;
       state = 99;
       errorHandler.sync(this);
-      switch (interpreter.adaptivePredict(tokenStream, 7, context)) {
+      switch (interpreter!.adaptivePredict(tokenStream, 7, context)) {
         case 1:
           enterOuterAlt(_localctx, 1);
           state = 71;
           description();
           state = 75;
           errorHandler.sync(this);
-          _la = tokenStream.LA(1);
+          _la = tokenStream.LA(1)!;
           while (_la == TOKEN_NEWLINE || _la == TOKEN_SPACE) {
             state = 72;
             skipWhitespace();
             state = 77;
             errorHandler.sync(this);
-            _la = tokenStream.LA(1);
+            _la = tokenStream.LA(1)!;
           }
           break;
         case 2:
           enterOuterAlt(_localctx, 2);
           state = 81;
           errorHandler.sync(this);
-          _alt = interpreter.adaptivePredict(tokenStream, 4, context);
+          _alt = interpreter!.adaptivePredict(tokenStream, 4, context);
           while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
             if (_alt == 1) {
               state = 78;
@@ -252,7 +251,7 @@ class ApexdocParser extends Parser {
             }
             state = 83;
             errorHandler.sync(this);
-            _alt = interpreter.adaptivePredict(tokenStream, 4, context);
+            _alt = interpreter!.adaptivePredict(tokenStream, 4, context);
           }
           state = 84;
           tagSection();
@@ -275,11 +274,11 @@ class ApexdocParser extends Parser {
             }
             state = 89;
             errorHandler.sync(this);
-            _alt = interpreter.adaptivePredict(tokenStream, 5, context);
+            _alt = interpreter!.adaptivePredict(tokenStream, 5, context);
           } while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER);
           state = 94;
           errorHandler.sync(this);
-          _alt = interpreter.adaptivePredict(tokenStream, 6, context);
+          _alt = interpreter!.adaptivePredict(tokenStream, 6, context);
           while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
             if (_alt == 1) {
               state = 91;
@@ -287,7 +286,7 @@ class ApexdocParser extends Parser {
             }
             state = 96;
             errorHandler.sync(this);
-            _alt = interpreter.adaptivePredict(tokenStream, 6, context);
+            _alt = interpreter!.adaptivePredict(tokenStream, 6, context);
           }
           state = 97;
           tagSection();
@@ -314,25 +313,25 @@ class ApexdocParser extends Parser {
       descriptionLine();
       state = 111;
       errorHandler.sync(this);
-      _alt = interpreter.adaptivePredict(tokenStream, 9, context);
+      _alt = interpreter!.adaptivePredict(tokenStream, 9, context);
       while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
         if (_alt == 1) {
           state = 103;
           errorHandler.sync(this);
-          _la = tokenStream.LA(1);
+          _la = tokenStream.LA(1)!;
           do {
             state = 102;
             descriptionNewline();
             state = 105;
             errorHandler.sync(this);
-            _la = tokenStream.LA(1);
+            _la = tokenStream.LA(1)!;
           } while (_la == TOKEN_NEWLINE);
           state = 107;
           descriptionLine();
         }
         state = 113;
         errorHandler.sync(this);
-        _alt = interpreter.adaptivePredict(tokenStream, 9, context);
+        _alt = interpreter!.adaptivePredict(tokenStream, 9, context);
       }
     } on RecognitionException catch (re) {
       _localctx.exception = re;
@@ -351,7 +350,7 @@ class ApexdocParser extends Parser {
       int _alt;
       state = 128;
       errorHandler.sync(this);
-      switch (tokenStream.LA(1)) {
+      switch (tokenStream.LA(1)!) {
         case TOKEN_NAME:
         case TOKEN_SPACE:
         case TOKEN_TEXT_CONTENT:
@@ -364,7 +363,7 @@ class ApexdocParser extends Parser {
           descriptionLineStart();
           state = 118;
           errorHandler.sync(this);
-          _alt = interpreter.adaptivePredict(tokenStream, 10, context);
+          _alt = interpreter!.adaptivePredict(tokenStream, 10, context);
           while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
             if (_alt == 1) {
               state = 115;
@@ -372,7 +371,7 @@ class ApexdocParser extends Parser {
             }
             state = 120;
             errorHandler.sync(this);
-            _alt = interpreter.adaptivePredict(tokenStream, 10, context);
+            _alt = interpreter!.adaptivePredict(tokenStream, 10, context);
           }
           break;
         case TOKEN_INLINE_TAG_START:
@@ -381,7 +380,7 @@ class ApexdocParser extends Parser {
           inlineTag();
           state = 125;
           errorHandler.sync(this);
-          _alt = interpreter.adaptivePredict(tokenStream, 11, context);
+          _alt = interpreter!.adaptivePredict(tokenStream, 11, context);
           while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
             if (_alt == 1) {
               state = 122;
@@ -389,7 +388,7 @@ class ApexdocParser extends Parser {
             }
             state = 127;
             errorHandler.sync(this);
-            _alt = interpreter.adaptivePredict(tokenStream, 11, context);
+            _alt = interpreter!.adaptivePredict(tokenStream, 11, context);
           }
           break;
         default:
@@ -414,7 +413,7 @@ class ApexdocParser extends Parser {
       enterOuterAlt(_localctx, 1);
       state = 131;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1);
+      _la = tokenStream.LA(1)!;
       if (_la == TOKEN_SPACE) {
         state = 130;
         match(TOKEN_SPACE);
@@ -434,16 +433,16 @@ class ApexdocParser extends Parser {
         }
         state = 136;
         errorHandler.sync(this);
-        _alt = interpreter.adaptivePredict(tokenStream, 14, context);
+        _alt = interpreter!.adaptivePredict(tokenStream, 14, context);
       } while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER);
       state = 143;
       errorHandler.sync(this);
-      _alt = interpreter.adaptivePredict(tokenStream, 16, context);
+      _alt = interpreter!.adaptivePredict(tokenStream, 16, context);
       while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
         if (_alt == 1) {
           state = 141;
           errorHandler.sync(this);
-          switch (tokenStream.LA(1)) {
+          switch (tokenStream.LA(1)!) {
             case TOKEN_NAME:
             case TOKEN_TEXT_CONTENT:
             case TOKEN_STAR:
@@ -467,7 +466,7 @@ class ApexdocParser extends Parser {
         }
         state = 145;
         errorHandler.sync(this);
-        _alt = interpreter.adaptivePredict(tokenStream, 16, context);
+        _alt = interpreter!.adaptivePredict(tokenStream, 16, context);
       }
     } on RecognitionException catch (re) {
       _localctx.exception = re;
@@ -486,7 +485,7 @@ class ApexdocParser extends Parser {
     try {
       enterOuterAlt(_localctx, 1);
       state = 146;
-      _la = tokenStream.LA(1);
+      _la = tokenStream.LA(1)!;
       if (!((((_la) & ~0x3f) == 0 &&
           ((BigInt.one << _la) &
                   ((BigInt.one << TOKEN_NAME) |
@@ -498,7 +497,7 @@ class ApexdocParser extends Parser {
               BigInt.zero))) {
         errorHandler.recoverInline(this);
       } else {
-        if (tokenStream.LA(1) == IntStream.EOF) matchedEOF = true;
+        if (tokenStream.LA(1)! == IntStream.EOF) matchedEOF = true;
         errorHandler.reportMatch(this);
         consume();
       }
@@ -518,7 +517,7 @@ class ApexdocParser extends Parser {
     try {
       state = 150;
       errorHandler.sync(this);
-      switch (tokenStream.LA(1)) {
+      switch (tokenStream.LA(1)!) {
         case TOKEN_INLINE_TAG_START:
           enterOuterAlt(_localctx, 1);
           state = 148;
@@ -563,7 +562,7 @@ class ApexdocParser extends Parser {
           case 1:
             state = 155;
             errorHandler.sync(this);
-            switch (tokenStream.LA(1)) {
+            switch (tokenStream.LA(1)!) {
               case TOKEN_NAME:
               case TOKEN_TEXT_CONTENT:
               case TOKEN_STAR:
@@ -590,7 +589,7 @@ class ApexdocParser extends Parser {
         }
         state = 157;
         errorHandler.sync(this);
-        _alt = interpreter.adaptivePredict(tokenStream, 19, context);
+        _alt = interpreter!.adaptivePredict(tokenStream, 19, context);
       } while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER);
     } on RecognitionException catch (re) {
       _localctx.exception = re;
@@ -627,7 +626,7 @@ class ApexdocParser extends Parser {
       enterOuterAlt(_localctx, 1);
       state = 164;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1);
+      _la = tokenStream.LA(1)!;
       while ((((_la) & ~0x3f) == 0 &&
           ((BigInt.one << _la) &
                   ((BigInt.one << TOKEN_PARAM) |
@@ -643,7 +642,7 @@ class ApexdocParser extends Parser {
         blockTag();
         state = 166;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1);
+        _la = tokenStream.LA(1)!;
       }
     } on RecognitionException catch (re) {
       _localctx.exception = re;
@@ -663,23 +662,23 @@ class ApexdocParser extends Parser {
       int _alt;
       state = 285;
       errorHandler.sync(this);
-      switch (interpreter.adaptivePredict(tokenStream, 43, context)) {
+      switch (interpreter!.adaptivePredict(tokenStream, 43, context)) {
         case 1:
           _localctx = ParamBlockTagContext(_localctx);
           enterOuterAlt(_localctx, 1);
           state = 170;
           errorHandler.sync(this);
-          _la = tokenStream.LA(1);
+          _la = tokenStream.LA(1)!;
           while (_la == TOKEN_STAR) {
             state = 167;
             match(TOKEN_STAR);
             state = 172;
             errorHandler.sync(this);
-            _la = tokenStream.LA(1);
+            _la = tokenStream.LA(1)!;
           }
           state = 174;
           errorHandler.sync(this);
-          _la = tokenStream.LA(1);
+          _la = tokenStream.LA(1)!;
           if (_la == TOKEN_SPACE) {
             state = 173;
             match(TOKEN_SPACE);
@@ -701,7 +700,7 @@ class ApexdocParser extends Parser {
             }
             state = 180;
             errorHandler.sync(this);
-            _alt = interpreter.adaptivePredict(tokenStream, 23, context);
+            _alt = interpreter!.adaptivePredict(tokenStream, 23, context);
           } while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER);
           state = 182;
           paramName();
@@ -719,11 +718,11 @@ class ApexdocParser extends Parser {
             }
             state = 186;
             errorHandler.sync(this);
-            _alt = interpreter.adaptivePredict(tokenStream, 24, context);
+            _alt = interpreter!.adaptivePredict(tokenStream, 24, context);
           } while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER);
           state = 191;
           errorHandler.sync(this);
-          _alt = interpreter.adaptivePredict(tokenStream, 25, context);
+          _alt = interpreter!.adaptivePredict(tokenStream, 25, context);
           while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
             if (_alt == 1) {
               state = 188;
@@ -731,7 +730,7 @@ class ApexdocParser extends Parser {
             }
             state = 193;
             errorHandler.sync(this);
-            _alt = interpreter.adaptivePredict(tokenStream, 25, context);
+            _alt = interpreter!.adaptivePredict(tokenStream, 25, context);
           }
           break;
         case 2:
@@ -739,28 +738,28 @@ class ApexdocParser extends Parser {
           enterOuterAlt(_localctx, 2);
           state = 197;
           errorHandler.sync(this);
-          _la = tokenStream.LA(1);
+          _la = tokenStream.LA(1)!;
           while (_la == TOKEN_STAR) {
             state = 194;
             match(TOKEN_STAR);
             state = 199;
             errorHandler.sync(this);
-            _la = tokenStream.LA(1);
+            _la = tokenStream.LA(1)!;
           }
           state = 201;
           errorHandler.sync(this);
-          _la = tokenStream.LA(1);
+          _la = tokenStream.LA(1)!;
           if (_la == TOKEN_SPACE) {
             state = 200;
             match(TOKEN_SPACE);
           }
 
           state = 203;
-          _la = tokenStream.LA(1);
+          _la = tokenStream.LA(1)!;
           if (!(_la == TOKEN_THROWS || _la == TOKEN_EXCEPTION)) {
             errorHandler.recoverInline(this);
           } else {
-            if (tokenStream.LA(1) == IntStream.EOF) matchedEOF = true;
+            if (tokenStream.LA(1)! == IntStream.EOF) matchedEOF = true;
             errorHandler.reportMatch(this);
             consume();
           }
@@ -778,7 +777,7 @@ class ApexdocParser extends Parser {
             }
             state = 207;
             errorHandler.sync(this);
-            _alt = interpreter.adaptivePredict(tokenStream, 28, context);
+            _alt = interpreter!.adaptivePredict(tokenStream, 28, context);
           } while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER);
           state = 209;
           exceptionName();
@@ -796,11 +795,11 @@ class ApexdocParser extends Parser {
             }
             state = 213;
             errorHandler.sync(this);
-            _alt = interpreter.adaptivePredict(tokenStream, 29, context);
+            _alt = interpreter!.adaptivePredict(tokenStream, 29, context);
           } while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER);
           state = 218;
           errorHandler.sync(this);
-          _alt = interpreter.adaptivePredict(tokenStream, 30, context);
+          _alt = interpreter!.adaptivePredict(tokenStream, 30, context);
           while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
             if (_alt == 1) {
               state = 215;
@@ -808,7 +807,7 @@ class ApexdocParser extends Parser {
             }
             state = 220;
             errorHandler.sync(this);
-            _alt = interpreter.adaptivePredict(tokenStream, 30, context);
+            _alt = interpreter!.adaptivePredict(tokenStream, 30, context);
           }
           break;
         case 3:
@@ -816,17 +815,17 @@ class ApexdocParser extends Parser {
           enterOuterAlt(_localctx, 3);
           state = 224;
           errorHandler.sync(this);
-          _la = tokenStream.LA(1);
+          _la = tokenStream.LA(1)!;
           while (_la == TOKEN_STAR) {
             state = 221;
             match(TOKEN_STAR);
             state = 226;
             errorHandler.sync(this);
-            _la = tokenStream.LA(1);
+            _la = tokenStream.LA(1)!;
           }
           state = 228;
           errorHandler.sync(this);
-          _la = tokenStream.LA(1);
+          _la = tokenStream.LA(1)!;
           if (_la == TOKEN_SPACE) {
             state = 227;
             match(TOKEN_SPACE);
@@ -848,11 +847,11 @@ class ApexdocParser extends Parser {
             }
             state = 234;
             errorHandler.sync(this);
-            _alt = interpreter.adaptivePredict(tokenStream, 33, context);
+            _alt = interpreter!.adaptivePredict(tokenStream, 33, context);
           } while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER);
           state = 239;
           errorHandler.sync(this);
-          _alt = interpreter.adaptivePredict(tokenStream, 34, context);
+          _alt = interpreter!.adaptivePredict(tokenStream, 34, context);
           while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
             if (_alt == 1) {
               state = 236;
@@ -860,7 +859,7 @@ class ApexdocParser extends Parser {
             }
             state = 241;
             errorHandler.sync(this);
-            _alt = interpreter.adaptivePredict(tokenStream, 34, context);
+            _alt = interpreter!.adaptivePredict(tokenStream, 34, context);
           }
           break;
         case 4:
@@ -868,17 +867,17 @@ class ApexdocParser extends Parser {
           enterOuterAlt(_localctx, 4);
           state = 245;
           errorHandler.sync(this);
-          _la = tokenStream.LA(1);
+          _la = tokenStream.LA(1)!;
           while (_la == TOKEN_STAR) {
             state = 242;
             match(TOKEN_STAR);
             state = 247;
             errorHandler.sync(this);
-            _la = tokenStream.LA(1);
+            _la = tokenStream.LA(1)!;
           }
           state = 249;
           errorHandler.sync(this);
-          _la = tokenStream.LA(1);
+          _la = tokenStream.LA(1)!;
           if (_la == TOKEN_SPACE) {
             state = 248;
             match(TOKEN_SPACE);
@@ -900,11 +899,11 @@ class ApexdocParser extends Parser {
             }
             state = 255;
             errorHandler.sync(this);
-            _alt = interpreter.adaptivePredict(tokenStream, 37, context);
+            _alt = interpreter!.adaptivePredict(tokenStream, 37, context);
           } while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER);
           state = 260;
           errorHandler.sync(this);
-          _alt = interpreter.adaptivePredict(tokenStream, 38, context);
+          _alt = interpreter!.adaptivePredict(tokenStream, 38, context);
           while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
             if (_alt == 1) {
               state = 257;
@@ -912,7 +911,7 @@ class ApexdocParser extends Parser {
             }
             state = 262;
             errorHandler.sync(this);
-            _alt = interpreter.adaptivePredict(tokenStream, 38, context);
+            _alt = interpreter!.adaptivePredict(tokenStream, 38, context);
           }
           break;
         case 5:
@@ -920,17 +919,17 @@ class ApexdocParser extends Parser {
           enterOuterAlt(_localctx, 5);
           state = 266;
           errorHandler.sync(this);
-          _la = tokenStream.LA(1);
+          _la = tokenStream.LA(1)!;
           while (_la == TOKEN_STAR) {
             state = 263;
             match(TOKEN_STAR);
             state = 268;
             errorHandler.sync(this);
-            _la = tokenStream.LA(1);
+            _la = tokenStream.LA(1)!;
           }
           state = 270;
           errorHandler.sync(this);
-          _la = tokenStream.LA(1);
+          _la = tokenStream.LA(1)!;
           if (_la == TOKEN_SPACE) {
             state = 269;
             match(TOKEN_SPACE);
@@ -954,11 +953,11 @@ class ApexdocParser extends Parser {
             }
             state = 277;
             errorHandler.sync(this);
-            _alt = interpreter.adaptivePredict(tokenStream, 41, context);
+            _alt = interpreter!.adaptivePredict(tokenStream, 41, context);
           } while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER);
           state = 282;
           errorHandler.sync(this);
-          _alt = interpreter.adaptivePredict(tokenStream, 42, context);
+          _alt = interpreter!.adaptivePredict(tokenStream, 42, context);
           while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
             if (_alt == 1) {
               state = 279;
@@ -966,7 +965,7 @@ class ApexdocParser extends Parser {
             }
             state = 284;
             errorHandler.sync(this);
-            _alt = interpreter.adaptivePredict(tokenStream, 42, context);
+            _alt = interpreter!.adaptivePredict(tokenStream, 42, context);
           }
           break;
       }
@@ -1037,7 +1036,7 @@ class ApexdocParser extends Parser {
     try {
       state = 296;
       errorHandler.sync(this);
-      switch (tokenStream.LA(1)) {
+      switch (tokenStream.LA(1)!) {
         case TOKEN_NAME:
         case TOKEN_SPACE:
         case TOKEN_TEXT_CONTENT:
@@ -1092,7 +1091,7 @@ class ApexdocParser extends Parser {
         }
         state = 301;
         errorHandler.sync(this);
-        _alt = interpreter.adaptivePredict(tokenStream, 45, context);
+        _alt = interpreter!.adaptivePredict(tokenStream, 45, context);
       } while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER);
     } on RecognitionException catch (re) {
       _localctx.exception = re;
@@ -1111,7 +1110,7 @@ class ApexdocParser extends Parser {
     try {
       enterOuterAlt(_localctx, 1);
       state = 303;
-      _la = tokenStream.LA(1);
+      _la = tokenStream.LA(1)!;
       if (!((((_la) & ~0x3f) == 0 &&
           ((BigInt.one << _la) &
                   ((BigInt.one << TOKEN_NAME) |
@@ -1124,7 +1123,7 @@ class ApexdocParser extends Parser {
               BigInt.zero))) {
         errorHandler.recoverInline(this);
       } else {
-        if (tokenStream.LA(1) == IntStream.EOF) matchedEOF = true;
+        if (tokenStream.LA(1)! == IntStream.EOF) matchedEOF = true;
         errorHandler.reportMatch(this);
         consume();
       }
@@ -1151,7 +1150,7 @@ class ApexdocParser extends Parser {
       inlineTagName();
       state = 310;
       errorHandler.sync(this);
-      _alt = interpreter.adaptivePredict(tokenStream, 46, context);
+      _alt = interpreter!.adaptivePredict(tokenStream, 46, context);
       while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
         if (_alt == 1) {
           state = 307;
@@ -1159,11 +1158,11 @@ class ApexdocParser extends Parser {
         }
         state = 312;
         errorHandler.sync(this);
-        _alt = interpreter.adaptivePredict(tokenStream, 46, context);
+        _alt = interpreter!.adaptivePredict(tokenStream, 46, context);
       }
       state = 314;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1);
+      _la = tokenStream.LA(1)!;
       if ((((_la) & ~0x3f) == 0 &&
           ((BigInt.one << _la) &
                   ((BigInt.one << TOKEN_NAME) |
@@ -1215,13 +1214,13 @@ class ApexdocParser extends Parser {
       enterOuterAlt(_localctx, 1);
       state = 321;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1);
+      _la = tokenStream.LA(1)!;
       do {
         state = 320;
         braceContent();
         state = 323;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1);
+        _la = tokenStream.LA(1)!;
       } while ((((_la) & ~0x3f) == 0 &&
           ((BigInt.one << _la) &
                   ((BigInt.one << TOKEN_NAME) |
@@ -1252,7 +1251,7 @@ class ApexdocParser extends Parser {
       match(TOKEN_BRACE_OPEN);
       state = 329;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1);
+      _la = tokenStream.LA(1)!;
       while ((((_la) & ~0x3f) == 0 &&
           ((BigInt.one << _la) &
                   ((BigInt.one << TOKEN_NAME) |
@@ -1267,7 +1266,7 @@ class ApexdocParser extends Parser {
         braceContent();
         state = 331;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1);
+        _la = tokenStream.LA(1)!;
       }
       state = 332;
       match(TOKEN_BRACE_CLOSE);
@@ -1288,7 +1287,7 @@ class ApexdocParser extends Parser {
       int _alt;
       state = 348;
       errorHandler.sync(this);
-      switch (tokenStream.LA(1)) {
+      switch (tokenStream.LA(1)!) {
         case TOKEN_BRACE_OPEN:
           enterOuterAlt(_localctx, 1);
           state = 334;
@@ -1305,12 +1304,12 @@ class ApexdocParser extends Parser {
           braceText();
           state = 345;
           errorHandler.sync(this);
-          _alt = interpreter.adaptivePredict(tokenStream, 51, context);
+          _alt = interpreter!.adaptivePredict(tokenStream, 51, context);
           while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
             if (_alt == 1) {
               state = 339;
               errorHandler.sync(this);
-              _alt = interpreter.adaptivePredict(tokenStream, 50, context);
+              _alt = interpreter!.adaptivePredict(tokenStream, 50, context);
               while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
                 if (_alt == 1) {
                   state = 336;
@@ -1318,14 +1317,14 @@ class ApexdocParser extends Parser {
                 }
                 state = 341;
                 errorHandler.sync(this);
-                _alt = interpreter.adaptivePredict(tokenStream, 50, context);
+                _alt = interpreter!.adaptivePredict(tokenStream, 50, context);
               }
               state = 342;
               braceText();
             }
             state = 347;
             errorHandler.sync(this);
-            _alt = interpreter.adaptivePredict(tokenStream, 51, context);
+            _alt = interpreter!.adaptivePredict(tokenStream, 51, context);
           }
           break;
         default:
@@ -1348,11 +1347,11 @@ class ApexdocParser extends Parser {
     try {
       enterOuterAlt(_localctx, 1);
       state = 350;
-      _la = tokenStream.LA(1);
+      _la = tokenStream.LA(1)!;
       if (!(_la == TOKEN_NEWLINE || _la == TOKEN_SPACE)) {
         errorHandler.recoverInline(this);
       } else {
-        if (tokenStream.LA(1) == IntStream.EOF) matchedEOF = true;
+        if (tokenStream.LA(1)! == IntStream.EOF) matchedEOF = true;
         errorHandler.reportMatch(this);
         consume();
       }
@@ -1373,7 +1372,7 @@ class ApexdocParser extends Parser {
     try {
       enterOuterAlt(_localctx, 1);
       state = 352;
-      _la = tokenStream.LA(1);
+      _la = tokenStream.LA(1)!;
       if (!((((_la) & ~0x3f) == 0 &&
           ((BigInt.one << _la) &
                   ((BigInt.one << TOKEN_NAME) |
@@ -1385,7 +1384,7 @@ class ApexdocParser extends Parser {
               BigInt.zero))) {
         errorHandler.recoverInline(this);
       } else {
-        if (tokenStream.LA(1) == IntStream.EOF) matchedEOF = true;
+        if (tokenStream.LA(1)! == IntStream.EOF) matchedEOF = true;
         errorHandler.reportMatch(this);
         consume();
       }
@@ -1658,20 +1657,20 @@ class ApexdocParser extends Parser {
 }
 
 class DocumentationContext extends ParserRuleContext {
-  TerminalNode EOF() => getToken(ApexdocParser.TOKEN_EOF, 0);
+  TerminalNode? EOF() => getToken(ApexdocParser.TOKEN_EOF, 0);
 
-  TerminalNode JAVADOC_START() =>
+  TerminalNode? JAVADOC_START() =>
       getToken(ApexdocParser.TOKEN_JAVADOC_START, 0);
 
-  DocumentationContentContext documentationContent() =>
+  DocumentationContentContext? documentationContent() =>
       getRuleContext<DocumentationContentContext>(0);
 
-  TerminalNode JAVADOC_END() => getToken(ApexdocParser.TOKEN_JAVADOC_END, 0);
+  TerminalNode? JAVADOC_END() => getToken(ApexdocParser.TOKEN_JAVADOC_END, 0);
 
   List<SkipWhitespaceContext> skipWhitespaces() =>
       getRuleContexts<SkipWhitespaceContext>();
 
-  SkipWhitespaceContext skipWhitespace(int i) =>
+  SkipWhitespaceContext? skipWhitespace(int i) =>
       getRuleContext<SkipWhitespaceContext>(i);
 
   DocumentationContext([ParserRuleContext? parent, int? invokingState])
@@ -1692,19 +1691,19 @@ class DocumentationContext extends ParserRuleContext {
 }
 
 class DocumentationContentContext extends ParserRuleContext {
-  DescriptionContext description() => getRuleContext<DescriptionContext>(0);
+  DescriptionContext? description() => getRuleContext<DescriptionContext>(0);
 
   List<SkipWhitespaceContext> skipWhitespaces() =>
       getRuleContexts<SkipWhitespaceContext>();
 
-  SkipWhitespaceContext skipWhitespace(int i) =>
+  SkipWhitespaceContext? skipWhitespace(int i) =>
       getRuleContext<SkipWhitespaceContext>(i);
 
-  TagSectionContext tagSection() => getRuleContext<TagSectionContext>(0);
+  TagSectionContext? tagSection() => getRuleContext<TagSectionContext>(0);
 
   List<TerminalNode> NEWLINEs() => getTokens(ApexdocParser.TOKEN_NEWLINE);
 
-  TerminalNode NEWLINE(int i) => getToken(ApexdocParser.TOKEN_NEWLINE, i);
+  TerminalNode? NEWLINE(int i) => getToken(ApexdocParser.TOKEN_NEWLINE, i);
 
   DocumentationContentContext([ParserRuleContext? parent, int? invokingState])
       : super(parent, invokingState);
@@ -1729,13 +1728,13 @@ class DescriptionContext extends ParserRuleContext {
   List<DescriptionLineContext> descriptionLines() =>
       getRuleContexts<DescriptionLineContext>();
 
-  DescriptionLineContext descriptionLine(int i) =>
+  DescriptionLineContext? descriptionLine(int i) =>
       getRuleContext<DescriptionLineContext>(i);
 
   List<DescriptionNewlineContext> descriptionNewlines() =>
       getRuleContexts<DescriptionNewlineContext>();
 
-  DescriptionNewlineContext descriptionNewline(int i) =>
+  DescriptionNewlineContext? descriptionNewline(int i) =>
       getRuleContext<DescriptionNewlineContext>(i);
 
   DescriptionContext([ParserRuleContext? parent, int? invokingState])
@@ -1756,16 +1755,16 @@ class DescriptionContext extends ParserRuleContext {
 }
 
 class DescriptionLineContext extends ParserRuleContext {
-  DescriptionLineStartContext descriptionLineStart() =>
+  DescriptionLineStartContext? descriptionLineStart() =>
       getRuleContext<DescriptionLineStartContext>(0);
 
   List<DescriptionLineElementContext> descriptionLineElements() =>
       getRuleContexts<DescriptionLineElementContext>();
 
-  DescriptionLineElementContext descriptionLineElement(int i) =>
+  DescriptionLineElementContext? descriptionLineElement(int i) =>
       getRuleContext<DescriptionLineElementContext>(i);
 
-  InlineTagContext inlineTag() => getRuleContext<InlineTagContext>(0);
+  InlineTagContext? inlineTag() => getRuleContext<InlineTagContext>(0);
 
   DescriptionLineContext([ParserRuleContext? parent, int? invokingState])
       : super(parent, invokingState);
@@ -1787,17 +1786,17 @@ class DescriptionLineContext extends ParserRuleContext {
 class DescriptionLineStartContext extends ParserRuleContext {
   List<TerminalNode> SPACEs() => getTokens(ApexdocParser.TOKEN_SPACE);
 
-  TerminalNode SPACE(int i) => getToken(ApexdocParser.TOKEN_SPACE, i);
+  TerminalNode? SPACE(int i) => getToken(ApexdocParser.TOKEN_SPACE, i);
 
   List<DescriptionLineNoSpaceNoAtContext> descriptionLineNoSpaceNoAts() =>
       getRuleContexts<DescriptionLineNoSpaceNoAtContext>();
 
-  DescriptionLineNoSpaceNoAtContext descriptionLineNoSpaceNoAt(int i) =>
+  DescriptionLineNoSpaceNoAtContext? descriptionLineNoSpaceNoAt(int i) =>
       getRuleContext<DescriptionLineNoSpaceNoAtContext>(i);
 
   List<TerminalNode> ATs() => getTokens(ApexdocParser.TOKEN_AT);
 
-  TerminalNode AT(int i) => getToken(ApexdocParser.TOKEN_AT, i);
+  TerminalNode? AT(int i) => getToken(ApexdocParser.TOKEN_AT, i);
 
   DescriptionLineStartContext([ParserRuleContext? parent, int? invokingState])
       : super(parent, invokingState);
@@ -1819,17 +1818,17 @@ class DescriptionLineStartContext extends ParserRuleContext {
 }
 
 class DescriptionLineNoSpaceNoAtContext extends ParserRuleContext {
-  TerminalNode TEXT_CONTENT() => getToken(ApexdocParser.TOKEN_TEXT_CONTENT, 0);
+  TerminalNode? TEXT_CONTENT() => getToken(ApexdocParser.TOKEN_TEXT_CONTENT, 0);
 
-  TerminalNode NAME() => getToken(ApexdocParser.TOKEN_NAME, 0);
+  TerminalNode? NAME() => getToken(ApexdocParser.TOKEN_NAME, 0);
 
-  TerminalNode STAR() => getToken(ApexdocParser.TOKEN_STAR, 0);
+  TerminalNode? STAR() => getToken(ApexdocParser.TOKEN_STAR, 0);
 
-  TerminalNode SLASH() => getToken(ApexdocParser.TOKEN_SLASH, 0);
+  TerminalNode? SLASH() => getToken(ApexdocParser.TOKEN_SLASH, 0);
 
-  TerminalNode BRACE_OPEN() => getToken(ApexdocParser.TOKEN_BRACE_OPEN, 0);
+  TerminalNode? BRACE_OPEN() => getToken(ApexdocParser.TOKEN_BRACE_OPEN, 0);
 
-  TerminalNode BRACE_CLOSE() => getToken(ApexdocParser.TOKEN_BRACE_CLOSE, 0);
+  TerminalNode? BRACE_CLOSE() => getToken(ApexdocParser.TOKEN_BRACE_CLOSE, 0);
 
   DescriptionLineNoSpaceNoAtContext(
       [ParserRuleContext? parent, int? invokingState])
@@ -1852,9 +1851,9 @@ class DescriptionLineNoSpaceNoAtContext extends ParserRuleContext {
 }
 
 class DescriptionLineElementContext extends ParserRuleContext {
-  InlineTagContext inlineTag() => getRuleContext<InlineTagContext>(0);
+  InlineTagContext? inlineTag() => getRuleContext<InlineTagContext>(0);
 
-  DescriptionLineTextContext descriptionLineText() =>
+  DescriptionLineTextContext? descriptionLineText() =>
       getRuleContext<DescriptionLineTextContext>(0);
 
   DescriptionLineElementContext([ParserRuleContext? parent, int? invokingState])
@@ -1880,16 +1879,16 @@ class DescriptionLineTextContext extends ParserRuleContext {
   List<DescriptionLineNoSpaceNoAtContext> descriptionLineNoSpaceNoAts() =>
       getRuleContexts<DescriptionLineNoSpaceNoAtContext>();
 
-  DescriptionLineNoSpaceNoAtContext descriptionLineNoSpaceNoAt(int i) =>
+  DescriptionLineNoSpaceNoAtContext? descriptionLineNoSpaceNoAt(int i) =>
       getRuleContext<DescriptionLineNoSpaceNoAtContext>(i);
 
   List<TerminalNode> SPACEs() => getTokens(ApexdocParser.TOKEN_SPACE);
 
-  TerminalNode SPACE(int i) => getToken(ApexdocParser.TOKEN_SPACE, i);
+  TerminalNode? SPACE(int i) => getToken(ApexdocParser.TOKEN_SPACE, i);
 
   List<TerminalNode> ATs() => getTokens(ApexdocParser.TOKEN_AT);
 
-  TerminalNode AT(int i) => getToken(ApexdocParser.TOKEN_AT, i);
+  TerminalNode? AT(int i) => getToken(ApexdocParser.TOKEN_AT, i);
 
   DescriptionLineTextContext([ParserRuleContext? parent, int? invokingState])
       : super(parent, invokingState);
@@ -1911,7 +1910,7 @@ class DescriptionLineTextContext extends ParserRuleContext {
 }
 
 class DescriptionNewlineContext extends ParserRuleContext {
-  TerminalNode NEWLINE() => getToken(ApexdocParser.TOKEN_NEWLINE, 0);
+  TerminalNode? NEWLINE() => getToken(ApexdocParser.TOKEN_NEWLINE, 0);
 
   DescriptionNewlineContext([ParserRuleContext? parent, int? invokingState])
       : super(parent, invokingState);
@@ -1935,7 +1934,7 @@ class DescriptionNewlineContext extends ParserRuleContext {
 class TagSectionContext extends ParserRuleContext {
   List<BlockTagContext> blockTags() => getRuleContexts<BlockTagContext>();
 
-  BlockTagContext blockTag(int i) => getRuleContext<BlockTagContext>(i);
+  BlockTagContext? blockTag(int i) => getRuleContext<BlockTagContext>(i);
 
   TagSectionContext([ParserRuleContext? parent, int? invokingState])
       : super(parent, invokingState);
@@ -1968,7 +1967,7 @@ class BlockTagContext extends ParserRuleContext {
 }
 
 class ParamNameContext extends ParserRuleContext {
-  BlockTagTextElementContext blockTagTextElement() =>
+  BlockTagTextElementContext? blockTagTextElement() =>
       getRuleContext<BlockTagTextElementContext>(0);
 
   ParamNameContext([ParserRuleContext? parent, int? invokingState])
@@ -1989,7 +1988,7 @@ class ParamNameContext extends ParserRuleContext {
 }
 
 class ExceptionNameContext extends ParserRuleContext {
-  BlockTagTextElementContext blockTagTextElement() =>
+  BlockTagTextElementContext? blockTagTextElement() =>
       getRuleContext<BlockTagTextElementContext>(0);
 
   ExceptionNameContext([ParserRuleContext? parent, int? invokingState])
@@ -2010,7 +2009,7 @@ class ExceptionNameContext extends ParserRuleContext {
 }
 
 class BlockTagNameContext extends ParserRuleContext {
-  TerminalNode NAME() => getToken(ApexdocParser.TOKEN_NAME, 0);
+  TerminalNode? NAME() => getToken(ApexdocParser.TOKEN_NAME, 0);
 
   BlockTagNameContext([ParserRuleContext? parent, int? invokingState])
       : super(parent, invokingState);
@@ -2030,11 +2029,11 @@ class BlockTagNameContext extends ParserRuleContext {
 }
 
 class BlockTagContentContext extends ParserRuleContext {
-  BlockTagTextContext blockTagText() => getRuleContext<BlockTagTextContext>(0);
+  BlockTagTextContext? blockTagText() => getRuleContext<BlockTagTextContext>(0);
 
-  InlineTagContext inlineTag() => getRuleContext<InlineTagContext>(0);
+  InlineTagContext? inlineTag() => getRuleContext<InlineTagContext>(0);
 
-  TerminalNode NEWLINE() => getToken(ApexdocParser.TOKEN_NEWLINE, 0);
+  TerminalNode? NEWLINE() => getToken(ApexdocParser.TOKEN_NEWLINE, 0);
 
   BlockTagContentContext([ParserRuleContext? parent, int? invokingState])
       : super(parent, invokingState);
@@ -2057,7 +2056,7 @@ class BlockTagTextContext extends ParserRuleContext {
   List<BlockTagTextElementContext> blockTagTextElements() =>
       getRuleContexts<BlockTagTextElementContext>();
 
-  BlockTagTextElementContext blockTagTextElement(int i) =>
+  BlockTagTextElementContext? blockTagTextElement(int i) =>
       getRuleContext<BlockTagTextElementContext>(i);
 
   BlockTagTextContext([ParserRuleContext? parent, int? invokingState])
@@ -2078,19 +2077,19 @@ class BlockTagTextContext extends ParserRuleContext {
 }
 
 class BlockTagTextElementContext extends ParserRuleContext {
-  TerminalNode TEXT_CONTENT() => getToken(ApexdocParser.TOKEN_TEXT_CONTENT, 0);
+  TerminalNode? TEXT_CONTENT() => getToken(ApexdocParser.TOKEN_TEXT_CONTENT, 0);
 
-  TerminalNode NAME() => getToken(ApexdocParser.TOKEN_NAME, 0);
+  TerminalNode? NAME() => getToken(ApexdocParser.TOKEN_NAME, 0);
 
-  TerminalNode SPACE() => getToken(ApexdocParser.TOKEN_SPACE, 0);
+  TerminalNode? SPACE() => getToken(ApexdocParser.TOKEN_SPACE, 0);
 
-  TerminalNode STAR() => getToken(ApexdocParser.TOKEN_STAR, 0);
+  TerminalNode? STAR() => getToken(ApexdocParser.TOKEN_STAR, 0);
 
-  TerminalNode SLASH() => getToken(ApexdocParser.TOKEN_SLASH, 0);
+  TerminalNode? SLASH() => getToken(ApexdocParser.TOKEN_SLASH, 0);
 
-  TerminalNode BRACE_OPEN() => getToken(ApexdocParser.TOKEN_BRACE_OPEN, 0);
+  TerminalNode? BRACE_OPEN() => getToken(ApexdocParser.TOKEN_BRACE_OPEN, 0);
 
-  TerminalNode BRACE_CLOSE() => getToken(ApexdocParser.TOKEN_BRACE_CLOSE, 0);
+  TerminalNode? BRACE_CLOSE() => getToken(ApexdocParser.TOKEN_BRACE_CLOSE, 0);
 
   BlockTagTextElementContext([ParserRuleContext? parent, int? invokingState])
       : super(parent, invokingState);
@@ -2112,19 +2111,19 @@ class BlockTagTextElementContext extends ParserRuleContext {
 }
 
 class InlineTagContext extends ParserRuleContext {
-  TerminalNode INLINE_TAG_START() =>
+  TerminalNode? INLINE_TAG_START() =>
       getToken(ApexdocParser.TOKEN_INLINE_TAG_START, 0);
 
-  InlineTagNameContext inlineTagName() =>
+  InlineTagNameContext? inlineTagName() =>
       getRuleContext<InlineTagNameContext>(0);
 
-  TerminalNode BRACE_CLOSE() => getToken(ApexdocParser.TOKEN_BRACE_CLOSE, 0);
+  TerminalNode? BRACE_CLOSE() => getToken(ApexdocParser.TOKEN_BRACE_CLOSE, 0);
 
   List<TerminalNode> SPACEs() => getTokens(ApexdocParser.TOKEN_SPACE);
 
-  TerminalNode SPACE(int i) => getToken(ApexdocParser.TOKEN_SPACE, i);
+  TerminalNode? SPACE(int i) => getToken(ApexdocParser.TOKEN_SPACE, i);
 
-  InlineTagContentContext inlineTagContent() =>
+  InlineTagContentContext? inlineTagContent() =>
       getRuleContext<InlineTagContentContext>(0);
 
   InlineTagContext([ParserRuleContext? parent, int? invokingState])
@@ -2145,7 +2144,7 @@ class InlineTagContext extends ParserRuleContext {
 }
 
 class InlineTagNameContext extends ParserRuleContext {
-  TerminalNode NAME() => getToken(ApexdocParser.TOKEN_NAME, 0);
+  TerminalNode? NAME() => getToken(ApexdocParser.TOKEN_NAME, 0);
 
   InlineTagNameContext([ParserRuleContext? parent, int? invokingState])
       : super(parent, invokingState);
@@ -2168,7 +2167,7 @@ class InlineTagContentContext extends ParserRuleContext {
   List<BraceContentContext> braceContents() =>
       getRuleContexts<BraceContentContext>();
 
-  BraceContentContext braceContent(int i) =>
+  BraceContentContext? braceContent(int i) =>
       getRuleContext<BraceContentContext>(i);
 
   InlineTagContentContext([ParserRuleContext? parent, int? invokingState])
@@ -2189,14 +2188,14 @@ class InlineTagContentContext extends ParserRuleContext {
 }
 
 class BraceExpressionContext extends ParserRuleContext {
-  TerminalNode BRACE_OPEN() => getToken(ApexdocParser.TOKEN_BRACE_OPEN, 0);
+  TerminalNode? BRACE_OPEN() => getToken(ApexdocParser.TOKEN_BRACE_OPEN, 0);
 
-  TerminalNode BRACE_CLOSE() => getToken(ApexdocParser.TOKEN_BRACE_CLOSE, 0);
+  TerminalNode? BRACE_CLOSE() => getToken(ApexdocParser.TOKEN_BRACE_CLOSE, 0);
 
   List<BraceContentContext> braceContents() =>
       getRuleContexts<BraceContentContext>();
 
-  BraceContentContext braceContent(int i) =>
+  BraceContentContext? braceContent(int i) =>
       getRuleContext<BraceContentContext>(i);
 
   BraceExpressionContext([ParserRuleContext? parent, int? invokingState])
@@ -2217,16 +2216,16 @@ class BraceExpressionContext extends ParserRuleContext {
 }
 
 class BraceContentContext extends ParserRuleContext {
-  BraceExpressionContext braceExpression() =>
+  BraceExpressionContext? braceExpression() =>
       getRuleContext<BraceExpressionContext>(0);
 
   List<BraceTextContext> braceTexts() => getRuleContexts<BraceTextContext>();
 
-  BraceTextContext braceText(int i) => getRuleContext<BraceTextContext>(i);
+  BraceTextContext? braceText(int i) => getRuleContext<BraceTextContext>(i);
 
   List<TerminalNode> NEWLINEs() => getTokens(ApexdocParser.TOKEN_NEWLINE);
 
-  TerminalNode NEWLINE(int i) => getToken(ApexdocParser.TOKEN_NEWLINE, i);
+  TerminalNode? NEWLINE(int i) => getToken(ApexdocParser.TOKEN_NEWLINE, i);
 
   BraceContentContext([ParserRuleContext? parent, int? invokingState])
       : super(parent, invokingState);
@@ -2246,9 +2245,9 @@ class BraceContentContext extends ParserRuleContext {
 }
 
 class SkipWhitespaceContext extends ParserRuleContext {
-  TerminalNode SPACE() => getToken(ApexdocParser.TOKEN_SPACE, 0);
+  TerminalNode? SPACE() => getToken(ApexdocParser.TOKEN_SPACE, 0);
 
-  TerminalNode NEWLINE() => getToken(ApexdocParser.TOKEN_NEWLINE, 0);
+  TerminalNode? NEWLINE() => getToken(ApexdocParser.TOKEN_NEWLINE, 0);
 
   SkipWhitespaceContext([ParserRuleContext? parent, int? invokingState])
       : super(parent, invokingState);
@@ -2268,17 +2267,17 @@ class SkipWhitespaceContext extends ParserRuleContext {
 }
 
 class BraceTextContext extends ParserRuleContext {
-  TerminalNode TEXT_CONTENT() => getToken(ApexdocParser.TOKEN_TEXT_CONTENT, 0);
+  TerminalNode? TEXT_CONTENT() => getToken(ApexdocParser.TOKEN_TEXT_CONTENT, 0);
 
-  TerminalNode NAME() => getToken(ApexdocParser.TOKEN_NAME, 0);
+  TerminalNode? NAME() => getToken(ApexdocParser.TOKEN_NAME, 0);
 
-  TerminalNode SPACE() => getToken(ApexdocParser.TOKEN_SPACE, 0);
+  TerminalNode? SPACE() => getToken(ApexdocParser.TOKEN_SPACE, 0);
 
-  TerminalNode STAR() => getToken(ApexdocParser.TOKEN_STAR, 0);
+  TerminalNode? STAR() => getToken(ApexdocParser.TOKEN_STAR, 0);
 
-  TerminalNode SLASH() => getToken(ApexdocParser.TOKEN_SLASH, 0);
+  TerminalNode? SLASH() => getToken(ApexdocParser.TOKEN_SLASH, 0);
 
-  TerminalNode NEWLINE() => getToken(ApexdocParser.TOKEN_NEWLINE, 0);
+  TerminalNode? NEWLINE() => getToken(ApexdocParser.TOKEN_NEWLINE, 0);
 
   BraceTextContext([ParserRuleContext? parent, int? invokingState])
       : super(parent, invokingState);
@@ -2298,22 +2297,22 @@ class BraceTextContext extends ParserRuleContext {
 }
 
 class DefaultBlockTagContext extends BlockTagContext {
-  TerminalNode AT() => getToken(ApexdocParser.TOKEN_AT, 0);
+  TerminalNode? AT() => getToken(ApexdocParser.TOKEN_AT, 0);
 
-  BlockTagNameContext blockTagName() => getRuleContext<BlockTagNameContext>(0);
+  BlockTagNameContext? blockTagName() => getRuleContext<BlockTagNameContext>(0);
 
   List<TerminalNode> STARs() => getTokens(ApexdocParser.TOKEN_STAR);
 
-  TerminalNode STAR(int i) => getToken(ApexdocParser.TOKEN_STAR, i);
+  TerminalNode? STAR(int i) => getToken(ApexdocParser.TOKEN_STAR, i);
 
   List<TerminalNode> SPACEs() => getTokens(ApexdocParser.TOKEN_SPACE);
 
-  TerminalNode SPACE(int i) => getToken(ApexdocParser.TOKEN_SPACE, i);
+  TerminalNode? SPACE(int i) => getToken(ApexdocParser.TOKEN_SPACE, i);
 
   List<BlockTagContentContext> blockTagContents() =>
       getRuleContexts<BlockTagContentContext>();
 
-  BlockTagContentContext blockTagContent(int i) =>
+  BlockTagContentContext? blockTagContent(int i) =>
       getRuleContext<BlockTagContentContext>(i);
 
   DefaultBlockTagContext(BlockTagContext ctx) {
@@ -2332,22 +2331,22 @@ class DefaultBlockTagContext extends BlockTagContext {
 }
 
 class ParamBlockTagContext extends BlockTagContext {
-  TerminalNode PARAM() => getToken(ApexdocParser.TOKEN_PARAM, 0);
+  TerminalNode? PARAM() => getToken(ApexdocParser.TOKEN_PARAM, 0);
 
-  ParamNameContext paramName() => getRuleContext<ParamNameContext>(0);
+  ParamNameContext? paramName() => getRuleContext<ParamNameContext>(0);
 
   List<TerminalNode> STARs() => getTokens(ApexdocParser.TOKEN_STAR);
 
-  TerminalNode STAR(int i) => getToken(ApexdocParser.TOKEN_STAR, i);
+  TerminalNode? STAR(int i) => getToken(ApexdocParser.TOKEN_STAR, i);
 
   List<TerminalNode> SPACEs() => getTokens(ApexdocParser.TOKEN_SPACE);
 
-  TerminalNode SPACE(int i) => getToken(ApexdocParser.TOKEN_SPACE, i);
+  TerminalNode? SPACE(int i) => getToken(ApexdocParser.TOKEN_SPACE, i);
 
   List<BlockTagContentContext> blockTagContents() =>
       getRuleContexts<BlockTagContentContext>();
 
-  BlockTagContentContext blockTagContent(int i) =>
+  BlockTagContentContext? blockTagContent(int i) =>
       getRuleContext<BlockTagContentContext>(i);
 
   ParamBlockTagContext(BlockTagContext ctx) {
@@ -2366,20 +2365,20 @@ class ParamBlockTagContext extends BlockTagContext {
 }
 
 class ReturnBlockTagContext extends BlockTagContext {
-  TerminalNode RETURN() => getToken(ApexdocParser.TOKEN_RETURN, 0);
+  TerminalNode? RETURN() => getToken(ApexdocParser.TOKEN_RETURN, 0);
 
   List<TerminalNode> STARs() => getTokens(ApexdocParser.TOKEN_STAR);
 
-  TerminalNode STAR(int i) => getToken(ApexdocParser.TOKEN_STAR, i);
+  TerminalNode? STAR(int i) => getToken(ApexdocParser.TOKEN_STAR, i);
 
   List<TerminalNode> SPACEs() => getTokens(ApexdocParser.TOKEN_SPACE);
 
-  TerminalNode SPACE(int i) => getToken(ApexdocParser.TOKEN_SPACE, i);
+  TerminalNode? SPACE(int i) => getToken(ApexdocParser.TOKEN_SPACE, i);
 
   List<BlockTagContentContext> blockTagContents() =>
       getRuleContexts<BlockTagContentContext>();
 
-  BlockTagContentContext blockTagContent(int i) =>
+  BlockTagContentContext? blockTagContent(int i) =>
       getRuleContext<BlockTagContentContext>(i);
 
   ReturnBlockTagContext(BlockTagContext ctx) {
@@ -2398,24 +2397,24 @@ class ReturnBlockTagContext extends BlockTagContext {
 }
 
 class ExampleBlockTagContext extends BlockTagContext {
-  TerminalNode EXAMPLE() => getToken(ApexdocParser.TOKEN_EXAMPLE, 0);
+  TerminalNode? EXAMPLE() => getToken(ApexdocParser.TOKEN_EXAMPLE, 0);
 
   List<TerminalNode> STARs() => getTokens(ApexdocParser.TOKEN_STAR);
 
-  TerminalNode STAR(int i) => getToken(ApexdocParser.TOKEN_STAR, i);
+  TerminalNode? STAR(int i) => getToken(ApexdocParser.TOKEN_STAR, i);
 
-  TerminalNode SPACE() => getToken(ApexdocParser.TOKEN_SPACE, 0);
+  TerminalNode? SPACE() => getToken(ApexdocParser.TOKEN_SPACE, 0);
 
   List<SkipWhitespaceContext> skipWhitespaces() =>
       getRuleContexts<SkipWhitespaceContext>();
 
-  SkipWhitespaceContext skipWhitespace(int i) =>
+  SkipWhitespaceContext? skipWhitespace(int i) =>
       getRuleContext<SkipWhitespaceContext>(i);
 
   List<BlockTagContentContext> blockTagContents() =>
       getRuleContexts<BlockTagContentContext>();
 
-  BlockTagContentContext blockTagContent(int i) =>
+  BlockTagContentContext? blockTagContent(int i) =>
       getRuleContext<BlockTagContentContext>(i);
 
   ExampleBlockTagContext(BlockTagContext ctx) {
@@ -2434,25 +2433,25 @@ class ExampleBlockTagContext extends BlockTagContext {
 }
 
 class ThrowsBlockTagContext extends BlockTagContext {
-  ExceptionNameContext exceptionName() =>
+  ExceptionNameContext? exceptionName() =>
       getRuleContext<ExceptionNameContext>(0);
 
-  TerminalNode THROWS() => getToken(ApexdocParser.TOKEN_THROWS, 0);
+  TerminalNode? THROWS() => getToken(ApexdocParser.TOKEN_THROWS, 0);
 
-  TerminalNode EXCEPTION() => getToken(ApexdocParser.TOKEN_EXCEPTION, 0);
+  TerminalNode? EXCEPTION() => getToken(ApexdocParser.TOKEN_EXCEPTION, 0);
 
   List<TerminalNode> STARs() => getTokens(ApexdocParser.TOKEN_STAR);
 
-  TerminalNode STAR(int i) => getToken(ApexdocParser.TOKEN_STAR, i);
+  TerminalNode? STAR(int i) => getToken(ApexdocParser.TOKEN_STAR, i);
 
   List<TerminalNode> SPACEs() => getTokens(ApexdocParser.TOKEN_SPACE);
 
-  TerminalNode SPACE(int i) => getToken(ApexdocParser.TOKEN_SPACE, i);
+  TerminalNode? SPACE(int i) => getToken(ApexdocParser.TOKEN_SPACE, i);
 
   List<BlockTagContentContext> blockTagContents() =>
       getRuleContexts<BlockTagContentContext>();
 
-  BlockTagContentContext blockTagContent(int i) =>
+  BlockTagContentContext? blockTagContent(int i) =>
       getRuleContext<BlockTagContentContext>(i);
 
   ThrowsBlockTagContext(BlockTagContext ctx) {

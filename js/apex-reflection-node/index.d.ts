@@ -47,6 +47,7 @@ export interface MethodMirror {
     type: string;
     parameters: ParameterMirror[];
     docComment?: DocComment;
+    group?: string;
 }
 export interface PropertyMirror {
     access_modifier: string;
@@ -63,12 +64,14 @@ export interface FieldMirror {
     memberModifiers: string[];
     type: string;
     docComment?: DocComment;
+    group?: string;
 }
 export interface ConstructorMirror {
     access_modifier: string;
     annotations: Annotation[];
     parameters: ParameterMirror[];
     docComment?: DocComment;
+    group?: string;
 }
 export interface ReflectionResult {
     typeMirror?: Type;

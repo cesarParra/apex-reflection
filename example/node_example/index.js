@@ -6,7 +6,10 @@ const classBody = `
  */
 @NamespaceAccessible
 public with sharing class SampleClass {
+    // @start-group Constants 
     private String myVariableWithAValue = 'Some value';
+    // @end-group
+    
     /**
      * @description Constructs a SampleClass without any arguments.
      * @example
@@ -98,6 +101,10 @@ public with sharing class SampleClass {
             System.debug('Executing inner method.');
         }
     }
+    
+    // @start-group Bottom
+    private static final String something = '';
+    // @end-group
 }`;
 
-console.log(reflect(classBody.replace('\r', '')));
+console.log(JSON.stringify(reflect(classBody.replace('\r', ''))));

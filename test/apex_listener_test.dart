@@ -250,8 +250,10 @@ void main() {
       final apexWalkerDefinition = ApexWalkerDefinition();
       var classBody = '''
       public class MyClass {
+        // @start-group myGroup 
         private String myVar1, myVar2;
         private Integer myVar3;
+        // @end-group
       }
       ''';
       Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);

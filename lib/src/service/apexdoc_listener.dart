@@ -26,14 +26,14 @@ class ApexdocListener extends ApexdocParserBaseListener {
 
   @override
   void enterDefaultBlockTag(DefaultBlockTagContext ctx) {
-    final tagName = ctx.blockTagName().text;
+    final tagName = ctx.blockTagName()!.text;
     generatedDocComment.annotations.add(DocCommentAnnotation(
         tagName, _getContentLines(ctx.blockTagContents())));
   }
 
   @override
   void enterParamBlockTag(ParamBlockTagContext ctx) {
-    final paramName = ctx.paramName().text;
+    final paramName = ctx.paramName()!.text;
     final contentLines = _getContentLines(ctx.blockTagContents());
     generatedDocComment.paramAnnotations
         .add(ParamDocCommentAnnotation(paramName, contentLines));
@@ -48,7 +48,7 @@ class ApexdocListener extends ApexdocParserBaseListener {
 
   @override
   void enterThrowsBlockTag(ThrowsBlockTagContext ctx) {
-    final exceptionName = ctx.exceptionName().text;
+    final exceptionName = ctx.exceptionName()!.text;
     final contentLines = _getContentLines(ctx.blockTagContents());
     generatedDocComment.throwsAnnotations
         .add(ThrowsDocCommentAnnotation(exceptionName, contentLines));

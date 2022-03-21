@@ -92,8 +92,13 @@ class ExceptionErrorListener extends BaseErrorListener {
   ExceptionErrorListener(this.errorSource);
 
   @override
-  void syntaxError(Recognizer<ATNSimulator> recognizer, Object offendingSymbol,
-      int line, int charPositionInLine, String msg, RecognitionException e) {
+  void syntaxError(
+      Recognizer<ATNSimulator> recognizer,
+      Object? offendingSymbol,
+      int? line,
+      int charPositionInLine,
+      String msg,
+      RecognitionException<IntStream>? e) {
     final errorPrefix = errorSource == 'apex'
         ? 'Error parsing Apex Body'
         : 'Error parsing Apex doc';

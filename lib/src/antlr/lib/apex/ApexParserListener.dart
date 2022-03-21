@@ -90,23 +90,19 @@ abstract class ApexParserListener extends ParseTreeListener {
   /// [ctx] the parse tree
   void exitTypeList(TypeListContext ctx);
 
-  /// Enter a parse tree produced by the [GroupClassBodyDeclarations]
-  /// labeled alternative in [file.parserName>.classBody].
+  /// Enter a parse tree produced by [ApexParser.classBody].
   /// [ctx] the parse tree
-  void enterGroupClassBodyDeclarations(GroupClassBodyDeclarationsContext ctx);
-  /// Exit a parse tree produced by the [GroupClassBodyDeclarations]
-  /// labeled alternative in [ApexParser.classBody].
+  void enterClassBody(ClassBodyContext ctx);
+  /// Exit a parse tree produced by [ApexParser.classBody].
   /// [ctx] the parse tree
-  void exitGroupClassBodyDeclarations(GroupClassBodyDeclarationsContext ctx);
+  void exitClassBody(ClassBodyContext ctx);
 
-  /// Enter a parse tree produced by the [ClassBodyDeclarations]
-  /// labeled alternative in [file.parserName>.classBody].
+  /// Enter a parse tree produced by [ApexParser.groupedDeclarations].
   /// [ctx] the parse tree
-  void enterClassBodyDeclarations(ClassBodyDeclarationsContext ctx);
-  /// Exit a parse tree produced by the [ClassBodyDeclarations]
-  /// labeled alternative in [ApexParser.classBody].
+  void enterGroupedDeclarations(GroupedDeclarationsContext ctx);
+  /// Exit a parse tree produced by [ApexParser.groupedDeclarations].
   /// [ctx] the parse tree
-  void exitClassBodyDeclarations(ClassBodyDeclarationsContext ctx);
+  void exitGroupedDeclarations(GroupedDeclarationsContext ctx);
 
   /// Enter a parse tree produced by [ApexParser.interfaceBody].
   /// [ctx] the parse tree

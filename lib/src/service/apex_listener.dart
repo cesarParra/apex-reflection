@@ -97,7 +97,7 @@ class ApexClassListener extends ApexParserBaseListener {
   }
 
   @override
-  void enterGroupClassBodyDeclarations(GroupClassBodyDeclarationsContext ctx) {
+  void enterGroupedDeclarations(GroupedDeclarationsContext ctx) {
     var startGroupComment = ctx.START_GROUP_COMMENT()!.text;
     // We add 12 because @start-group has 12 characters and we want to start
     // where that ends.
@@ -107,7 +107,7 @@ class ApexClassListener extends ApexParserBaseListener {
   }
 
   @override
-  void exitGroupClassBodyDeclarations(GroupClassBodyDeclarationsContext ctx) {
+  void exitGroupedDeclarations(GroupedDeclarationsContext ctx) {
     groupStack.pop();
   }
 

@@ -100,19 +100,19 @@ class ApexParserBaseListener implements ApexParserListener {
 
   /// The default implementation does nothing.
   @override
-  void enterGroupClassBodyDeclarations(GroupClassBodyDeclarationsContext ctx) {}
+  void enterClassBody(ClassBodyContext ctx) {}
 
   /// The default implementation does nothing.
   @override
-  void exitGroupClassBodyDeclarations(GroupClassBodyDeclarationsContext ctx) {}
+  void exitClassBody(ClassBodyContext ctx) {}
 
   /// The default implementation does nothing.
   @override
-  void enterClassBodyDeclarations(ClassBodyDeclarationsContext ctx) {}
+  void enterGroupedDeclarations(GroupedDeclarationsContext ctx) {}
 
   /// The default implementation does nothing.
   @override
-  void exitClassBodyDeclarations(ClassBodyDeclarationsContext ctx) {}
+  void exitGroupedDeclarations(GroupedDeclarationsContext ctx) {}
 
   /// The default implementation does nothing.
   @override

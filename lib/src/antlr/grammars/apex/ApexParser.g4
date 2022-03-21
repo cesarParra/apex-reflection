@@ -52,9 +52,12 @@ typeList
     ;
 
 classBody
-    : LBRACE START_GROUP_COMMENT classBodyDeclaration* END_GROUP_COMMENT RBRACE             # GroupClassBodyDeclarations
-    | LBRACE classBodyDeclaration* RBRACE                                                   # ClassBodyDeclarations
+    : LBRACE (groupedDeclarations | classBodyDeclaration)* RBRACE
     ;
+
+groupedDeclarations
+	  : START_GROUP_COMMENT classBodyDeclaration* END_GROUP_COMMENT
+	  ;
 
 interfaceBody
     : LBRACE interfaceMethodDeclaration* RBRACE

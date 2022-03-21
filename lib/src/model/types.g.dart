@@ -22,6 +22,7 @@ ClassMirror _$ClassMirrorFromJson(Map<String, dynamic> json) {
     ..annotations = (json['annotations'] as List<dynamic>)
         .map((e) => Annotation.fromJson(e as Map<String, dynamic>))
         .toList()
+    ..group = json['group'] as String?
     ..typeName = json['type_name'] as String
     ..methods = (json['methods'] as List<dynamic>)
         .map((e) => MethodMirror.fromJson(e as Map<String, dynamic>))
@@ -56,6 +57,7 @@ Map<String, dynamic> _$ClassMirrorToJson(ClassMirror instance) =>
       'access_modifier': _$AccessModifierEnumMap[instance.accessModifier],
       'annotations': instance.annotations,
       'name': instance.name,
+      'group': instance.group,
       'type_name': instance.typeName,
       'methods': instance.methods,
       'sharingModifier': _$SharingModifierEnumMap[instance.sharingModifier],
@@ -140,6 +142,7 @@ InterfaceMirror _$InterfaceMirrorFromJson(Map<String, dynamic> json) {
     ..annotations = (json['annotations'] as List<dynamic>)
         .map((e) => Annotation.fromJson(e as Map<String, dynamic>))
         .toList()
+    ..group = json['group'] as String?
     ..typeName = json['type_name'] as String
     ..methods = (json['methods'] as List<dynamic>)
         .map((e) => MethodMirror.fromJson(e as Map<String, dynamic>))
@@ -154,6 +157,7 @@ Map<String, dynamic> _$InterfaceMirrorToJson(InterfaceMirror instance) =>
       'access_modifier': _$AccessModifierEnumMap[instance.accessModifier],
       'annotations': instance.annotations,
       'name': instance.name,
+      'group': instance.group,
       'type_name': instance.typeName,
       'methods': instance.methods,
       'sharingModifier': _$SharingModifierEnumMap[instance.sharingModifier],
@@ -172,6 +176,7 @@ EnumMirror _$EnumMirrorFromJson(Map<String, dynamic> json) {
     ..annotations = (json['annotations'] as List<dynamic>)
         .map((e) => Annotation.fromJson(e as Map<String, dynamic>))
         .toList()
+    ..group = json['group'] as String?
     ..typeName = json['type_name'] as String;
 }
 
@@ -181,5 +186,6 @@ Map<String, dynamic> _$EnumMirrorToJson(EnumMirror instance) =>
       'access_modifier': _$AccessModifierEnumMap[instance.accessModifier],
       'annotations': instance.annotations,
       'name': instance.name,
+      'group': instance.group,
       'type_name': instance.typeName,
     };

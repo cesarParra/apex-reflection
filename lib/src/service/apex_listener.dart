@@ -3,6 +3,8 @@ import 'dart:collection';
 import 'package:apexdocs_dart/src/antlr/lib/apex/ApexParser.dart';
 import 'package:apexdocs_dart/src/antlr/lib/apex/ApexParserBaseListener.dart';
 import 'package:apexdocs_dart/src/builders/builders.dart';
+import 'package:apexdocs_dart/src/model/declaration_mirror.dart';
+import 'package:apexdocs_dart/src/model/members.dart';
 import 'package:apexdocs_dart/src/model/modifiers.dart';
 import 'package:apexdocs_dart/src/model/types.dart';
 import 'package:apexdocs_dart/src/service/utils/parsing/parsing_utils.dart';
@@ -16,8 +18,10 @@ class DeclarationDescriptor {
       accessModifiers.firstWhere((element) => element is AccessModifier,
           orElse: () => AccessModifier.private);
 
-  get sharingModifier => accessModifiers
-      .firstWhere((element) => element is SharingModifier, orElse: () => null);
+  get sharingModifier =>
+      accessModifiers
+          .firstWhere((element) => element is SharingModifier,
+          orElse: () => null);
 
   get classModifier =>
       accessModifiers.firstWhereOrNull((element) => element is ClassModifier);
@@ -32,16 +36,20 @@ class DeclarationDescriptor {
 class ApexClassListener extends ApexParserBaseListener {
   final Stack<DeclarationDescriptor> _declaratorDescriptorStack;
   final Stack<TypeMirror> generatedTypes;
+  final Stack<String?> groupStack;
   late TypeMirror generatedType;
 
   ApexClassListener()
       : generatedTypes = Stack<TypeMirror>(),
-        _declaratorDescriptorStack = Stack<DeclarationDescriptor>();
+        _declaratorDescriptorStack = Stack<DeclarationDescriptor>(),
+        groupStack = Stack<String>();
 
   @override
   void enterTypeClassDeclaration(TypeClassDeclarationContext ctx) {
     final accessModifiers = getAccessModifiers(ctx);
-    final docComment = ctx.DOC_COMMENT()?.text;
+    final docComment = ctx
+        .DOC_COMMENT()
+        ?.text;
     _declaratorDescriptorStack.push(DeclarationDescriptor(
         accessModifiers: accessModifiers, docComment: docComment));
   }
@@ -49,7 +57,9 @@ class ApexClassListener extends ApexParserBaseListener {
   @override
   void enterTypeEnumDeclaration(TypeEnumDeclarationContext ctx) {
     final accessModifiers = getAccessModifiers(ctx);
-    final docComment = ctx.DOC_COMMENT()?.text;
+    final docComment = ctx
+        .DOC_COMMENT()
+        ?.text;
     _declaratorDescriptorStack.push(DeclarationDescriptor(
         accessModifiers: accessModifiers, docComment: docComment));
   }
@@ -57,7 +67,9 @@ class ApexClassListener extends ApexParserBaseListener {
   @override
   void enterTypeInterfaceDeclaration(TypeInterfaceDeclarationContext ctx) {
     final accessModifiers = getAccessModifiers(ctx);
-    final docComment = ctx.DOC_COMMENT()?.text;
+    final docComment = ctx
+        .DOC_COMMENT()
+        ?.text;
     _declaratorDescriptorStack.push(DeclarationDescriptor(
         accessModifiers: accessModifiers, docComment: docComment));
   }
@@ -65,7 +77,9 @@ class ApexClassListener extends ApexParserBaseListener {
   @override
   void enterClassDeclaration(ClassDeclarationContext ctx) {
     final declarationDescriptor = _declaratorDescriptorStack.pop();
-    generatedTypes.push(buildClass(declarationDescriptor, ctx));
+    var builtClass = buildClass(declarationDescriptor, ctx);
+    generatedTypes.push(builtClass);
+    _setGroupOnDeclaration(builtClass);
   }
 
   @override
@@ -79,12 +93,30 @@ class ApexClassListener extends ApexParserBaseListener {
     final declarationDescriptor = _declaratorDescriptorStack.pop();
     final enumMirror = buildEnum(declarationDescriptor, ctx);
     generatedTypes.push(enumMirror);
+    _setGroupOnDeclaration(enumMirror);
+  }
+
+  @override
+  void enterGroupClassBodyDeclarations(GroupClassBodyDeclarationsContext ctx) {
+    var startGroupComment = ctx.START_GROUP_COMMENT()!.text;
+    // We add 12 because @start-group has 12 characters and we want to start
+    // where that ends.
+    var startingIndex = startGroupComment!.indexOf('@start-group') + 12;
+    var groupName = startGroupComment.substring(startingIndex).trim();
+    groupStack.push(groupName);
+  }
+
+  @override
+  void exitGroupClassBodyDeclarations(GroupClassBodyDeclarationsContext ctx) {
+    groupStack.pop();
   }
 
   @override
   void enterMemberClassBodyDeclaration(MemberClassBodyDeclarationContext ctx) {
     final accessModifiers = getAccessModifiers(ctx);
-    final docComment = ctx.DOC_COMMENT()?.text;
+    final docComment = ctx
+        .DOC_COMMENT()
+        ?.text;
     _declaratorDescriptorStack.push(DeclarationDescriptor(
         accessModifiers: accessModifiers, docComment: docComment));
   }
@@ -94,14 +126,19 @@ class ApexClassListener extends ApexParserBaseListener {
     final declarationDescriptor = _declaratorDescriptorStack.pop();
     final property = buildProperty(declarationDescriptor, ctx);
     (generatedTypes.peak() as ClassMirror).addProperty(property);
+    _setGroupOnDeclaration(property);
   }
 
   @override
   void enterFieldDeclaration(FieldDeclarationContext ctx) {
     final declarationDescriptor = _declaratorDescriptorStack.pop();
+    List<FieldMirror> fields = buildFields(declarationDescriptor, ctx);
     (generatedTypes.peak() as ClassMirror)
         .fields
-        .addAll(buildFields(declarationDescriptor, ctx));
+        .addAll(fields);
+    for (var element in fields) {
+      _setGroupOnDeclaration(element);
+    }
   }
 
   @override
@@ -109,14 +146,19 @@ class ApexClassListener extends ApexParserBaseListener {
     final declarationDescriptor = _declaratorDescriptorStack.pop();
     final method = buildMethod(declarationDescriptor, ctx);
     (generatedTypes.peak() as MethodsAwareness).methods.add(method);
+    _setGroupOnDeclaration(method);
   }
 
   @override
   void enterInterfaceMethodDeclaration(InterfaceMethodDeclarationContext ctx) {
     final method = buildInterfaceMethod(
         ctx,
-        generatedTypes.peak().accessModifier,
-        generatedTypes.peak().annotations);
+        generatedTypes
+            .peak()
+            .accessModifier,
+        generatedTypes
+            .peak()
+            .annotations);
 
     (generatedTypes.peak() as MethodsAwareness).methods.add(method);
   }
@@ -129,6 +171,7 @@ class ApexClassListener extends ApexParserBaseListener {
     (generatedTypes.peak() as ClassMirror)
         .constructors
         .add(constructorGenerated);
+    _setGroupOnDeclaration(constructorGenerated);
   }
 
   @override
@@ -169,6 +212,12 @@ class ApexClassListener extends ApexParserBaseListener {
 
   bool _atTheTopOfTheStack() {
     return generatedTypes.length == 1;
+  }
+
+  void _setGroupOnDeclaration(DeclarationMirror declarationMirror) {
+    if (groupStack.length > 0) {
+      declarationMirror.setGroup(groupStack.peak());
+    }
   }
 }
 

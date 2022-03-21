@@ -67,7 +67,7 @@ List<FieldMirror> buildFields(
     DeclarationDescriptor descriptor, FieldDeclarationContext ctx) {
   final typeName = ctx.typeRef().text;
   final fieldNames =
-      ctx.variableDeclarators().variableDeclarators().map((e) => e.text);
+      ctx.variableDeclarators().variableDeclarators().map((e) => e.id().text);
 
   return fieldNames
       .map((e) => FieldMirror(

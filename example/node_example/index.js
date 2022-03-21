@@ -6,6 +6,7 @@ const classBody = `
  */
 @NamespaceAccessible
 public with sharing class SampleClass {
+    private String myVariableWithAValue = 'Some value';
     /**
      * @description Constructs a SampleClass without any arguments.
      * @example

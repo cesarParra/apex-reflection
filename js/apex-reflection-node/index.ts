@@ -60,6 +60,7 @@ export interface MethodMirror {
   type: string;
   parameters: ParameterMirror[];
   docComment?: DocComment;
+  group?: string;
 }
 
 export interface PropertyMirror {
@@ -79,6 +80,7 @@ export interface FieldMirror {
   memberModifiers: string[];
   type: string;
   docComment?: DocComment;
+  group?: string;
 }
 
 export interface ConstructorMirror {
@@ -86,6 +88,7 @@ export interface ConstructorMirror {
   annotations: Annotation[];
   parameters: ParameterMirror[];
   docComment?: DocComment;
+  group?: string;
 }
 
 export interface ReflectionResult {

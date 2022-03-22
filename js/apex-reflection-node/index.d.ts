@@ -56,6 +56,7 @@ export interface PropertyMirror {
     memberModifiers: string[];
     type: string;
     docComment?: DocComment;
+    group?: string;
 }
 export interface FieldMirror {
     access_modifier: string;
@@ -88,6 +89,7 @@ export interface EnumMirror {
     type_name: TypeName;
     access_modifier: string;
     docComment?: DocComment;
+    group?: string;
 }
 export interface InterfaceMirror {
     annotations: Annotation[];
@@ -98,9 +100,9 @@ export interface InterfaceMirror {
     access_modifier: string;
     docComment?: DocComment;
     sharingModifier?: string;
+    group?: string;
 }
 export interface ClassMirror {
-    string: any;
     annotations: Annotation[];
     name: string;
     type_name: TypeName;
@@ -117,5 +119,6 @@ export interface ClassMirror {
     classes: ClassMirror[];
     access_modifier: string;
     docComment?: DocComment;
+    group?: string;
 }
 export {};

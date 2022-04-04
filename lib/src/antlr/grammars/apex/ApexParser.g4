@@ -178,6 +178,7 @@ qualifiedName
 
 literal
     : IntegerLiteral
+    | LongLiteral
     | NumberLiteral
     | StringLiteral
     | BooleanLiteral
@@ -187,7 +188,7 @@ literal
 // ANNOTATIONS
 
 annotation
-    : AT qualifiedName ( LPAREN ( elementValuePairs | elementValue )? RPAREN )?
+    : ATSIGN qualifiedName ( LPAREN ( elementValuePairs | elementValue )? RPAREN )?
     ;
 
 elementValuePairs
@@ -212,7 +213,7 @@ elementValueArrayInitializer
 // STATEMENTS / BLOCKS
 
 block
-    : LBRACE .*? RBRACE
+    : LBRACE statement* RBRACE
     ;
 
 localVariableDeclarationStatement
@@ -266,6 +267,7 @@ whenValue
 
 whenLiteral
     : (SUB)? IntegerLiteral
+    | LongLiteral
     | StringLiteral
     | NULL
     | id
@@ -393,6 +395,7 @@ expression
     | methodCall                                                                                      # methodCallExpression
     | NEW creator                                                                                     # newExpression
     | LPAREN typeRef RPAREN expression                                                                # castExpression
+    | LPAREN expression RPAREN                                                                        # subExpression
     | expression (INC | DEC)                                                                          # postOpExpression
     | (ADD|SUB|INC|DEC) expression                                                                    # preOpExpression
     | (TILDE|BANG) expression                                                                         # negExpression
@@ -426,13 +429,13 @@ expression
     ;
 
 primary
-    : LPAREN expression RPAREN                                                                       # subPrimary
-    | THIS                                                                                           # thisPrimary
+    : THIS                                                                                           # thisPrimary
     | SUPER                                                                                          # superPrimary
     | literal                                                                                        # literalPrimary
     | typeRef DOT CLASS                                                                              # typeRefPrimary
     | id                                                                                             # idPrimary
     | soqlLiteral                                                                                    # soqlPrimary
+    | soslLiteral                                                                                    # soslPrimary
     ;
 
 methodCall
@@ -486,12 +489,305 @@ arguments
     : LPAREN expressionList? RPAREN
     ;
 
+// SOQL
+
 soqlLiteral
-    : LBRACK (soqlLiteral|~RBRACK)*? RBRACK
+    : LBRACK query RBRACK
     ;
 
-// Some keywords can be used as general identifiers, this is likley an over simplification of the actual
-// rules but devining them from playing with Apex is very difficult. We could let any be used but that
+query
+    : SELECT selectList
+        FROM fromNameList
+        usingScope?
+        whereClause?
+        withClause?
+        groupByClause?
+        orderByClause?
+        limitClause?
+        offsetClause?
+        allRowsClause?
+        forClauses
+        (UPDATE updateList)?
+        ;
+
+subQuery
+    : SELECT subFieldList
+        FROM fromNameList
+        whereClause?
+        orderByClause?
+        limitClause?
+        forClauses
+        (UPDATE updateList)?
+        ;
+
+selectList
+    : selectEntry (COMMA selectEntry)*;
+
+selectEntry
+    : fieldName soqlId?
+    | soqlFunction soqlId?
+    | LPAREN subQuery RPAREN soqlId?
+    | typeOf
+    ;
+
+fieldName
+    : soqlId (DOT soqlId)*;
+
+fromNameList
+    : fieldName soqlId? (COMMA fieldName soqlId?)*;
+
+subFieldList
+    : subFieldEntry (COMMA subFieldEntry)*;
+
+subFieldEntry
+    : fieldName soqlId?
+    | soqlFunction soqlId?;
+
+soqlFieldsParameter
+    : ALL
+    | CUSTOM
+    | STANDARD;
+
+soqlFunction
+    : AVG LPAREN fieldName RPAREN
+    | COUNT LPAREN RPAREN
+    | COUNT LPAREN fieldName RPAREN
+    | COUNT_DISTINCT LPAREN fieldName RPAREN
+    | MIN LPAREN fieldName RPAREN
+    | MAX LPAREN fieldName RPAREN
+    | SUM LPAREN fieldName RPAREN
+    | TOLABEL LPAREN fieldName RPAREN
+    | FORMAT LPAREN fieldName RPAREN
+    | CALENDAR_MONTH LPAREN dateFieldName RPAREN
+    | CALENDAR_QUARTER LPAREN dateFieldName RPAREN
+    | CALENDAR_YEAR LPAREN dateFieldName RPAREN
+    | DAY_IN_MONTH LPAREN dateFieldName RPAREN
+    | DAY_IN_WEEK LPAREN dateFieldName RPAREN
+    | DAY_IN_YEAR LPAREN dateFieldName RPAREN
+    | DAY_ONLY LPAREN dateFieldName RPAREN
+    | FISCAL_MONTH LPAREN dateFieldName RPAREN
+    | FISCAL_QUARTER LPAREN dateFieldName RPAREN
+    | FISCAL_YEAR LPAREN dateFieldName RPAREN
+    | HOUR_IN_DAY LPAREN dateFieldName RPAREN
+    | WEEK_IN_MONTH LPAREN dateFieldName RPAREN
+    | WEEK_IN_YEAR LPAREN dateFieldName RPAREN
+    | FIELDS LPAREN soqlFieldsParameter RPAREN
+    ;
+
+ dateFieldName
+    : CONVERT_TIMEZONE LPAREN fieldName RPAREN
+    | fieldName
+    ;
+
+typeOf
+    : TYPEOF fieldName whenClause+ elseClause? END;
+
+whenClause
+    : WHEN fieldName THEN fieldNameList;
+
+elseClause
+    : ELSE fieldNameList;
+
+fieldNameList
+    : fieldName (COMMA fieldName)*;
+
+usingScope
+    : USING SCOPE soqlId;
+
+whereClause
+    : WHERE logicalExpression;
+
+logicalExpression
+    : conditionalExpression (SOQLAND conditionalExpression)*
+    | conditionalExpression (SOQLOR conditionalExpression)*
+    | NOT conditionalExpression;
+
+conditionalExpression
+    : LPAREN logicalExpression RPAREN
+    | fieldExpression;
+
+fieldExpression
+    : fieldName comparisonOperator value
+    | soqlFunction comparisonOperator value;
+
+comparisonOperator
+    : ASSIGN | NOTEQUAL | LT | GT | LT ASSIGN | GT ASSIGN | LESSANDGREATER | LIKE | IN | NOT IN | INCLUDES | EXCLUDES;
+
+value
+    : NULL
+    | BooleanLiteral
+    | IntegerLiteral
+    | LongLiteral
+    | NumberLiteral
+    | StringLiteral
+    | DateLiteral
+    | DateTimeLiteral
+    | dateFormula
+    | IntegralCurrencyLiteral (DOT IntegerLiteral?)?
+    | LPAREN subQuery RPAREN
+    | valueList
+    | boundExpression
+    ;
+
+valueList
+    : LPAREN value (COMMA value)* RPAREN;
+
+withClause
+    : WITH DATA CATEGORY filteringExpression
+    | WITH SECURITY_ENFORCED
+    | WITH logicalExpression;
+
+filteringExpression
+    : dataCategorySelection (AND dataCategorySelection)*;
+
+dataCategorySelection
+    : soqlId filteringSelector dataCategoryName;
+
+dataCategoryName
+    : soqlId
+    | LPAREN soqlId (COMMA soqlId)* LPAREN;
+
+filteringSelector
+    : AT | ABOVE | BELOW | ABOVE_OR_BELOW;
+
+groupByClause
+    : GROUP BY selectList (HAVING logicalExpression)?
+    | GROUP BY ROLLUP LPAREN fieldName (COMMA fieldName)* RPAREN
+    | GROUP BY CUBE LPAREN fieldName (COMMA fieldName)* RPAREN;
+
+orderByClause
+    : ORDER BY fieldOrderList;
+
+fieldOrderList
+    : fieldOrder (COMMA fieldOrder)*;
+
+fieldOrder
+    : fieldName (ASC | DESC)? (NULLS (FIRST|LAST))?
+    | soqlFunction (ASC | DESC)? (NULLS (FIRST|LAST))?;
+
+limitClause
+    : LIMIT IntegerLiteral
+    | LIMIT boundExpression;
+
+offsetClause
+    : OFFSET IntegerLiteral
+    | OFFSET boundExpression;
+
+allRowsClause
+    : ALL ROWS;
+
+forClauses
+    : (FOR (VIEW | UPDATE | REFERENCE))*;
+
+boundExpression
+    : COLON expression;
+
+dateFormula
+    : YESTERDAY
+    | TODAY
+    | TOMORROW
+    | LAST_WEEK
+    | THIS_WEEK
+    | NEXT_WEEK
+    | LAST_MONTH
+    | THIS_MONTH
+    | NEXT_MONTH
+    | LAST_90_DAYS
+    | NEXT_90_DAYS
+    | LAST_N_DAYS_N COLON signedInteger
+    | NEXT_N_DAYS_N COLON signedInteger
+    | NEXT_N_WEEKS_N COLON signedInteger
+    | LAST_N_WEEKS_N COLON signedInteger
+    | NEXT_N_MONTHS_N COLON signedInteger
+    | LAST_N_MONTHS_N COLON signedInteger
+    | THIS_QUARTER
+    | LAST_QUARTER
+    | NEXT_QUARTER
+    | NEXT_N_QUARTERS_N COLON signedInteger
+    | LAST_N_QUARTERS_N COLON signedInteger
+    | THIS_YEAR
+    | LAST_YEAR
+    | NEXT_YEAR
+    | NEXT_N_YEARS_N COLON signedInteger
+    | LAST_N_YEARS_N COLON signedInteger
+    | THIS_FISCAL_QUARTER
+    | LAST_FISCAL_QUARTER
+    | NEXT_FISCAL_QUARTER
+    | NEXT_N_FISCAL_QUARTERS_N COLON signedInteger
+    | LAST_N_FISCAL_QUARTERS_N COLON signedInteger
+    | THIS_FISCAL_YEAR
+    | LAST_FISCAL_YEAR
+    | NEXT_FISCAL_YEAR
+    | NEXT_N_FISCAL_YEARS_N COLON signedInteger
+    | LAST_N_FISCAL_YEARS_N COLON signedInteger
+    ;
+
+signedInteger
+    : (ADD | SUB)? IntegerLiteral;
+
+soqlId
+    : id;
+
+// SOSL
+soslLiteral
+    : FindLiteral soslClauses RBRACK
+    | LBRACK FIND boundExpression soslClauses RBRACK
+    ;
+
+soslClauses
+    : (IN searchGroup)?
+      (RETURNING fieldSpecList)?
+      (WITH DIVISION ASSIGN StringLiteral)?
+      (WITH DATA CATEGORY filteringExpression)?
+      (WITH SNIPPET (LPAREN TARGET_LENGTH ASSIGN IntegerLiteral RPAREN)? )?
+      (WITH NETWORK IN LPAREN networkList RPAREN)?
+      (WITH NETWORK ASSIGN StringLiteral)?
+      (WITH PRICEBOOKID ASSIGN StringLiteral)?
+      (WITH METADATA ASSIGN StringLiteral)?
+      limitClause?
+      (UPDATE updateList)?
+    ;
+
+searchGroup
+    : (ALL|EMAIL|NAME|PHONE|SIDEBAR) FIELDS
+    ;
+
+fieldSpecList
+    : fieldSpec (COMMA fieldSpecList)*
+    ;
+
+fieldSpec
+    : soslId (LPAREN fieldList
+        (WHERE logicalExpression)?
+        (USING LISTVIEW ASSIGN soslId)?
+        (ORDER BY fieldOrderList)?
+        limitClause?
+        offsetClause?
+        RPAREN)?
+    ;
+
+fieldList
+    : soslId (COMMA fieldList)*
+    ;
+
+updateList
+    : updateType (COMMA updateList)?
+    ;
+
+updateType
+    : TRACKING | VIEWSTAT;
+
+ networkList
+    : StringLiteral (COMMA networkList)?
+    ;
+
+soslId
+    : id (DOT soslId)*;
+
+// Identifiers
+
+// Some keywords can be used as general identifiers, this is likely an over simplification of the actual
+// rules but divining them from playing with Apex is very difficult. We could let any be used but that
 // can significantly impact the parser performance by creating ambiguities.
 id
     : Identifier
@@ -508,12 +804,136 @@ id
     | WHEN
     | WITH
     | WITHOUT
+    // SOQL Values
+    | IntegralCurrencyLiteral
+    // SOQL Specific Keywords
+    | SELECT
+    | COUNT
+    | FROM
+    | AS
+    | USING
+    | SCOPE
+    | WHERE
+    | ORDER
+    | BY
+    | LIMIT
+    | SOQLAND
+    | SOQLOR
+    | NOT
+    | AVG
+    | COUNT_DISTINCT
+    | MIN
+    | MAX
+    | SUM
+    | TYPEOF
+    | END
+    | THEN
+    | LIKE
+    | IN
+    | INCLUDES
+    | EXCLUDES
+    | ASC
+    | DESC
+    | NULLS
+    | FIRST
+    | LAST
+    | GROUP
+    | ALL
+    | ROWS
+    | VIEW
+    | HAVING
+    | ROLLUP
+    | TOLABEL
+    | OFFSET
+    | DATA
+    | CATEGORY
+    | AT
+    | ABOVE
+    | BELOW
+    | ABOVE_OR_BELOW
+    | SECURITY_ENFORCED
+    | REFERENCE
+    | CUBE
+    | FORMAT
+    | TRACKING
+    | VIEWSTAT
+    | STANDARD
+    | CUSTOM
+    // SOQL date functions
+    | CALENDAR_MONTH
+    | CALENDAR_QUARTER
+    | CALENDAR_YEAR
+    | DAY_IN_MONTH
+    | DAY_IN_WEEK
+    | DAY_IN_YEAR
+    | DAY_ONLY
+    | FISCAL_MONTH
+    | FISCAL_QUARTER
+    | FISCAL_YEAR
+    | HOUR_IN_DAY
+    | WEEK_IN_MONTH
+    | WEEK_IN_YEAR
+    | CONVERT_TIMEZONE
+    // SOQL date formulas
+    | YESTERDAY
+    | TODAY
+    | TOMORROW
+    | LAST_WEEK
+    | THIS_WEEK
+    | NEXT_WEEK
+    | LAST_MONTH
+    | THIS_MONTH
+    | NEXT_MONTH
+    | LAST_90_DAYS
+    | NEXT_90_DAYS
+    | LAST_N_DAYS_N
+    | NEXT_N_DAYS_N
+    | NEXT_N_WEEKS_N
+    | LAST_N_WEEKS_N
+    | NEXT_N_MONTHS_N
+    | LAST_N_MONTHS_N
+    | THIS_QUARTER
+    | LAST_QUARTER
+    | NEXT_QUARTER
+    | NEXT_N_QUARTERS_N
+    | LAST_N_QUARTERS_N
+    | THIS_YEAR
+    | LAST_YEAR
+    | NEXT_YEAR
+    | NEXT_N_YEARS_N
+    | LAST_N_YEARS_N
+    | THIS_FISCAL_QUARTER
+    | LAST_FISCAL_QUARTER
+    | NEXT_FISCAL_QUARTER
+    | NEXT_N_FISCAL_QUARTERS_N
+    | LAST_N_FISCAL_QUARTERS_N
+    | THIS_FISCAL_YEAR
+    | LAST_FISCAL_YEAR
+    | NEXT_FISCAL_YEAR
+    | NEXT_N_FISCAL_YEARS_N
+    | LAST_N_FISCAL_YEARS_N
+    // SOSL Keywords
+    | FIND
+    | EMAIL
+    | NAME
+    | PHONE
+    | SIDEBAR
+    | FIELDS
+    | METADATA
+    | PRICEBOOKID
+    | NETWORK
+    | SNIPPET
+    | TARGET_LENGTH
+    | DIVISION
+    | RETURNING
+    | LISTVIEW
     ;
 
 // In dot expressions we, can use a wider set of of identifiers, apparently any of them althogh I have excluding VOID
 // in the interests of reducing ambiguity
 anyId
     : Identifier
+    // Apex Keywords
     | ABSTRACT
     | AFTER
     | BEFORE
@@ -568,4 +988,127 @@ anyId
     | WHILE
     | WITH
     | WITHOUT
+    // SOQL Values
+    | IntegralCurrencyLiteral
+    // SOQL Specific Keywords
+    | SELECT
+    | COUNT
+    | FROM
+    | AS
+    | USING
+    | SCOPE
+    | WHERE
+    | ORDER
+    | BY
+    | LIMIT
+    | SOQLAND
+    | SOQLOR
+    | NOT
+    | AVG
+    | COUNT_DISTINCT
+    | MIN
+    | MAX
+    | SUM
+    | TYPEOF
+    | END
+    | THEN
+    | LIKE
+    | IN
+    | INCLUDES
+    | EXCLUDES
+    | ASC
+    | DESC
+    | NULLS
+    | FIRST
+    | LAST
+    | GROUP
+    | ALL
+    | ROWS
+    | VIEW
+    | HAVING
+    | ROLLUP
+    | TOLABEL
+    | OFFSET
+    | DATA
+    | CATEGORY
+    | AT
+    | ABOVE
+    | BELOW
+    | ABOVE_OR_BELOW
+    | SECURITY_ENFORCED
+    | REFERENCE
+    | CUBE
+    | FORMAT
+    | TRACKING
+    | VIEWSTAT
+    | STANDARD
+    | CUSTOM
+    // SOQL date functions
+    | CALENDAR_MONTH
+    | CALENDAR_QUARTER
+    | CALENDAR_YEAR
+    | DAY_IN_MONTH
+    | DAY_IN_WEEK
+    | DAY_IN_YEAR
+    | DAY_ONLY
+    | FISCAL_MONTH
+    | FISCAL_QUARTER
+    | FISCAL_YEAR
+    | HOUR_IN_DAY
+    | WEEK_IN_MONTH
+    | WEEK_IN_YEAR
+    | CONVERT_TIMEZONE
+    // SOQL date formulas
+    | YESTERDAY
+    | TODAY
+    | TOMORROW
+    | LAST_WEEK
+    | THIS_WEEK
+    | NEXT_WEEK
+    | LAST_MONTH
+    | THIS_MONTH
+    | NEXT_MONTH
+    | LAST_90_DAYS
+    | NEXT_90_DAYS
+    | LAST_N_DAYS_N
+    | NEXT_N_DAYS_N
+    | NEXT_N_WEEKS_N
+    | LAST_N_WEEKS_N
+    | NEXT_N_MONTHS_N
+    | LAST_N_MONTHS_N
+    | THIS_QUARTER
+    | LAST_QUARTER
+    | NEXT_QUARTER
+    | NEXT_N_QUARTERS_N
+    | LAST_N_QUARTERS_N
+    | THIS_YEAR
+    | LAST_YEAR
+    | NEXT_YEAR
+    | NEXT_N_YEARS_N
+    | LAST_N_YEARS_N
+    | THIS_FISCAL_QUARTER
+    | LAST_FISCAL_QUARTER
+    | NEXT_FISCAL_QUARTER
+    | NEXT_N_FISCAL_QUARTERS_N
+    | LAST_N_FISCAL_QUARTERS_N
+    | THIS_FISCAL_YEAR
+    | LAST_FISCAL_YEAR
+    | NEXT_FISCAL_YEAR
+    | NEXT_N_FISCAL_YEARS_N
+    | LAST_N_FISCAL_YEARS_N
+    // SOSL Keywords
+    | FIND
+    | EMAIL
+    | NAME
+    | PHONE
+    | SIDEBAR
+    | FIELDS
+    | METADATA
+    | PRICEBOOKID
+    | NETWORK
+    | SNIPPET
+    | TARGET_LENGTH
+    | DIVISION
+    | RETURNING
+    | LISTVIEW
     ;

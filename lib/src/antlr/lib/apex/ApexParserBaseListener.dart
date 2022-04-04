@@ -844,19 +844,19 @@ class ApexParserBaseListener implements ApexParserListener {
 
   /// The default implementation does nothing.
   @override
+  void enterSubExpression(SubExpressionContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitSubExpression(SubExpressionContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
   void enterInstanceOfExpression(InstanceOfExpressionContext ctx) {}
 
   /// The default implementation does nothing.
   @override
   void exitInstanceOfExpression(InstanceOfExpressionContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void enterSubPrimary(SubPrimaryContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void exitSubPrimary(SubPrimaryContext ctx) {}
 
   /// The default implementation does nothing.
   @override
@@ -905,6 +905,14 @@ class ApexParserBaseListener implements ApexParserListener {
   /// The default implementation does nothing.
   @override
   void exitSoqlPrimary(SoqlPrimaryContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterSoslPrimary(SoslPrimaryContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitSoslPrimary(SoslPrimaryContext ctx) {}
 
   /// The default implementation does nothing.
   @override
@@ -1009,6 +1017,406 @@ class ApexParserBaseListener implements ApexParserListener {
   /// The default implementation does nothing.
   @override
   void exitSoqlLiteral(SoqlLiteralContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterQuery(QueryContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitQuery(QueryContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterSubQuery(SubQueryContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitSubQuery(SubQueryContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterSelectList(SelectListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitSelectList(SelectListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterSelectEntry(SelectEntryContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitSelectEntry(SelectEntryContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterFieldName(FieldNameContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitFieldName(FieldNameContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterFromNameList(FromNameListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitFromNameList(FromNameListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterSubFieldList(SubFieldListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitSubFieldList(SubFieldListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterSubFieldEntry(SubFieldEntryContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitSubFieldEntry(SubFieldEntryContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterSoqlFieldsParameter(SoqlFieldsParameterContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitSoqlFieldsParameter(SoqlFieldsParameterContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterSoqlFunction(SoqlFunctionContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitSoqlFunction(SoqlFunctionContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterDateFieldName(DateFieldNameContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitDateFieldName(DateFieldNameContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterTypeOf(TypeOfContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitTypeOf(TypeOfContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterWhenClause(WhenClauseContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitWhenClause(WhenClauseContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterElseClause(ElseClauseContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitElseClause(ElseClauseContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterFieldNameList(FieldNameListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitFieldNameList(FieldNameListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterUsingScope(UsingScopeContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitUsingScope(UsingScopeContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterWhereClause(WhereClauseContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitWhereClause(WhereClauseContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterLogicalExpression(LogicalExpressionContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitLogicalExpression(LogicalExpressionContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterConditionalExpression(ConditionalExpressionContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitConditionalExpression(ConditionalExpressionContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterFieldExpression(FieldExpressionContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitFieldExpression(FieldExpressionContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterComparisonOperator(ComparisonOperatorContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitComparisonOperator(ComparisonOperatorContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterValue(ValueContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitValue(ValueContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterValueList(ValueListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitValueList(ValueListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterWithClause(WithClauseContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitWithClause(WithClauseContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterFilteringExpression(FilteringExpressionContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitFilteringExpression(FilteringExpressionContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterDataCategorySelection(DataCategorySelectionContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitDataCategorySelection(DataCategorySelectionContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterDataCategoryName(DataCategoryNameContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitDataCategoryName(DataCategoryNameContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterFilteringSelector(FilteringSelectorContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitFilteringSelector(FilteringSelectorContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterGroupByClause(GroupByClauseContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitGroupByClause(GroupByClauseContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterOrderByClause(OrderByClauseContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitOrderByClause(OrderByClauseContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterFieldOrderList(FieldOrderListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitFieldOrderList(FieldOrderListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterFieldOrder(FieldOrderContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitFieldOrder(FieldOrderContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterLimitClause(LimitClauseContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitLimitClause(LimitClauseContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterOffsetClause(OffsetClauseContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitOffsetClause(OffsetClauseContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterAllRowsClause(AllRowsClauseContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitAllRowsClause(AllRowsClauseContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterForClauses(ForClausesContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitForClauses(ForClausesContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterBoundExpression(BoundExpressionContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitBoundExpression(BoundExpressionContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterDateFormula(DateFormulaContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitDateFormula(DateFormulaContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterSignedInteger(SignedIntegerContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitSignedInteger(SignedIntegerContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterSoqlId(SoqlIdContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitSoqlId(SoqlIdContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterSoslLiteral(SoslLiteralContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitSoslLiteral(SoslLiteralContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterSoslClauses(SoslClausesContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitSoslClauses(SoslClausesContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterSearchGroup(SearchGroupContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitSearchGroup(SearchGroupContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterFieldSpecList(FieldSpecListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitFieldSpecList(FieldSpecListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterFieldSpec(FieldSpecContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitFieldSpec(FieldSpecContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterFieldList(FieldListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitFieldList(FieldListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterUpdateList(UpdateListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitUpdateList(UpdateListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterUpdateType(UpdateTypeContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitUpdateType(UpdateTypeContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterNetworkList(NetworkListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitNetworkList(NetworkListContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterSoslId(SoslIdContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitSoslId(SoslIdContext ctx) {}
 
   /// The default implementation does nothing.
   @override

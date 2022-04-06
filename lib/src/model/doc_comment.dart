@@ -1,3 +1,4 @@
+import 'package:apexdocs_dart/src/extension_methods/list_extensions.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'doc_comment.g.dart';
@@ -31,8 +32,8 @@ class DocComment {
   List<String> get descriptionLines => _descriptionLines.isNotEmpty
       ? _descriptionLines
       : annotations
-          .firstWhere((element) => element.name == 'description')
-          .bodyLines;
+          .firstWhereOrNull((element) => element.name == 'description')
+          ?.bodyLines ?? [];
 
   set descriptionLines(List<String> descriptionLines) {
     _descriptionLines = descriptionLines;

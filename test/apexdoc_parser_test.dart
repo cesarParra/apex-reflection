@@ -1,8 +1,3 @@
-// Disabling null safety since this test relies on the antrl4 package
-// @dart=2.10
-
-import 'dart:convert';
-
 import 'package:apexdocs_dart/src/service/parsers.dart';
 import 'package:test/test.dart';
 
@@ -125,7 +120,7 @@ main() {
     ''';
     final docComment = ApexdocParser.parseFromBody(docBody);
     expect(docComment.returnAnnotation, isNotNull);
-    expect(docComment.returnAnnotation.body, equals('Returns something'));
+    expect(docComment.returnAnnotation!.body, equals('Returns something'));
   });
 
   test('Can parse a throws tag', () {
@@ -163,8 +158,8 @@ main() {
     ''';
     final docComment = ApexdocParser.parseFromBody(docBody);
     expect(docComment.exampleAnnotation, isNotNull);
-    expect(docComment.exampleAnnotation.bodyLines.length, equals(1));
-    expect(docComment.exampleAnnotation.body,
+    expect(docComment.exampleAnnotation!.bodyLines.length, equals(1));
+    expect(docComment.exampleAnnotation!.body,
         equals("String testString = 'MyString';"));
   });
 

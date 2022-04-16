@@ -1,3 +1,43 @@
+/*
+ [The "BSD licence"]
+ Copyright (c) 2013 Terence Parr, Sam Harwell
+ All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ 1. Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+ 3. The name of the author may not be used to endorse or promote products
+    derived from this software without specific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
+ INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+ NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+/**
+ *  An Apexcode grammar derived from Java 1.7 grammar for ANTLR v4.
+ *  Uses ANTLR v4's left-recursive expression notation.
+ *
+ *  @maintainer: Andrey Gavrikov
+ *
+ *  You can test with
+ *
+ *  $ antlr4 ApexGrammar.g4
+ *  $ javac *.java
+ *  $ grun Apexcode compilationUnit *.cls
+ */
 lexer grammar ApexLexer;
 
 channels {
@@ -6,173 +46,173 @@ channels {
 }
 
 // Keywords
-ABSTRACT      : A B S T R A C T;
-AFTER         : A F T E R;
-BEFORE        : B E F O R E;
-BREAK         : B R E A K;
-CATCH         : C A T C H;
-CLASS         : C L A S S;
-CONTINUE      : C O N T I N U E;
-DELETE        : D E L E T E;
-DO            : D O;
-ELSE          : E L S E;
-ENUM          : E N U M;
-EXTENDS       : E X T E N D S;
-FINAL         : F I N A L;
-FINALLY       : F I N A L L Y;
-FOR           : F O R;
-GET           : G E T;
-GLOBAL	      : G L O B A L;
-IF            : I F;
-IMPLEMENTS    : I M P L E M E N T S;
-INHERITED     : I N H E R I T E D;
-INSERT        : I N S E  R T;
-INSTANCEOF    : I N S T A N C E O F;
-INTERFACE     : I N T E R F A C E;
-MERGE         : M E R G E;
-NEW           : N E W;
-NULL          : N U L L;
-ON            : O N;
-OVERRIDE      : O V E R R I D E;
-PRIVATE       : P R I V A T E;
-PROTECTED     : P R O T E C T E D;
-PUBLIC        : P U B L I C;
-RETURN        : R E T U R N;
-SYSTEMRUNAS   : S Y S T E M DOT R U N A S;
-SET           : S E T;
-SHARING       : S H A R I N G;
-STATIC        : S T A T I C;
-SUPER         : S U P E R;
-SWITCH        : S W I T C H;
-TESTMETHOD    : T E S T M E T H O D;
-THIS          : T H I S;
-THROW         : T H R O W;
-TRANSIENT     : T R A N S I E N T;
-TRIGGER       : T R I G G E R;
-TRY           : T R Y;
-UNDELETE      : U N D E L E T E;
-UPDATE        : U P D A T E;
-UPSERT        : U P S E R T;
-VIRTUAL       : V I R T U A L;
-VOID          : V O I D;
-WEBSERVICE    : W E B S E R V I C E;
-WHEN          : W H E N;
-WHILE         : W H I L E;
-WITH          : W I T H;
-WITHOUT       : W I T H O U T;
+ABSTRACT      : 'abstract';
+AFTER         : 'after';
+BEFORE        : 'before';
+BREAK         : 'break';
+CATCH         : 'catch';
+CLASS         : 'class';
+CONTINUE      : 'continue';
+DELETE        : 'delete';
+DO            : 'do';
+ELSE          : 'else';
+ENUM          : 'enum';
+EXTENDS       : 'extends';
+FINAL         : 'final';
+FINALLY       : 'finally';
+FOR           : 'for';
+GET           : 'get';
+GLOBAL	      : 'global';
+IF            : 'if';
+IMPLEMENTS    : 'implements';
+INHERITED     : 'inherited';
+INSERT        : 'insert';
+INSTANCEOF    : 'instanceof';
+INTERFACE     : 'interface';
+MERGE         : 'merge';
+NEW           : 'new';
+NULL          : 'null';
+ON            : 'on';
+OVERRIDE      : 'override';
+PRIVATE       : 'private';
+PROTECTED     : 'protected';
+PUBLIC        : 'public';
+RETURN        : 'return';
+SYSTEMRUNAS   : 'system.runas';
+SET           : 'set';
+SHARING       : 'sharing';
+STATIC        : 'static';
+SUPER         : 'super';
+SWITCH        : 'switch';
+TESTMETHOD    : 'testmethod';
+THIS          : 'this';
+THROW         : 'throw';
+TRANSIENT     : 'transient';
+TRIGGER       : 'trigger';
+TRY           : 'try';
+UNDELETE      : 'undelete';
+UPDATE        : 'update';
+UPSERT        : 'upsert';
+VIRTUAL       : 'virtual';
+VOID          : 'void';
+WEBSERVICE    : 'webservice';
+WHEN          : 'when';
+WHILE         : 'while';
+WITH          : 'with';
+WITHOUT       : 'without';
 
 // Apex generic types, Set is defined above for properties
-LIST          : L I S T;
-MAP           : M A P;
+LIST          : 'list';
+MAP           : 'map';
 
 // Soql specific keywords
-SELECT          : S E L E C T;
-COUNT           : C O U N T;
-FROM            : F R O M;
-AS              : A S;
-USING           : U S I N G;
-SCOPE           : S C O P E;
-WHERE           : W H E R E;
-ORDER           : O R D E R;
-BY              : B Y;
-LIMIT           : L I M I T;
-SOQLAND         : A N D;
-SOQLOR          : O R;
-NOT             : N O T;
-AVG             : A V G;
-COUNT_DISTINCT  : C O U N T UNDERSCORE D I S T I N C T;
-MIN             : M I N;
-MAX             : M A X;
-SUM             : S U M;
-TYPEOF          : T Y P E O F;
-END             : E N D;
-THEN            : T H E N;
-LIKE            : L I K E;
-IN              : I N;
-INCLUDES        : I N C L U D E S;
-EXCLUDES        : E X C L U D E S;
-ASC             : A S C;
-DESC            : D E S C;
-NULLS           : N U L L S;
-FIRST           : F I R S T;
-LAST            : L A S T;
-GROUP           : G R O U P;
-ALL             : A L L;
-ROWS            : R O W S;
-VIEW            : V I E W;
-HAVING          : H A V I N G;
-ROLLUP          : R O L L U P;
-TOLABEL         : T O L A B E L;
-OFFSET          : O F F S E T;
-DATA            : D A T A;
-CATEGORY        : C A T E G O R Y;
-AT              : A T;
-ABOVE           : A B O V E;
-BELOW           : B E L O W;
-ABOVE_OR_BELOW  : A B O V E UNDERSCORE O R UNDERSCORE B E L O W;
-SECURITY_ENFORCED : S E C U R I T Y UNDERSCORE E N F O R C E D;
-REFERENCE       : R E F E R E N C E;
-CUBE            : C U B E;
-FORMAT          : F O R M A T;
-TRACKING        : T R A C K I N G;
-VIEWSTAT        : V I E W S T A T;
-CUSTOM          : C U S T O M;
-STANDARD        : S T A N D A R D;
+SELECT          : 'select';
+COUNT           : 'count';
+FROM            : 'from';
+AS              : 'as';
+USING           : 'using';
+SCOPE           : 'scope';
+WHERE           : 'where';
+ORDER           : 'order';
+BY              : 'by';
+LIMIT           : 'limit';
+SOQLAND         : 'and';
+SOQLOR          : 'or';
+NOT             : 'not';
+AVG             : 'avg';
+COUNT_DISTINCT  : 'count_distinct';
+MIN             : 'min';
+MAX             : 'max';
+SUM             : 'sum';
+TYPEOF          : 'typeof';
+END             : 'end';
+THEN            : 'then';
+LIKE            : 'like';
+IN              : 'in';
+INCLUDES        : 'includes';
+EXCLUDES        : 'excludes';
+ASC             : 'asc';
+DESC            : 'desc';
+NULLS           : 'nulls';
+FIRST           : 'first';
+LAST            : 'last';
+GROUP           : 'group';
+ALL             : 'all';
+ROWS            : 'rows';
+VIEW            : 'view';
+HAVING          : 'having';
+ROLLUP          : 'rollup';
+TOLABEL         : 'tolabel';
+OFFSET          : 'offset';
+DATA            : 'data';
+CATEGORY        : 'category';
+AT              : 'at';
+ABOVE           : 'above';
+BELOW           : 'below';
+ABOVE_OR_BELOW  : 'above_or_below';
+SECURITY_ENFORCED : 'security_enforced';
+REFERENCE       : 'reference';
+CUBE            : 'cube';
+FORMAT          : 'format';
+TRACKING        : 'tracking';
+VIEWSTAT        : 'viewstat';
+CUSTOM          : 'custom';
+STANDARD        : 'standard';
 
 // SOQL Date functions
-CALENDAR_MONTH      : C A L E N D A R UNDERSCORE M O N T H;
-CALENDAR_QUARTER    : C A L E N D A R UNDERSCORE Q U A R T E R;
-CALENDAR_YEAR       : C A L E N D A R UNDERSCORE Y E A R;
-DAY_IN_MONTH        : D A Y UNDERSCORE I N UNDERSCORE M O N T H;
-DAY_IN_WEEK         : D A Y UNDERSCORE I N UNDERSCORE W E E K;
-DAY_IN_YEAR         : D A Y UNDERSCORE I N UNDERSCORE Y E A R;
-DAY_ONLY            : D A Y UNDERSCORE O N L Y;
-FISCAL_MONTH        : F I S C A L UNDERSCORE M O N T H;
-FISCAL_QUARTER      : F I S C A L UNDERSCORE Q U A R T E R;
-FISCAL_YEAR         : F I S C A L UNDERSCORE Y E A R;
-HOUR_IN_DAY         : H O U R UNDERSCORE I N UNDERSCORE D A Y;
-WEEK_IN_MONTH       : W E E K UNDERSCORE I N UNDERSCORE M O N T H;
-WEEK_IN_YEAR        : W E E K UNDERSCORE I N UNDERSCORE Y E A R;
-CONVERT_TIMEZONE    : C O N V E R T UNDERSCORE T I M E Z O N E;
+CALENDAR_MONTH      : 'calendar_month';
+CALENDAR_QUARTER    : 'calendar_quarter';
+CALENDAR_YEAR       : 'calendar_year';
+DAY_IN_MONTH        : 'day_in_month';
+DAY_IN_WEEK         : 'day_in_week';
+DAY_IN_YEAR         : 'day_in_year';
+DAY_ONLY            : 'day_only';
+FISCAL_MONTH        : 'fiscal_month';
+FISCAL_QUARTER      : 'fiscal_quarter';
+FISCAL_YEAR         : 'fiscal_year';
+HOUR_IN_DAY         : 'hour_in_day';
+WEEK_IN_MONTH       : 'week_in_month';
+WEEK_IN_YEAR        : 'week_in_year';
+CONVERT_TIMEZONE    : 'converttimezone';
 
 // SOQL Date formulas
-YESTERDAY                 : Y E S T E R D A Y;
-TODAY                     : T O D A Y;
-TOMORROW                  : T O M O R R O W;
-LAST_WEEK                 : L A S T UNDERSCORE W E E K;
-THIS_WEEK                 : T H I S UNDERSCORE W E E K;
-NEXT_WEEK                 : N E X T UNDERSCORE W E E K;
-LAST_MONTH                : L A S T UNDERSCORE M O N T H;
-THIS_MONTH                : T H I S UNDERSCORE M O N T H;
-NEXT_MONTH                : N E X T UNDERSCORE M O N T H;
-LAST_90_DAYS              : L A S T UNDERSCORE '90' UNDERSCORE D A Y S;
-NEXT_90_DAYS              : N E X T UNDERSCORE '90' UNDERSCORE D A Y S;
-LAST_N_DAYS_N             : L A S T UNDERSCORE N UNDERSCORE D A Y S;
-NEXT_N_DAYS_N             : N E X T UNDERSCORE N UNDERSCORE D A Y S;
-NEXT_N_WEEKS_N            : N E X T UNDERSCORE N UNDERSCORE W E E K S;
-LAST_N_WEEKS_N            : L A S T UNDERSCORE N UNDERSCORE W E E K S;
-NEXT_N_MONTHS_N           : N E X T UNDERSCORE N UNDERSCORE M O N T H S;
-LAST_N_MONTHS_N           : L A S T UNDERSCORE N UNDERSCORE M O N T H S;
-THIS_QUARTER              : T H I S UNDERSCORE Q U A R T E R;
-LAST_QUARTER              : L A S T UNDERSCORE Q U A R T E R;
-NEXT_QUARTER              : N E X T UNDERSCORE Q U A R T E R;
-NEXT_N_QUARTERS_N         : N E X T UNDERSCORE N UNDERSCORE Q U A R T E R S;
-LAST_N_QUARTERS_N         : L A S T UNDERSCORE N UNDERSCORE Q U A R T E R S;
-THIS_YEAR                 : T H I S UNDERSCORE Y E A R;
-LAST_YEAR                 : L A S T UNDERSCORE Y E A R;
-NEXT_YEAR                 : N E X T UNDERSCORE Y E A R;
-NEXT_N_YEARS_N            : N E X T UNDERSCORE N UNDERSCORE Y E A R S;
-LAST_N_YEARS_N            : L A S T UNDERSCORE N UNDERSCORE Y E A R S;
-THIS_FISCAL_QUARTER       : T H I S UNDERSCORE F I S C A L UNDERSCORE Q U A R T E R;
-LAST_FISCAL_QUARTER       : L A S T UNDERSCORE F I S C A L UNDERSCORE Q U A R T E R;
-NEXT_FISCAL_QUARTER       : N E X T UNDERSCORE F I S C A L UNDERSCORE Q U A R T E R;
-NEXT_N_FISCAL_QUARTERS_N  : N E X T UNDERSCORE N UNDERSCORE F I S C A L UNDERSCORE Q U A R T E R S;
-LAST_N_FISCAL_QUARTERS_N  : L A S T UNDERSCORE N UNDERSCORE F I S C A L UNDERSCORE Q U A R T E R S;
-THIS_FISCAL_YEAR          : T H I S UNDERSCORE F I S C A L UNDERSCORE Y E A R;
-LAST_FISCAL_YEAR          : L A S T UNDERSCORE F I S C A L UNDERSCORE Y E A R;
-NEXT_FISCAL_YEAR          : N E X T UNDERSCORE F I S C A L UNDERSCORE Y E A R;
-NEXT_N_FISCAL_YEARS_N     : N E X T UNDERSCORE N UNDERSCORE F I S C A L UNDERSCORE Y E A R S;
-LAST_N_FISCAL_YEARS_N     : L A S T UNDERSCORE N UNDERSCORE F I S C A L UNDERSCORE Y E A R S;
+YESTERDAY                 : 'yesterday';
+TODAY                     : 'today';
+TOMORROW                  : 'tomorrow';
+LAST_WEEK                 : 'last_week';
+THIS_WEEK                 : 'this_week';
+NEXT_WEEK                 : 'next_week';
+LAST_MONTH                : 'last_month';
+THIS_MONTH                : 'this_month';
+NEXT_MONTH                : 'next_month';
+LAST_90_DAYS              : 'last_90_days';
+NEXT_90_DAYS              : 'next_90_days';
+LAST_N_DAYS_N             : 'last_n_days';
+NEXT_N_DAYS_N             : 'next_n_days';
+NEXT_N_WEEKS_N            : 'next_n_weeks';
+LAST_N_WEEKS_N            : 'last_n_weeks';
+NEXT_N_MONTHS_N           : 'next_n_months';
+LAST_N_MONTHS_N           : 'last_n_months';
+THIS_QUARTER              : 'this_quarter';
+LAST_QUARTER              : 'last_quarted';
+NEXT_QUARTER              : 'next_quarter';
+NEXT_N_QUARTERS_N         : 'next_n_quarters';
+LAST_N_QUARTERS_N         : 'last_n_quarters';
+THIS_YEAR                 : 'this_year';
+LAST_YEAR                 : 'last_year';
+NEXT_YEAR                 : 'next_year';
+NEXT_N_YEARS_N            : 'next_n_years';
+LAST_N_YEARS_N            : 'last_n_years';
+THIS_FISCAL_QUARTER       : 'this_fiscal_quarter';
+LAST_FISCAL_QUARTER       : 'last_fiscal_quarter';
+NEXT_FISCAL_QUARTER       : 'next_fiscal_quarter';
+NEXT_N_FISCAL_QUARTERS_N  : 'next_n_fiscal_quarters';
+LAST_N_FISCAL_QUARTERS_N  : 'last_n_fiscal_quarters';
+THIS_FISCAL_YEAR          : 'this_fiscal_year';
+LAST_FISCAL_YEAR          : 'last_fiscal_year';
+NEXT_FISCAL_YEAR          : 'next_fiscal_year';
+NEXT_N_FISCAL_YEARS_N     : 'next_n_fiscal_years';
+LAST_N_FISCAL_YEARS_N     : 'last_n_fiscal_years';
 
 // SOQL Date literal
 DateLiteral: Digit Digit Digit Digit '-' Digit Digit '-' Digit Digit;
@@ -183,23 +223,23 @@ DateTimeLiteral: DateLiteral 't' Digit Digit ':' Digit Digit ':' Digit Digit ('z
 IntegralCurrencyLiteral: [a-z] [a-z] [a-z] Digit+;
 
 // SOSL Keywords
-FIND                      : F I N D;
-EMAIL                     : E M A I L;
-NAME                      : N A M E;
-PHONE                     : P H O N E;
-SIDEBAR                   : S I D E B A R;
-FIELDS                    : F I E L D S;
-METADATA                  : M E T A D A T A;
-PRICEBOOKID               : P R I C E B O O K I D;
-NETWORK                   : N E T W O R K;
-SNIPPET                   : S N I P P E T;
-TARGET_LENGTH             : T A R G E T UNDERSCORE L E N G T H;
-DIVISION                  : D I V I S I O N;
-RETURNING                 : R E T U R N I N G;
-LISTVIEW                  : L I S T V I E W;
+FIND                      : 'find';
+EMAIL                     : 'email';
+NAME                      : 'name';
+PHONE                     : 'phone';
+SIDEBAR                   : 'sidebar';
+FIELDS                    : 'fields';
+METADATA                  : 'metadata';
+PRICEBOOKID               : 'pricebookid';
+NETWORK                   : 'network';
+SNIPPET                   : 'snippet';
+TARGET_LENGTH             : 'target_length';
+DIVISION                  : 'division';
+RETURNING                 : 'returning';
+LISTVIEW                  : 'listview';
 
 FindLiteral
-    :   '[' WS? F I N D WS '{' FindCharacters? '}'
+    :   '[' WS? 'find' WS '{' FindCharacters? '}'
     ;
 
 fragment
@@ -245,8 +285,8 @@ Digit
 // §3.10.3 Boolean Literals
 
 BooleanLiteral
-    :   T R U E
-    |   F A L S E
+    :   'true'
+    |   'false'
     ;
 
 // §3.10.5 String Literals

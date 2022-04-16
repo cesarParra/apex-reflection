@@ -1,5 +1,3 @@
-// @dart=2.10
-
 import 'dart:convert';
 
 import 'package:apexdocs_dart/src/service/parsers.dart';

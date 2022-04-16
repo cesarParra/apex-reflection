@@ -1,9 +1,6 @@
-// Disabling null safety since this test relies on the antrl4 package
-// @dart=2.10
-
-import 'package:antlr4/antlr4.dart';
 import 'package:apexdocs_dart/src/model/members.dart';
 import 'package:apexdocs_dart/src/model/types.dart';
+import 'package:apexdocs_dart/src/service/case_insensitive_input_stream.dart';
 import 'package:test/test.dart';
 
 import 'package:apexdocs_dart/src/service/walker.dart';
@@ -12,12 +9,10 @@ void main() {
   group('Parses Apex Classes', () {
     test('Creates a simple class', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
-      Walker.walk(
-          InputStream.fromString('class MyClass{}'), apexWalkerDefinition);
+      Walker.walk(CaseInsensitiveInputStream.fromString('class MyClass{}'),
+          apexWalkerDefinition);
       expect(apexWalkerDefinition.getGeneratedApexType(), isNotNull);
-      expect(apexWalkerDefinition
-          .getGeneratedApexType()
-          .name, 'MyClass');
+      expect(apexWalkerDefinition.getGeneratedApexType()!.name, 'MyClass');
     });
 
     test('Classes can have Apex docs', () {
@@ -28,164 +23,138 @@ void main() {
        */
       class MyClass{}
       ''';
-      Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
-      expect(
-          apexWalkerDefinition
-              .getGeneratedApexType()
-              .rawDocComment, isNotNull);
-      expect(apexWalkerDefinition
-          .getGeneratedApexType()
-          .docDescription,
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.rawDocComment,
+          isNotNull);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.docDescription,
           equals('Class description'));
     });
 
     test('Classes without access modifiers are private by default', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
-      Walker.walk(
-          InputStream.fromString('class MyClass{}'), apexWalkerDefinition);
-      expect(apexWalkerDefinition
-          .getGeneratedApexType()
-          .isPrivate, isTrue);
+      Walker.walk(CaseInsensitiveInputStream.fromString('class MyClass{}'),
+          apexWalkerDefinition);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.isPrivate, isTrue);
     });
 
     test('Classes with private access modifiers are private', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
-      Walker.walk(InputStream.fromString('private class MyClass{}'),
+      Walker.walk(
+          CaseInsensitiveInputStream.fromString('private class MyClass{}'),
           apexWalkerDefinition);
-      expect(apexWalkerDefinition
-          .getGeneratedApexType()
-          .isPrivate, isTrue);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.isPrivate, isTrue);
     });
 
     test('Classes with public access modifiers are public', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
-      Walker.walk(InputStream.fromString('public class MyClass{}'),
+      Walker.walk(
+          CaseInsensitiveInputStream.fromString('public class MyClass{}'),
           apexWalkerDefinition);
-      expect(apexWalkerDefinition
-          .getGeneratedApexType()
-          .isPrivate, isFalse);
-      expect(apexWalkerDefinition
-          .getGeneratedApexType()
-          .isPublic, isTrue);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.isPrivate, isFalse);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.isPublic, isTrue);
     });
 
     test('Classes with global access modifiers are global', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
-      Walker.walk(InputStream.fromString('global class MyClass{}'),
+      Walker.walk(
+          CaseInsensitiveInputStream.fromString('global class MyClass{}'),
           apexWalkerDefinition);
-      expect(apexWalkerDefinition
-          .getGeneratedApexType()
-          .isPrivate, isFalse);
-      expect(apexWalkerDefinition
-          .getGeneratedApexType()
-          .isPublic, isFalse);
-      expect(apexWalkerDefinition
-          .getGeneratedApexType()
-          .isGlobal, isTrue);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.isPrivate, isFalse);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.isPublic, isFalse);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.isGlobal, isTrue);
     });
 
     test('Classes with protected access modifiers are protected', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
-      Walker.walk(InputStream.fromString('protected class MyClass{}'),
+      Walker.walk(
+          CaseInsensitiveInputStream.fromString('protected class MyClass{}'),
           apexWalkerDefinition);
-      expect(apexWalkerDefinition
-          .getGeneratedApexType()
-          .isPrivate, isFalse);
-      expect(apexWalkerDefinition
-          .getGeneratedApexType()
-          .isPublic, isFalse);
-      expect(apexWalkerDefinition
-          .getGeneratedApexType()
-          .isGlobal, isFalse);
-      expect(apexWalkerDefinition
-          .getGeneratedApexType()
-          .isProtected, isTrue);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.isPrivate, isFalse);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.isPublic, isFalse);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.isGlobal, isFalse);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.isProtected, isTrue);
     });
 
     test('Classes with protected access modifiers are protected', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
-      Walker.walk(InputStream.fromString('protected class MyClass{}'),
+      Walker.walk(
+          CaseInsensitiveInputStream.fromString('protected class MyClass{}'),
           apexWalkerDefinition);
-      expect(apexWalkerDefinition
-          .getGeneratedApexType()
-          .isPrivate, isFalse);
-      expect(apexWalkerDefinition
-          .getGeneratedApexType()
-          .isPublic, isFalse);
-      expect(apexWalkerDefinition
-          .getGeneratedApexType()
-          .isGlobal, isFalse);
-      expect(apexWalkerDefinition
-          .getGeneratedApexType()
-          .isProtected, isTrue);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.isPrivate, isFalse);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.isPublic, isFalse);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.isGlobal, isFalse);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.isProtected, isTrue);
     });
 
     test('Virtual classes are supported', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
-      Walker.walk(InputStream.fromString('public virtual class MyClass{}'),
+      Walker.walk(
+          CaseInsensitiveInputStream.fromString(
+              'public virtual class MyClass{}'),
           apexWalkerDefinition);
       final generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.isVirtual, isTrue);
     });
 
     test('Supports the abstract access modifier', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
-      Walker.walk(InputStream.fromString('public abstract class MyClass{}'),
+      Walker.walk(
+          CaseInsensitiveInputStream.fromString(
+              'public abstract class MyClass{}'),
           apexWalkerDefinition);
       final generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.isAbstract, isTrue);
     });
 
     test('Supports the NamespaceAccessible annotation', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
       Walker.walk(
-          InputStream.fromString(
+          CaseInsensitiveInputStream.fromString(
               '@NamespaceAccessible public virtual class MyClass{}'),
           apexWalkerDefinition);
-      expect(apexWalkerDefinition
-          .getGeneratedApexType()
-          .isNamespaceAccessible,
+      expect(apexWalkerDefinition.getGeneratedApexType()!.isNamespaceAccessible,
           isTrue);
     });
 
     test('Supports the IsTest annotation', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
-      Walker.walk(InputStream.fromString('@IsTest private class MyClass{}'),
+      Walker.walk(
+          CaseInsensitiveInputStream.fromString(
+              '@IsTest private class MyClass{}'),
           apexWalkerDefinition);
-      expect(apexWalkerDefinition
-          .getGeneratedApexType()
-          .isTest, isTrue);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.isTest, isTrue);
     });
 
     test('Supports annotations with extra parameters', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
       Walker.walk(
-          InputStream.fromString(
+          CaseInsensitiveInputStream.fromString(
               '@IsTest(Parallel=true) private class MyClass{}'),
           apexWalkerDefinition);
-      expect(apexWalkerDefinition
-          .getGeneratedApexType()
-          .isTest, isTrue);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.isTest, isTrue);
     });
 
     test('Does not extend any class by default', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
-      Walker.walk(InputStream.fromString('public class MyClass{}'),
+      Walker.walk(
+          CaseInsensitiveInputStream.fromString('public class MyClass{}'),
           apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.extendedClass, isNull);
     });
 
     test('Classes can extend another class', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
       Walker.walk(
-          InputStream.fromString('public class MyClass extends ParentClass{}'),
+          CaseInsensitiveInputStream.fromString(
+              'public class MyClass extends ParentClass{}'),
           apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.extendedClass, equals('ParentClass'));
     });
 
@@ -197,9 +166,10 @@ void main() {
         private Integer MyProperty2 { get; set; }
       }
       ''';
-      Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.properties.length, equals(2));
       expect(
           generatedClass.properties
@@ -232,9 +202,10 @@ void main() {
         @NamespaceAccessible public String MyProperty1 { get; set; }
       }
       ''';
-      Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.properties.length, equals(1));
       expect(
           generatedClass.properties
@@ -254,9 +225,10 @@ void main() {
         private Integer myVar3;
       }
       ''';
-      Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(3));
       expect(generatedClass.fields.any((element) => element.name == 'myVar1'),
           isTrue);
@@ -291,9 +263,10 @@ void main() {
         // @end-group
       }
       ''';
-      Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(3));
       expect(generatedClass.fields.any((element) => element.name == 'myVar1'),
           isTrue);
@@ -328,9 +301,10 @@ void main() {
         private String myVar1 = 'some value';
       }
       ''';
-      Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
       expect(generatedClass.fields.any((element) => element.name == 'myVar1'),
           isTrue);
@@ -351,9 +325,10 @@ void main() {
         private String myVar1;
       }
       ''';
-      Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
       expect(generatedClass.fields.any((element) => element.name == 'myVar1'),
           isTrue);
@@ -377,9 +352,10 @@ void main() {
       }
       ''';
 
-      Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.methods.length, equals(2));
       expect(generatedClass.methods.any((element) => element.name == 'sayHi'),
           isTrue);
@@ -416,9 +392,10 @@ void main() {
       }
       ''';
 
-      Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.methods.length, equals(1));
       expect(generatedClass.methods.any((element) => element.name == 'sayHi'),
           isTrue);
@@ -443,9 +420,10 @@ void main() {
       }
       ''';
 
-      Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.methods.length, equals(1));
       expect(generatedClass.methods.any((element) => element.name == 'sayHi'),
           isTrue);
@@ -473,9 +451,10 @@ void main() {
       }
       ''';
 
-      Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.constructors.length, equals(2));
       expect(
           generatedClass.constructors
@@ -512,9 +491,10 @@ void main() {
       }
       ''';
 
-      Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.constructors.length, equals(1));
       expect(
           generatedClass.constructors
@@ -537,9 +517,10 @@ void main() {
       }
       ''';
 
-      Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.enums.length, equals(1));
       expect(generatedClass.enums.first.name, equals('MyEnum'));
       expect(generatedClass.enums.first.isNamespaceAccessible, isTrue);
@@ -560,9 +541,10 @@ void main() {
       }
       ''';
 
-      Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.enums.length, equals(1));
       expect(generatedClass.enums.first.rawDocComment, isNotNull);
     });
@@ -578,9 +560,10 @@ void main() {
       }
       ''';
 
-      Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.interfaces.length, equals(1));
 
       var innerInterface = generatedClass.interfaces.first;
@@ -605,9 +588,10 @@ void main() {
       }
       ''';
 
-      Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.interfaces.length, equals(1));
 
       var innerInterface = generatedClass.interfaces.first;
@@ -626,9 +610,10 @@ void main() {
       }
       ''';
 
-      Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.classes.length, equals(1));
 
       var innerClass = generatedClass.classes.first;
@@ -655,9 +640,10 @@ void main() {
       }
       ''';
 
-      Walker.walk(InputStream.fromString(classBody), apexWalkerDefinition);
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.classes.length, equals(1));
 
       var innerClass = generatedClass.classes.first;
@@ -668,12 +654,11 @@ void main() {
   group('Parses Apex Interfaces', () {
     test('Creates a simple interface', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
-      Walker.walk(InputStream.fromString('interface MyInterface{}'),
+      Walker.walk(
+          CaseInsensitiveInputStream.fromString('interface MyInterface{}'),
           apexWalkerDefinition);
       expect(apexWalkerDefinition.getGeneratedApexType(), isNotNull);
-      expect(apexWalkerDefinition
-          .getGeneratedApexType()
-          .name, 'MyInterface');
+      expect(apexWalkerDefinition.getGeneratedApexType()!.name, 'MyInterface');
     });
 
     test('Interfaces can have doc comments', () {
@@ -684,40 +669,36 @@ void main() {
        */
       interface MyInterface{}
       ''';
-      Walker.walk(InputStream.fromString(interfaceBody), apexWalkerDefinition);
+      Walker.walk(CaseInsensitiveInputStream.fromString(interfaceBody),
+          apexWalkerDefinition);
       expect(apexWalkerDefinition.getGeneratedApexType(), isNotNull);
       expect(
-          apexWalkerDefinition
-              .getGeneratedApexType()
-              .rawDocComment, isNotNull);
+          apexWalkerDefinition.getGeneratedApexType()!.rawDocComment, isNotNull);
     });
 
     test('Interfaces without access modifiers are private by default', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
-      Walker.walk(
-          InputStream.fromString('interface MyClass{}'), apexWalkerDefinition);
-      expect(apexWalkerDefinition
-          .getGeneratedApexType()
-          .isPrivate, isTrue);
+      Walker.walk(CaseInsensitiveInputStream.fromString('interface MyClass{}'),
+          apexWalkerDefinition);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.isPrivate, isTrue);
     });
 
     test('Interfaces with private access modifiers are private', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
-      Walker.walk(InputStream.fromString('private interface MyClass{}'),
+      Walker.walk(
+          CaseInsensitiveInputStream.fromString('private interface MyClass{}'),
           apexWalkerDefinition);
-      expect(apexWalkerDefinition
-          .getGeneratedApexType()
-          .isPrivate, isTrue);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.isPrivate, isTrue);
     });
 
     test('Interfaces can extend other interfaces', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
       Walker.walk(
-          InputStream.fromString(
+          CaseInsensitiveInputStream.fromString(
               'public interface MyInterface extends Interface1, Interface2{}'),
           apexWalkerDefinition);
       var generatedInterface =
-      apexWalkerDefinition.getGeneratedApexType() as InterfaceMirror;
+          apexWalkerDefinition.getGeneratedApexType() as InterfaceMirror;
       expect(generatedInterface.extendedInterfaces, isNotEmpty);
       expect(generatedInterface.extendedInterfaces[0], 'Interface1');
       expect(generatedInterface.extendedInterfaces[1], 'Interface2');
@@ -733,9 +714,10 @@ void main() {
       }
       ''';
 
-      Walker.walk(InputStream.fromString(interfaceBody), apexWalkerDefinition);
+      Walker.walk(CaseInsensitiveInputStream.fromString(interfaceBody),
+          apexWalkerDefinition);
       var generatedInterface =
-      apexWalkerDefinition.getGeneratedApexType() as InterfaceMirror;
+          apexWalkerDefinition.getGeneratedApexType() as InterfaceMirror;
       expect(generatedInterface.methods.length, equals(2));
       expect(
           generatedInterface.methods.any((element) => element.name == 'sayHi'),
@@ -772,9 +754,10 @@ void main() {
       }
       ''';
 
-      Walker.walk(InputStream.fromString(interfaceBody), apexWalkerDefinition);
+      Walker.walk(CaseInsensitiveInputStream.fromString(interfaceBody),
+          apexWalkerDefinition);
       var generatedInterface =
-      apexWalkerDefinition.getGeneratedApexType() as InterfaceMirror;
+          apexWalkerDefinition.getGeneratedApexType() as InterfaceMirror;
       expect(generatedInterface.methods.length, equals(1));
       expect(
           generatedInterface.methods.any((element) => element.name == 'sayHi'),
@@ -789,12 +772,10 @@ void main() {
   group('Parses Apex enums', () {
     test('Creates a simple enum', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
-      Walker.walk(
-          InputStream.fromString('enum MyEnum{}'), apexWalkerDefinition);
+      Walker.walk(CaseInsensitiveInputStream.fromString('enum MyEnum{}'),
+          apexWalkerDefinition);
       expect(apexWalkerDefinition.getGeneratedApexType(), isNotNull);
-      expect(apexWalkerDefinition
-          .getGeneratedApexType()
-          .name, 'MyEnum');
+      expect(apexWalkerDefinition.getGeneratedApexType()!.name, 'MyEnum');
     });
 
     test('Enums can have doc comments', () {
@@ -805,30 +786,24 @@ void main() {
        */
       enum MyEnum{}
       ''';
-      Walker.walk(InputStream.fromString(enumBody), apexWalkerDefinition);
+      Walker.walk(CaseInsensitiveInputStream.fromString(enumBody),
+          apexWalkerDefinition);
       expect(apexWalkerDefinition.getGeneratedApexType(), isNotNull);
       expect(
-          apexWalkerDefinition
-              .getGeneratedApexType()
-              .rawDocComment, isNotNull);
+          apexWalkerDefinition.getGeneratedApexType()!.rawDocComment, isNotNull);
     });
 
     test('Supports enums with access modifiers', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
       Walker.walk(
-          InputStream.fromString('@NamespaceAccessible public enum MyEnum{}'),
+          CaseInsensitiveInputStream.fromString(
+              '@NamespaceAccessible public enum MyEnum{}'),
           apexWalkerDefinition);
       expect(apexWalkerDefinition.getGeneratedApexType(), isNotNull);
-      expect(apexWalkerDefinition
-          .getGeneratedApexType()
-          .isPublic, isTrue);
-      expect(apexWalkerDefinition
-          .getGeneratedApexType()
-          .isNamespaceAccessible,
+      expect(apexWalkerDefinition.getGeneratedApexType()!.isPublic, isTrue);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.isNamespaceAccessible,
           isTrue);
-      expect(apexWalkerDefinition
-          .getGeneratedApexType()
-          .isPrivate, isFalse);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.isPrivate, isFalse);
     });
   });
 }

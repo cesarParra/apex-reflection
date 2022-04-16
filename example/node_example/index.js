@@ -32,7 +32,6 @@ public with sharing class SampleClass {
     /**
      * @description Executes commands based on the passed in argument.
      * @example
-     * <pre>
      * String result = SampleClass.testMethod();
      * System.debug(result);
      * @param argument Argument to debug

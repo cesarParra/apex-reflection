@@ -1,13 +1,13 @@
 {
   "name": "@cparra/apex-reflection",
-  "version": "1.1.3",
+  "version": "1.2.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "build": "tsc",
     "test": "jest --coverage"
   },
-  "keywords": [],
+  "keywords": ["apex", "salesforce", "reflection", "ANTLR4", "apex-docs"],
   "author": "",
   "license": "ISC",
   "devDependencies": {

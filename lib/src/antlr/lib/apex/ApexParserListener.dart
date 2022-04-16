@@ -1136,6 +1136,13 @@ abstract class ApexParserListener extends ParseTreeListener {
   /// [ctx] the parse tree
   void exitValueList(ValueListContext ctx);
 
+  /// Enter a parse tree produced by [ApexParser.signedNumber].
+  /// [ctx] the parse tree
+  void enterSignedNumber(SignedNumberContext ctx);
+  /// Exit a parse tree produced by [ApexParser.signedNumber].
+  /// [ctx] the parse tree
+  void exitSignedNumber(SignedNumberContext ctx);
+
   /// Enter a parse tree produced by [ApexParser.withClause].
   /// [ctx] the parse tree
   void enterWithClause(WithClauseContext ctx);

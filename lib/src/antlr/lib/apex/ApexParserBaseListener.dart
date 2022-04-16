@@ -1204,6 +1204,14 @@ class ApexParserBaseListener implements ApexParserListener {
 
   /// The default implementation does nothing.
   @override
+  void enterSignedNumber(SignedNumberContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitSignedNumber(SignedNumberContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
   void enterWithClause(WithClauseContext ctx) {}
 
   /// The default implementation does nothing.

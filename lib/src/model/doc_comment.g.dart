@@ -30,6 +30,7 @@ DocComment _$DocCommentFromJson(Map<String, dynamic> json) {
     ..annotations = (json['annotations'] as List<dynamic>)
         .map((e) => DocCommentAnnotation.fromJson(e as Map<String, dynamic>))
         .toList()
+    ..error = json['error'] as String?
     ..descriptionLines = (json['descriptionLines'] as List<dynamic>)
         .map((e) => e as String)
         .toList();
@@ -43,6 +44,7 @@ Map<String, dynamic> _$DocCommentToJson(DocComment instance) =>
       'exampleAnnotation': instance.exampleAnnotation,
       'throwsAnnotations': instance.throwsAnnotations,
       'annotations': instance.annotations,
+      'error': instance.error,
       'descriptionLines': instance.descriptionLines,
       'description': instance.description,
     };

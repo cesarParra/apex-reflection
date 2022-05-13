@@ -15,6 +15,7 @@ class DocComment {
   ExampleDocCommentAnnotation? exampleAnnotation;
   List<ThrowsDocCommentAnnotation> throwsAnnotations = [];
   List<DocCommentAnnotation> annotations = [];
+  String? error;
 
   DocComment(String description) {
     _descriptionLines = [if (description.isNotEmpty) description];
@@ -22,6 +23,11 @@ class DocComment {
 
   DocComment.withLines(List<String> descriptionLines) {
     _descriptionLines = descriptionLines;
+  }
+
+  DocComment.error(String errorMessage) {
+    error = errorMessage;
+    _descriptionLines = [];
   }
 
   factory DocComment.fromJson(Map<String, dynamic> json) =>

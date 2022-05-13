@@ -70,7 +70,7 @@ helps automatically create the round-trip code for serialization and de-serializ
 When changing any of the model classes with serialization support, to re-build the serialization code run
 
 ```
-pub run build_runner build
+dart run build_runner build
 ```
 
 ### Parsing

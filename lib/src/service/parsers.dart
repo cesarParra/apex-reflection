@@ -87,7 +87,11 @@ class ApexdocParser {
   static DocComment parseFromBody(String body) {
     var sanitizedBody = body.trimLeft().trimRight();
     final walkerDefinition = ApexdocWalkerDefinition();
-    Walker.walk(InputStream.fromString(sanitizedBody), walkerDefinition);
+    try {
+      Walker.walk(InputStream.fromString(sanitizedBody), walkerDefinition);
+    } catch (error) {
+      return DocComment.error(error.toString());
+    }
     return walkerDefinition.getGeneratedDocComment();
   }
 }

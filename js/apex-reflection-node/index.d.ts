@@ -27,6 +27,7 @@ export interface DocComment {
     annotations: DocCommentAnnotation[];
     descriptionLines: string[];
     description: string;
+    error?: string;
 }
 export interface Annotation {
     rawDeclaration: string;

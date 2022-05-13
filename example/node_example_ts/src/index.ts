@@ -2,7 +2,8 @@ import {reflect} from '@cparra/apex-reflection';
 
 const classBody = `
 /** 
- * @description My Class description 
+ * @description My Class description
+ * @something
  */
  public with sharing class MyClass{}
 `;

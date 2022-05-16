@@ -34,12 +34,20 @@ THROWS: AT T H R O W S;
 EXCEPTION: AT E X C E P T I O N;
 
 NAME
-	: [a-zA-Z]+ JavaLetterOrDigit?
-	;
+    :   JavaLetter JavaLetterOrDigit*
+    ;
 
 fragment
+JavaLetter
+    :   [A-Za-z0-9$\-_] // these are the "java letters" below 0xFF
+    |   // covers all characters above 0xFF which are not a surrogate
+        ~[\u0000-\u00FF\uD800-\uDBFF]
+    |   // covers UTF-16 surrogate pairs encodings for U+10000 to U+10FFFF
+        [\uD800-\uDBFF] [\uDC00-\uDFFF]
+    ;
+
 JavaLetterOrDigit
-    :   [a-zA-Z0-9$_] // these are the "java letters or digits" below 0xFF
+    :   [a-zA-Z0-9$\-_] // these are the "java letters or digits" below 0xFF
     |   // covers all characters above 0xFF which are not a surrogate
         ~[\u0000-\u00FF\uD800-\uDBFF]
     |   // covers UTF-16 surrogate pairs encodings for U+10000 to U+10FFFF

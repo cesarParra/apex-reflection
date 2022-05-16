@@ -31,6 +31,31 @@ void main() {
           equals('Class description'));
     });
 
+    test('Classes can have Apex block style docs', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      const classBody = '''
+      /**********************************************************
+      @group          Group Name
+      @description    Class description
+      ***********************************************************/
+      class MyClass{}
+      ''';
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.rawDocComment,
+          isNotNull);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.docDescription,
+          equals('Class description'));
+      expect(
+          apexWalkerDefinition
+              .getGeneratedApexType()!
+              .docComment
+              ?.annotations
+              .firstWhere((element) => element.name == 'group')
+              .body,
+          equals('Group Name'));
+    });
+
     test('Classes without access modifiers are private by default', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
       Walker.walk(CaseInsensitiveInputStream.fromString('class MyClass{}'),
@@ -672,8 +697,8 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(interfaceBody),
           apexWalkerDefinition);
       expect(apexWalkerDefinition.getGeneratedApexType(), isNotNull);
-      expect(
-          apexWalkerDefinition.getGeneratedApexType()!.rawDocComment, isNotNull);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.rawDocComment,
+          isNotNull);
     });
 
     test('Interfaces without access modifiers are private by default', () {
@@ -789,8 +814,8 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(enumBody),
           apexWalkerDefinition);
       expect(apexWalkerDefinition.getGeneratedApexType(), isNotNull);
-      expect(
-          apexWalkerDefinition.getGeneratedApexType()!.rawDocComment, isNotNull);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.rawDocComment,
+          isNotNull);
     });
 
     test('Supports enums with access modifiers', () {

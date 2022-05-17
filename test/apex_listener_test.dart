@@ -56,6 +56,44 @@ void main() {
           equals('Group Name'));
     });
 
+    test('Can have annotations before the docs', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      const classBody = '''
+      @IsTest
+      /**
+      * @group Integration Tests
+      * @see SampleClass
+      * @description This is a unit test class.
+      */
+      private class SampleTestClass {}
+      ''';
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
+
+      expect(apexWalkerDefinition.getGeneratedApexType()!.name,
+          equals('SampleTestClass'));
+      expect(apexWalkerDefinition.getGeneratedApexType()!.rawDocComment,
+          isNotNull);
+      expect(
+          apexWalkerDefinition
+              .getGeneratedApexType()!
+              .annotations
+              .single
+              .name
+              .toLowerCase(),
+          equals('istest'));
+      expect(apexWalkerDefinition.getGeneratedApexType()!.docDescription,
+          equals('This is a unit test class.'));
+      expect(
+          apexWalkerDefinition
+              .getGeneratedApexType()!
+              .docComment
+              ?.annotations
+              .firstWhere((element) => element.name == 'group')
+              .body,
+          equals('Integration Tests'));
+    });
+
     test('Classes without access modifiers are private by default', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
       Walker.walk(CaseInsensitiveInputStream.fromString('class MyClass{}'),
@@ -421,6 +459,33 @@ void main() {
           apexWalkerDefinition);
       var generatedClass =
           apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      expect(generatedClass.methods.length, equals(1));
+      expect(generatedClass.methods.any((element) => element.name == 'sayHi'),
+          isTrue);
+
+      MethodMirror method1 = generatedClass.methods
+          .firstWhere((element) => element.name == 'sayHi');
+      expect(method1.rawDocComment, isNotNull);
+    });
+
+    test('Classes can have methods with doc comments after an annotation', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var classBody = '''
+      public class MyClass {
+        @NamespaceAccessible
+        /**
+         * @description Some description
+         */
+        public void sayHi() {
+          System.debug(getGreeting());
+        }
+      }
+      ''';
+
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
+      var generatedClass =
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.methods.length, equals(1));
       expect(generatedClass.methods.any((element) => element.name == 'sayHi'),
           isTrue);

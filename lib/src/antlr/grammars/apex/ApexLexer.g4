@@ -411,10 +411,6 @@ JavaLetterOrDigit
 // Whitespace, comments and doc comments
 //
 
-STAR
-	: '*'
-	;
-
 START_GROUP_COMMENT
 	  :   '//' WS* ATSIGN  S T A R T SUB G R O U P WS* Identifier ~[\r\n]*
 	  ;
@@ -424,7 +420,7 @@ END_GROUP_COMMENT
 	  ;
 
 DOC_COMMENT
-    :   '/**' STAR* WS* [\r\n] .*? '*/'
+    :   '/**' MUL* WS* [\r\n] .*? '*/'
     ;
 
 WS  :  [ \t\r\n\u000C]+ -> channel(WHITESPACE_CHANNEL)

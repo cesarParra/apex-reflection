@@ -62,9 +62,9 @@ compilationUnit
     ;
 
 typeDeclaration
-    : DOC_COMMENT? modifier* classDeclaration             # TypeClassDeclaration
-    | DOC_COMMENT? modifier* enumDeclaration              # TypeEnumDeclaration
-    | DOC_COMMENT? modifier* interfaceDeclaration         # TypeInterfaceDeclaration
+    : annotation* DOC_COMMENT? modifier* classDeclaration             # TypeClassDeclaration
+    | annotation* DOC_COMMENT? modifier* enumDeclaration              # TypeEnumDeclaration
+    | annotation* DOC_COMMENT? modifier* interfaceDeclaration         # TypeInterfaceDeclaration
     ;
 
 classDeclaration
@@ -106,7 +106,7 @@ interfaceBody
 classBodyDeclaration
     : SEMI                                                                                    # EmptyClassBodyDeclaration
     | STATIC? block                                                                           # StaticBlockClassBodyDeclaration
-    | DOC_COMMENT? modifier* memberDeclaration                                                # MemberClassBodyDeclaration
+    | annotation* DOC_COMMENT? modifier* memberDeclaration                                    # MemberClassBodyDeclaration
     ;
 
 /* Unify all annotation & modifiers so we can give better error messages */
@@ -166,7 +166,7 @@ propertyDeclaration
     ;
 
 interfaceMethodDeclaration
-    : DOC_COMMENT? modifier* (typeRef|VOID) id formalParameters SEMI
+    : annotation* DOC_COMMENT? modifier* (typeRef|VOID) id formalParameters SEMI
     ;
 
 variableDeclarators

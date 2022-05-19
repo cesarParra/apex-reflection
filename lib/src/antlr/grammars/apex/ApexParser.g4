@@ -976,6 +976,7 @@ id
 anyId
     : Identifier
     // Apex Keywords
+    | VOID
     | ABSTRACT
     | AFTER
     | BEFORE

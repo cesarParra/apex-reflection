@@ -12,13 +12,13 @@ class ApexdocListener extends ApexdocParserBaseListener {
   /* Description */
 
   @override
-  void enterDescriptionLineStart(DescriptionLineStartContext ctx) {
+  void enterDescriptionLine(DescriptionLineContext ctx) {
     var descriptionText = ctx.text;
     descriptionLines.add(_sanitizeLineStart(descriptionText));
   }
 
   @override
-  void exitDescriptionLineStart(DescriptionLineStartContext ctx) {
+  void exitDescriptionLine(DescriptionLineContext ctx) {
     generatedDocComment.descriptionLines = descriptionLines;
   }
 

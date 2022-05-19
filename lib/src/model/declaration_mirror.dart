@@ -1,3 +1,4 @@
+import 'package:apexdocs_dart/src/extension_methods/list_extensions.dart';
 import 'package:apexdocs_dart/src/model/doc_comment.dart';
 import 'package:apexdocs_dart/src/service/parsers.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -26,7 +27,7 @@ mixin DocsCommentAwareness {
     return _docComment;
   }
 
-  String? get docDescription => docComment?.description;
+  String? get docDescription => docComment?.description.trim();
 }
 
 /// Reflects a declared entity anywhere on an Apex file.
@@ -41,5 +42,12 @@ abstract class DeclarationMirror
 
   void setGroup(String? group) {
     this.group = group;
+  }
+
+  String? getAnnotationBody(String annotationName) {
+    return docComment?.annotations
+        .firstWhereOrNull((element) =>
+            element.name.toLowerCase() == annotationName.toLowerCase())
+        ?.body;
   }
 }

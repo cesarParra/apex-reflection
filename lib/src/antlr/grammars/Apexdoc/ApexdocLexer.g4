@@ -80,6 +80,10 @@ SLASH
 	: '/'
 	;
 
+DOT
+  : '.'
+  ;
+
 JAVADOC_START
 	: '/**' STAR*
 	;

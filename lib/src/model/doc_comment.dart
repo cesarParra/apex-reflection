@@ -42,7 +42,21 @@ class DocComment {
           ?.bodyLines ?? [];
 
   set descriptionLines(List<String> descriptionLines) {
-    _descriptionLines = descriptionLines;
+    List<String> cleanLines = [];
+    for (String currentLine in descriptionLines) {
+      List<String> splitLines = currentLine.split('\n');
+      for (String splitLine in splitLines) {
+        String trimmedLine = splitLine.trim();
+        if (trimmedLine == '*') {
+          trimmedLine = '';
+        }
+
+        if (trimmedLine.isNotEmpty) {
+          cleanLines.add(trimmedLine);
+        }
+      }
+    }
+    _descriptionLines = cleanLines;
   }
 
   /// Gets the description as a single line.

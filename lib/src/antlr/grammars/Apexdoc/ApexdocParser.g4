@@ -38,7 +38,7 @@ documentation
 documentationContent
 	: description skipWhitespace*
 	| skipWhitespace* tagSection
-	| description NEWLINE+ skipWhitespace* tagSection
+	| description NEWLINE* skipWhitespace* tagSection
 	;
 
 
@@ -52,7 +52,7 @@ descriptionLine
 	;
 
 descriptionLineStart
-	: SPACE? descriptionLineNoSpaceNoAt+ (descriptionLineNoSpaceNoAt | SPACE | AT)*
+	: SPACE? descriptionLineNoSpaceNoAt+ (descriptionLineNoSpaceNoAt | SPACE)*
 	;
 
 descriptionLineNoSpaceNoAt
@@ -70,7 +70,7 @@ descriptionLineElement
 	;
 
 descriptionLineText
-	: (descriptionLineNoSpaceNoAt | SPACE | AT)+
+	: (descriptionLineNoSpaceNoAt | SPACE)+
 	;
 
 descriptionNewline
@@ -82,11 +82,11 @@ tagSection
 	;
 
 blockTag
-	: STAR* SPACE? PARAM SPACE+ paramName SPACE+ blockTagContent*                         #ParamBlockTag
-	| STAR* SPACE? (THROWS | EXCEPTION) SPACE+ exceptionName SPACE+ blockTagContent*      #ThrowsBlockTag
-	| STAR* SPACE? RETURN SPACE+ blockTagContent*                                         #ReturnBlockTag
-	| STAR* SPACE? EXAMPLE skipWhitespace+ blockTagContent*                               #ExampleBlockTag
-	| STAR* SPACE? AT blockTagName SPACE+ blockTagContent*                                #DefaultBlockTag
+	: SPACE? PARAM SPACE* paramName SPACE* blockTagContent*                         #ParamBlockTag
+	| SPACE? (THROWS | EXCEPTION) SPACE* exceptionName SPACE* blockTagContent*      #ThrowsBlockTag
+	| SPACE? RETURN SPACE* blockTagContent*                                         #ReturnBlockTag
+	| SPACE? EXAMPLE skipWhitespace* blockTagContent*                               #ExampleBlockTag
+	| SPACE? AT blockTagName SPACE* blockTagContent*                                #DefaultBlockTag
 	;
 
 paramName
@@ -155,4 +155,5 @@ braceText
 	| STAR
 	| SLASH
 	| NEWLINE
+	| AT
 	;

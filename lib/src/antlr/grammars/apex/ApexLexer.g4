@@ -420,7 +420,7 @@ END_GROUP_COMMENT
 	  ;
 
 DOC_COMMENT
-    :   '/**' MUL* WS* [\r\n] .*? '*/'
+    :   '/**' MUL* WS* ([\r\n])* .*? '*/'
     ;
 
 WS  :  [ \t\r\n\u000C]+ -> channel(WHITESPACE_CHANNEL)

@@ -378,6 +378,88 @@ void main() {
       expect(field1.type, equals('String'));
     });
 
+    test('Groups can have descriptions', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var classBody = '''
+      public class MyClass {
+        // @start-group This is a group description
+        private String myVar1, myVar2;
+        private Integer myVar3;
+        // @end-group
+      }
+      ''';
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
+      var generatedClass =
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      expect(generatedClass.fields.length, equals(3));
+      expect(generatedClass.fields.any((element) => element.name == 'myVar1'),
+          isTrue);
+      expect(generatedClass.fields.any((element) => element.name == 'myVar2'),
+          isTrue);
+      expect(generatedClass.fields.any((element) => element.name == 'myVar3'),
+          isTrue);
+
+      FieldMirror field1 = generatedClass.fields
+          .firstWhere((element) => element.name == 'myVar1');
+      expect(field1.isPrivate, isTrue);
+      expect(field1.type, equals('String'));
+      expect(field1.group, equals('This is a group description'));
+
+      FieldMirror field2 = generatedClass.fields
+          .firstWhere((element) => element.name == 'myVar2');
+      expect(field2.isPrivate, isTrue);
+      expect(field2.type, equals('String'));
+      expect(field2.group, equals('This is a group description'));
+
+      FieldMirror field3 = generatedClass.fields
+          .firstWhere((element) => element.name == 'myVar3');
+      expect(field3.isPrivate, isTrue);
+      expect(field3.type, equals('Integer'));
+      expect(field2.group, equals('This is a group description'));
+    });
+
+    test('Groups can start with special characters', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var classBody = '''
+      public class MyClass {
+        // @start-group 'Variable'
+        private String myVar1, myVar2;
+        private Integer myVar3;
+        // @end-group
+      }
+      ''';
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
+      var generatedClass =
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      expect(generatedClass.fields.length, equals(3));
+      expect(generatedClass.fields.any((element) => element.name == 'myVar1'),
+          isTrue);
+      expect(generatedClass.fields.any((element) => element.name == 'myVar2'),
+          isTrue);
+      expect(generatedClass.fields.any((element) => element.name == 'myVar3'),
+          isTrue);
+
+      FieldMirror field1 = generatedClass.fields
+          .firstWhere((element) => element.name == 'myVar1');
+      expect(field1.isPrivate, isTrue);
+      expect(field1.type, equals('String'));
+      expect(field1.group, equals("'Variable'"));
+
+      FieldMirror field2 = generatedClass.fields
+          .firstWhere((element) => element.name == 'myVar2');
+      expect(field2.isPrivate, isTrue);
+      expect(field2.type, equals('String'));
+      expect(field2.group, equals("'Variable'"));
+
+      FieldMirror field3 = generatedClass.fields
+          .firstWhere((element) => element.name == 'myVar3');
+      expect(field3.isPrivate, isTrue);
+      expect(field3.type, equals('Integer'));
+      expect(field2.group, equals("'Variable'"));
+    });
+
     test('Classes can have fields with doc comments', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
       var classBody = '''

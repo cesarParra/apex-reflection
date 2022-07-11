@@ -412,7 +412,7 @@ JavaLetterOrDigit
 //
 
 START_GROUP_COMMENT
-	  :   '//' WS* ATSIGN  S T A R T SUB G R O U P WS* Identifier ~[\r\n]*
+	  :   '//' WS* ATSIGN  S T A R T SUB G R O U P WS* .*? ~[\r\n]*
 	  ;
 
 END_GROUP_COMMENT

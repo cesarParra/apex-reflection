@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:apexdocs_dart/src/antlr/lib/apexdoc/ApexdocParser.dart';
 import 'package:apexdocs_dart/src/antlr/lib/apexdoc/ApexdocParserBaseListener.dart';
+import 'package:apexdocs_dart/src/extension_methods/string_extensions.dart';
 import 'package:apexdocs_dart/src/model/doc_comment.dart';
+import 'package:apexdocs_dart/src/service/utils/sanitizing/line_sanitizer.dart';
 
 class ApexdocListener extends ApexdocParserBaseListener {
   var descriptionLines = <String>[];
@@ -14,11 +16,21 @@ class ApexdocListener extends ApexdocParserBaseListener {
   @override
   void enterDescriptionLine(DescriptionLineContext ctx) {
     var descriptionText = ctx.text;
-    descriptionLines.add(_sanitizeLineStart(descriptionText));
+    if (descriptionText.startsWithSingleSpace()) {
+      descriptionText = descriptionText.replaceFirst(' ', '');
+    }
+    var sanitizedText = _sanitizeLineStart(descriptionText);
+    if (sanitizedText.isEmpty) {
+      return;
+    }
+    descriptionLines.addAll(_getContentLinesFromString(sanitizedText));
   }
 
   @override
   void exitDescriptionLine(DescriptionLineContext ctx) {
+    if (descriptionLines.isEmpty) {
+      return;
+    }
     generatedDocComment.descriptionLines = descriptionLines;
   }
 
@@ -63,20 +75,25 @@ class ApexdocListener extends ApexdocParserBaseListener {
 
   List<String> _getContentLines(List<BlockTagContentContext> blockTagContents) {
     final rawContent = blockTagContents.map((e) => e.text).join('');
-    return LineSplitter.split(rawContent)
+    return _getContentLinesFromString(rawContent);
+  }
+
+  List<String> _getContentLinesFromString(String rawContent) {
+    List<String> lines = LineSplitter.split(rawContent)
         .map((e) => _sanitizeLineStart(e))
-        .where((element) => element.isNotEmpty)
         .toList();
+    return sanitizeLines(lines);
   }
 
   String _sanitizeLineStart(String line) {
-    var sanitizedLine = line.trimLeft();
-    if (sanitizedLine.startsWith('*')) {
-      sanitizedLine = sanitizedLine.replaceFirst('*', '');
+    var sanitizedLine = line;
+    if (sanitizedLine.startsWithIgnoreWhiteSpace('*')) {
+      sanitizedLine = sanitizedLine.trimLeft().replaceFirst('*', '');
+      if (sanitizedLine.startsWith(' ')) {
+        sanitizedLine = sanitizedLine.replaceFirst(' ', '');
+      }
     }
-    if (sanitizedLine.startsWith(' ')) {
-      sanitizedLine = sanitizedLine.replaceFirst(' ', '');
-    }
+
     return sanitizedLine.trimRight();
   }
 }

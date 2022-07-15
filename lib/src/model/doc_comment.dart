@@ -1,4 +1,5 @@
 import 'package:apexdocs_dart/src/extension_methods/list_extensions.dart';
+import 'package:apexdocs_dart/src/service/utils/sanitizing/line_sanitizer.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'doc_comment.g.dart';
@@ -35,41 +36,21 @@ class DocComment {
 
   Map<String, dynamic> toJson() => _$DocCommentToJson(this);
 
-  List<String> get descriptionLines => _descriptionLines.isNotEmpty
-      ? _descriptionLines
-      : annotations
-          .firstWhereOrNull((element) => element.name == 'description')
-          ?.bodyLines ?? [];
+  List<String> get descriptionLines {
+    if (_descriptionLines.isNotEmpty) {
+      return _descriptionLines;
+    }
+
+    var linesFromDescriptionBlock = annotations
+        .firstWhereOrNull((element) => element.name == 'description')
+        ?.bodyLines ?? [];
+    _descriptionLines = sanitizeLines(linesFromDescriptionBlock);
+
+    return _descriptionLines;
+  }
 
   set descriptionLines(List<String> descriptionLines) {
-    final List<String> cleanLines = [];
-    for (String currentLine in descriptionLines) {
-      List<String> splitLines = currentLine.split('\n');
-      for (String splitLine in splitLines) {
-        String trimmedLine = splitLine.trim();
-        if (trimmedLine == '*') {
-          trimmedLine = '';
-        }
-
-        if (trimmedLine.isNotEmpty) {
-          cleanLines.add(trimmedLine);
-        } else {
-          // To keep things clean we only allow one empty line at a time,
-          // so here we check if the previous line is already empty, and only
-          // add if it isn't;.
-          var previousLine = cleanLines.isEmpty ? '' : cleanLines.last;
-          if (previousLine.isNotEmpty) {
-            cleanLines.add(trimmedLine);
-          }
-        }
-      }
-    }
-
-    if (cleanLines.isNotEmpty && cleanLines.last.isEmpty) {
-      // Additional clean up to prevent the last line from being empty.
-      cleanLines.removeLast();
-    }
-    _descriptionLines = cleanLines;
+    _descriptionLines = sanitizeLines(descriptionLines);
   }
 
   /// Gets the description as a single line.

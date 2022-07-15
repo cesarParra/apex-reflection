@@ -114,7 +114,7 @@ void main() {
       /** 
        *
        *
-       * MyClass description 
+       * @description MyClass description 
        *
        *
        */
@@ -134,10 +134,12 @@ void main() {
        */
       class MyClass{}
       ''';
+
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
-      expect(apexWalkerDefinition.getGeneratedApexType()!.docDescription,
-          equals('MyClass description'));
+      String docDescription =
+          apexWalkerDefinition.getGeneratedApexType()!.docDescription!;
+      expect(docDescription, equals('MyClass description'));
     });
 
     test('Doc can be a multi-lined description with inline links', () {
@@ -230,7 +232,9 @@ void main() {
           equals('MyClass description'));
     });
 
-    test('Doc blocked style with description without a tag with a lot of whitespace', () {
+    test(
+        'Doc blocked style with description without a tag with a lot of whitespace',
+        () {
       final apexWalkerDefinition = ApexWalkerDefinition();
       const classBody = '''
       /**********************

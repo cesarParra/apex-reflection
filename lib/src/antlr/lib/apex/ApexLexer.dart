@@ -163,7 +163,7 @@ class ApexLexer extends Lexer {
       "'last_month'", "'this_month'", "'next_month'", "'last_90_days'", 
       "'next_90_days'", "'last_n_days'", "'next_n_days'", "'next_n_weeks'", 
       "'last_n_weeks'", "'next_n_months'", "'last_n_months'", "'this_quarter'", 
-      "'last_quarted'", "'next_quarter'", "'next_n_quarters'", "'last_n_quarters'", 
+      "'last_quarter'", "'next_quarter'", "'next_n_quarters'", "'last_n_quarters'", 
       "'this_year'", "'last_year'", "'next_year'", "'next_n_years'", "'last_n_years'", 
       "'this_fiscal_quarter'", "'last_fiscal_quarter'", "'next_fiscal_quarter'", 
       "'next_n_fiscal_quarters'", "'last_n_fiscal_quarters'", "'this_fiscal_year'", 
@@ -1511,7 +1511,7 @@ class ApexLexer extends Lexer {
   	'\u{7}\u{73}\u{2}\u{2}\u{682}\u{683}\u{7}\u{77}\u{2}\u{2}\u{683}\u{684}'
   	'\u{7}\u{63}\u{2}\u{2}\u{684}\u{685}\u{7}\u{74}\u{2}\u{2}\u{685}\u{686}'
   	'\u{7}\u{76}\u{2}\u{2}\u{686}\u{687}\u{7}\u{67}\u{2}\u{2}\u{687}\u{688}'
-  	'\u{7}\u{66}\u{2}\u{2}\u{688}\u{11C}\u{3}\u{2}\u{2}\u{2}\u{689}\u{68A}'
+  	'\u{7}\u{74}\u{2}\u{2}\u{688}\u{11C}\u{3}\u{2}\u{2}\u{2}\u{689}\u{68A}'
   	'\u{7}\u{70}\u{2}\u{2}\u{68A}\u{68B}\u{7}\u{67}\u{2}\u{2}\u{68B}\u{68C}'
   	'\u{7}\u{7A}\u{2}\u{2}\u{68C}\u{68D}\u{7}\u{76}\u{2}\u{2}\u{68D}\u{68E}'
   	'\u{7}\u{61}\u{2}\u{2}\u{68E}\u{68F}\u{7}\u{73}\u{2}\u{2}\u{68F}\u{690}'

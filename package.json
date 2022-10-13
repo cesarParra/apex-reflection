@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "test": "dart --no-sound-null-safety run test",
+    "test": "dart run test",
     "prepare": "husky install"
   },
   "devDependencies": {

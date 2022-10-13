@@ -14,5 +14,5 @@ dev_dependencies:
     json_serializable: ^4.0.2
     grinder: ^0.9.0
 dependencies:
-    antlr4: ^4.9.3
+    antlr4: 4.9.3
     json_annotation: ^4.0.1

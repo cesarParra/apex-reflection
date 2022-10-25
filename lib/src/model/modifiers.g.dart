@@ -11,7 +11,10 @@ Annotation _$AnnotationFromJson(Map<String, dynamic> json) {
     json['rawDeclaration'] as String,
   )
     ..name = json['name'] as String
-    ..type = _$enumDecode(_$AnnotationTypeEnumMap, json['type']);
+    ..type = _$enumDecode(_$AnnotationTypeEnumMap, json['type'])
+    ..elementValues = (json['elementValues'] as List<dynamic>?)
+        ?.map((e) => AnnotationElementValue.fromJson(e as Map<String, dynamic>))
+        .toList();
 }
 
 Map<String, dynamic> _$AnnotationToJson(Annotation instance) =>
@@ -19,6 +22,7 @@ Map<String, dynamic> _$AnnotationToJson(Annotation instance) =>
       'rawDeclaration': instance.rawDeclaration,
       'name': instance.name,
       'type': _$AnnotationTypeEnumMap[instance.type],
+      'elementValues': instance.elementValues,
     };
 
 K _$enumDecode<K, V>(
@@ -69,3 +73,18 @@ const _$AnnotationTypeEnumMap = {
   AnnotationType.httpPut: 'httpPut',
   AnnotationType.other: 'other',
 };
+
+AnnotationElementValue _$AnnotationElementValueFromJson(
+    Map<String, dynamic> json) {
+  return AnnotationElementValue(
+    json['key'] as String,
+    json['value'] as String,
+  );
+}
+
+Map<String, dynamic> _$AnnotationElementValueToJson(
+        AnnotationElementValue instance) =>
+    <String, dynamic>{
+      'key': instance.key,
+      'value': instance.value,
+    };

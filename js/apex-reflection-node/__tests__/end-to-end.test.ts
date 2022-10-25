@@ -57,7 +57,7 @@ describe('Interface Reflection', () => {
 
   test('Can have a sharing modifier', () => {
     const interfaceBody = 'public with sharing interface MyInterface{}';
-    const result = reflect(interfaceBody) as InterfaceMirror;
+    const result = (reflect(interfaceBody).typeMirror) as InterfaceMirror;
     expect(result.sharingModifier).toBe('withSharing');
   });
 
@@ -67,7 +67,7 @@ describe('Interface Reflection', () => {
         void method1();
       }
     `;
-    const result = reflect(interfaceBody) as InterfaceMirror;
+    const result = (reflect(interfaceBody).typeMirror) as InterfaceMirror;
     expect(result.methods.length).toBe(1);
     expect(result.methods[0].name).toBe('method1');
   });
@@ -78,7 +78,7 @@ describe('Interface Reflection', () => {
         void method1();
       }
     `;
-    const result = reflect(interfaceBody) as InterfaceMirror;
+    const result = (reflect(interfaceBody).typeMirror) as InterfaceMirror;
     expect(result.extended_interfaces.length).toBe(1);
     expect(result.extended_interfaces[0]).toBe('Interface2');
   });
@@ -90,7 +90,7 @@ describe('Interface Reflection', () => {
         void method1();
       }
     `;
-    const result = reflect(interfaceBody) as InterfaceMirror;
+    const result = (reflect(interfaceBody).typeMirror) as InterfaceMirror;
     expect(result.annotations.length).toBe(1);
     expect(result.annotations[0].name).toBe('namespaceaccessible');
   });
@@ -118,25 +118,25 @@ describe('Class reflection', () => {
 
   test('Can have a sharing modifier', () => {
     const classBody = 'public with sharing class MyClass{}';
-    const result = reflect(classBody) as ClassMirror;
+    const result = (reflect(classBody)).typeMirror as ClassMirror;
     expect(result.sharingModifier).toBe('withSharing');
   });
 
   test('Can have a class modifier', () => {
     const classBody = 'public with sharing abstract class MyClass{}';
-    const result = reflect(classBody) as ClassMirror;
+    const result = (reflect(classBody)).typeMirror as ClassMirror;
     expect(result.classModifier).toBe('abstract');
   });
 
   test('Can extend a class', () => {
     const classBody = 'public with sharing class MyClass extends Class2 {}';
-    const result = reflect(classBody) as ClassMirror;
+    const result = (reflect(classBody)).typeMirror as ClassMirror;
     expect(result.extended_class).toBe('Class2');
   });
 
   test('Can implement interfaces', () => {
     const classBody = 'public with sharing class MyClass implements Interface1, Interface2 {}';
-    const result = reflect(classBody) as ClassMirror;
+    const result = (reflect(classBody)).typeMirror as ClassMirror;
     expect(result.implemented_interfaces.length).toBe(2);
     expect(result.implemented_interfaces[0]).toBe('Interface1');
     expect(result.implemented_interfaces[1]).toBe('Interface2');
@@ -149,7 +149,7 @@ describe('Class reflection', () => {
       public Integer Prop2 { get; set; }
     }
     `;
-    const result = reflect(classBody) as ClassMirror;
+    const result = (reflect(classBody)).typeMirror as ClassMirror;
     expect(result.properties.length).toBe(2);
     expect(result.properties[0].type).toBe('String');
     expect(result.properties[0].name).toBe('Prop1');
@@ -163,12 +163,25 @@ describe('Class reflection', () => {
       private String var1, var2;
     }
     `;
-    const result = reflect(classBody) as ClassMirror;
+    const result = (reflect(classBody)).typeMirror as ClassMirror;
     expect(result.fields.length).toBe(2);
     expect(result.fields[0].type).toBe('String');
     expect(result.fields[1].type).toBe('String');
     expect(result.fields[0].name).toBe('var1');
     expect(result.fields[1].name).toBe('var2');
+  });
+
+  test('Can have annotations with parameters', () => {
+    const classBody = `
+    @IsTest(SeeAllData=true)
+    /** Some docs */
+    public with sharing class MyClass {}
+    `;
+    const result = (reflect(classBody)).typeMirror as ClassMirror;
+    expect(result.annotations.length).toBe(1);
+    expect(result.annotations[0].elementValues.length).toBe(1);
+    expect(result.annotations[0].elementValues[0].key).toBe('SeeAllData');
+    expect(result.annotations[0].elementValues[0].value).toBe('true');
   });
 
   test('Can have constructors', () => {
@@ -178,7 +191,7 @@ describe('Class reflection', () => {
       public MyClass(String var1) {}
     }
     `;
-    const result = reflect(classBody) as ClassMirror;
+    const result = (reflect(classBody)).typeMirror as ClassMirror;
     expect(result.constructors.length).toBe(2);
     expect(result.constructors[0].parameters.length).toBe(0);
     expect(result.constructors[0].access_modifier).toBe('public');
@@ -198,7 +211,7 @@ describe('Class reflection', () => {
       private void method2(){}
     }
     `;
-    const result = reflect(classBody) as ClassMirror;
+    const result = (reflect(classBody)).typeMirror as ClassMirror;
     expect(result.methods.length).toBe(2);
     expect(result.methods[0].memberModifiers.length).toBe(1);
     expect(result.methods[0].memberModifiers[0]).toBe('static');
@@ -218,7 +231,7 @@ describe('Class reflection', () => {
       public enum MyEnum {}
     }
     `;
-    const result = reflect(classBody) as ClassMirror;
+    const result = (reflect(classBody)).typeMirror as ClassMirror;
     expect(result.enums.length).toBe(1);
     expect(result.enums[0].access_modifier).toBe('public');
     expect(result.enums[0].name).toBe('MyEnum');
@@ -233,7 +246,7 @@ describe('Class reflection', () => {
       }
     }
     `;
-    const result = reflect(classBody) as ClassMirror;
+    const result = (reflect(classBody)).typeMirror as ClassMirror;
     expect(result.interfaces.length).toBe(1);
     expect(result.interfaces[0].name).toBe('MyInterface');
     expect(result.interfaces[0].methods.length).toBe(2);
@@ -248,7 +261,7 @@ describe('Class reflection', () => {
       }
     }
     `;
-    const result = reflect(classBody) as ClassMirror;
+    const result = (reflect(classBody)).typeMirror as ClassMirror;
     expect(result.classes.length).toBe(1);
     expect(result.classes[0].name).toBe('MyClass');
     expect(result.classes[0].methods.length).toBe(2);

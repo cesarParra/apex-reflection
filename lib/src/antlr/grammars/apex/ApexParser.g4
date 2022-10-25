@@ -249,7 +249,6 @@ elementValueArrayInitializer
     : LBRACE (elementValue (COMMA elementValue)*)? (COMMA)? RBRACE
     ;
 
-
 // STATEMENTS / BLOCKS
 
 block

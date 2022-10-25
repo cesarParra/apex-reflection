@@ -7,6 +7,6 @@ List<dynamic> getAccessModifiers(dynamic ctx) {
   ];
   return modifiersAndAnnotations
       .map((modifierContext) =>
-          getModifierFromStringDeclaration(modifierContext.text))
+          getModifierFromStringDeclaration(modifierContext))
       .toList();
 }

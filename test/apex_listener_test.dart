@@ -1,3 +1,4 @@
+import 'package:apexdocs_dart/src/extension_methods/list_extensions.dart';
 import 'package:apexdocs_dart/src/model/members.dart';
 import 'package:apexdocs_dart/src/model/types.dart';
 import 'package:apexdocs_dart/src/service/case_insensitive_input_stream.dart';
@@ -200,6 +201,34 @@ void main() {
       expect(apexWalkerDefinition.getGeneratedApexType()!.isTest, isTrue);
     });
 
+    test('Supports annotations with multiple parameters', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      Walker.walk(
+          CaseInsensitiveInputStream.fromString(
+              "@InvocableMethod(label='Get Account Names' description='Returns the list of account names corresponding to the specified account IDs.' category='Account') private class MyClass{}"),
+          apexWalkerDefinition);
+      expect(
+          apexWalkerDefinition
+              .getGeneratedApexType()!
+              .annotations
+              .firstWhereOrNull(
+                  (annotation) => annotation.name == 'invocablemethod'),
+          isNotNull);
+
+      final annotation =
+          apexWalkerDefinition.getGeneratedApexType()!.annotations.first;
+      expect(annotation.elementValues, isNotEmpty);
+      expect(
+          annotation.elementValues?.firstWhereOrNull((element) => element.key == 'label'),
+          isNotNull);
+      expect(
+          annotation.elementValues?.firstWhereOrNull((element) => element.key == 'description'),
+          isNotNull);
+      expect(
+          annotation.elementValues?.firstWhereOrNull((element) => element.key == 'category'),
+          isNotNull);
+    });
+
     test('Does not extend any class by default', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
       Walker.walk(
@@ -391,7 +420,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(3));
       expect(generatedClass.fields.any((element) => element.name == 'myVar1'),
           isTrue);
@@ -432,7 +461,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(3));
       expect(generatedClass.fields.any((element) => element.name == 'myVar1'),
           isTrue);
@@ -567,7 +596,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.methods.length, equals(1));
       expect(generatedClass.methods.any((element) => element.name == 'sayHi'),
           isTrue);

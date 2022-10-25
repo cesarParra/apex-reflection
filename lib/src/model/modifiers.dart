@@ -2,12 +2,18 @@ import 'package:apexdocs_dart/src/extension_methods/list_extensions.dart';
 import 'package:apexdocs_dart/src/service/utils/parsing/parsing_utils.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+import '../antlr/lib/apex/ApexParser.dart';
+
 part 'modifiers.g.dart';
 
 enum AccessModifier { private, protected, public, global }
+
 enum SharingModifier { withSharing, withoutSharing, inheritedSharing }
+
 enum ClassModifier { virtual, abstract }
+
 enum MemberModifier { static, webService, isFinal, override, testMethod }
+
 enum AnnotationType {
   auraEnabled,
   deprecated,
@@ -31,8 +37,15 @@ enum AnnotationType {
   other
 }
 
-dynamic getModifierFromStringDeclaration(String modifierDeclaration) {
+dynamic getModifierFromStringDeclaration(dynamic modifierDeclarationContext) {
+  final modifierDeclaration = modifierDeclarationContext.text;
+  if (modifierDeclarationContext is AnnotationContext) {
+    return Annotation.fromAnnotationContext(modifierDeclarationContext);
+  }
+
   if (modifierDeclaration.startsWith('@')) {
+    // It is still possible that, even though the declaration is not an annotation,
+    // that it still starts with @, for example the @NamespaceAccessible
     return Annotation(modifierDeclaration);
   }
 
@@ -68,10 +81,19 @@ class Annotation {
   String rawDeclaration;
   late String name;
   late AnnotationType type;
+  List<AnnotationElementValue>? elementValues = [];
 
   Annotation(this.rawDeclaration) {
     name = _sanitizeDeclaration(rawDeclaration).toLowerCase();
     type = _parseAnnotationTypeFromString(name);
+  }
+
+  factory Annotation.fromAnnotationContext(AnnotationContext ctx) {
+    final annotation = Annotation(ctx.text);
+    annotation.elementValues = ctx.elementValuePairs()?.elementValuePairs().map((valuePair) =>
+        AnnotationElementValue(
+            valuePair.id()!.text, valuePair.elementValue()!.text)).toList() ?? [];
+    return annotation;
   }
 
   factory Annotation.fromJson(Map<String, dynamic> json) =>
@@ -93,6 +115,19 @@ class Annotation {
         (element) => describeEnum(element).toLowerCase() == name,
         orElse: () => AnnotationType.other);
   }
+}
+
+@JsonSerializable()
+class AnnotationElementValue {
+  String key;
+  String value;
+
+  AnnotationElementValue(this.key, this.value);
+
+  factory AnnotationElementValue.fromJson(Map<String, dynamic> json) =>
+      _$AnnotationElementValueFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AnnotationElementValueToJson(this);
 }
 
 mixin AccessModifierAwareness {

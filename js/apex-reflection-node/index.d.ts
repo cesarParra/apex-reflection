@@ -29,10 +29,15 @@ export interface DocComment {
     description: string;
     error?: string;
 }
+export interface AnnotationElementValue {
+    key: string;
+    value: string;
+}
 export interface Annotation {
     rawDeclaration: string;
     name: string;
     type: string;
+    elementValues?: AnnotationElementValue[];
 }
 export interface ParameterMirror {
     memberModifiers: string[];

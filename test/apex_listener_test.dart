@@ -95,6 +95,34 @@ void main() {
           equals('Integration Tests'));
     });
 
+    test('Can have annotations after the docs', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      const classBody = '''
+      /**
+       * @description Account related operations.
+       */
+      @RestResource(urlMapping='/Account/*')
+      private class SampleTestClass {}
+      ''';
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
+
+      expect(apexWalkerDefinition.getGeneratedApexType()!.name,
+          equals('SampleTestClass'));
+      expect(apexWalkerDefinition.getGeneratedApexType()!.rawDocComment,
+          isNotNull);
+      expect(
+          apexWalkerDefinition
+              .getGeneratedApexType()!
+              .annotations
+              .single
+              .name
+              .toLowerCase(),
+          equals('restresource'));
+      expect(apexWalkerDefinition.getGeneratedApexType()!.docDescription,
+          equals('Account related operations.'));
+    });
+
     test('Classes without access modifiers are private by default', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
       Walker.walk(CaseInsensitiveInputStream.fromString('class MyClass{}'),

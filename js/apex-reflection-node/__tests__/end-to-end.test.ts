@@ -184,6 +184,21 @@ describe('Class reflection', () => {
     expect(result.annotations[0].elementValues[0].value).toBe('true');
   });
 
+  test('Can have annotations with parameters after the docs', () => {
+    const classBody = `
+    /**
+     * @description Account related operations.
+     */
+    @RestResource(urlMapping='/Account/*')
+    global with sharing class SampleRestResource {}
+    `;
+    const result = (reflect(classBody)).typeMirror as ClassMirror;
+    expect(result.annotations.length).toBe(1);
+    expect(result.annotations[0].elementValues.length).toBe(1);
+    expect(result.annotations[0].elementValues[0].key).toBe('urlMapping');
+    expect(result.annotations[0].elementValues[0].value).toBe('\'/Account/*\'');
+  });
+
   test('Can have constructors', () => {
     const classBody = `
     public with sharing class MyClass {

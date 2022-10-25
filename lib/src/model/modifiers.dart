@@ -43,10 +43,8 @@ dynamic getModifierFromStringDeclaration(dynamic modifierDeclarationContext) {
     return Annotation.fromAnnotationContext(modifierDeclarationContext);
   }
 
-  if (modifierDeclaration.startsWith('@')) {
-    // It is still possible that, even though the declaration is not an annotation,
-    // that it still starts with @, for example the @NamespaceAccessible
-    return Annotation(modifierDeclaration);
+  if (modifierDeclarationContext is ModifierContext && modifierDeclarationContext.annotation() != null) {
+    return Annotation.fromAnnotationContext(modifierDeclarationContext.annotation()!);
   }
 
   dynamic enumValue = AccessModifier.values.firstWhereOrNull((element) =>

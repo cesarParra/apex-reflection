@@ -441,7 +441,7 @@ expression
     | expression (INC | DEC)                                                                          # postOpExpression
     | (ADD|SUB|INC|DEC) expression                                                                    # preOpExpression
     | (TILDE|BANG) expression                                                                         # negExpression
-    | expression (MUL|DIV|MOD) expression                                                             # arth1Expression
+    | expression (MUL|DIV) expression                                                             # arth1Expression
     | expression (ADD|SUB) expression                                                                 # arth2Expression
     | expression (LT LT | GT GT GT | GT GT) expression                                                # bitExpression
     | expression (GT | LT) ASSIGN? expression                                                         # cmpExpression
@@ -465,7 +465,6 @@ expression
       |   RSHIFT_ASSIGN
       |   URSHIFT_ASSIGN
       |   LSHIFT_ASSIGN
-      |   MOD_ASSIGN
       )
       expression                                                                                     # assignExpression
     ;
@@ -614,12 +613,24 @@ soqlFunction
     | WEEK_IN_MONTH LPAREN dateFieldName RPAREN
     | WEEK_IN_YEAR LPAREN dateFieldName RPAREN
     | FIELDS LPAREN soqlFieldsParameter RPAREN
+    | DISTANCE LPAREN locationValue COMMA locationValue COMMA StringLiteral RPAREN
     ;
 
  dateFieldName
     : CONVERT_TIMEZONE LPAREN fieldName RPAREN
     | fieldName
     ;
+
+ locationValue
+     : fieldName
+     | boundExpression
+     | GEOLOCATION LPAREN coordinateValue COMMA coordinateValue  RPAREN
+     ;
+
+ coordinateValue
+     : signedNumber
+     | boundExpression
+     ;
 
 typeOf
     : TYPEOF fieldName whenClause+ elseClause? END;
@@ -903,6 +914,8 @@ id
     | VIEWSTAT
     | STANDARD
     | CUSTOM
+    | DISTANCE
+    | GEOLOCATION
     // SOQL date functions
     | CALENDAR_MONTH
     | CALENDAR_QUARTER
@@ -1088,6 +1101,8 @@ anyId
     | VIEWSTAT
     | STANDARD
     | CUSTOM
+    | DISTANCE
+    | GEOLOCATION
     // SOQL date functions
     | CALENDAR_MONTH
     | CALENDAR_QUARTER

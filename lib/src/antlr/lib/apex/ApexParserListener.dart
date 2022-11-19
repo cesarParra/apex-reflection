@@ -1052,6 +1052,20 @@ abstract class ApexParserListener extends ParseTreeListener {
   /// [ctx] the parse tree
   void exitDateFieldName(DateFieldNameContext ctx);
 
+  /// Enter a parse tree produced by [ApexParser.locationValue].
+  /// [ctx] the parse tree
+  void enterLocationValue(LocationValueContext ctx);
+  /// Exit a parse tree produced by [ApexParser.locationValue].
+  /// [ctx] the parse tree
+  void exitLocationValue(LocationValueContext ctx);
+
+  /// Enter a parse tree produced by [ApexParser.coordinateValue].
+  /// [ctx] the parse tree
+  void enterCoordinateValue(CoordinateValueContext ctx);
+  /// Exit a parse tree produced by [ApexParser.coordinateValue].
+  /// [ctx] the parse tree
+  void exitCoordinateValue(CoordinateValueContext ctx);
+
   /// Enter a parse tree produced by [ApexParser.typeOf].
   /// [ctx] the parse tree
   void enterTypeOf(TypeOfContext ctx);

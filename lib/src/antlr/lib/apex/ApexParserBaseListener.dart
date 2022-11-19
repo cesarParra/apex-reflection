@@ -1108,6 +1108,22 @@ class ApexParserBaseListener implements ApexParserListener {
 
   /// The default implementation does nothing.
   @override
+  void enterLocationValue(LocationValueContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitLocationValue(LocationValueContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterCoordinateValue(CoordinateValueContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitCoordinateValue(CoordinateValueContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
   void enterTypeOf(TypeOfContext ctx) {}
 
   /// The default implementation does nothing.

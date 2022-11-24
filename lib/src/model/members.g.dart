@@ -88,6 +88,7 @@ const _$MemberModifierEnumMap = {
   MemberModifier.isFinal: 'isFinal',
   MemberModifier.override: 'override',
   MemberModifier.testMethod: 'testMethod',
+  MemberModifier.transient: 'transient',
 };
 
 FieldMirror _$FieldMirrorFromJson(Map<String, dynamic> json) {

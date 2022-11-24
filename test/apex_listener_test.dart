@@ -1,5 +1,6 @@
 import 'package:apexdocs_dart/src/extension_methods/list_extensions.dart';
 import 'package:apexdocs_dart/src/model/members.dart';
+import 'package:apexdocs_dart/src/model/modifiers.dart';
 import 'package:apexdocs_dart/src/model/types.dart';
 import 'package:apexdocs_dart/src/service/case_insensitive_input_stream.dart';
 import 'package:test/test.dart';
@@ -371,6 +372,28 @@ void main() {
           .firstWhere((element) => element.name == 'myVar3');
       expect(field3.isPrivate, isTrue);
       expect(field3.type, equals('Integer'));
+    });
+
+    test('Fields can be transient', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var classBody = '''
+      public class MyClass {
+        transient String myVar1;
+      }
+      ''';
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
+      var generatedClass =
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      expect(generatedClass.fields.length, equals(1));
+      expect(generatedClass.fields.any((element) => element.name == 'myVar1'),
+          isTrue);
+
+      FieldMirror field1 = generatedClass.fields
+          .firstWhere((element) => element.name == 'myVar1');
+      expect(field1.isPrivate, isTrue);
+      expect(field1.memberModifiers, contains(MemberModifier.transient));
+      expect(field1.type, equals('String'));
     });
 
     test('Classes can have fields in groups', () {

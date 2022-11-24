@@ -12,7 +12,7 @@ enum SharingModifier { withSharing, withoutSharing, inheritedSharing }
 
 enum ClassModifier { virtual, abstract }
 
-enum MemberModifier { static, webService, isFinal, override, testMethod }
+enum MemberModifier { static, webService, isFinal, override, testMethod, transient }
 
 enum AnnotationType {
   auraEnabled,

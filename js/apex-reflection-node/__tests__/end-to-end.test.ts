@@ -171,6 +171,19 @@ describe('Class reflection', () => {
     expect(result.fields[1].name).toBe('var2');
   });
 
+  test('Can have transient fields', () => {
+    const classBody = `
+    public with sharing class MyClass {
+      transient String var1;
+    }
+    `;
+    const result = (reflect(classBody)).typeMirror as ClassMirror;
+    expect(result.fields.length).toBe(1);
+    expect(result.fields[0].type).toBe('String');
+    expect(result.fields[0].name).toBe('var1');
+    expect(result.fields[0].memberModifiers).toContain('transient');
+  });
+
   test('Can have annotations with parameters', () => {
     const classBody = `
     @IsTest(SeeAllData=true)

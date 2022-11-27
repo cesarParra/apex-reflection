@@ -892,6 +892,14 @@ class ApexParserBaseListener implements ApexParserListener {
 
   /// The default implementation does nothing.
   @override
+  void enterVoidPrimary(VoidPrimaryContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitVoidPrimary(VoidPrimaryContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
   void enterIdPrimary(IdPrimaryContext ctx) {}
 
   /// The default implementation does nothing.

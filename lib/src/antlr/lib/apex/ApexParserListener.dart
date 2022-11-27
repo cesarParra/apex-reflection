@@ -857,6 +857,15 @@ abstract class ApexParserListener extends ParseTreeListener {
   /// [ctx] the parse tree
   void exitTypeRefPrimary(TypeRefPrimaryContext ctx);
 
+  /// Enter a parse tree produced by the [voidPrimary]
+  /// labeled alternative in [file.parserName>.primary].
+  /// [ctx] the parse tree
+  void enterVoidPrimary(VoidPrimaryContext ctx);
+  /// Exit a parse tree produced by the [voidPrimary]
+  /// labeled alternative in [ApexParser.primary].
+  /// [ctx] the parse tree
+  void exitVoidPrimary(VoidPrimaryContext ctx);
+
   /// Enter a parse tree produced by the [idPrimary]
   /// labeled alternative in [file.parserName>.primary].
   /// [ctx] the parse tree

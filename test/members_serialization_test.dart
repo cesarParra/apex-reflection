@@ -1,13 +1,15 @@
 import 'dart:convert';
 
 import 'package:apexdocs_dart/src/model/modifiers.dart';
+import 'package:apexdocs_dart/src/model/type_references.dart';
 import 'package:test/test.dart';
 import 'package:apexdocs_dart/src/model/members.dart';
 
 void main() {
   group('Property serialization', () {
     test('Properties can be serialized', () {
-      final property = PropertyMirror(name: 'PropName', type: 'String')
+      final property = PropertyMirror(
+          name: 'PropName', typeReference: ReferenceObjectType('String'))
         ..rawDocComment = '/** My property description */'
         ..accessModifier = AccessModifier.public
         ..annotations = [Annotation('@NamespaceAccessible')];
@@ -23,7 +25,7 @@ void main() {
       final propertyAsJson = '''
       {
         "name": "PropName",
-        "type": "String",
+        "typeReference": {"type": "String"},
         "memberModifiers": [],
         "access_modifier": "public",
         "annotations": [{
@@ -44,7 +46,7 @@ void main() {
 
   group('Field serialization', () {
     test('Fields can be serialized', () {
-      var field = FieldMirror(name: 'FieldName', type: 'String')
+      var field = FieldMirror(name: 'FieldName', typeReference: ReferenceObjectType('String'))
         ..annotations = [Annotation('@NamespaceAccessible')]
         ..accessModifier = AccessModifier.public;
 
@@ -67,7 +69,7 @@ void main() {
         ],
         "name": "FieldName",
         "memberModifiers": [],
-        "type": "String"
+        "typeReference": {"type": "String"}
       }
       ''';
 
@@ -81,7 +83,7 @@ void main() {
 
   group('Method serialization', () {
     test('Methods can be serialized', () {
-      var method = MethodMirror(name: 'MethodName', type: 'String')
+      var method = MethodMirror(name: 'MethodName', typeReference: ReferenceObjectType('String'))
         ..annotations = [Annotation('@NamespaceAccessible')]
         ..accessModifier = AccessModifier.public;
       method.addParameter(ParameterMirror(name: 'Param1', type: 'String'));
@@ -105,7 +107,7 @@ void main() {
         ],
         "name": "MethodName",
         "memberModifiers": [],
-        "type": "String",
+        "typeReference": {"type": "String"},
         "parameters": [
           {
             "name": "Param1",

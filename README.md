@@ -69,8 +69,14 @@ helps automatically create the round-trip code for serialization and de-serializ
 
 When changing any of the model classes with serialization support, to re-build the serialization code run
 
-```
+```shell
 dart run build_runner build
+```
+
+To keep the runner live by watching any modifications to files, run
+
+```shell
+dart run build_runner watch
 ```
 
 ### Parsing
@@ -79,13 +85,13 @@ dart run build_runner build
 
 The parsing algorithm relies on using ANTLR4 and its Dart target. To generate the Antlr4 **Apex** output run:
 
-```
+```shell
 java org.antlr.v4.Tool -Dlanguage=Dart lib/src/antlr/grammars/apex/ApexLexer.g4 lib/src/antlr/grammars/apex/ApexParser.g4 -o lib/src/antlr/lib/apex/
 ```
 
 To generate the Antlr4 **Apexdoc** output run:
 
-```
+```shell
 antlr4 -Dlanguage=Dart lib/src/antlr/grammars/apexdoc/ApexdocLexer.g4 lib/src/antlr/grammars/apexdoc/ApexdocParser.g4 -o lib/src/antlr/lib/apexdoc/
 ```
 

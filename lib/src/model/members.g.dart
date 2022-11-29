@@ -9,7 +9,8 @@ part of 'members.dart';
 PropertyMirror _$PropertyMirrorFromJson(Map<String, dynamic> json) {
   return PropertyMirror(
     name: json['name'] as String,
-    type: json['type'] as String,
+    typeReference:
+        objectTypeFromJson(json['typeReference'] as Map<String, dynamic>?),
   )
     ..docComment = json['docComment'] == null
         ? null
@@ -35,7 +36,7 @@ Map<String, dynamic> _$PropertyMirrorToJson(PropertyMirror instance) =>
       'memberModifiers': instance.memberModifiers
           .map((e) => _$MemberModifierEnumMap[e])
           .toList(),
-      'type': instance.type,
+      'typeReference': objectTypeToJson(instance.typeReference),
     };
 
 K _$enumDecode<K, V>(
@@ -94,7 +95,8 @@ const _$MemberModifierEnumMap = {
 FieldMirror _$FieldMirrorFromJson(Map<String, dynamic> json) {
   return FieldMirror(
     name: json['name'] as String,
-    type: json['type'] as String,
+    typeReference:
+        objectTypeFromJson(json['typeReference'] as Map<String, dynamic>?),
   )
     ..docComment = json['docComment'] == null
         ? null
@@ -120,13 +122,14 @@ Map<String, dynamic> _$FieldMirrorToJson(FieldMirror instance) =>
       'memberModifiers': instance.memberModifiers
           .map((e) => _$MemberModifierEnumMap[e])
           .toList(),
-      'type': instance.type,
+      'typeReference': objectTypeToJson(instance.typeReference),
     };
 
 MethodMirror _$MethodMirrorFromJson(Map<String, dynamic> json) {
   return MethodMirror(
     name: json['name'] as String,
-    type: json['type'] as String,
+    typeReference:
+        objectTypeFromJson(json['typeReference'] as Map<String, dynamic>?),
   )
     ..docComment = json['docComment'] == null
         ? null
@@ -155,7 +158,7 @@ Map<String, dynamic> _$MethodMirrorToJson(MethodMirror instance) =>
       'memberModifiers': instance.memberModifiers
           .map((e) => _$MemberModifierEnumMap[e])
           .toList(),
-      'type': instance.type,
+      'typeReference': objectTypeToJson(instance.typeReference),
       'parameters': instance.parameters,
     };
 

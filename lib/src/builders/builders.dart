@@ -5,6 +5,8 @@ import 'package:apexdocs_dart/src/model/types.dart';
 import 'package:apexdocs_dart/src/service/apex_listener.dart';
 import 'package:apexdocs_dart/src/service/utils/parsing/parsing_utils.dart';
 
+import '../model/type_references.dart';
+
 // Types
 
 ClassMirror buildClass(
@@ -54,10 +56,11 @@ EnumMirror buildEnum(
 PropertyMirror buildProperty(
     DeclarationDescriptor descriptor, PropertyDeclarationContext ctx) {
   final propertyName = ctx.id()!.text;
-  final type = ctx.typeRef()!.text;
 
   return PropertyMirror(
-      name: propertyName, rawDocComment: descriptor.docComment, type: type)
+      name: propertyName,
+      rawDocComment: descriptor.docComment,
+      typeReference: ObjectTypeReference(ctx.typeRef()!))
     ..accessModifier = descriptor.accessModifier
     ..annotations = descriptor.annotations
     ..memberModifiers = descriptor.memberModifiers;
@@ -65,13 +68,14 @@ PropertyMirror buildProperty(
 
 List<FieldMirror> buildFields(
     DeclarationDescriptor descriptor, FieldDeclarationContext ctx) {
-  final typeName = ctx.typeRef()!.text;
   final fieldNames =
       ctx.variableDeclarators()!.variableDeclarators().map((e) => e.id()!.text);
 
   return fieldNames
       .map((e) => FieldMirror(
-          name: e, rawDocComment: descriptor.docComment, type: typeName)
+          name: e,
+          rawDocComment: descriptor.docComment,
+          typeReference: ObjectTypeReference(ctx.typeRef()!))
         ..accessModifier = descriptor.accessModifier
         ..annotations = descriptor.annotations
         ..memberModifiers = descriptor.memberModifiers)
@@ -81,12 +85,13 @@ List<FieldMirror> buildFields(
 MethodMirror buildMethod(
     DeclarationDescriptor descriptor, MethodDeclarationContext ctx) {
   final methodName = ctx.id()!.text;
-  final typeName = ctx.typeRef() != null ? ctx.typeRef()!.text : 'void';
 
   List<ParameterMirror>? parameters = parseParameters(ctx);
 
   return MethodMirror(
-      name: methodName, rawDocComment: descriptor.docComment, type: typeName)
+      name: methodName,
+      rawDocComment: descriptor.docComment,
+      typeReference: ObjectTypeReference(ctx.typeRef()))
     ..parameters = parameters ?? []
     ..accessModifier = descriptor.accessModifier
     ..annotations = descriptor.annotations
@@ -97,12 +102,13 @@ MethodMirror buildInterfaceMethod(InterfaceMethodDeclarationContext ctx,
     AccessModifier? parentAccessModifier, List<Annotation> parentAnnotations) {
   final docComment = ctx.DOC_COMMENT()?.text;
   final methodName = ctx.id()!.text;
-  final typeName = ctx.typeRef() != null ? ctx.typeRef()!.text : 'void';
 
   List<ParameterMirror>? parameters = parseParameters(ctx);
 
   return MethodMirror(
-      name: methodName, rawDocComment: docComment, type: typeName)
+      name: methodName,
+      rawDocComment: docComment,
+      typeReference: ObjectTypeReference(ctx.typeRef()))
     ..parameters = parameters ?? []
     ..accessModifier = parentAccessModifier
     ..annotations = parentAnnotations;

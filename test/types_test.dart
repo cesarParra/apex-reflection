@@ -1,5 +1,6 @@
 import 'package:apexdocs_dart/src/model/members.dart';
 import 'package:apexdocs_dart/src/model/modifiers.dart';
+import 'package:apexdocs_dart/src/model/type_references.dart';
 import 'package:test/test.dart';
 
 import 'package:apexdocs_dart/src/model/types.dart';
@@ -111,8 +112,10 @@ void main() {
 
     test('Can have a list of properties', () {
       var classModel = ClassMirror(name: 'AnyName');
-      var property1 = PropertyMirror(name: 'Prop1', type: 'String');
-      var property2 = PropertyMirror(name: 'Prop2', type: 'String');
+      var property1 = PropertyMirror(
+          name: 'Prop1', typeReference: ReferenceObjectType('String'));
+      var property2 = PropertyMirror(
+          name: 'Prop2', typeReference: ReferenceObjectType('String'));
 
       classModel.addProperty(property1);
       classModel.addProperty(property2);
@@ -129,8 +132,10 @@ void main() {
 
     test('Can have a list of fields', () {
       var classModel = ClassMirror(name: 'AnyName');
-      var field1 = FieldMirror(name: 'Field1', type: 'String');
-      var field2 = FieldMirror(name: 'Field2', type: 'String');
+      var field1 = FieldMirror(
+          name: 'Field1', typeReference: ReferenceObjectType('String'));
+      var field2 = FieldMirror(
+          name: 'Field2', typeReference: ReferenceObjectType('String'));
 
       classModel.addField(field1);
       classModel.addField(field2);
@@ -142,8 +147,10 @@ void main() {
 
     test('Can have a list of methods', () {
       var classModel = ClassMirror(name: 'AnyName');
-      var method1 = MethodMirror(name: 'method1', type: 'String');
-      var method2 = MethodMirror(name: 'method2', type: 'String');
+      var method1 = MethodMirror(
+          name: 'method1', typeReference: ReferenceObjectType('String'));
+      var method2 = MethodMirror(
+          name: 'method2', typeReference: ReferenceObjectType('String'));
 
       classModel.addMethod(method1);
       classModel.addMethod(method2);
@@ -292,8 +299,10 @@ void main() {
 
     test('Can have a list of methods', () {
       var interfaceModel = InterfaceMirror(name: 'AnyName');
-      var method1 = MethodMirror(name: 'method1', type: 'String');
-      var method2 = MethodMirror(name: 'method2', type: 'String');
+      var method1 = MethodMirror(
+          name: 'method1', typeReference: ReferenceObjectType('String'));
+      var method2 = MethodMirror(
+          name: 'method2', typeReference: ReferenceObjectType('String'));
 
       interfaceModel.addMethod(method1);
       interfaceModel.addMethod(method2);

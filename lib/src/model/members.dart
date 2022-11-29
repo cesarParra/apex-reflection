@@ -15,25 +15,29 @@ abstract class MemberMirror extends DeclarationMirror
   @JsonKey(fromJson: objectTypeFromJson, toJson: objectTypeToJson)
   final ObjectTypeReference typeReference;
 
-  MemberMirror(
-      {required String name,
-      String? rawDocComment,
-      required this.typeReference})
-      : type = typeReference.type,
-        super(name: name, rawDocComment: rawDocComment);
+  MemberMirror({
+    required String name,
+    String? rawDocComment,
+    required this.typeReference,
+  })  : type = typeReference.type,
+        super(
+          name: name,
+          rawDocComment: rawDocComment,
+        );
 }
 
 /// Represents a property declaration.
 @JsonSerializable()
 class PropertyMirror extends MemberMirror {
-  PropertyMirror(
-      {required String name,
-      String? rawDocComment,
-      required ObjectTypeReference typeReference})
-      : super(
-            name: name,
-            rawDocComment: rawDocComment,
-            typeReference: typeReference);
+  PropertyMirror({
+    required String name,
+    String? rawDocComment,
+    required ObjectTypeReference typeReference,
+  }) : super(
+          name: name,
+          rawDocComment: rawDocComment,
+          typeReference: typeReference,
+        );
 
   factory PropertyMirror.fromJson(Map<String, dynamic> json) =>
       _$PropertyMirrorFromJson(json);
@@ -44,14 +48,15 @@ class PropertyMirror extends MemberMirror {
 /// Represents a field declaration.
 @JsonSerializable()
 class FieldMirror extends MemberMirror {
-  FieldMirror(
-      {required String name,
-      String? rawDocComment,
-      required ObjectTypeReference typeReference})
-      : super(
-            name: name,
-            rawDocComment: rawDocComment,
-            typeReference: typeReference);
+  FieldMirror({
+    required String name,
+    String? rawDocComment,
+    required ObjectTypeReference typeReference,
+  }) : super(
+          name: name,
+          rawDocComment: rawDocComment,
+          typeReference: typeReference,
+        );
 
   factory FieldMirror.fromJson(Map<String, dynamic> json) =>
       _$FieldMirrorFromJson(json);
@@ -86,9 +91,10 @@ class MethodMirror extends MemberMirror with ParameterAwareness {
     String? rawDocComment,
     ObjectTypeReference? typeReference,
   }) : super(
-            name: name,
-            rawDocComment: rawDocComment,
-            typeReference: typeReference ?? ReferenceObjectType('void'));
+          name: name,
+          rawDocComment: rawDocComment,
+          typeReference: typeReference ?? ReferenceObjectType('void'),
+        );
 
   factory MethodMirror.fromJson(Map<String, dynamic> json) =>
       _$MethodMirrorFromJson(json);
@@ -107,7 +113,10 @@ class ParameterMirror with MemberModifiersAwareness {
   String name;
   String type;
 
-  ParameterMirror({required this.name, required this.type});
+  ParameterMirror({
+    required this.name,
+    required this.type,
+  });
 
   factory ParameterMirror.fromJson(Map<String, dynamic> json) =>
       _$ParameterMirrorFromJson(json);

@@ -3,7 +3,6 @@ import '../antlr/lib/apex/ApexParser.dart';
 
 part 'type_references.g.dart';
 
-// TODO: Unit/integration tests
 // TODO: Update the MemberMirror Typescript type to add the different types of
 // ObjectTypeReference that are possible
 abstract class ObjectTypeReference {
@@ -28,7 +27,7 @@ abstract class ObjectTypeReference {
           .typeName(0)!
           .typeArguments()!
           .typeList()!
-          .typeRefs()[0]!;
+          .typeRef(0)!;
       return ListObjectType(ObjectTypeReference(childTypeRefContext));
     }
     if (typeRefContext.typeName(0)!.SET() != null) {
@@ -37,7 +36,7 @@ abstract class ObjectTypeReference {
           .typeName(0)!
           .typeArguments()!
           .typeList()!
-          .typeRefs()[0]!;
+          .typeRef(0)!;
       return SetObjectType(ObjectTypeReference(childTypeRefContext));
     }
     if (typeRefContext.typeName(0)!.MAP() != null) {
@@ -46,12 +45,12 @@ abstract class ObjectTypeReference {
           .typeName(0)!
           .typeArguments()!
           .typeList()!
-          .typeRefs()[0]!;
+          .typeRef(0)!;
       final valueTypeRefContext = typeRefContext
           .typeName(0)!
           .typeArguments()!
           .typeList()!
-          .typeRefs()[1]!;
+          .typeRef(1)!;
       return MapObjectType(ObjectTypeReference(keyTypeRefContext),
           ObjectTypeReference(valueTypeRefContext));
     }
@@ -69,6 +68,7 @@ ObjectTypeReference objectTypeFromJson(
   }
   final String type = json['type'];
   switch (type) {
+    // TODO: Arrays
     case 'List':
       return ListObjectType.fromJson(json);
     case 'Set':

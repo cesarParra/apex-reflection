@@ -25,7 +25,7 @@ void main() {
       final propertyAsJson = '''
       {
         "name": "PropName",
-        "typeReference": {"type": "String"},
+        "typeReference": {"type": "String", "rawDeclaration": "String"},
         "memberModifiers": [],
         "access_modifier": "public",
         "annotations": [{
@@ -46,7 +46,8 @@ void main() {
 
   group('Field serialization', () {
     test('Fields can be serialized', () {
-      var field = FieldMirror(name: 'FieldName', typeReference: ReferenceObjectType('String'))
+      var field = FieldMirror(
+          name: 'FieldName', typeReference: ReferenceObjectType('String'))
         ..annotations = [Annotation('@NamespaceAccessible')]
         ..accessModifier = AccessModifier.public;
 
@@ -69,7 +70,7 @@ void main() {
         ],
         "name": "FieldName",
         "memberModifiers": [],
-        "typeReference": {"type": "String"}
+        "typeReference": {"type": "String", "rawDeclaration": "String"}
       }
       ''';
 
@@ -83,10 +84,12 @@ void main() {
 
   group('Method serialization', () {
     test('Methods can be serialized', () {
-      var method = MethodMirror(name: 'MethodName', typeReference: ReferenceObjectType('String'))
+      var method = MethodMirror(
+          name: 'MethodName', typeReference: ReferenceObjectType('String'))
         ..annotations = [Annotation('@NamespaceAccessible')]
         ..accessModifier = AccessModifier.public;
-      method.addParameter(ParameterMirror(name: 'Param1', type: 'String'));
+      method.addParameter(ParameterMirror(
+          name: 'Param1', typeReference: ReferenceObjectType('String')));
 
       String encodedMethod = jsonEncode(method);
       expect(encodedMethod, isNotNull);
@@ -107,12 +110,13 @@ void main() {
         ],
         "name": "MethodName",
         "memberModifiers": [],
-        "typeReference": {"type": "String"},
+        "typeReference": {"type": "String", "rawDeclaration": "String"},
         "parameters": [
           {
             "name": "Param1",
             "memberModifiers": [],
-            "type": "String"
+            "type": "String",
+            "typeReference": {"type": "String", "rawDeclaration": "String"}
           }
         ]
       }
@@ -130,7 +134,8 @@ void main() {
 
   group('Parameter serialization', () {
     test('Parameters can be serialized', () {
-      var parameter = ParameterMirror(name: 'ParameterName', type: 'String');
+      var parameter = ParameterMirror(
+          name: 'ParameterName', typeReference: ReferenceObjectType('String'));
 
       String encodedParameter = jsonEncode(parameter);
       expect(encodedParameter, isNotNull);
@@ -144,7 +149,8 @@ void main() {
       {
         "memberModifiers": [],
         "name": "ParameterName",
-        "type": "String"
+        "type": "String",
+        "typeReference":{"type":"String","rawDeclaration":"String"}
       }
       ''';
 
@@ -159,7 +165,8 @@ void main() {
       var constructor = ConstructorMirror()
         ..annotations = [Annotation('@NamespaceAccessible')]
         ..accessModifier = AccessModifier.public;
-      constructor.addParameter(ParameterMirror(name: 'Param1', type: 'String'));
+      constructor.addParameter(ParameterMirror(
+          name: 'Param1', typeReference: ReferenceObjectType('String')));
 
       String encodedConstructor = jsonEncode(constructor);
       expect(encodedConstructor, isNotNull);
@@ -184,7 +191,8 @@ void main() {
           {
             "memberModifiers": [],
             "name": "Param1",
-            "type": "String"
+            "type": "String",
+            "typeReference":{"type":"String","rawDeclaration":"String"}
           }
         ]
       }

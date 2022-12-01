@@ -19,7 +19,7 @@ abstract class MemberMirror extends DeclarationMirror
     required String name,
     String? rawDocComment,
     required this.typeReference,
-  })  : type = typeReference.type,
+  })  : type = typeReference.rawDeclaration,
         super(
           name: name,
           rawDocComment: rawDocComment,
@@ -112,11 +112,13 @@ class ParameterMirror with MemberModifiersAwareness {
 
   String name;
   String type;
+  @JsonKey(fromJson: objectTypeFromJson, toJson: objectTypeToJson)
+  final ObjectTypeReference typeReference;
 
   ParameterMirror({
     required this.name,
-    required this.type,
-  });
+    required this.typeReference,
+  }): type = typeReference.rawDeclaration;
 
   factory ParameterMirror.fromJson(Map<String, dynamic> json) =>
       _$ParameterMirrorFromJson(json);

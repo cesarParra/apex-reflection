@@ -74,6 +74,7 @@ main() {
       final typeArgumentContext = MockTypeArgumentContext();
       final typeListContext = MockTypeListContext();
 
+      when(() => listTypeRefContext.text).thenReturn('List<String>');
       when(() => listTypeRefContext.typeName(0)).thenReturn(typeNameContext);
       when(() => typeNameContext.LIST()).thenReturn(MockTerminalNode());
       when(() => typeNameContext.typeArguments())
@@ -98,6 +99,7 @@ main() {
       final typeArgumentContext = MockTypeArgumentContext();
       final typeListContext = MockTypeListContext();
 
+      when(() => setTypeRefContext.text).thenReturn('Set<String>');
       when(() => setTypeRefContext.typeName(0)).thenReturn(typeNameContext);
       when(() => typeNameContext.SET()).thenReturn(MockTerminalNode());
       when(() => typeNameContext.typeArguments())
@@ -122,6 +124,7 @@ main() {
       final typeArgumentContext = MockTypeArgumentContext();
       final typeListContext = MockTypeListContext();
 
+      when(() => setTypeRefContext.text).thenReturn('Map<String, String>');
       when(() => setTypeRefContext.typeName(0)).thenReturn(typeNameContext);
       when(() => typeNameContext.MAP()).thenReturn(MockTerminalNode());
       when(() => typeNameContext.typeArguments())

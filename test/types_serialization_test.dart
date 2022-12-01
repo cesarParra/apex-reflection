@@ -38,7 +38,8 @@ void main() {
       ''';
       classModel.addMethod(MethodMirror(
           name: 'doSomething', rawDocComment: methodDocComment.trim())
-        ..addParameter(ParameterMirror(name: 'param1', type: 'String')
+        ..addParameter(ParameterMirror(
+            name: 'param1', typeReference: ReferenceObjectType('String'))
           ..memberModifiers = [MemberModifier.isFinal]));
       classModel.addField(FieldMirror(
           name: 'var1', typeReference: ReferenceObjectType('String')));
@@ -66,6 +67,7 @@ void main() {
           "name": "doSomething",
           "memberModifiers": [],
           "type": "void",
+          "typeReference": {"type": "void", "rawDeclaration": "void"},
           "parameters": []
         }
       ],
@@ -80,7 +82,8 @@ void main() {
           "annotations": [],
           "name": "Prop1",
           "memberModifiers": [],
-          "type": "String"
+          "type": "String",
+          "typeReference": {"type": "String", "rawDeclaration": "String"}
         }
       ],
       "fields": [
@@ -88,7 +91,8 @@ void main() {
           "annotations": [],
           "name": "var1",
           "memberModifiers": [],
-          "type": "String"
+          "type": "String",
+          "typeReference": {"type": "String", "rawDeclaration": "String"}
         }
       ],
       "constructors": [
@@ -188,6 +192,7 @@ void main() {
             "name": "doSomething",
             "memberModifiers": [],
             "type": "void",
+            "typeReference": {"type": "void", "rawDeclaration": "void"},
             "parameters": []
           }
         ],

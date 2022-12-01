@@ -165,10 +165,13 @@ Map<String, dynamic> _$MethodMirrorToJson(MethodMirror instance) =>
 ParameterMirror _$ParameterMirrorFromJson(Map<String, dynamic> json) {
   return ParameterMirror(
     name: json['name'] as String,
-    type: json['type'] as String,
-  )..memberModifiers = (json['memberModifiers'] as List<dynamic>)
-      .map((e) => _$enumDecode(_$MemberModifierEnumMap, e))
-      .toList();
+    typeReference:
+        objectTypeFromJson(json['typeReference'] as Map<String, dynamic>?),
+  )
+    ..memberModifiers = (json['memberModifiers'] as List<dynamic>)
+        .map((e) => _$enumDecode(_$MemberModifierEnumMap, e))
+        .toList()
+    ..type = json['type'] as String;
 }
 
 Map<String, dynamic> _$ParameterMirrorToJson(ParameterMirror instance) =>
@@ -178,6 +181,7 @@ Map<String, dynamic> _$ParameterMirrorToJson(ParameterMirror instance) =>
           .toList(),
       'name': instance.name,
       'type': instance.type,
+      'typeReference': objectTypeToJson(instance.typeReference),
     };
 
 ConstructorMirror _$ConstructorMirrorFromJson(Map<String, dynamic> json) {

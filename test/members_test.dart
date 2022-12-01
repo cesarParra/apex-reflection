@@ -155,7 +155,8 @@ void main() {
 
     test('Can receive parameters', () {
       var method = MethodMirror(name: 'myMethod');
-      var parameter = ParameterMirror(name: 'Param', type: 'String');
+      var parameter = ParameterMirror(
+          name: 'Param', typeReference: ReferenceObjectType('String'));
       method.addParameter(parameter);
       expect(method.parameters.length, equals(1));
       expect(method.parameters.first, equals(parameter));
@@ -164,12 +165,14 @@ void main() {
 
   group('Parameter tests', () {
     test('Parameters have a name', () {
-      var parameter = ParameterMirror(name: 'Param', type: 'String');
+      var parameter = ParameterMirror(
+          name: 'Param', typeReference: ReferenceObjectType('String'));
       expect(parameter.name, 'Param');
     });
 
     test('Parameters have a type', () {
-      var parameter = ParameterMirror(name: 'Param', type: 'String');
+      var parameter = ParameterMirror(
+          name: 'Param', typeReference: ReferenceObjectType('String'));
       expect(parameter.type, 'String');
     });
   });
@@ -205,7 +208,8 @@ void main() {
 
     test('Can receive parameters', () {
       var constructor = ConstructorMirror();
-      var parameter = ParameterMirror(name: 'Param', type: 'String');
+      var parameter = ParameterMirror(
+          name: 'Param', typeReference: ReferenceObjectType('String'));
       constructor.addParameter(parameter);
       expect(constructor.parameters.length, equals(1));
       expect(constructor.parameters.first, equals(parameter));

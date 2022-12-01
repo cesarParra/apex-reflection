@@ -7,6 +7,7 @@ part 'type_references.g.dart';
 // ObjectTypeReference that are possible
 abstract class ObjectTypeReference {
   late String type;
+  late String rawDeclaration;
 
   Map<String, dynamic> toJson();
 
@@ -16,43 +17,43 @@ abstract class ObjectTypeReference {
       return ReferenceObjectType('void');
     }
 
-    final hasArrays = typeRefContext.arraySubscripts() == null ? false : typeRefContext.arraySubscripts()!.text.isNotEmpty;
+    final hasArrays = typeRefContext.arraySubscripts() == null
+        ? false
+        : typeRefContext.arraySubscripts()!.text.isNotEmpty;
     if (hasArrays) {
-      // TODO: Implement array support
-      throw UnimplementedError('Not implemented');
+      // If the type is an array (has [] at the end), we treat received
+      // TypeRefContext as a list
+      // This removes the first 2 characters: '[' and ']'
+      typeRefContext.arraySubscripts()!.children!.removeRange(0, 2);
+
+      return ListObjectType(
+          ObjectTypeReference(typeRefContext), typeRefContext.text);
     }
     if (typeRefContext.typeName(0)!.LIST() != null) {
       // In Apex a list can have at MOST one type argument
-      final childTypeRefContext = typeRefContext
-          .typeName(0)!
-          .typeArguments()!
-          .typeList()!
-          .typeRef(0)!;
-      return ListObjectType(ObjectTypeReference(childTypeRefContext));
+      final childTypeRefContext =
+          typeRefContext.typeName(0)!.typeArguments()!.typeList()!.typeRef(0)!;
+      return ListObjectType(
+          ObjectTypeReference(childTypeRefContext), typeRefContext.text);
     }
     if (typeRefContext.typeName(0)!.SET() != null) {
       // In Apex a list can have at MOST one type argument
-      final childTypeRefContext = typeRefContext
-          .typeName(0)!
-          .typeArguments()!
-          .typeList()!
-          .typeRef(0)!;
-      return SetObjectType(ObjectTypeReference(childTypeRefContext));
+      final childTypeRefContext =
+          typeRefContext.typeName(0)!.typeArguments()!.typeList()!.typeRef(0)!;
+      return SetObjectType(
+          ObjectTypeReference(childTypeRefContext), typeRefContext.text);
     }
     if (typeRefContext.typeName(0)!.MAP() != null) {
       // In Apex a list can have at MOST two type arguments (key and value)
-      final keyTypeRefContext = typeRefContext
-          .typeName(0)!
-          .typeArguments()!
-          .typeList()!
-          .typeRef(0)!;
-      final valueTypeRefContext = typeRefContext
-          .typeName(0)!
-          .typeArguments()!
-          .typeList()!
-          .typeRef(1)!;
-      return MapObjectType(ObjectTypeReference(keyTypeRefContext),
-          ObjectTypeReference(valueTypeRefContext));
+      final keyTypeRefContext =
+          typeRefContext.typeName(0)!.typeArguments()!.typeList()!.typeRef(0)!;
+      final valueTypeRefContext =
+          typeRefContext.typeName(0)!.typeArguments()!.typeList()!.typeRef(1)!;
+      return MapObjectType(
+        ObjectTypeReference(keyTypeRefContext),
+        ObjectTypeReference(valueTypeRefContext),
+        typeRefContext.text,
+      );
     }
 
     // If we got to this point that means we are dealing with a regular (non-collection)
@@ -61,14 +62,12 @@ abstract class ObjectTypeReference {
   }
 }
 
-ObjectTypeReference objectTypeFromJson(
-    Map<String, dynamic>? json) {
+ObjectTypeReference objectTypeFromJson(Map<String, dynamic>? json) {
   if (json == null) {
     return ReferenceObjectType.fromJson({"type": ""});
   }
   final String type = json['type'];
   switch (type) {
-    // TODO: Arrays
     case 'List':
       return ListObjectType.fromJson(json);
     case 'Set':
@@ -89,7 +88,10 @@ class ReferenceObjectType implements ObjectTypeReference {
   @override
   late String type;
 
-  ReferenceObjectType(this.type);
+  @override
+  late String rawDeclaration;
+
+  ReferenceObjectType(this.type) : rawDeclaration = type;
 
   factory ReferenceObjectType.fromJson(Map<String, dynamic> json) =>
       _$ReferenceObjectTypeFromJson(json);
@@ -103,10 +105,13 @@ class ListObjectType implements ObjectTypeReference {
   @override
   late String type;
 
+  @override
+  late String rawDeclaration;
+
   @JsonKey(fromJson: objectTypeFromJson, toJson: objectTypeToJson)
   final ObjectTypeReference ofType;
 
-  ListObjectType(this.ofType) : type = 'List';
+  ListObjectType(this.ofType, this.rawDeclaration) : type = 'List';
 
   factory ListObjectType.fromJson(Map<String, dynamic> json) =>
       _$ListObjectTypeFromJson(json);
@@ -120,12 +125,16 @@ class MapObjectType implements ObjectTypeReference {
   @override
   late String type;
 
+  @override
+  late String rawDeclaration;
+
   @JsonKey(fromJson: objectTypeFromJson, toJson: objectTypeToJson)
   final ObjectTypeReference keyType;
   @JsonKey(fromJson: objectTypeFromJson, toJson: objectTypeToJson)
   final ObjectTypeReference valueType;
 
-  MapObjectType(this.keyType, this.valueType) : type = 'Map';
+  MapObjectType(this.keyType, this.valueType, this.rawDeclaration)
+      : type = 'Map';
 
   factory MapObjectType.fromJson(Map<String, dynamic> json) =>
       _$MapObjectTypeFromJson(json);
@@ -139,10 +148,13 @@ class SetObjectType implements ObjectTypeReference {
   @override
   late String type;
 
+  @override
+  late String rawDeclaration;
+
   @JsonKey(fromJson: objectTypeFromJson, toJson: objectTypeToJson)
   final ObjectTypeReference ofType;
 
-  SetObjectType(this.ofType) : type = 'Set';
+  SetObjectType(this.ofType, this.rawDeclaration) : type = 'Set';
 
   factory SetObjectType.fromJson(Map<String, dynamic> json) =>
       _$SetObjectTypeFromJson(json);

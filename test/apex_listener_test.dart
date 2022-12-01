@@ -284,7 +284,7 @@ void main() {
       var classBody = '''
       public class MyClass {
         @NamespaceAccessible public String MyProperty1 { get; set; }
-        private Integer MyProperty2 { get; set; }
+        private List<Integer> MyProperty2 { get; set; }
       }
       ''';
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
@@ -310,7 +310,7 @@ void main() {
       PropertyMirror property2 = generatedClass.properties
           .firstWhere((element) => element.name == 'MyProperty2');
       expect(property2.isPrivate, isTrue);
-      expect(property2.type, equals('Integer'));
+      expect(property2.type, equals('List<Integer>'));
     });
 
     test('Classes can have properties with apex docs', () {

@@ -151,9 +151,9 @@ describe('Class reflection', () => {
     `;
     const result = (reflect(classBody)).typeMirror as ClassMirror;
     expect(result.properties.length).toBe(2);
-    expect(result.properties[0].type).toBe('String');
+    expect(result.properties[0].typeReference.type).toBe('String');
     expect(result.properties[0].name).toBe('Prop1');
-    expect(result.properties[1].type).toBe('Integer');
+    expect(result.properties[1].typeReference.type).toBe('Integer');
     expect(result.properties[1].name).toBe('Prop2');
   });
 
@@ -165,8 +165,8 @@ describe('Class reflection', () => {
     `;
     const result = (reflect(classBody)).typeMirror as ClassMirror;
     expect(result.fields.length).toBe(2);
-    expect(result.fields[0].type).toBe('String');
-    expect(result.fields[1].type).toBe('String');
+    expect(result.fields[0].typeReference.type).toBe('String');
+    expect(result.fields[1].typeReference.type).toBe('String');
     expect(result.fields[0].name).toBe('var1');
     expect(result.fields[1].name).toBe('var2');
   });
@@ -179,7 +179,7 @@ describe('Class reflection', () => {
     `;
     const result = (reflect(classBody)).typeMirror as ClassMirror;
     expect(result.fields.length).toBe(1);
-    expect(result.fields[0].type).toBe('String');
+    expect(result.fields[0].typeReference.type).toBe('String');
     expect(result.fields[0].name).toBe('var1');
     expect(result.fields[0].memberModifiers).toContain('transient');
   });
@@ -225,7 +225,7 @@ describe('Class reflection', () => {
     expect(result.constructors[0].access_modifier).toBe('public');
     expect(result.constructors[1].parameters.length).toBe(1);
     expect(result.constructors[1].parameters[0].name).toBe('var1');
-    expect(result.constructors[1].parameters[0].type).toBe('String');
+    expect(result.constructors[1].parameters[0].typeReference.type).toBe('String');
     expect(result.constructors[1].access_modifier).toBe('public');
   });
 
@@ -244,12 +244,12 @@ describe('Class reflection', () => {
     expect(result.methods[0].memberModifiers.length).toBe(1);
     expect(result.methods[0].memberModifiers[0]).toBe('static');
     expect(result.methods[0].access_modifier).toBe('public');
-    expect(result.methods[0].type).toBe('String');
+    expect(result.methods[0].typeReference.type).toBe('String');
     expect(result.methods[0].name).toBe('method1');
 
     expect(result.methods[1].memberModifiers.length).toBe(0);
     expect(result.methods[1].access_modifier).toBe('private');
-    expect(result.methods[1].type).toBe('void');
+    expect(result.methods[1].typeReference.type).toBe('void');
     expect(result.methods[1].name).toBe('method2');
   });
 

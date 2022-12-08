@@ -11,7 +11,6 @@ part 'members.g.dart';
 /// constructors or methods.
 abstract class MemberMirror extends DeclarationMirror
     with MemberModifiersAwareness {
-  final String type;
   @JsonKey(fromJson: objectTypeFromJson, toJson: objectTypeToJson)
   final ObjectTypeReference typeReference;
 
@@ -19,8 +18,7 @@ abstract class MemberMirror extends DeclarationMirror
     required String name,
     String? rawDocComment,
     required this.typeReference,
-  })  : type = typeReference.rawDeclaration,
-        super(
+  })  : super(
           name: name,
           rawDocComment: rawDocComment,
         );
@@ -101,7 +99,7 @@ class MethodMirror extends MemberMirror with ParameterAwareness {
 
   Map<String, dynamic> toJson() => _$MethodMirrorToJson(this);
 
-  get isVoid => type.toLowerCase() == 'void';
+  get isVoid => typeReference.type.toLowerCase() == 'void';
 }
 
 /// Represents a parameter declaration.
@@ -111,14 +109,13 @@ class ParameterMirror with MemberModifiersAwareness {
   ParameterAwareness? parent;
 
   String name;
-  String type;
   @JsonKey(fromJson: objectTypeFromJson, toJson: objectTypeToJson)
   final ObjectTypeReference typeReference;
 
   ParameterMirror({
     required this.name,
     required this.typeReference,
-  }): type = typeReference.rawDeclaration;
+  });
 
   factory ParameterMirror.fromJson(Map<String, dynamic> json) =>
       _$ParameterMirrorFromJson(json);

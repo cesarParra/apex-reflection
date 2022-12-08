@@ -75,7 +75,6 @@ export interface MapObjectType extends ReferenceObjectType {
 export interface ParameterMirror {
     memberModifiers: string[];
     name: string;
-    type: string;
     typeReference: ReferencedType;
     docComment?: DocComment;
 }
@@ -85,7 +84,6 @@ export interface MethodMirror {
     annotations: Annotation[];
     name: string;
     memberModifiers: string[];
-    type: string;
     typeReference: ReferencedType;
     parameters: ParameterMirror[];
     docComment?: DocComment;
@@ -98,7 +96,6 @@ export interface PropertyMirror {
     name: string;
     memberModifiers: string[];
     typeReference: ReferencedType;
-    type: string;
     docComment?: DocComment;
     group?: string;
 }
@@ -109,7 +106,6 @@ export interface FieldMirror {
     name: string;
     memberModifiers: string[];
     typeReference: ReferencedType;
-    type: string;
     docComment?: DocComment;
     group?: string;
 }

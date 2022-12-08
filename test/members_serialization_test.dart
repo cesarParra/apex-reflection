@@ -38,7 +38,7 @@ void main() {
 
       final property = PropertyMirror.fromJson(jsonDecode(propertyAsJson));
       expect(property.name, equals('PropName'));
-      expect(property.type, equals('String'));
+      expect(property.typeReference.type, equals('String'));
       expect(property.accessModifier, equals(AccessModifier.public));
       expect(property.isNamespaceAccessible, equals(true));
     });
@@ -76,7 +76,7 @@ void main() {
 
       final field = FieldMirror.fromJson(jsonDecode(fieldAsJson));
       expect(field.name, equals('FieldName'));
-      expect(field.type, equals('String'));
+      expect(field.typeReference.type, equals('String'));
       expect(field.accessModifier, equals(AccessModifier.public));
       expect(field.isNamespaceAccessible, equals(true));
     });
@@ -124,7 +124,7 @@ void main() {
 
       final method = MethodMirror.fromJson(jsonDecode(methodAsJson));
       expect(method.name, equals('MethodName'));
-      expect(method.type, equals('String'));
+      expect(method.typeReference.type, equals('String'));
       expect(method.accessModifier, equals(AccessModifier.public));
       expect(method.isNamespaceAccessible, equals(true));
       expect(method.parameters.length, equals(1));
@@ -156,7 +156,7 @@ void main() {
 
       final parameter = ParameterMirror.fromJson(jsonDecode(parameterAsJson));
       expect(parameter.name, equals('ParameterName'));
-      expect(parameter.type, equals('String'));
+      expect(parameter.typeReference.type, equals('String'));
     });
   });
 

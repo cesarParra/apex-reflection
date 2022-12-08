@@ -23,7 +23,7 @@ main() {
       FieldMirror field1 = generatedClass.fields
           .firstWhere((element) => element.name == 'myVar1');
       expect(field1.isPrivate, isTrue);
-      expect(field1.type, equals('String'));
+      expect(field1.typeReference.type, equals('String'));
       expect(field1.typeReference.type, equals('String'));
     });
 

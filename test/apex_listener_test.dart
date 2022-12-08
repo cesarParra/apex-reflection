@@ -1,6 +1,7 @@
 import 'package:apexdocs_dart/src/extension_methods/list_extensions.dart';
 import 'package:apexdocs_dart/src/model/members.dart';
 import 'package:apexdocs_dart/src/model/modifiers.dart';
+import 'package:apexdocs_dart/src/model/type_references.dart';
 import 'package:apexdocs_dart/src/model/types.dart';
 import 'package:apexdocs_dart/src/service/case_insensitive_input_stream.dart';
 import 'package:test/test.dart';
@@ -248,13 +249,16 @@ void main() {
           apexWalkerDefinition.getGeneratedApexType()!.annotations.first;
       expect(annotation.elementValues, isNotEmpty);
       expect(
-          annotation.elementValues?.firstWhereOrNull((element) => element.key == 'label'),
+          annotation.elementValues
+              ?.firstWhereOrNull((element) => element.key == 'label'),
           isNotNull);
       expect(
-          annotation.elementValues?.firstWhereOrNull((element) => element.key == 'description'),
+          annotation.elementValues
+              ?.firstWhereOrNull((element) => element.key == 'description'),
           isNotNull);
       expect(
-          annotation.elementValues?.firstWhereOrNull((element) => element.key == 'category'),
+          annotation.elementValues
+              ?.firstWhereOrNull((element) => element.key == 'category'),
           isNotNull);
     });
 
@@ -304,13 +308,16 @@ void main() {
       PropertyMirror property1 = generatedClass.properties
           .firstWhere((element) => element.name == 'MyProperty1');
       expect(property1.isNamespaceAccessible, isTrue);
-      expect(property1.type, equals('String'));
+      expect(property1.typeReference.type, equals('String'));
       expect(property1.isPublic, isTrue);
 
       PropertyMirror property2 = generatedClass.properties
           .firstWhere((element) => element.name == 'MyProperty2');
       expect(property2.isPrivate, isTrue);
-      expect(property2.type, equals('List<Integer>'));
+      expect(property2.typeReference.type, equals('List'));
+      expect(property2.typeReference, isA<ListObjectType>());
+      expect(
+          (property2.typeReference as ListObjectType).ofType.type, 'Integer');
     });
 
     test('Classes can have properties with apex docs', () {
@@ -361,17 +368,17 @@ void main() {
       FieldMirror field1 = generatedClass.fields
           .firstWhere((element) => element.name == 'myVar1');
       expect(field1.isPrivate, isTrue);
-      expect(field1.type, equals('String'));
+      expect(field1.typeReference.type, equals('String'));
 
       FieldMirror field2 = generatedClass.fields
           .firstWhere((element) => element.name == 'myVar2');
       expect(field2.isPrivate, isTrue);
-      expect(field2.type, equals('String'));
+      expect(field2.typeReference.type, equals('String'));
 
       FieldMirror field3 = generatedClass.fields
           .firstWhere((element) => element.name == 'myVar3');
       expect(field3.isPrivate, isTrue);
-      expect(field3.type, equals('Integer'));
+      expect(field3.typeReference.type, equals('Integer'));
     });
 
     test('Fields can be transient', () {
@@ -384,7 +391,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
       expect(generatedClass.fields.any((element) => element.name == 'myVar1'),
           isTrue);
@@ -393,7 +400,7 @@ void main() {
           .firstWhere((element) => element.name == 'myVar1');
       expect(field1.isPrivate, isTrue);
       expect(field1.memberModifiers, contains(MemberModifier.transient));
-      expect(field1.type, equals('String'));
+      expect(field1.typeReference.type, equals('String'));
     });
 
     test('Classes can have fields in groups', () {
@@ -421,19 +428,19 @@ void main() {
       FieldMirror field1 = generatedClass.fields
           .firstWhere((element) => element.name == 'myVar1');
       expect(field1.isPrivate, isTrue);
-      expect(field1.type, equals('String'));
+      expect(field1.typeReference.type, equals('String'));
       expect(field1.group, equals('Variables'));
 
       FieldMirror field2 = generatedClass.fields
           .firstWhere((element) => element.name == 'myVar2');
       expect(field2.isPrivate, isTrue);
-      expect(field2.type, equals('String'));
+      expect(field2.typeReference.type, equals('String'));
       expect(field2.group, equals('Variables'));
 
       FieldMirror field3 = generatedClass.fields
           .firstWhere((element) => element.name == 'myVar3');
       expect(field3.isPrivate, isTrue);
-      expect(field3.type, equals('Integer'));
+      expect(field3.typeReference.type, equals('Integer'));
       expect(field2.group, equals('Variables'));
     });
 
@@ -455,7 +462,7 @@ void main() {
       FieldMirror field1 = generatedClass.fields
           .firstWhere((element) => element.name == 'myVar1');
       expect(field1.isPrivate, isTrue);
-      expect(field1.type, equals('String'));
+      expect(field1.typeReference.type, equals('String'));
     });
 
     test('Groups can have descriptions', () {
@@ -483,19 +490,19 @@ void main() {
       FieldMirror field1 = generatedClass.fields
           .firstWhere((element) => element.name == 'myVar1');
       expect(field1.isPrivate, isTrue);
-      expect(field1.type, equals('String'));
+      expect(field1.typeReference.type, equals('String'));
       expect(field1.group, equals('This is a group description'));
 
       FieldMirror field2 = generatedClass.fields
           .firstWhere((element) => element.name == 'myVar2');
       expect(field2.isPrivate, isTrue);
-      expect(field2.type, equals('String'));
+      expect(field2.typeReference.type, equals('String'));
       expect(field2.group, equals('This is a group description'));
 
       FieldMirror field3 = generatedClass.fields
           .firstWhere((element) => element.name == 'myVar3');
       expect(field3.isPrivate, isTrue);
-      expect(field3.type, equals('Integer'));
+      expect(field3.typeReference.type, equals('Integer'));
       expect(field2.group, equals('This is a group description'));
     });
 
@@ -524,19 +531,19 @@ void main() {
       FieldMirror field1 = generatedClass.fields
           .firstWhere((element) => element.name == 'myVar1');
       expect(field1.isPrivate, isTrue);
-      expect(field1.type, equals('String'));
+      expect(field1.typeReference.type, equals('String'));
       expect(field1.group, equals("'Variable'"));
 
       FieldMirror field2 = generatedClass.fields
           .firstWhere((element) => element.name == 'myVar2');
       expect(field2.isPrivate, isTrue);
-      expect(field2.type, equals('String'));
+      expect(field2.typeReference.type, equals('String'));
       expect(field2.group, equals("'Variable'"));
 
       FieldMirror field3 = generatedClass.fields
           .firstWhere((element) => element.name == 'myVar3');
       expect(field3.isPrivate, isTrue);
-      expect(field3.type, equals('Integer'));
+      expect(field3.typeReference.type, equals('Integer'));
       expect(field2.group, equals("'Variable'"));
     });
 
@@ -600,7 +607,7 @@ void main() {
       expect(method2.isPublic, isTrue);
       expect(method2.isNamespaceAccessible, isFalse);
       expect(method2.isVoid, isFalse);
-      expect(method2.type, equals('String'));
+      expect(method2.typeReference.type, equals('String'));
     });
 
     test('Classes can have methods with doc comments', () {
@@ -823,7 +830,7 @@ void main() {
       expect(innerInterface.isNamespaceAccessible, isTrue);
       expect(innerInterface.isPublic, isTrue);
       expect(innerInterface.methods.length, equals(1));
-      expect(innerInterface.methods.first.type, 'String');
+      expect(innerInterface.methods.first.typeReference.type, 'String');
     });
 
     test('Classes can have inner interfaces with doc comments', () {
@@ -873,7 +880,7 @@ void main() {
       expect(innerClass.isNamespaceAccessible, isFalse);
       expect(innerClass.isPublic, isTrue);
       expect(innerClass.methods.length, equals(1));
-      expect(innerClass.methods.first.type, 'String');
+      expect(innerClass.methods.first.typeReference.type, 'String');
       expect(innerClass.methods.first.parameters.length, equals(2));
     });
 
@@ -991,7 +998,7 @@ void main() {
       expect(method2.isPublic, isTrue);
       expect(method2.isNamespaceAccessible, isTrue);
       expect(method2.isVoid, isFalse);
-      expect(method2.type, equals('String'));
+      expect(method2.typeReference.type, equals('String'));
     });
 
     test('Interfaces can have methods with doc comments', () {

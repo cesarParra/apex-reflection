@@ -28,7 +28,7 @@ void main() {
     test('Properties have a type', () {
       var property = PropertyMirror(
           name: 'MyProperty', typeReference: ReferenceObjectType('String'));
-      expect(property.type, 'String');
+      expect(property.typeReference.type, 'String');
     });
 
     test('Do not have doc comments by default', () {
@@ -70,7 +70,7 @@ void main() {
     test('Fields have a type', () {
       var field = FieldMirror(
           name: 'MyField', typeReference: ReferenceObjectType('String'));
-      expect(field.type, 'String');
+      expect(field.typeReference.type, 'String');
     });
 
     test('Do not have doc comments by default', () {
@@ -131,7 +131,7 @@ void main() {
     test('Methods have a type', () {
       var method = MethodMirror(
           name: 'myMethod', typeReference: ReferenceObjectType('String'));
-      expect(method.type, 'String');
+      expect(method.typeReference.type, 'String');
     });
 
     test('Methods can have access modifiers', () {
@@ -173,7 +173,7 @@ void main() {
     test('Parameters have a type', () {
       var parameter = ParameterMirror(
           name: 'Param', typeReference: ReferenceObjectType('String'));
-      expect(parameter.type, 'String');
+      expect(parameter.typeReference.type, 'String');
     });
   });
 

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:apexdocs_dart/src/model/members.dart';
 import 'package:apexdocs_dart/src/model/modifiers.dart';
+import 'package:apexdocs_dart/src/model/type_references.dart';
 import 'package:apexdocs_dart/src/model/types.dart';
 import 'package:test/test.dart';
 
@@ -20,7 +21,8 @@ void main() {
       classModel.addInterface(InterfaceMirror(name: 'ChildInterface'));
       classModel.addEnum(EnumMirror(name: 'ChildEnum'));
       classModel.addClass(ClassMirror(name: 'ChildClass'));
-      classModel.addProperty(PropertyMirror(name: 'Prop1', type: 'String'));
+      classModel.addProperty(PropertyMirror(
+          name: 'Prop1', typeReference: ReferenceObjectType('String')));
       classModel.addConstructor(ConstructorMirror()
         ..accessModifier = AccessModifier.public
         ..annotations = [Annotation('@NamespaceAccessible')]);
@@ -36,9 +38,11 @@ void main() {
       ''';
       classModel.addMethod(MethodMirror(
           name: 'doSomething', rawDocComment: methodDocComment.trim())
-        ..addParameter(ParameterMirror(name: 'param1', type: 'String')
+        ..addParameter(ParameterMirror(
+            name: 'param1', typeReference: ReferenceObjectType('String'))
           ..memberModifiers = [MemberModifier.isFinal]));
-      classModel.addField(FieldMirror(name: 'var1', type: 'String'));
+      classModel.addField(FieldMirror(
+          name: 'var1', typeReference: ReferenceObjectType('String')));
 
       String encodedClass = jsonEncode(classModel);
       expect(encodedClass, isNotNull);
@@ -63,6 +67,7 @@ void main() {
           "name": "doSomething",
           "memberModifiers": [],
           "type": "void",
+          "typeReference": {"type": "void", "rawDeclaration": "void"},
           "parameters": []
         }
       ],
@@ -77,7 +82,8 @@ void main() {
           "annotations": [],
           "name": "Prop1",
           "memberModifiers": [],
-          "type": "String"
+          "type": "String",
+          "typeReference": {"type": "String", "rawDeclaration": "String"}
         }
       ],
       "fields": [
@@ -85,7 +91,8 @@ void main() {
           "annotations": [],
           "name": "var1",
           "memberModifiers": [],
-          "type": "String"
+          "type": "String",
+          "typeReference": {"type": "String", "rawDeclaration": "String"}
         }
       ],
       "constructors": [
@@ -185,6 +192,7 @@ void main() {
             "name": "doSomething",
             "memberModifiers": [],
             "type": "void",
+            "typeReference": {"type": "void", "rawDeclaration": "void"},
             "parameters": []
           }
         ],

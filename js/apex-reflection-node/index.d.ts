@@ -39,10 +39,25 @@ export interface Annotation {
     type: string;
     elementValues?: AnnotationElementValue[];
 }
+export declare type ReferencedType = ReferenceObjectType | ListObjectType | SetObjectType | MapObjectType;
+export interface ReferenceObjectType {
+    type: string;
+    rawDeclaration: string;
+}
+export interface ListObjectType extends ReferenceObjectType {
+    ofType: ReferenceObjectType;
+}
+export interface SetObjectType extends ReferenceObjectType {
+    ofType: ReferenceObjectType;
+}
+export interface MapObjectType extends ReferenceObjectType {
+    keyType: ReferenceObjectType;
+    valueType: ReferenceObjectType;
+}
 export interface ParameterMirror {
     memberModifiers: string[];
     name: string;
-    type: string;
+    typeReference: ReferencedType;
     docComment?: DocComment;
 }
 export interface MethodMirror {
@@ -50,7 +65,7 @@ export interface MethodMirror {
     annotations: Annotation[];
     name: string;
     memberModifiers: string[];
-    type: string;
+    typeReference: ReferencedType;
     parameters: ParameterMirror[];
     docComment?: DocComment;
     group?: string;
@@ -60,7 +75,7 @@ export interface PropertyMirror {
     annotations: Annotation[];
     name: string;
     memberModifiers: string[];
-    type: string;
+    typeReference: ReferencedType;
     docComment?: DocComment;
     group?: string;
 }
@@ -69,7 +84,7 @@ export interface FieldMirror {
     annotations: Annotation[];
     name: string;
     memberModifiers: string[];
-    type: string;
+    typeReference: ReferencedType;
     docComment?: DocComment;
     group?: string;
 }

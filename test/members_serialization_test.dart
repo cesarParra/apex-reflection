@@ -1,13 +1,15 @@
 import 'dart:convert';
 
 import 'package:apexdocs_dart/src/model/modifiers.dart';
+import 'package:apexdocs_dart/src/model/type_references.dart';
 import 'package:test/test.dart';
 import 'package:apexdocs_dart/src/model/members.dart';
 
 void main() {
   group('Property serialization', () {
     test('Properties can be serialized', () {
-      final property = PropertyMirror(name: 'PropName', type: 'String')
+      final property = PropertyMirror(
+          name: 'PropName', typeReference: ReferenceObjectType('String'))
         ..rawDocComment = '/** My property description */'
         ..accessModifier = AccessModifier.public
         ..annotations = [Annotation('@NamespaceAccessible')];
@@ -23,7 +25,7 @@ void main() {
       final propertyAsJson = '''
       {
         "name": "PropName",
-        "type": "String",
+        "typeReference": {"type": "String", "rawDeclaration": "String"},
         "memberModifiers": [],
         "access_modifier": "public",
         "annotations": [{
@@ -36,7 +38,7 @@ void main() {
 
       final property = PropertyMirror.fromJson(jsonDecode(propertyAsJson));
       expect(property.name, equals('PropName'));
-      expect(property.type, equals('String'));
+      expect(property.typeReference.type, equals('String'));
       expect(property.accessModifier, equals(AccessModifier.public));
       expect(property.isNamespaceAccessible, equals(true));
     });
@@ -44,7 +46,8 @@ void main() {
 
   group('Field serialization', () {
     test('Fields can be serialized', () {
-      var field = FieldMirror(name: 'FieldName', type: 'String')
+      var field = FieldMirror(
+          name: 'FieldName', typeReference: ReferenceObjectType('String'))
         ..annotations = [Annotation('@NamespaceAccessible')]
         ..accessModifier = AccessModifier.public;
 
@@ -67,13 +70,13 @@ void main() {
         ],
         "name": "FieldName",
         "memberModifiers": [],
-        "type": "String"
+        "typeReference": {"type": "String", "rawDeclaration": "String"}
       }
       ''';
 
       final field = FieldMirror.fromJson(jsonDecode(fieldAsJson));
       expect(field.name, equals('FieldName'));
-      expect(field.type, equals('String'));
+      expect(field.typeReference.type, equals('String'));
       expect(field.accessModifier, equals(AccessModifier.public));
       expect(field.isNamespaceAccessible, equals(true));
     });
@@ -81,10 +84,12 @@ void main() {
 
   group('Method serialization', () {
     test('Methods can be serialized', () {
-      var method = MethodMirror(name: 'MethodName', type: 'String')
+      var method = MethodMirror(
+          name: 'MethodName', typeReference: ReferenceObjectType('String'))
         ..annotations = [Annotation('@NamespaceAccessible')]
         ..accessModifier = AccessModifier.public;
-      method.addParameter(ParameterMirror(name: 'Param1', type: 'String'));
+      method.addParameter(ParameterMirror(
+          name: 'Param1', typeReference: ReferenceObjectType('String')));
 
       String encodedMethod = jsonEncode(method);
       expect(encodedMethod, isNotNull);
@@ -105,12 +110,13 @@ void main() {
         ],
         "name": "MethodName",
         "memberModifiers": [],
-        "type": "String",
+        "typeReference": {"type": "String", "rawDeclaration": "String"},
         "parameters": [
           {
             "name": "Param1",
             "memberModifiers": [],
-            "type": "String"
+            "type": "String",
+            "typeReference": {"type": "String", "rawDeclaration": "String"}
           }
         ]
       }
@@ -118,7 +124,7 @@ void main() {
 
       final method = MethodMirror.fromJson(jsonDecode(methodAsJson));
       expect(method.name, equals('MethodName'));
-      expect(method.type, equals('String'));
+      expect(method.typeReference.type, equals('String'));
       expect(method.accessModifier, equals(AccessModifier.public));
       expect(method.isNamespaceAccessible, equals(true));
       expect(method.parameters.length, equals(1));
@@ -128,7 +134,8 @@ void main() {
 
   group('Parameter serialization', () {
     test('Parameters can be serialized', () {
-      var parameter = ParameterMirror(name: 'ParameterName', type: 'String');
+      var parameter = ParameterMirror(
+          name: 'ParameterName', typeReference: ReferenceObjectType('String'));
 
       String encodedParameter = jsonEncode(parameter);
       expect(encodedParameter, isNotNull);
@@ -142,13 +149,14 @@ void main() {
       {
         "memberModifiers": [],
         "name": "ParameterName",
-        "type": "String"
+        "type": "String",
+        "typeReference":{"type":"String","rawDeclaration":"String"}
       }
       ''';
 
       final parameter = ParameterMirror.fromJson(jsonDecode(parameterAsJson));
       expect(parameter.name, equals('ParameterName'));
-      expect(parameter.type, equals('String'));
+      expect(parameter.typeReference.type, equals('String'));
     });
   });
 
@@ -157,7 +165,8 @@ void main() {
       var constructor = ConstructorMirror()
         ..annotations = [Annotation('@NamespaceAccessible')]
         ..accessModifier = AccessModifier.public;
-      constructor.addParameter(ParameterMirror(name: 'Param1', type: 'String'));
+      constructor.addParameter(ParameterMirror(
+          name: 'Param1', typeReference: ReferenceObjectType('String')));
 
       String encodedConstructor = jsonEncode(constructor);
       expect(encodedConstructor, isNotNull);
@@ -182,7 +191,8 @@ void main() {
           {
             "memberModifiers": [],
             "name": "Param1",
-            "type": "String"
+            "type": "String",
+            "typeReference":{"type":"String","rawDeclaration":"String"}
           }
         ]
       }

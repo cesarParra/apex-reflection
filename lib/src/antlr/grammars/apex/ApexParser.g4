@@ -843,6 +843,7 @@ soslId
 // can significantly impact the parser performance by creating ambiguities.
 id
     : Identifier
+    | VOID
     | AFTER
     | BEFORE
     | GET

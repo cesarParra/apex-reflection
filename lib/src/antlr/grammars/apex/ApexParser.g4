@@ -104,9 +104,9 @@ interfaceBody
     ;
 
 classBodyDeclaration
-    : SEMI                                                                                    # EmptyClassBodyDeclaration
-    | STATIC? block                                                                           # StaticBlockClassBodyDeclaration
-    | annotation* DOC_COMMENT? modifier* memberDeclaration                                    # MemberClassBodyDeclaration
+    : SEMI                                                                                                   # EmptyClassBodyDeclaration
+    | STATIC? block                                                                                          # StaticBlockClassBodyDeclaration
+    | annotation* (DOC_COMMENT)* modifier* memberDeclaration END_GROUP_COMMENT?                              # MemberClassBodyDeclaration
     ;
 
 /* Unify all annotation & modifiers so we can give better error messages */

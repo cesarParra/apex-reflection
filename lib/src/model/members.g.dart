@@ -21,6 +21,7 @@ PropertyMirror _$PropertyMirrorFromJson(Map<String, dynamic> json) {
         .map((e) => Annotation.fromJson(e as Map<String, dynamic>))
         .toList()
     ..group = json['group'] as String?
+    ..groupDescription = json['groupDescription'] as String?
     ..memberModifiers = (json['memberModifiers'] as List<dynamic>)
         .map((e) => _$enumDecode(_$MemberModifierEnumMap, e))
         .toList();
@@ -33,6 +34,7 @@ Map<String, dynamic> _$PropertyMirrorToJson(PropertyMirror instance) =>
       'annotations': instance.annotations,
       'name': instance.name,
       'group': instance.group,
+      'groupDescription': instance.groupDescription,
       'memberModifiers': instance.memberModifiers
           .map((e) => _$MemberModifierEnumMap[e])
           .toList(),
@@ -107,6 +109,7 @@ FieldMirror _$FieldMirrorFromJson(Map<String, dynamic> json) {
         .map((e) => Annotation.fromJson(e as Map<String, dynamic>))
         .toList()
     ..group = json['group'] as String?
+    ..groupDescription = json['groupDescription'] as String?
     ..memberModifiers = (json['memberModifiers'] as List<dynamic>)
         .map((e) => _$enumDecode(_$MemberModifierEnumMap, e))
         .toList();
@@ -119,6 +122,7 @@ Map<String, dynamic> _$FieldMirrorToJson(FieldMirror instance) =>
       'annotations': instance.annotations,
       'name': instance.name,
       'group': instance.group,
+      'groupDescription': instance.groupDescription,
       'memberModifiers': instance.memberModifiers
           .map((e) => _$MemberModifierEnumMap[e])
           .toList(),
@@ -140,6 +144,7 @@ MethodMirror _$MethodMirrorFromJson(Map<String, dynamic> json) {
         .map((e) => Annotation.fromJson(e as Map<String, dynamic>))
         .toList()
     ..group = json['group'] as String?
+    ..groupDescription = json['groupDescription'] as String?
     ..memberModifiers = (json['memberModifiers'] as List<dynamic>)
         .map((e) => _$enumDecode(_$MemberModifierEnumMap, e))
         .toList()
@@ -155,6 +160,7 @@ Map<String, dynamic> _$MethodMirrorToJson(MethodMirror instance) =>
       'annotations': instance.annotations,
       'name': instance.name,
       'group': instance.group,
+      'groupDescription': instance.groupDescription,
       'memberModifiers': instance.memberModifiers
           .map((e) => _$MemberModifierEnumMap[e])
           .toList(),
@@ -192,6 +198,7 @@ ConstructorMirror _$ConstructorMirrorFromJson(Map<String, dynamic> json) {
         .map((e) => Annotation.fromJson(e as Map<String, dynamic>))
         .toList()
     ..group = json['group'] as String?
+    ..groupDescription = json['groupDescription'] as String?
     ..parameters = (json['parameters'] as List<dynamic>)
         .map((e) => ParameterMirror.fromJson(e as Map<String, dynamic>))
         .toList();
@@ -203,5 +210,6 @@ Map<String, dynamic> _$ConstructorMirrorToJson(ConstructorMirror instance) =>
       'access_modifier': _$AccessModifierEnumMap[instance.accessModifier],
       'annotations': instance.annotations,
       'group': instance.group,
+      'groupDescription': instance.groupDescription,
       'parameters': instance.parameters,
     };

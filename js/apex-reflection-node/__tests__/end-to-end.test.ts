@@ -294,4 +294,29 @@ describe('Class reflection', () => {
     expect(result.classes[0].name).toBe('MyClass');
     expect(result.classes[0].methods.length).toBe(2);
   });
+
+  test('Can have members in groups', () => {
+    const classBody = `
+    public with sharing class MyClass {
+      /** 
+       * @start-group Group Name
+       * @description Group Description
+       */
+      public String Prop1 { get; set; }
+      public Integer Prop2 { get; set; }
+      /** @end-group */
+    }
+    `;
+
+    const result = (reflect(classBody)).typeMirror as ClassMirror;
+    expect(result.properties.length).toBe(2);
+    expect(result.properties[0].typeReference.type).toBe('String');
+    expect(result.properties[0].name).toBe('Prop1');
+    expect(result.properties[0].group).toBe('Group Name');
+    expect(result.properties[0].groupDescription).toBe('Group Description');
+    expect(result.properties[1].typeReference.type).toBe('Integer');
+    expect(result.properties[1].name).toBe('Prop2');
+    expect(result.properties[1].group).toBe('Group Name');
+    expect(result.properties[1].groupDescription).toBe('Group Description');
+  });
 });

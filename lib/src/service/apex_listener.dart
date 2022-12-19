@@ -7,8 +7,11 @@ import 'package:apexdocs_dart/src/model/declaration_mirror.dart';
 import 'package:apexdocs_dart/src/model/members.dart';
 import 'package:apexdocs_dart/src/model/modifiers.dart';
 import 'package:apexdocs_dart/src/model/types.dart';
+import 'package:apexdocs_dart/src/service/parsers.dart';
 import 'package:apexdocs_dart/src/service/utils/parsing/parsing_utils.dart';
 import 'package:apexdocs_dart/src/extension_methods/list_extensions.dart';
+
+import '../model/doc_comment.dart';
 
 class DeclarationDescriptor {
   List<dynamic> accessModifiers = [];
@@ -33,16 +36,23 @@ class DeclarationDescriptor {
   DeclarationDescriptor({required this.accessModifiers, this.docComment});
 }
 
+class Group {
+  String? name;
+  String? description;
+
+  Group({this.name, this.description});
+}
+
 class ApexClassListener extends ApexParserBaseListener {
   final Stack<DeclarationDescriptor> _declaratorDescriptorStack;
   final Stack<TypeMirror> generatedTypes;
-  final Stack<String?> groupStack;
+  final Stack<Group> groupStack;
   late TypeMirror generatedType;
 
   ApexClassListener()
       : generatedTypes = Stack<TypeMirror>(),
         _declaratorDescriptorStack = Stack<DeclarationDescriptor>(),
-        groupStack = Stack<String>();
+        groupStack = Stack<Group>();
 
   @override
   void enterTypeClassDeclaration(TypeClassDeclarationContext ctx) {
@@ -103,7 +113,7 @@ class ApexClassListener extends ApexParserBaseListener {
     // where that ends.
     var startingIndex = startGroupComment!.indexOf('@start-group') + 12;
     var groupName = startGroupComment.substring(startingIndex).trim();
-    groupStack.push(groupName);
+    groupStack.push(Group(name: groupName));
   }
 
   @override
@@ -114,9 +124,27 @@ class ApexClassListener extends ApexParserBaseListener {
   @override
   void enterMemberClassBodyDeclaration(MemberClassBodyDeclarationContext ctx) {
     final accessModifiers = getAccessModifiers(ctx);
-    final docComment = ctx
-        .DOC_COMMENT()
-        ?.text;
+    String? docComment;
+    if (ctx.DOC_COMMENTs().isNotEmpty) {
+      String potentialDocComment = ctx.DOC_COMMENTs().first.text!;
+      DocComment docCommentObject = ApexdocParser.parseFromBody(potentialDocComment);
+
+      if (docCommentObject.annotations.any((element) => element.name.toLowerCase() == 'start-group')) {
+        var startGroupComment = docCommentObject.annotations.firstWhere((element) => element.name.toLowerCase() == 'start-group');
+        var groupName = startGroupComment.body;
+
+        var groupDescription = docCommentObject.description;
+        groupStack.push(Group(name: groupName, description: groupDescription));
+      }
+
+      if (ctx.END_GROUP_COMMENT()?.text != null) {
+        groupStack.pop();
+      }
+
+      // The doc comment for the actual member is taken from the last doc comment
+      // block that was declared.
+      docComment = ctx.DOC_COMMENTs().last.text;
+    }
     _declaratorDescriptorStack.push(DeclarationDescriptor(
         accessModifiers: accessModifiers, docComment: docComment));
   }
@@ -216,7 +244,8 @@ class ApexClassListener extends ApexParserBaseListener {
 
   void _setGroupOnDeclaration(DeclarationMirror declarationMirror) {
     if (groupStack.length > 0) {
-      declarationMirror.setGroup(groupStack.peak());
+      final group = groupStack.peak();
+      declarationMirror.setGroup(group.name, group.description);
     }
   }
 }

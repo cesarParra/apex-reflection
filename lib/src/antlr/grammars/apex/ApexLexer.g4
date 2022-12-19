@@ -424,6 +424,7 @@ START_GROUP_COMMENT
 
 END_GROUP_COMMENT
 	  :   '//' WS* ATSIGN  E N D SUB G R O U P ~[\r\n]*
+	  |   '/**' MUL* WS* ATSIGN  E N D SUB G R O U P  MUL* WS* '*/'
 	  ;
 
 DOC_COMMENT

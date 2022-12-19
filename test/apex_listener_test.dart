@@ -444,6 +444,96 @@ void main() {
       expect(field2.group, equals('Variables'));
     });
 
+    test('Classes can have fields in groups using traditional /** comments ', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var classBody = '''
+      public class MyClass {
+        /** @start-group Variables */
+        /** @description The description for the variables */
+        private String myVar1, myVar2;
+        private Integer myVar3;
+        /** @end-group */
+      }
+      ''';
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
+      var generatedClass =
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      expect(generatedClass.fields.length, equals(3));
+      expect(generatedClass.fields.any((element) => element.name == 'myVar1'),
+          isTrue);
+      expect(generatedClass.fields.any((element) => element.name == 'myVar2'),
+          isTrue);
+      expect(generatedClass.fields.any((element) => element.name == 'myVar3'),
+          isTrue);
+
+      FieldMirror field1 = generatedClass.fields
+          .firstWhere((element) => element.name == 'myVar1');
+      expect(field1.isPrivate, isTrue);
+      expect(field1.typeReference.type, equals('String'));
+      expect(field1.group, equals('Variables'));
+      expect(field1.docDescription, equals('The description for the variables'));
+
+      FieldMirror field2 = generatedClass.fields
+          .firstWhere((element) => element.name == 'myVar2');
+      expect(field2.isPrivate, isTrue);
+      expect(field2.typeReference.type, equals('String'));
+      expect(field2.group, equals('Variables'));
+
+      FieldMirror field3 = generatedClass.fields
+          .firstWhere((element) => element.name == 'myVar3');
+      expect(field3.isPrivate, isTrue);
+      expect(field3.typeReference.type, equals('Integer'));
+      expect(field2.group, equals('Variables'));
+    });
+
+    test('Classes can have fields in groups using traditional /** comments with a description', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var classBody = '''
+      public class MyClass {
+        /** 
+         * @start-group Variables 
+         * @description Group description
+         */
+        /** @description The description for the variables */
+        private String myVar1, myVar2;
+        private Integer myVar3;
+        /** @end-group */
+      }
+      ''';
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
+      var generatedClass =
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      expect(generatedClass.fields.length, equals(3));
+      expect(generatedClass.fields.any((element) => element.name == 'myVar1'),
+          isTrue);
+      expect(generatedClass.fields.any((element) => element.name == 'myVar2'),
+          isTrue);
+      expect(generatedClass.fields.any((element) => element.name == 'myVar3'),
+          isTrue);
+
+      FieldMirror field1 = generatedClass.fields
+          .firstWhere((element) => element.name == 'myVar1');
+      expect(field1.isPrivate, isTrue);
+      expect(field1.typeReference.type, equals('String'));
+      expect(field1.group, equals('Variables'));
+      expect(field1.groupDescription, equals('Group description'));
+      expect(field1.docDescription, equals('The description for the variables'));
+
+      FieldMirror field2 = generatedClass.fields
+          .firstWhere((element) => element.name == 'myVar2');
+      expect(field2.isPrivate, isTrue);
+      expect(field2.typeReference.type, equals('String'));
+      expect(field2.group, equals('Variables'));
+
+      FieldMirror field3 = generatedClass.fields
+          .firstWhere((element) => element.name == 'myVar3');
+      expect(field3.isPrivate, isTrue);
+      expect(field3.typeReference.type, equals('Integer'));
+      expect(field2.group, equals('Variables'));
+    });
+
     test('Classes can have fields with values', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
       var classBody = '''

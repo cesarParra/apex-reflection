@@ -35,13 +35,15 @@ abstract class DeclarationMirror
     with DocsCommentAwareness, AccessModifierAwareness, AnnotationsAwareness {
   final String name;
   String? group;
+  String? groupDescription;
 
   DeclarationMirror({required this.name, rawDocComment}) {
     this.rawDocComment = rawDocComment;
   }
 
-  void setGroup(String? group) {
+  void setGroup(String? group, [String? groupDescription]) {
     this.group = group;
+    this.groupDescription = groupDescription;
   }
 
   String? getAnnotationBody(String annotationName) {

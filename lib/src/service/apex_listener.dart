@@ -21,10 +21,8 @@ class DeclarationDescriptor {
       accessModifiers.firstWhere((element) => element is AccessModifier,
           orElse: () => AccessModifier.private);
 
-  get sharingModifier =>
-      accessModifiers
-          .firstWhere((element) => element is SharingModifier,
-          orElse: () => null);
+  get sharingModifier => accessModifiers
+      .firstWhere((element) => element is SharingModifier, orElse: () => null);
 
   get classModifier =>
       accessModifiers.firstWhereOrNull((element) => element is ClassModifier);
@@ -57,9 +55,7 @@ class ApexClassListener extends ApexParserBaseListener {
   @override
   void enterTypeClassDeclaration(TypeClassDeclarationContext ctx) {
     final accessModifiers = getAccessModifiers(ctx);
-    final docComment = ctx
-        .DOC_COMMENT()
-        ?.text;
+    final docComment = ctx.DOC_COMMENT()?.text;
     _declaratorDescriptorStack.push(DeclarationDescriptor(
         accessModifiers: accessModifiers, docComment: docComment));
   }
@@ -67,9 +63,7 @@ class ApexClassListener extends ApexParserBaseListener {
   @override
   void enterTypeEnumDeclaration(TypeEnumDeclarationContext ctx) {
     final accessModifiers = getAccessModifiers(ctx);
-    final docComment = ctx
-        .DOC_COMMENT()
-        ?.text;
+    final docComment = ctx.DOC_COMMENT()?.text;
     _declaratorDescriptorStack.push(DeclarationDescriptor(
         accessModifiers: accessModifiers, docComment: docComment));
   }
@@ -77,9 +71,7 @@ class ApexClassListener extends ApexParserBaseListener {
   @override
   void enterTypeInterfaceDeclaration(TypeInterfaceDeclarationContext ctx) {
     final accessModifiers = getAccessModifiers(ctx);
-    final docComment = ctx
-        .DOC_COMMENT()
-        ?.text;
+    final docComment = ctx.DOC_COMMENT()?.text;
     _declaratorDescriptorStack.push(DeclarationDescriptor(
         accessModifiers: accessModifiers, docComment: docComment));
   }
@@ -126,27 +118,40 @@ class ApexClassListener extends ApexParserBaseListener {
     final accessModifiers = getAccessModifiers(ctx);
     String? docComment;
     if (ctx.DOC_COMMENTs().isNotEmpty) {
+      // We take and parse the first doc comment, in case it is the
+      // start of a group.
       String potentialDocComment = ctx.DOC_COMMENTs().first.text!;
-      DocComment docCommentObject = ApexdocParser.parseFromBody(potentialDocComment);
+      DocComment docCommentObject =
+          ApexdocParser.parseFromBody(potentialDocComment);
 
-      if (docCommentObject.annotations.any((element) => element.name.toLowerCase() == 'start-group')) {
-        var startGroupComment = docCommentObject.annotations.firstWhere((element) => element.name.toLowerCase() == 'start-group');
-        var groupName = startGroupComment.body;
+      if (docCommentObject.annotations
+          .any((element) => element.name.toLowerCase() == 'start-group')) {
+        final startGroupComment = docCommentObject.annotations.firstWhere(
+            (element) => element.name.toLowerCase() == 'start-group');
+        final groupName = startGroupComment.body;
 
-        var groupDescription = docCommentObject.description;
+        final groupDescription = docCommentObject.description;
         groupStack.push(Group(name: groupName, description: groupDescription));
-      }
 
-      if (ctx.END_GROUP_COMMENT()?.text != null) {
-        groupStack.pop();
+        // If there is another doc comment besides the @start-group one,
+        // we use that as the one for the member
+        if (ctx.DOC_COMMENTs().length > 1) {
+          docComment = ctx.DOC_COMMENTs()[1].text;
+        }
+      } else {
+        // We are dealing with a regular doc comment.
+        docComment = potentialDocComment;
       }
-
-      // The doc comment for the actual member is taken from the last doc comment
-      // block that was declared.
-      docComment = ctx.DOC_COMMENTs().last.text;
     }
     _declaratorDescriptorStack.push(DeclarationDescriptor(
         accessModifiers: accessModifiers, docComment: docComment));
+  }
+
+  @override
+  void exitMemberClassBodyDeclaration(MemberClassBodyDeclarationContext ctx) {
+    if (ctx.END_GROUP_COMMENT()?.text != null) {
+      groupStack.pop();
+    }
   }
 
   @override
@@ -161,9 +166,7 @@ class ApexClassListener extends ApexParserBaseListener {
   void enterFieldDeclaration(FieldDeclarationContext ctx) {
     final declarationDescriptor = _declaratorDescriptorStack.pop();
     List<FieldMirror> fields = buildFields(declarationDescriptor, ctx);
-    (generatedTypes.peak() as ClassMirror)
-        .fields
-        .addAll(fields);
+    (generatedTypes.peak() as ClassMirror).fields.addAll(fields);
     for (var element in fields) {
       _setGroupOnDeclaration(element);
     }
@@ -181,12 +184,8 @@ class ApexClassListener extends ApexParserBaseListener {
   void enterInterfaceMethodDeclaration(InterfaceMethodDeclarationContext ctx) {
     final method = buildInterfaceMethod(
         ctx,
-        generatedTypes
-            .peak()
-            .accessModifier,
-        generatedTypes
-            .peak()
-            .annotations);
+        generatedTypes.peak().accessModifier,
+        generatedTypes.peak().annotations);
 
     (generatedTypes.peak() as MethodsAwareness).methods.add(method);
   }

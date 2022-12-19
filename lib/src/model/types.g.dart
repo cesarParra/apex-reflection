@@ -23,6 +23,7 @@ ClassMirror _$ClassMirrorFromJson(Map<String, dynamic> json) {
         .map((e) => Annotation.fromJson(e as Map<String, dynamic>))
         .toList()
     ..group = json['group'] as String?
+    ..groupDescription = json['groupDescription'] as String?
     ..typeName = json['type_name'] as String
     ..methods = (json['methods'] as List<dynamic>)
         .map((e) => MethodMirror.fromJson(e as Map<String, dynamic>))
@@ -58,6 +59,7 @@ Map<String, dynamic> _$ClassMirrorToJson(ClassMirror instance) =>
       'annotations': instance.annotations,
       'name': instance.name,
       'group': instance.group,
+      'groupDescription': instance.groupDescription,
       'type_name': instance.typeName,
       'methods': instance.methods,
       'sharingModifier': _$SharingModifierEnumMap[instance.sharingModifier],
@@ -143,6 +145,7 @@ InterfaceMirror _$InterfaceMirrorFromJson(Map<String, dynamic> json) {
         .map((e) => Annotation.fromJson(e as Map<String, dynamic>))
         .toList()
     ..group = json['group'] as String?
+    ..groupDescription = json['groupDescription'] as String?
     ..typeName = json['type_name'] as String
     ..methods = (json['methods'] as List<dynamic>)
         .map((e) => MethodMirror.fromJson(e as Map<String, dynamic>))
@@ -158,6 +161,7 @@ Map<String, dynamic> _$InterfaceMirrorToJson(InterfaceMirror instance) =>
       'annotations': instance.annotations,
       'name': instance.name,
       'group': instance.group,
+      'groupDescription': instance.groupDescription,
       'type_name': instance.typeName,
       'methods': instance.methods,
       'sharingModifier': _$SharingModifierEnumMap[instance.sharingModifier],
@@ -177,6 +181,7 @@ EnumMirror _$EnumMirrorFromJson(Map<String, dynamic> json) {
         .map((e) => Annotation.fromJson(e as Map<String, dynamic>))
         .toList()
     ..group = json['group'] as String?
+    ..groupDescription = json['groupDescription'] as String?
     ..typeName = json['type_name'] as String;
 }
 
@@ -187,5 +192,6 @@ Map<String, dynamic> _$EnumMirrorToJson(EnumMirror instance) =>
       'annotations': instance.annotations,
       'name': instance.name,
       'group': instance.group,
+      'groupDescription': instance.groupDescription,
       'type_name': instance.typeName,
     };

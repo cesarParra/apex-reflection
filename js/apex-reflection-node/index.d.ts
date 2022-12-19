@@ -69,6 +69,7 @@ export interface MethodMirror {
     parameters: ParameterMirror[];
     docComment?: DocComment;
     group?: string;
+    groupDescription?: string;
 }
 export interface PropertyMirror {
     access_modifier: string;
@@ -78,6 +79,7 @@ export interface PropertyMirror {
     typeReference: ReferencedType;
     docComment?: DocComment;
     group?: string;
+    groupDescription?: string;
 }
 export interface FieldMirror {
     access_modifier: string;
@@ -87,6 +89,7 @@ export interface FieldMirror {
     typeReference: ReferencedType;
     docComment?: DocComment;
     group?: string;
+    groupDescription?: string;
 }
 export interface ConstructorMirror {
     access_modifier: string;
@@ -94,6 +97,7 @@ export interface ConstructorMirror {
     parameters: ParameterMirror[];
     docComment?: DocComment;
     group?: string;
+    groupDescription?: string;
 }
 export interface ReflectionResult {
     typeMirror?: Type;
@@ -111,6 +115,7 @@ export interface EnumMirror {
     access_modifier: string;
     docComment?: DocComment;
     group?: string;
+    groupDescription?: string;
 }
 export interface InterfaceMirror {
     annotations: Annotation[];
@@ -122,6 +127,7 @@ export interface InterfaceMirror {
     docComment?: DocComment;
     sharingModifier?: string;
     group?: string;
+    groupDescription?: string;
 }
 export interface ClassMirror {
     annotations: Annotation[];
@@ -141,5 +147,6 @@ export interface ClassMirror {
     access_modifier: string;
     docComment?: DocComment;
     group?: string;
+    groupDescription?: string;
 }
 export {};

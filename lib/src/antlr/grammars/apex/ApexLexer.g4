@@ -42,7 +42,8 @@ lexer grammar ApexLexer;
 
 channels {
     WHITESPACE_CHANNEL,
-    COMMENT_CHANNEL
+    COMMENT_CHANNEL,
+    DOCUMENTATION_CHANNEL
 }
 
 // Keywords
@@ -428,7 +429,7 @@ END_GROUP_COMMENT
 	  ;
 
 DOC_COMMENT
-    :   '/**' MUL* WS* ([\r\n])* .*? '*/'
+    :   '/**' MUL* WS* ([\r\n])* .*? '*/' -> channel(DOCUMENTATION_CHANNEL)
     ;
 
 WS  :  [ \t\r\n\u000C]+ -> channel(WHITESPACE_CHANNEL)

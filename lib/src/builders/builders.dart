@@ -99,8 +99,8 @@ MethodMirror buildMethod(
 }
 
 MethodMirror buildInterfaceMethod(InterfaceMethodDeclarationContext ctx,
+    String? docComment,
     AccessModifier? parentAccessModifier, List<Annotation> parentAnnotations) {
-  final docComment = ctx.DOC_COMMENT()?.text;
   final methodName = ctx.id()!.text;
 
   List<ParameterMirror>? parameters = parseParameters(ctx);

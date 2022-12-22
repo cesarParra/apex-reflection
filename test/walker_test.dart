@@ -40,7 +40,7 @@ class TestDefinition extends WalkerDefinition {
   }
 
   @override
-  ParseTreeListener getListener() {
+  ParseTreeListener getListener(_) {
     return listener;
   }
 }

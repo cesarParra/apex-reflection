@@ -1,5 +1,7 @@
 import 'dart:collection';
 
+import 'package:antlr4/antlr4.dart';
+import 'package:apexdocs_dart/src/antlr/lib/apex/ApexLexer.dart';
 import 'package:apexdocs_dart/src/antlr/lib/apex/ApexParser.dart';
 import 'package:apexdocs_dart/src/antlr/lib/apex/ApexParserBaseListener.dart';
 import 'package:apexdocs_dart/src/builders/builders.dart';
@@ -46,32 +48,37 @@ class ApexClassListener extends ApexParserBaseListener {
   final Stack<TypeMirror> generatedTypes;
   final Stack<Group> groupStack;
   late TypeMirror generatedType;
+  final CommonTokenStream tokens;
 
-  ApexClassListener()
+  ApexClassListener(this.tokens)
       : generatedTypes = Stack<TypeMirror>(),
         _declaratorDescriptorStack = Stack<DeclarationDescriptor>(),
         groupStack = Stack<Group>();
 
   @override
   void enterTypeClassDeclaration(TypeClassDeclarationContext ctx) {
+    String? docComment = _extractDocComment(ctx,
+        searchAfter: _getAnnotationStopIndex(ctx.annotations()));
+
     final accessModifiers = getAccessModifiers(ctx);
-    final docComment = ctx.DOC_COMMENT()?.text;
     _declaratorDescriptorStack.push(DeclarationDescriptor(
         accessModifiers: accessModifiers, docComment: docComment));
   }
 
   @override
   void enterTypeEnumDeclaration(TypeEnumDeclarationContext ctx) {
+    String? docComment = _extractDocComment(ctx,
+        searchAfter: _getAnnotationStopIndex(ctx.annotations()));
     final accessModifiers = getAccessModifiers(ctx);
-    final docComment = ctx.DOC_COMMENT()?.text;
     _declaratorDescriptorStack.push(DeclarationDescriptor(
         accessModifiers: accessModifiers, docComment: docComment));
   }
 
   @override
   void enterTypeInterfaceDeclaration(TypeInterfaceDeclarationContext ctx) {
+    String? docComment = _extractDocComment(ctx,
+        searchAfter: _getAnnotationStopIndex(ctx.annotations()));
     final accessModifiers = getAccessModifiers(ctx);
-    final docComment = ctx.DOC_COMMENT()?.text;
     _declaratorDescriptorStack.push(DeclarationDescriptor(
         accessModifiers: accessModifiers, docComment: docComment));
   }
@@ -117,10 +124,13 @@ class ApexClassListener extends ApexParserBaseListener {
   void enterMemberClassBodyDeclaration(MemberClassBodyDeclarationContext ctx) {
     final accessModifiers = getAccessModifiers(ctx);
     String? docComment;
-    if (ctx.DOC_COMMENTs().isNotEmpty) {
+
+    final allDocComments = _getAllDocComments(ctx,
+        searchAfter: _getAnnotationStopIndex(ctx.annotations()));
+    if (allDocComments.isNotEmpty) {
       // We take and parse the first doc comment, in case it is the
       // start of a group.
-      String potentialDocComment = ctx.DOC_COMMENTs().first.text!;
+      String potentialDocComment = allDocComments.first;
       DocComment docCommentObject =
           ApexdocParser.parseFromBody(potentialDocComment);
 
@@ -135,8 +145,8 @@ class ApexClassListener extends ApexParserBaseListener {
 
         // If there is another doc comment besides the @start-group one,
         // we use that as the one for the member
-        if (ctx.DOC_COMMENTs().length > 1) {
-          docComment = ctx.DOC_COMMENTs()[1].text;
+        if (allDocComments.length > 1) {
+          docComment = allDocComments.last;
         }
       } else {
         // We are dealing with a regular doc comment.
@@ -184,6 +194,7 @@ class ApexClassListener extends ApexParserBaseListener {
   void enterInterfaceMethodDeclaration(InterfaceMethodDeclarationContext ctx) {
     final method = buildInterfaceMethod(
         ctx,
+        _extractDocComment(ctx),
         generatedTypes.peak().accessModifier,
         generatedTypes.peak().annotations);
 
@@ -214,6 +225,39 @@ class ApexClassListener extends ApexParserBaseListener {
   @override
   void exitInterfaceDeclaration(InterfaceDeclarationContext ctx) {
     _onExitDeclaration();
+  }
+
+  int? _getAnnotationStopIndex(List<AnnotationContext> annotations) {
+    if (annotations.isNotEmpty) {
+      return annotations.last.stop!.tokenIndex;
+    }
+    return null;
+  }
+
+  String? _extractDocComment(ParserRuleContext ctx, {int? searchAfter}) {
+    final docComments = _getAllDocComments(ctx, searchAfter: searchAfter);
+    return docComments.isEmpty ? null : docComments.last;
+  }
+
+  Iterable<String> _getAllDocComments(ParserRuleContext ctx,
+      {int? searchAfter}) sync* {
+    final start = ctx.start!;
+    final startIndex = start.tokenIndex;
+    final docChannelIndex = ApexLexer.DOCUMENTATION_CHANNEL;
+    final docCommentTokens =
+        tokens.getHiddenTokensToLeft(startIndex, docChannelIndex);
+
+    for (final token in docCommentTokens ?? List<Token>.empty()) {
+      yield token.text!;
+    }
+
+    if (searchAfter != null) {
+      final additionalCommentTokens =
+          tokens.getHiddenTokensToRight(searchAfter, docChannelIndex);
+      for (final token in additionalCommentTokens ?? List<Token>.empty()) {
+        yield token.text!;
+      }
+    }
   }
 
   void _onExitDeclaration() {

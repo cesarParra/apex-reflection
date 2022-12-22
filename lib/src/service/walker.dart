@@ -16,7 +16,7 @@ class Walker {
     final lexer = definition.getLexer(input);
     final tokens = CommonTokenStream(lexer);
     final tree = definition.initializeTree(tokens);
-    ParseTreeWalker.DEFAULT.walk(definition.getListener(), tree);
+    ParseTreeWalker.DEFAULT.walk(definition.getListener(tokens), tree);
   }
 }
 
@@ -25,13 +25,11 @@ abstract class WalkerDefinition {
 
   ParserRuleContext initializeTree(TokenStream stream);
 
-  ParseTreeListener getListener();
+  ParseTreeListener getListener(CommonTokenStream tokens);
 }
 
 class ApexWalkerDefinition extends WalkerDefinition {
-  final ApexClassListener _listener;
-
-  ApexWalkerDefinition() : _listener = ApexClassListener();
+  late ApexClassListener _listener;
 
   @override
   Lexer getLexer(InputStream input) {
@@ -48,7 +46,8 @@ class ApexWalkerDefinition extends WalkerDefinition {
   }
 
   @override
-  ParseTreeListener getListener() {
+  ParseTreeListener getListener(CommonTokenStream tokens) {
+    _listener = ApexClassListener(tokens);
     return _listener;
   }
 
@@ -77,7 +76,7 @@ class ApexdocWalkerDefinition extends WalkerDefinition {
   }
 
   @override
-  ParseTreeListener getListener() {
+  ParseTreeListener getListener(_) {
     return _listener;
   }
 

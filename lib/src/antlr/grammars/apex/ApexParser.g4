@@ -41,12 +41,6 @@
 parser grammar ApexParser;
 options {tokenVocab=ApexLexer;}
 
-//@parser::members {
-//    public void clearCache() {
-//        _interp.clearDFA();
-//    }
-//}
-
 // entry point for Apex trigger files
 triggerUnit
     : TRIGGER id ON id LPAREN triggerCase (COMMA triggerCase)* RPAREN block EOF
@@ -62,9 +56,9 @@ compilationUnit
     ;
 
 typeDeclaration
-    : annotation* DOC_COMMENT? modifier* classDeclaration             # TypeClassDeclaration
-    | annotation* DOC_COMMENT? modifier* enumDeclaration              # TypeEnumDeclaration
-    | annotation* DOC_COMMENT? modifier* interfaceDeclaration         # TypeInterfaceDeclaration
+    : annotation* modifier* classDeclaration             # TypeClassDeclaration
+    | annotation* modifier* enumDeclaration              # TypeEnumDeclaration
+    | annotation* modifier* interfaceDeclaration         # TypeInterfaceDeclaration
     ;
 
 classDeclaration
@@ -104,9 +98,9 @@ interfaceBody
     ;
 
 classBodyDeclaration
-    : SEMI                                                                                                   # EmptyClassBodyDeclaration
-    | STATIC? block                                                                                          # StaticBlockClassBodyDeclaration
-    | annotation* (DOC_COMMENT)* modifier* memberDeclaration END_GROUP_COMMENT?                              # MemberClassBodyDeclaration
+    : SEMI                                                                                    # EmptyClassBodyDeclaration
+    | STATIC? block                                                                           # StaticBlockClassBodyDeclaration
+    | annotation* modifier* memberDeclaration END_GROUP_COMMENT?                              # MemberClassBodyDeclaration
     ;
 
 /* Unify all annotation & modifiers so we can give better error messages */
@@ -166,7 +160,7 @@ propertyDeclaration
     ;
 
 interfaceMethodDeclaration
-    : annotation* DOC_COMMENT? modifier* (typeRef|VOID) id formalParameters SEMI
+    : annotation* modifier* (typeRef|VOID) id formalParameters SEMI
     ;
 
 variableDeclarators

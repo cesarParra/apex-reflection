@@ -524,6 +524,14 @@ class ApexParserBaseListener implements ApexParserListener {
 
   /// The default implementation does nothing.
   @override
+  void enterAccessLevel(AccessLevelContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitAccessLevel(AccessLevelContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
   void enterInsertStatement(InsertStatementContext ctx) {}
 
   /// The default implementation does nothing.

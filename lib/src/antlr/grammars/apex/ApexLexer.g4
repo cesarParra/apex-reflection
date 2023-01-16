@@ -106,6 +106,10 @@ WITHOUT       : 'without';
 LIST          : 'list';
 MAP           : 'map';
 
+// DML keywords
+SYSTEM          : 'system';
+USER            : 'user';
+
 // Soql specific keywords
 SELECT          : 'select';
 COUNT           : 'count';
@@ -152,6 +156,8 @@ ABOVE           : 'above';
 BELOW           : 'below';
 ABOVE_OR_BELOW  : 'above_or_below';
 SECURITY_ENFORCED : 'security_enforced';
+SYSTEM_MODE     : 'system_mode';
+USER_MODE       : 'user_mode';
 REFERENCE       : 'reference';
 CUBE            : 'cube';
 FORMAT          : 'format';

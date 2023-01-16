@@ -481,6 +481,13 @@ abstract class ApexParserListener extends ParseTreeListener {
   /// [ctx] the parse tree
   void exitContinueStatement(ContinueStatementContext ctx);
 
+  /// Enter a parse tree produced by [ApexParser.accessLevel].
+  /// [ctx] the parse tree
+  void enterAccessLevel(AccessLevelContext ctx);
+  /// Exit a parse tree produced by [ApexParser.accessLevel].
+  /// [ctx] the parse tree
+  void exitAccessLevel(AccessLevelContext ctx);
+
   /// Enter a parse tree produced by [ApexParser.insertStatement].
   /// [ctx] the parse tree
   void enterInsertStatement(InsertStatementContext ctx);

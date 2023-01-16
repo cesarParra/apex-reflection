@@ -341,28 +341,32 @@ continueStatement
     : CONTINUE SEMI
     ;
 
+accessLevel
+    : AS (SYSTEM | USER)
+    ;
+
 insertStatement
-    : INSERT expression SEMI
+    : INSERT accessLevel? expression SEMI
     ;
 
 updateStatement
-    : UPDATE expression SEMI
+    : UPDATE accessLevel? expression SEMI
     ;
 
 deleteStatement
-    : DELETE expression SEMI
+    : DELETE accessLevel? expression SEMI
     ;
 
 undeleteStatement
-    : UNDELETE expression SEMI
+    : UNDELETE accessLevel? expression SEMI
     ;
 
 upsertStatement
-    : UPSERT expression qualifiedName? SEMI
+    : UPSERT accessLevel? expression qualifiedName? SEMI
     ;
 
 mergeStatement
-    : MERGE expression expression SEMI
+    : MERGE accessLevel? expression expression SEMI
     ;
 
 runAsStatement
@@ -674,6 +678,8 @@ signedNumber
 withClause
     : WITH DATA CATEGORY filteringExpression
     | WITH SECURITY_ENFORCED
+    | WITH SYSTEM_MODE
+    | WITH USER_MODE
     | WITH logicalExpression;
 
 filteringExpression
@@ -851,6 +857,9 @@ id
     | WHEN
     | WITH
     | WITHOUT
+    // DML Keywords
+    | USER
+    | SYSTEM
     // SOQL Values
     | IntegralCurrencyLiteral
     // SOQL Specific Keywords
@@ -899,6 +908,8 @@ id
     | BELOW
     | ABOVE_OR_BELOW
     | SECURITY_ENFORCED
+    | USER_MODE
+    | SYSTEM_MODE
     | REFERENCE
     | CUBE
     | FORMAT
@@ -1043,6 +1054,9 @@ anyId
     | WHILE
     | WITH
     | WITHOUT
+    // DML Keywords
+    | USER
+    | SYSTEM
     // SOQL Values
     | IntegralCurrencyLiteral
     // SOQL Specific Keywords
@@ -1091,6 +1105,8 @@ anyId
     | BELOW
     | ABOVE_OR_BELOW
     | SECURITY_ENFORCED
+    | SYSTEM_MODE
+    | USER_MODE
     | REFERENCE
     | CUBE
     | FORMAT

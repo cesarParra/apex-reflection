@@ -267,14 +267,8 @@ class ApexdocParser extends Parser {
       int _alt;
       state = 129;
       errorHandler.sync(this);
-      switch (tokenStream.LA(1)!) {
-      case TOKEN_NAME:
-      case TOKEN_SPACE:
-      case TOKEN_TEXT_CONTENT:
-      case TOKEN_STAR:
-      case TOKEN_SLASH:
-      case TOKEN_BRACE_OPEN:
-      case TOKEN_BRACE_CLOSE:
+      switch (interpreter!.adaptivePredict(tokenStream, 12, context)) {
+      case 1:
         enterOuterAlt(_localctx, 1);
         state = 115;
         descriptionLineStart();
@@ -291,7 +285,7 @@ class ApexdocParser extends Parser {
           _alt = interpreter!.adaptivePredict(tokenStream, 10, context);
         }
         break;
-      case TOKEN_INLINE_TAG_START:
+      case 2:
         enterOuterAlt(_localctx, 2);
         state = 122;
         inlineTag();
@@ -308,8 +302,6 @@ class ApexdocParser extends Parser {
           _alt = interpreter!.adaptivePredict(tokenStream, 11, context);
         }
         break;
-      default:
-        throw NoViableAltException(this);
       }
     } on RecognitionException catch (re) {
       _localctx.exception = re;
@@ -364,6 +356,7 @@ class ApexdocParser extends Parser {
           case TOKEN_TEXT_CONTENT:
           case TOKEN_STAR:
           case TOKEN_SLASH:
+          case TOKEN_INLINE_TAG_START:
           case TOKEN_BRACE_OPEN:
           case TOKEN_BRACE_CLOSE:
             state = 139;
@@ -399,7 +392,7 @@ class ApexdocParser extends Parser {
       enterOuterAlt(_localctx, 1);
       state = 146;
       _la = tokenStream.LA(1)!;
-      if (!((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_NAME) | (BigInt.one << TOKEN_TEXT_CONTENT) | (BigInt.one << TOKEN_STAR) | (BigInt.one << TOKEN_SLASH) | (BigInt.one << TOKEN_BRACE_OPEN) | (BigInt.one << TOKEN_BRACE_CLOSE))) != BigInt.zero))) {
+      if (!((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_NAME) | (BigInt.one << TOKEN_TEXT_CONTENT) | (BigInt.one << TOKEN_STAR) | (BigInt.one << TOKEN_SLASH) | (BigInt.one << TOKEN_INLINE_TAG_START) | (BigInt.one << TOKEN_BRACE_OPEN) | (BigInt.one << TOKEN_BRACE_CLOSE))) != BigInt.zero))) {
       errorHandler.recoverInline(this);
       } else {
         if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -422,25 +415,17 @@ class ApexdocParser extends Parser {
     try {
       state = 150;
       errorHandler.sync(this);
-      switch (tokenStream.LA(1)!) {
-      case TOKEN_INLINE_TAG_START:
+      switch (interpreter!.adaptivePredict(tokenStream, 17, context)) {
+      case 1:
         enterOuterAlt(_localctx, 1);
         state = 148;
         inlineTag();
         break;
-      case TOKEN_NAME:
-      case TOKEN_SPACE:
-      case TOKEN_TEXT_CONTENT:
-      case TOKEN_STAR:
-      case TOKEN_SLASH:
-      case TOKEN_BRACE_OPEN:
-      case TOKEN_BRACE_CLOSE:
+      case 2:
         enterOuterAlt(_localctx, 2);
         state = 149;
         descriptionLineText();
         break;
-      default:
-        throw NoViableAltException(this);
       }
     } on RecognitionException catch (re) {
       _localctx.exception = re;
@@ -471,6 +456,7 @@ class ApexdocParser extends Parser {
           case TOKEN_TEXT_CONTENT:
           case TOKEN_STAR:
           case TOKEN_SLASH:
+          case TOKEN_INLINE_TAG_START:
           case TOKEN_BRACE_OPEN:
           case TOKEN_BRACE_CLOSE:
             state = 152;
@@ -1226,7 +1212,7 @@ class ApexdocParser extends Parser {
   	'\u{3}\u{19}\u{2}\u{2}\u{1A}\u{2}\u{4}\u{6}\u{8}\u{A}\u{C}\u{E}\u{10}'
   	'\u{12}\u{14}\u{16}\u{18}\u{1A}\u{1C}\u{1E}\u{20}\u{22}\u{24}\u{26}\u{28}'
   	'\u{2A}\u{2C}\u{2E}\u{30}\u{2}\u{7}\u{6}\u{2}\u{8}\u{8}\u{C}\u{C}\u{E}'
-  	'\u{F}\u{14}\u{15}\u{3}\u{2}\u{6}\u{7}\u{6}\u{2}\u{8}\u{8}\u{B}\u{C}\u{E}'
+  	'\u{F}\u{13}\u{15}\u{3}\u{2}\u{6}\u{7}\u{6}\u{2}\u{8}\u{8}\u{B}\u{C}\u{E}'
   	'\u{F}\u{14}\u{15}\u{3}\u{2}\u{A}\u{B}\u{4}\u{2}\u{8}\u{8}\u{A}\u{F}\u{2}'
   	'\u{16A}\u{2}\u{47}\u{3}\u{2}\u{2}\u{2}\u{4}\u{66}\u{3}\u{2}\u{2}\u{2}'
   	'\u{6}\u{68}\u{3}\u{2}\u{2}\u{2}\u{8}\u{83}\u{3}\u{2}\u{2}\u{2}\u{A}\u{86}'
@@ -1505,6 +1491,7 @@ class DescriptionLineNoSpaceNoAtContext extends ParserRuleContext {
   TerminalNode? SLASH() => getToken(ApexdocParser.TOKEN_SLASH, 0);
   TerminalNode? BRACE_OPEN() => getToken(ApexdocParser.TOKEN_BRACE_OPEN, 0);
   TerminalNode? BRACE_CLOSE() => getToken(ApexdocParser.TOKEN_BRACE_CLOSE, 0);
+  TerminalNode? INLINE_TAG_START() => getToken(ApexdocParser.TOKEN_INLINE_TAG_START, 0);
   DescriptionLineNoSpaceNoAtContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
   int get ruleIndex => RULE_descriptionLineNoSpaceNoAt;

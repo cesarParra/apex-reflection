@@ -1,6 +1,6 @@
 {
   "name": "@cparra/apex-reflection",
-  "version": "2.4.0-beta.0",
+  "version": "2.4.0",
   "description": "",
   "main": "index.js",
   "scripts": {

@@ -68,6 +68,10 @@ TEXT_CONTENT
 	: ~[\n\r\t @*{}/a-zA-Z]+
 	;
 
+TICKED_CONTENT
+    : '`' ~('`'|'\n'|'\r')* '`'
+    ;
+
 AT
 	: '@'
 	;
@@ -82,6 +86,10 @@ SLASH
 
 DOT
   : '.'
+  ;
+
+TICK
+  : '`'
   ;
 
 JAVADOC_START

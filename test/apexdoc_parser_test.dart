@@ -53,6 +53,33 @@ main() {
     expect(docComment.description, 'This is a description');
   });
 
+  test('Multi-tagged lines produce multiple annotations', () {
+    final docBody = '''
+    /**
+      * @first This is a description @second with another tag
+      */
+    ''';
+    final docComment = ApexdocParser.parseFromBody(docBody);
+
+    expect(docComment.annotations.length, equals(2));
+    expect(docComment.annotations.first.name, equals('first'));
+    expect(docComment.annotations.last.name, equals('second'));
+  });
+
+  test('Tags within ticks are not treated as annotations', () {
+    final docBody = '''
+    /**
+      * @first This is a description `@second` with another tag
+      */
+    ''';
+    final docComment = ApexdocParser.parseFromBody(docBody);
+
+    expect(docComment.annotations.length, equals(1));
+    expect(docComment.annotations.first.name, equals('first'));
+    expect(docComment.annotations.first.body,
+        equals('This is a description `@second` with another tag'));
+  });
+
   test('Can parse tagged description with multiple lines', () {
     final docBody = '''
     /**

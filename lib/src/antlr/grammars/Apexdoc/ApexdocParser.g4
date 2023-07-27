@@ -120,6 +120,7 @@ blockTagTextElement
 	| SLASH
 	| BRACE_OPEN
 	| BRACE_CLOSE
+    | TICKED_CONTENT
 	;
 
 

@@ -1,5 +1,3 @@
-// @dart=2.9
-
 @JS()
 library apex_reflection;
 

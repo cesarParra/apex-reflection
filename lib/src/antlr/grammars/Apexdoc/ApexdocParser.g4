@@ -63,6 +63,7 @@ descriptionLineNoSpaceNoAt
 	| BRACE_OPEN
 	| BRACE_CLOSE
 	| INLINE_TAG_START
+	| TICKED_CONTENT
 	;
 
 descriptionLineElement

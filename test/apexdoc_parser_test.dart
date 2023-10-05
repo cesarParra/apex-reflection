@@ -80,6 +80,20 @@ main() {
         equals('This is a description `@second` with another tag'));
   });
 
+  test('Ticks can be placed wherever in description blocks without @description tags', () {
+    final docBody = '''
+    /**
+     * This class features a 'circuit breaker' variable. 
+     * For instance, `@future` methods must be
+     * static void methods...
+     */
+    ''';
+
+    final docComment = ApexdocParser.parseFromBody(docBody);
+
+    expect(docComment.error, isNull);
+  });
+
   test('Can parse tagged description with multiple lines', () {
     final docBody = '''
     /**

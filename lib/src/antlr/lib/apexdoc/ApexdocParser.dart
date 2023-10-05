@@ -355,6 +355,7 @@ class ApexdocParser extends Parser {
           switch (tokenStream.LA(1)!) {
           case TOKEN_NAME:
           case TOKEN_TEXT_CONTENT:
+          case TOKEN_TICKED_CONTENT:
           case TOKEN_STAR:
           case TOKEN_SLASH:
           case TOKEN_INLINE_TAG_START:
@@ -393,7 +394,7 @@ class ApexdocParser extends Parser {
       enterOuterAlt(_localctx, 1);
       state = 146;
       _la = tokenStream.LA(1)!;
-      if (!((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_NAME) | (BigInt.one << TOKEN_TEXT_CONTENT) | (BigInt.one << TOKEN_STAR) | (BigInt.one << TOKEN_SLASH) | (BigInt.one << TOKEN_INLINE_TAG_START) | (BigInt.one << TOKEN_BRACE_OPEN) | (BigInt.one << TOKEN_BRACE_CLOSE))) != BigInt.zero))) {
+      if (!((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_NAME) | (BigInt.one << TOKEN_TEXT_CONTENT) | (BigInt.one << TOKEN_TICKED_CONTENT) | (BigInt.one << TOKEN_STAR) | (BigInt.one << TOKEN_SLASH) | (BigInt.one << TOKEN_INLINE_TAG_START) | (BigInt.one << TOKEN_BRACE_OPEN) | (BigInt.one << TOKEN_BRACE_CLOSE))) != BigInt.zero))) {
       errorHandler.recoverInline(this);
       } else {
         if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -455,6 +456,7 @@ class ApexdocParser extends Parser {
           switch (tokenStream.LA(1)!) {
           case TOKEN_NAME:
           case TOKEN_TEXT_CONTENT:
+          case TOKEN_TICKED_CONTENT:
           case TOKEN_STAR:
           case TOKEN_SLASH:
           case TOKEN_INLINE_TAG_START:
@@ -1213,7 +1215,7 @@ class ApexdocParser extends Parser {
   	'\u{5}\u{17}\u{147}\u{A}\u{17}\u{3}\u{18}\u{3}\u{18}\u{3}\u{19}\u{3}\u{19}'
   	'\u{3}\u{19}\u{2}\u{2}\u{1A}\u{2}\u{4}\u{6}\u{8}\u{A}\u{C}\u{E}\u{10}'
   	'\u{12}\u{14}\u{16}\u{18}\u{1A}\u{1C}\u{1E}\u{20}\u{22}\u{24}\u{26}\u{28}'
-  	'\u{2A}\u{2C}\u{2E}\u{30}\u{2}\u{7}\u{6}\u{2}\u{8}\u{8}\u{C}\u{C}\u{F}'
+  	'\u{2A}\u{2C}\u{2E}\u{30}\u{2}\u{7}\u{6}\u{2}\u{8}\u{8}\u{C}\u{D}\u{F}'
   	'\u{10}\u{15}\u{17}\u{3}\u{2}\u{6}\u{7}\u{6}\u{2}\u{8}\u{8}\u{B}\u{D}'
   	'\u{F}\u{10}\u{16}\u{17}\u{3}\u{2}\u{A}\u{B}\u{5}\u{2}\u{8}\u{8}\u{A}'
   	'\u{C}\u{E}\u{10}\u{2}\u{16A}\u{2}\u{47}\u{3}\u{2}\u{2}\u{2}\u{4}\u{66}'
@@ -1495,6 +1497,7 @@ class DescriptionLineNoSpaceNoAtContext extends ParserRuleContext {
   TerminalNode? BRACE_OPEN() => getToken(ApexdocParser.TOKEN_BRACE_OPEN, 0);
   TerminalNode? BRACE_CLOSE() => getToken(ApexdocParser.TOKEN_BRACE_CLOSE, 0);
   TerminalNode? INLINE_TAG_START() => getToken(ApexdocParser.TOKEN_INLINE_TAG_START, 0);
+  TerminalNode? TICKED_CONTENT() => getToken(ApexdocParser.TOKEN_TICKED_CONTENT, 0);
   DescriptionLineNoSpaceNoAtContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
   int get ruleIndex => RULE_descriptionLineNoSpaceNoAt;

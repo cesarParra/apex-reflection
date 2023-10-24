@@ -122,7 +122,7 @@ class ApexClassListener extends ApexParserBaseListener {
 
   @override
   void enterMemberClassBodyDeclaration(MemberClassBodyDeclarationContext ctx) {
-    final accessModifiers = getAccessModifiers(ctx);
+    final accessModifiers = getAccessModifiers(ctx, isMember: true);
     String? docComment;
 
     final allDocComments = _getAllDocComments(ctx,

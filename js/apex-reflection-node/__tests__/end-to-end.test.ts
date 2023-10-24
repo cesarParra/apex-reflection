@@ -253,6 +253,18 @@ describe('Class reflection', () => {
     expect(result.methods[1].name).toBe('method2');
   });
 
+  test('Can have virtual methods', () => {
+    const classBody = `
+    public with sharing class MyClass {
+      public virtual String method1() {
+        return '';
+      }
+    }
+    `;
+    const result = (reflect(classBody)).typeMirror as ClassMirror;
+    expect(result.methods[0].memberModifiers[0]).toBe('virtual');
+  });
+
   test('Can have inner enums', () => {
     const classBody = `
     public with sharing class MyClass {

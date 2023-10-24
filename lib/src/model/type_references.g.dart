@@ -6,11 +6,10 @@ part of 'type_references.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ReferenceObjectType _$ReferenceObjectTypeFromJson(Map<String, dynamic> json) {
-  return ReferenceObjectType(
-    json['type'] as String,
-  )..rawDeclaration = json['rawDeclaration'] as String;
-}
+ReferenceObjectType _$ReferenceObjectTypeFromJson(Map<String, dynamic> json) =>
+    ReferenceObjectType(
+      json['type'] as String,
+    )..rawDeclaration = json['rawDeclaration'] as String;
 
 Map<String, dynamic> _$ReferenceObjectTypeToJson(
         ReferenceObjectType instance) =>
@@ -19,12 +18,11 @@ Map<String, dynamic> _$ReferenceObjectTypeToJson(
       'rawDeclaration': instance.rawDeclaration,
     };
 
-ListObjectType _$ListObjectTypeFromJson(Map<String, dynamic> json) {
-  return ListObjectType(
-    objectTypeFromJson(json['ofType'] as Map<String, dynamic>?),
-    json['rawDeclaration'] as String,
-  )..type = json['type'] as String;
-}
+ListObjectType _$ListObjectTypeFromJson(Map<String, dynamic> json) =>
+    ListObjectType(
+      objectTypeFromJson(json['ofType'] as Map<String, dynamic>?),
+      json['rawDeclaration'] as String,
+    )..type = json['type'] as String;
 
 Map<String, dynamic> _$ListObjectTypeToJson(ListObjectType instance) =>
     <String, dynamic>{
@@ -33,13 +31,12 @@ Map<String, dynamic> _$ListObjectTypeToJson(ListObjectType instance) =>
       'ofType': objectTypeToJson(instance.ofType),
     };
 
-MapObjectType _$MapObjectTypeFromJson(Map<String, dynamic> json) {
-  return MapObjectType(
-    objectTypeFromJson(json['keyType'] as Map<String, dynamic>?),
-    objectTypeFromJson(json['valueType'] as Map<String, dynamic>?),
-    json['rawDeclaration'] as String,
-  )..type = json['type'] as String;
-}
+MapObjectType _$MapObjectTypeFromJson(Map<String, dynamic> json) =>
+    MapObjectType(
+      objectTypeFromJson(json['keyType'] as Map<String, dynamic>?),
+      objectTypeFromJson(json['valueType'] as Map<String, dynamic>?),
+      json['rawDeclaration'] as String,
+    )..type = json['type'] as String;
 
 Map<String, dynamic> _$MapObjectTypeToJson(MapObjectType instance) =>
     <String, dynamic>{
@@ -49,12 +46,11 @@ Map<String, dynamic> _$MapObjectTypeToJson(MapObjectType instance) =>
       'valueType': objectTypeToJson(instance.valueType),
     };
 
-SetObjectType _$SetObjectTypeFromJson(Map<String, dynamic> json) {
-  return SetObjectType(
-    objectTypeFromJson(json['ofType'] as Map<String, dynamic>?),
-    json['rawDeclaration'] as String,
-  )..type = json['type'] as String;
-}
+SetObjectType _$SetObjectTypeFromJson(Map<String, dynamic> json) =>
+    SetObjectType(
+      objectTypeFromJson(json['ofType'] as Map<String, dynamic>?),
+      json['rawDeclaration'] as String,
+    )..type = json['type'] as String;
 
 Map<String, dynamic> _$SetObjectTypeToJson(SetObjectType instance) =>
     <String, dynamic>{

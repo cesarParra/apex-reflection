@@ -12,7 +12,7 @@ enum SharingModifier { withSharing, withoutSharing, inheritedSharing }
 
 enum ClassModifier { virtual, abstract }
 
-enum MemberModifier { static, webService, isFinal, override, testMethod, transient }
+enum MemberModifier { static, webService, isFinal, override, testMethod, transient, virtual }
 
 enum AnnotationType {
   auraEnabled,
@@ -37,7 +37,7 @@ enum AnnotationType {
   other
 }
 
-dynamic getModifierFromStringDeclaration(dynamic modifierDeclarationContext) {
+dynamic getModifierFromStringDeclaration(dynamic modifierDeclarationContext, {isMember = false}) {
   final modifierDeclaration = modifierDeclarationContext.text;
   if (modifierDeclarationContext is AnnotationContext) {
     return Annotation.fromAnnotationContext(modifierDeclarationContext);
@@ -48,17 +48,19 @@ dynamic getModifierFromStringDeclaration(dynamic modifierDeclarationContext) {
   }
 
   dynamic enumValue = AccessModifier.values.firstWhereOrNull((element) =>
-      describeEnum(element).toLowerCase() == modifierDeclaration.toLowerCase());
+  describeEnum(element).toLowerCase() == modifierDeclaration.toLowerCase());
 
   if (enumValue != null) {
     return enumValue;
   }
 
-  enumValue = ClassModifier.values.firstWhereOrNull((element) =>
-      describeEnum(element).toLowerCase() == modifierDeclaration.toLowerCase());
+  if (!isMember) {
+    enumValue = ClassModifier.values.firstWhereOrNull((element) =>
+    describeEnum(element).toLowerCase() == modifierDeclaration.toLowerCase());
 
-  if (enumValue != null) {
-    return enumValue;
+    if (enumValue != null) {
+      return enumValue;
+    }
   }
 
   enumValue = SharingModifier.values.firstWhereOrNull((element) =>

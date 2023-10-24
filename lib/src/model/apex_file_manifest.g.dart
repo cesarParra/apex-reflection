@@ -6,11 +6,10 @@ part of 'apex_file_manifest.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ApexFileManifest _$ApexFileManifestFromJson(Map<String, dynamic> json) {
-  return ApexFileManifest(
-    ApexFileManifest.typeFromJson(json['generatedTypes'] as List),
-  );
-}
+ApexFileManifest _$ApexFileManifestFromJson(Map<String, dynamic> json) =>
+    ApexFileManifest(
+      ApexFileManifest.typeFromJson(json['generatedTypes'] as List),
+    );
 
 Map<String, dynamic> _$ApexFileManifestToJson(ApexFileManifest instance) =>
     <String, dynamic>{

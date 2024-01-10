@@ -83,7 +83,9 @@ dart run build_runner watch
 
 ⚠️ This needs to be run with ANTLR 4.9.3
 
-The parsing algorithm relies on using ANTLR4 and its Dart target. To generate the Antlr4 **Apex** output run:
+The parsing algorithm relies on using ANTLR4 and its Dart target. 
+
+To generate the Antlr4 **Apex** output run:
 
 ```shell
 java org.antlr.v4.Tool -Dlanguage=Dart lib/src/antlr/grammars/apex/ApexLexer.g4 lib/src/antlr/grammars/apex/ApexParser.g4 -o lib/src/antlr/lib/apex/

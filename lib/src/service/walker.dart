@@ -1,5 +1,4 @@
 import 'package:antlr4/antlr4.dart';
-import 'package:antlr4/src/recognizer.dart';
 
 import 'package:apexdocs_dart/src/antlr/lib/apex/ApexLexer.dart';
 import 'package:apexdocs_dart/src/antlr/lib/apex/ApexParser.dart';

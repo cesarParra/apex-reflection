@@ -257,7 +257,7 @@ describe('Class reflection', () => {
     const classBody = `
     public with sharing class MyClass {
       public virtual String method1() {
-        return '';
+        return null ?? '';
       }
     }
     `;

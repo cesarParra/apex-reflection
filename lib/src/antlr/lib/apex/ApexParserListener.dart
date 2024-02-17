@@ -720,6 +720,15 @@ abstract class ApexParserListener extends ParseTreeListener {
   /// [ctx] the parse tree
   void exitLogAndExpression(LogAndExpressionContext ctx);
 
+  /// Enter a parse tree produced by the [nullCoalesceExpression]
+  /// labeled alternative in [file.parserName>.expression].
+  /// [ctx] the parse tree
+  void enterNullCoalesceExpression(NullCoalesceExpressionContext ctx);
+  /// Exit a parse tree produced by the [nullCoalesceExpression]
+  /// labeled alternative in [ApexParser.expression].
+  /// [ctx] the parse tree
+  void exitNullCoalesceExpression(NullCoalesceExpressionContext ctx);
+
   /// Enter a parse tree produced by the [castExpression]
   /// labeled alternative in [file.parserName>.expression].
   /// [ctx] the parse tree

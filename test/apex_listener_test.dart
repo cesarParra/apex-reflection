@@ -1121,6 +1121,25 @@ void main() {
       var innerClass = generatedClass.classes.first;
       expect(innerClass.rawDocComment, isNotNull);
     });
+
+    test('Supports the null coalesce operator', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var classBody = '''
+      public class MyClass {
+        /**
+         * @description Some description
+         */
+          public class InnerClass {
+              public String innerMethod(String prop1, String prop2) {
+                  return null ?? 'test';
+              }
+          }
+      }
+      ''';
+
+      expect(() => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition), returnsNormally);
+    });
   });
 
   group('Parses Apex Interfaces', () {

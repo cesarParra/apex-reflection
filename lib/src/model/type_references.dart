@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import '../antlr/lib/apex/ApexParser.dart';
+import 'package:apexdocs_dart/src/antlr/lib/apex/ApexParser.dart';
 
 part 'type_references.g.dart';
 

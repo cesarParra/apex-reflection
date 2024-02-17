@@ -375,6 +375,7 @@ BITOR           : '|';
 CARET           : '^';
 MOD             : '%';
 MAPTO           : '=>';
+NULL_COALESCE   : '??';
 
 ADD_ASSIGN      : '+=';
 SUB_ASSIGN      : '-=';

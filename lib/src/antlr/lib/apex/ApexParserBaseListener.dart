@@ -772,6 +772,14 @@ class ApexParserBaseListener implements ApexParserListener {
 
   /// The default implementation does nothing.
   @override
+  void enterNullCoalesceExpression(NullCoalesceExpressionContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitNullCoalesceExpression(NullCoalesceExpressionContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
   void enterCastExpression(CastExpressionContext ctx) {}
 
   /// The default implementation does nothing.

@@ -265,6 +265,18 @@ describe('Class reflection', () => {
     expect(result.methods[0].memberModifiers[0]).toBe('virtual');
   });
 
+  test('Can have abstract methods', () => {
+    const classBody = `
+    public with sharing abstract class MyClass {
+      public abstract String method1() {
+        return null ?? '';
+      }
+    }
+    `;
+    const result = (reflect(classBody)).typeMirror as ClassMirror;
+    expect(result.methods[0].memberModifiers[0]).toBe('abstract');
+  });
+
   test('Can have inner enums', () => {
     const classBody = `
     public with sharing class MyClass {

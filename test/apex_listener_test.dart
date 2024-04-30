@@ -823,6 +823,47 @@ void main() {
       expect(method2.typeReference.type, equals('String'));
     });
 
+    test('Methods can be abstract', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var classBody = '''
+      public abstract class MyClass {
+        @NamespaceAccessible
+        public abstract void sayHi() {
+          System.debug(getGreeting());
+        }
+        public String getGreeting() {
+          return 'Hi!';
+        }
+      }
+      ''';
+
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
+      var generatedClass =
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      expect(generatedClass.methods.length, equals(2));
+      expect(generatedClass.methods.any((element) => element.name == 'sayHi'),
+          isTrue);
+      expect(
+          generatedClass.methods
+              .any((element) => element.name == 'getGreeting'),
+          isTrue);
+
+      MethodMirror method1 = generatedClass.methods
+          .firstWhere((element) => element.name == 'sayHi');
+      expect(method1.isPublic, isTrue);
+      expect(method1.isNamespaceAccessible, isTrue);
+      expect(method1.isVoid, isTrue);
+      expect(method1.memberModifiers, contains(MemberModifier.abstract));
+
+      MethodMirror method2 = generatedClass.methods
+          .firstWhere((element) => element.name == 'getGreeting');
+      expect(method2.isPublic, isTrue);
+      expect(method2.isNamespaceAccessible, isFalse);
+      expect(method2.isVoid, isFalse);
+      expect(method2.typeReference.type, equals('String'));
+    });
+
     test('Classes can have methods with doc comments', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
       var classBody = '''

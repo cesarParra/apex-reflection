@@ -55,6 +55,7 @@ const _$MemberModifierEnumMap = {
   MemberModifier.testMethod: 'testMethod',
   MemberModifier.transient: 'transient',
   MemberModifier.virtual: 'virtual',
+  MemberModifier.abstract: 'abstract',
 };
 
 FieldMirror _$FieldMirrorFromJson(Map<String, dynamic> json) => FieldMirror(

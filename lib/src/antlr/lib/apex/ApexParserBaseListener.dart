@@ -1388,6 +1388,14 @@ class ApexParserBaseListener implements ApexParserListener {
 
   /// The default implementation does nothing.
   @override
+  void enterSoslWithClause(SoslWithClauseContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitSoslWithClause(SoslWithClauseContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
   void enterSearchGroup(SearchGroupContext ctx) {}
 
   /// The default implementation does nothing.

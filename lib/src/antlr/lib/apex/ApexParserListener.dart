@@ -1301,6 +1301,13 @@ abstract class ApexParserListener extends ParseTreeListener {
   /// [ctx] the parse tree
   void exitSoslClauses(SoslClausesContext ctx);
 
+  /// Enter a parse tree produced by [ApexParser.soslWithClause].
+  /// [ctx] the parse tree
+  void enterSoslWithClause(SoslWithClauseContext ctx);
+  /// Exit a parse tree produced by [ApexParser.soslWithClause].
+  /// [ctx] the parse tree
+  void exitSoslWithClause(SoslWithClauseContext ctx);
+
   /// Enter a parse tree produced by [ApexParser.searchGroup].
   /// [ctx] the parse tree
   void enterSearchGroup(SearchGroupContext ctx);

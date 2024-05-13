@@ -792,15 +792,21 @@ soslLiteral
 soslClauses
     : (IN searchGroup)?
       (RETURNING fieldSpecList)?
-      (WITH DIVISION ASSIGN StringLiteral)?
-      (WITH DATA CATEGORY filteringExpression)?
-      (WITH SNIPPET (LPAREN TARGET_LENGTH ASSIGN IntegerLiteral RPAREN)? )?
-      (WITH NETWORK IN LPAREN networkList RPAREN)?
-      (WITH NETWORK ASSIGN StringLiteral)?
-      (WITH PRICEBOOKID ASSIGN StringLiteral)?
-      (WITH METADATA ASSIGN StringLiteral)?
+      soslWithClause*
       limitClause?
       (UPDATE updateList)?
+    ;
+
+soslWithClause
+    : WITH DIVISION ASSIGN StringLiteral
+    | WITH DATA CATEGORY filteringExpression
+    | WITH SNIPPET (LPAREN TARGET_LENGTH ASSIGN IntegerLiteral RPAREN)?
+    | WITH NETWORK IN LPAREN networkList RPAREN
+    | WITH NETWORK ASSIGN StringLiteral
+    | WITH PRICEBOOKID ASSIGN StringLiteral
+    | WITH METADATA ASSIGN StringLiteral
+    | WITH USER_MODE
+    | WITH SYSTEM_MODE
     ;
 
 searchGroup

@@ -1337,5 +1337,56 @@ void main() {
           isTrue);
       expect(apexWalkerDefinition.getGeneratedApexType()!.isPrivate, isFalse);
     });
+
+    test('Enums can have values', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var enumBody = '''
+      enum MyEnum {
+        VALUE1, VALUE2, VALUE3
+      }
+      ''';
+
+      Walker.walk(CaseInsensitiveInputStream.fromString(enumBody),
+          apexWalkerDefinition);
+      var generatedEnum =
+          apexWalkerDefinition.getGeneratedApexType() as EnumMirror;
+      expect(generatedEnum.values.length, equals(3));
+      expect(generatedEnum.values.any((element) => element.name == 'VALUE1'),
+          isTrue);
+      expect(generatedEnum.values.any((element) => element.name == 'VALUE2'),
+          isTrue);
+      expect(generatedEnum.values.any((element) => element.name == 'VALUE3'),
+          isTrue);
+    });
+
+    // enum values can have descriptions
+    test('enum values can have descriptions', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var enumBody = '''
+      enum MyEnum {
+        /** @description Value 1 */
+        VALUE1, 
+        /** @description Value 2 */
+        VALUE2, 
+        /** @description Value 3 */
+        VALUE3
+      }
+      ''';
+
+      Walker.walk(CaseInsensitiveInputStream.fromString(enumBody),
+          apexWalkerDefinition);
+      var generatedEnum =
+          apexWalkerDefinition.getGeneratedApexType() as EnumMirror;
+      expect(generatedEnum.values.length, equals(3));
+      expect(generatedEnum.values.any((element) => element.name == 'VALUE1'),
+          isTrue);
+      expect(generatedEnum.values.any((element) => element.name == 'VALUE2'),
+          isTrue);
+      expect(generatedEnum.values.any((element) => element.name == 'VALUE3'),
+          isTrue);
+      expect(generatedEnum.values.firstWhere((element) => element.name == 'VALUE1').docDescription, 'Value 1');
+      expect(generatedEnum.values.firstWhere((element) => element.name == 'VALUE2').docDescription, 'Value 2');
+      expect(generatedEnum.values.firstWhere((element) => element.name == 'VALUE3').docDescription, 'Value 3');
+    });
   });
 }

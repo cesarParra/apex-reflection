@@ -130,6 +130,19 @@ Map<String, dynamic> _$InterfaceMirrorToJson(InterfaceMirror instance) =>
       'extended_interfaces': instance.extendedInterfaces,
     };
 
+EnumValue _$EnumValueFromJson(Map<String, dynamic> json) => EnumValue(
+      name: json['name'] as String,
+      value: json['value'] as String?,
+    )..docComment = json['docComment'] == null
+        ? null
+        : DocComment.fromJson(json['docComment'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$EnumValueToJson(EnumValue instance) => <String, dynamic>{
+      'docComment': instance.docComment,
+      'name': instance.name,
+      'value': instance.value,
+    };
+
 EnumMirror _$EnumMirrorFromJson(Map<String, dynamic> json) => EnumMirror(
       name: json['name'] as String,
     )
@@ -143,7 +156,10 @@ EnumMirror _$EnumMirrorFromJson(Map<String, dynamic> json) => EnumMirror(
           .toList()
       ..group = json['group'] as String?
       ..groupDescription = json['groupDescription'] as String?
-      ..typeName = json['type_name'] as String;
+      ..typeName = json['type_name'] as String
+      ..values = (json['values'] as List<dynamic>)
+          .map((e) => EnumValue.fromJson(e as Map<String, dynamic>))
+          .toList();
 
 Map<String, dynamic> _$EnumMirrorToJson(EnumMirror instance) =>
     <String, dynamic>{
@@ -154,4 +170,5 @@ Map<String, dynamic> _$EnumMirrorToJson(EnumMirror instance) =>
       'group': instance.group,
       'groupDescription': instance.groupDescription,
       'type_name': instance.typeName,
+      'values': instance.values,
     };

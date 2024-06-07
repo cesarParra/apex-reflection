@@ -1,4 +1,4 @@
-import {ClassMirror, InterfaceMirror, reflect} from '../index';
+import {ClassMirror, EnumMirror, InterfaceMirror, reflect} from '../index';
 
 describe('Enum Reflection', () => {
   test('Simple, single line declaration', () => {
@@ -32,6 +32,34 @@ describe('Enum Reflection', () => {
     `;
     const result = reflect(enumBody).typeMirror;
     expect(result.docComment.description).toBe('My enum description');
+  });
+
+  test('Enums can have values', () => {
+    const enumBody = `
+    enum MyEnumName {
+      VALUE_1,
+      VALUE2
+    }
+    `;
+    const result = reflect(enumBody).typeMirror as EnumMirror;
+    expect(result.values.length).toBe(2);
+    expect(result.values[0].name).toBe('VALUE_1');
+    expect(result.values[1].name).toBe('VALUE2');
+  });
+
+  test('Enum values can have descriptions', () => {
+    const enumBody = `
+    enum MyEnumName {
+      /**
+       * Value 1 description
+       */
+      VALUE_1,
+      VALUE2
+    }
+    `;
+    const result = reflect(enumBody).typeMirror as EnumMirror;
+    expect(result.values.length).toBe(2);
+    expect(result.values[0].docComment.description).toBe('Value 1 description');
   });
 });
 

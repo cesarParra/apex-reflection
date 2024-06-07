@@ -112,7 +112,8 @@ void main() {
         {
           "annotations": [],
           "name": "ChildEnum",
-          "type_name": "enum"
+          "type_name": "enum",
+          "values": []
         }
       ],
       "interfaces": [
@@ -235,7 +236,8 @@ void main() {
           }
         ],
         "name": "EnumName",
-        "type_name": "enum"
+        "type_name": "enum",
+        "values": []
       }
       ''';
 

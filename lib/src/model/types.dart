@@ -139,6 +139,11 @@ class EnumValue with DocsCommentAwareness {
   EnumValue({required this.name, this.value, String? rawDocComment}) {
     this.rawDocComment = rawDocComment;
   }
+
+  factory EnumValue.fromJson(Map<String, dynamic> json) =>
+      _$EnumValueFromJson(json);
+
+  Map<String, dynamic> toJson() => _$EnumValueToJson(this);
 }
 
 /// Represents an enum declaration.

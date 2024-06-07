@@ -75,6 +75,20 @@ class ApexClassListener extends ApexParserBaseListener {
   }
 
   @override
+  void enterEnumConstants(EnumConstantsContext ctx) {
+    // grab enum from the stack
+    final enumMirror = generatedTypes.peak() as EnumMirror;
+    final enumValues = ctx
+        .ids()
+        .map((e) => EnumValue(
+              name: e.text,
+              rawDocComment: _extractDocComment(e),
+            ))
+        .toList();
+    enumMirror.values.addAll(enumValues);
+  }
+
+  @override
   void enterTypeInterfaceDeclaration(TypeInterfaceDeclarationContext ctx) {
     String? docComment = _extractDocComment(ctx,
         searchAfter: _getAnnotationStopIndex(ctx.annotations()));

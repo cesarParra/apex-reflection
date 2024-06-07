@@ -312,4 +312,51 @@ void main() {
       expect(interfaceModel.methods.contains(method2), isTrue);
     });
   });
+
+  group('Enum Model Tests', (){
+    test('Has a name', () {
+      final expectedEnumName = 'EnumName';
+      final enumModel = EnumMirror(name: expectedEnumName);
+      expect(enumModel.name, expectedEnumName);
+    });
+
+    test('Does not have doc comments by default', () {
+      final enumModel = EnumMirror(name: 'AnyName');
+      expect(enumModel.rawDocComment, isNull);
+    });
+
+    test('Can receive doc comments', () {
+      final enumModel = EnumMirror(
+          name: 'AnyName', rawDocComment: '@description Some description');
+      expect(enumModel.rawDocComment, isNotNull);
+    });
+
+    test('can have a list of values', () {
+      var enumModel = EnumMirror(name: 'AnyName');
+      var value1 = EnumValue(name: 'Value1');
+      var value2 = EnumValue(name: 'Value2');
+
+      enumModel.addValue(value1);
+      enumModel.addValue(value2);
+
+      expect(enumModel.values.length, equals(2));
+      expect(enumModel.values.contains(value1), isTrue);
+      expect(enumModel.values.contains(value2), isTrue);
+    });
+
+    test('enum values can have descriptions', () {
+      var enumModel = EnumMirror(name: 'AnyName');
+      var value1 = EnumValue(name: 'Value1', rawDocComment: '@description Some description');
+      var value2 = EnumValue(name: 'Value2', rawDocComment: '@description Some description');
+
+      enumModel.addValue(value1);
+      enumModel.addValue(value2);
+
+      expect(enumModel.values.length, equals(2));
+      expect(enumModel.values.contains(value1), isTrue);
+      expect(enumModel.values.first.docDescription, isNotNull);
+      expect(enumModel.values.contains(value2), isTrue);
+      expect(enumModel.values.last.docDescription, isNotNull);
+    });
+  });
 }

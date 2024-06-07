@@ -131,9 +131,22 @@ class InterfaceMirror extends TypeMirror
   }
 }
 
+@JsonSerializable()
+class EnumValue with DocsCommentAwareness {
+  final String name;
+  final String? value;
+
+  EnumValue({required this.name, this.value, String? rawDocComment}) {
+    this.rawDocComment = rawDocComment;
+  }
+}
+
 /// Represents an enum declaration.
 @JsonSerializable()
 class EnumMirror extends TypeMirror {
+  @JsonKey(name: 'values')
+  List<EnumValue> values = [];
+
   EnumMirror({required String name, String? rawDocComment})
       : super(name: name, rawDocComment: rawDocComment) {
     typeName = 'enum';
@@ -148,5 +161,9 @@ class EnumMirror extends TypeMirror {
   @override
   bool isEnum() {
     return true;
+  }
+
+  void addValue(EnumValue value) {
+    values.add(value);
   }
 }

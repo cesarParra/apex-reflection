@@ -18,7 +18,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "^27.0.2",
-    "@types/node": "^16.10.2",
+    "@types/node": "^16.18.98",
     "@types/typescript": "^2.0.0",
     "jest": "^27.2.4",
     "ts-jest": "^27.0.5",

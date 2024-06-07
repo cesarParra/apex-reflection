@@ -72,6 +72,11 @@ export interface MapObjectType extends ReferenceObjectType {
     valueType: ReferenceObjectType;
 }
 
+export interface EnumValue {
+    name: string;
+    docComment?: DocComment;
+}
+
 export interface ParameterMirror {
     memberModifiers: string[];
     name: string;
@@ -144,6 +149,7 @@ export interface EnumMirror {
     docComment?: DocComment;
     group?: string;
     groupDescription?: string;
+    values: EnumValue[];
 }
 
 export interface InterfaceMirror {

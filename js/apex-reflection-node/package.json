@@ -14,7 +14,7 @@
     "ANTLR4",
     "apex-docs"
   ],
-  "author": "",
+  "author": "Cesar Parra",
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "^27.0.2",
@@ -22,7 +22,7 @@
     "@types/typescript": "^2.0.0",
     "jest": "^27.2.4",
     "ts-jest": "^27.0.5",
-    "typescript": "^4.4.3"
+    "typescript": "^4.7.4"
   },
   "types": "index.d.ts"
 }

@@ -39,7 +39,7 @@ export interface Annotation {
     type: string;
     elementValues?: AnnotationElementValue[];
 }
-export declare type ReferencedType = ReferenceObjectType | ListObjectType | SetObjectType | MapObjectType;
+export type ReferencedType = ReferenceObjectType | ListObjectType | SetObjectType | MapObjectType;
 export interface ReferenceObjectType {
     type: string;
     rawDeclaration: string;
@@ -53,6 +53,10 @@ export interface SetObjectType extends ReferenceObjectType {
 export interface MapObjectType extends ReferenceObjectType {
     keyType: ReferenceObjectType;
     valueType: ReferenceObjectType;
+}
+export interface EnumValue {
+    name: string;
+    docComment?: DocComment;
 }
 export interface ParameterMirror {
     memberModifiers: string[];
@@ -106,8 +110,8 @@ export interface ReflectionResult {
 export interface ParsingError {
     message: string;
 }
-declare type TypeName = 'class' | 'interface' | 'enum';
-export declare type Type = InterfaceMirror | ClassMirror | EnumMirror;
+type TypeName = 'class' | 'interface' | 'enum';
+export type Type = InterfaceMirror | ClassMirror | EnumMirror;
 export interface EnumMirror {
     annotations: Annotation[];
     name: string;
@@ -116,6 +120,7 @@ export interface EnumMirror {
     docComment?: DocComment;
     group?: string;
     groupDescription?: string;
+    values: EnumValue[];
 }
 export interface InterfaceMirror {
     annotations: Annotation[];

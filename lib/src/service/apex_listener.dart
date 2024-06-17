@@ -206,11 +206,14 @@ class ApexClassListener extends ApexParserBaseListener {
 
   @override
   void enterInterfaceMethodDeclaration(InterfaceMethodDeclarationContext ctx) {
+    final annotations = ctx.annotations().map((e) => Annotation.fromAnnotationContext(e)).toList();
+
     final method = buildInterfaceMethod(
-        ctx,
-        _extractDocComment(ctx),
-        generatedTypes.peak().accessModifier,
-        generatedTypes.peak().annotations);
+      ctx,
+      _extractDocComment(ctx),
+      generatedTypes.peak().accessModifier,
+      [...generatedTypes.peak().annotations, if (annotations.isNotEmpty) ...annotations],
+    );
 
     (generatedTypes.peak() as MethodsAwareness).methods.add(method);
   }

@@ -1299,6 +1299,61 @@ void main() {
           .firstWhere((element) => element.name == 'sayHi');
       expect(method1.rawDocComment, isNotNull);
     });
+
+    test('Interfaces methods inherit the interface annotation', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var interfaceBody = '''
+      @NamespaceAccessible
+      public interface MyInterface {
+       /**
+        * @description Some description
+        */
+        void sayHi();
+      }
+      ''';
+
+      Walker.walk(CaseInsensitiveInputStream.fromString(interfaceBody),
+          apexWalkerDefinition);
+      var generatedInterface =
+      apexWalkerDefinition.getGeneratedApexType() as InterfaceMirror;
+      expect(generatedInterface.methods.length, equals(1));
+      expect(
+          generatedInterface.methods.any((element) => element.name == 'sayHi'),
+          isTrue);
+
+      MethodMirror method1 = generatedInterface.methods
+          .firstWhere((element) => element.name == 'sayHi');
+      expect(method1.isNamespaceAccessible, isTrue);
+    });
+
+    test('Interfaces methods inherit the interface annotation but also can have their own annotations', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var interfaceBody = '''
+      @NamespaceAccessible
+      public interface MyInterface {
+       /**
+        * @description Some description
+        */
+        @Deprecated
+        void sayHi();
+      }
+      ''';
+
+      Walker.walk(CaseInsensitiveInputStream.fromString(interfaceBody),
+          apexWalkerDefinition);
+      var generatedInterface =
+      apexWalkerDefinition.getGeneratedApexType() as InterfaceMirror;
+      expect(generatedInterface.methods.length, equals(1));
+      expect(
+          generatedInterface.methods.any((element) => element.name == 'sayHi'),
+          isTrue);
+
+      MethodMirror method1 = generatedInterface.methods
+          .firstWhere((element) => element.name == 'sayHi');
+      expect(method1.isNamespaceAccessible, isTrue);
+
+      expect(method1.isDeprecated, isTrue);
+    });
   });
 
   group('Parses Apex enums', () {

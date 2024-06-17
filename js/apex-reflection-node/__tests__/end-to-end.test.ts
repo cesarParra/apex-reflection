@@ -122,6 +122,22 @@ describe('Interface Reflection', () => {
     expect(result.annotations.length).toBe(1);
     expect(result.annotations[0].name).toBe('namespaceaccessible');
   });
+
+  test('Methods can have their own annotations', () => {
+    const interfaceBody = `
+      @NamespaceAccessible
+      public with sharing interface MyInterface{
+        @Deprecated
+        void method1();
+      }
+    `;
+    const result = (reflect(interfaceBody).typeMirror) as InterfaceMirror;
+    expect(result.methods[0].annotations.length).toBe(2);
+
+    const annotationNames = result.methods[0].annotations.map(a => a.name);
+    expect(annotationNames).toContain('namespaceaccessible');
+    expect(annotationNames).toContain('deprecated');
+  });
 });
 
 describe('Class reflection', () => {

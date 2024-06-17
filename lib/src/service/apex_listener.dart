@@ -212,7 +212,7 @@ class ApexClassListener extends ApexParserBaseListener {
       ctx,
       _extractDocComment(ctx),
       generatedTypes.peak().accessModifier,
-      [...generatedTypes.peak().annotations, ...annotations]
+      [...generatedTypes.peak().annotations, if (annotations.isNotEmpty) ...annotations],
     );
 
     (generatedTypes.peak() as MethodsAwareness).methods.add(method);

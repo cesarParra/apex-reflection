@@ -59,7 +59,7 @@ abstract class ObjectTypeReference {
       final childTypeRefContext =
           typeRefContext.typeName(0)!.typeArguments()!.typeList()!.typeRef(0)!;
       return GenericObjectType(
-          type, ObjectTypeReference(childTypeRefContext), typeRefContext.text);
+           type, ObjectTypeReference(childTypeRefContext), typeRefContext.text);
     }
 
     // If we got to this point that means we are dealing with a regular (non-collection)

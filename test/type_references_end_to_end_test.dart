@@ -92,6 +92,27 @@ main() {
           equals('String'));
     });
 
+    test('Fields with Generic type', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var classBody = '''
+      public class MyClass {
+        private Iterable<String> myVar1;
+      }
+      ''';
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
+      var generatedClass =
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      expect(generatedClass.fields.length, equals(1));
+
+      FieldMirror field1 = generatedClass.fields
+          .firstWhere((element) => element.name == 'myVar1');
+      expect(field1.isPrivate, isTrue);
+      expect(field1.typeReference.type, equals('Iterable'));
+      expect((field1.typeReference as GenericObjectType).ofType.type,
+          equals('String'));
+    });
+
     test('Fields with List of List type', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
       var classBody = '''
@@ -113,6 +134,32 @@ main() {
           (field1.typeReference as ListObjectType).ofType.type, equals('List'));
       expect(
           ((field1.typeReference as ListObjectType).ofType as ListObjectType)
+              .ofType
+              .type,
+          equals('String'));
+    });
+
+    test('Fields with Iterable of List type', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var classBody = '''
+      public class MyClass {
+        private Iterable<List<String>> myVar1;
+      }
+      ''';
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
+      var generatedClass =
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      expect(generatedClass.fields.length, equals(1));
+
+      FieldMirror field1 = generatedClass.fields
+          .firstWhere((element) => element.name == 'myVar1');
+      expect(field1.isPrivate, isTrue);
+      expect(field1.typeReference.type, equals('Iterable'));
+      expect((field1.typeReference as GenericObjectType).ofType.type,
+          equals('List'));
+      expect(
+          ((field1.typeReference as GenericObjectType).ofType as ListObjectType)
               .ofType
               .type,
           equals('String'));
@@ -188,7 +235,7 @@ main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
 
       FieldMirror field1 = generatedClass.fields
@@ -209,7 +256,7 @@ main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
 
       FieldMirror field1 = generatedClass.fields
@@ -225,6 +272,24 @@ main() {
           equals('String'));
     });
 
+    test('Namespaced types', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var classBody = '''
+      public class MyClass {
+        public Iterable<String> start(Database.BatchableContext info) {}
+      }
+      ''';
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
+      var generatedClass =
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+
+      MethodMirror method = generatedClass.methods
+          .firstWhere((element) => element.name == 'start');
+      expect(method.parameters.length, equals(1));
+      expect(method.parameters.first.typeReference.type, equals('Database.BatchableContext'));
+    });
+
     test('Void methods', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
       var classBody = '''
@@ -235,15 +300,14 @@ main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.methods.length, equals(1));
 
       MethodMirror myMethod = generatedClass.methods
           .firstWhere((element) => element.name == 'myMethod');
       expect(myMethod.isPrivate, isTrue);
       expect(myMethod.typeReference.type, equals('void'));
-      expect(
-          myMethod.typeReference.type, equals('void'));
+      expect(myMethod.typeReference.type, equals('void'));
     });
   });
 }

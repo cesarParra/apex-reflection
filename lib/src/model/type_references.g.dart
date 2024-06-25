@@ -58,3 +58,17 @@ Map<String, dynamic> _$SetObjectTypeToJson(SetObjectType instance) =>
       'rawDeclaration': instance.rawDeclaration,
       'ofType': objectTypeToJson(instance.ofType),
     };
+
+GenericObjectType _$GenericObjectTypeFromJson(Map<String, dynamic> json) =>
+    GenericObjectType(
+      json['type'] as String,
+      objectTypeFromJson(json['ofType'] as Map<String, dynamic>?),
+      json['rawDeclaration'] as String,
+    );
+
+Map<String, dynamic> _$GenericObjectTypeToJson(GenericObjectType instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'rawDeclaration': instance.rawDeclaration,
+      'ofType': objectTypeToJson(instance.ofType),
+    };

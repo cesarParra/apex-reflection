@@ -52,7 +52,7 @@ export interface Annotation {
     elementValues?: AnnotationElementValue[];
 }
 
-export type ReferencedType = ReferenceObjectType | ListObjectType | SetObjectType | MapObjectType;
+export type ReferencedType = ReferenceObjectType | ListObjectType | SetObjectType | MapObjectType | GenericObjectType;
 
 export interface ReferenceObjectType {
     type: string;
@@ -70,6 +70,10 @@ export interface SetObjectType extends ReferenceObjectType {
 export interface MapObjectType extends ReferenceObjectType {
     keyType: ReferenceObjectType;
     valueType: ReferenceObjectType;
+}
+
+export interface GenericObjectType extends ReferenceObjectType {
+    ofType: ReferenceObjectType;
 }
 
 export interface EnumValue {

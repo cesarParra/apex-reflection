@@ -17,7 +17,14 @@ mixin RuleContextToStringMixin on Object {
 
 class MockTypeRefContext extends Mock
     with RuleContextToStringMixin
-    implements TypeRefContext {}
+    implements TypeRefContext {
+  final String textToReturn;
+
+  @override
+  String get text => textToReturn;
+
+  MockTypeRefContext(this.textToReturn);
+}
 
 class MockTypeNameContext extends Mock
     with RuleContextToStringMixin
@@ -45,7 +52,7 @@ main() {
     });
 
     test('Can be created through the ObjectTypeReference factory', () {
-      final typeRefContext = MockTypeRefContext();
+      final typeRefContext = MockTypeRefContext('String');
       final typeNameContext = MockTypeNameContext();
 
       when(() => typeRefContext.typeName(0)).thenReturn(typeNameContext);
@@ -67,14 +74,13 @@ main() {
 
   group('ListObjectType tests', () {
     test('Can be created through the ObjectTypeReference factory', () {
-      final listTypeRefContext = MockTypeRefContext();
+      final listTypeRefContext = MockTypeRefContext('List<String>');
       final ofStringTypeRefContext = mockStringTypeRefContext();
 
       final typeNameContext = MockTypeNameContext();
       final typeArgumentContext = MockTypeArgumentContext();
       final typeListContext = MockTypeListContext();
 
-      when(() => listTypeRefContext.text).thenReturn('List<String>');
       when(() => listTypeRefContext.typeName(0)).thenReturn(typeNameContext);
       when(() => typeNameContext.LIST()).thenReturn(MockTerminalNode());
       when(() => typeNameContext.typeArguments())
@@ -92,14 +98,13 @@ main() {
 
   group('SetObjectType tests', () {
     test('Can be created through the ObjectTypeReference factory', () {
-      final setTypeRefContext = MockTypeRefContext();
+      final setTypeRefContext = MockTypeRefContext('Set<String>');
       final ofStringTypeRefContext = mockStringTypeRefContext();
 
       final typeNameContext = MockTypeNameContext();
       final typeArgumentContext = MockTypeArgumentContext();
       final typeListContext = MockTypeListContext();
 
-      when(() => setTypeRefContext.text).thenReturn('Set<String>');
       when(() => setTypeRefContext.typeName(0)).thenReturn(typeNameContext);
       when(() => typeNameContext.SET()).thenReturn(MockTerminalNode());
       when(() => typeNameContext.typeArguments())
@@ -117,14 +122,13 @@ main() {
 
   group('MapObjectType tests', () {
     test('Can be created through the ObjectTypeReference factory', () {
-      final setTypeRefContext = MockTypeRefContext();
+      final setTypeRefContext = MockTypeRefContext('Map<String, String>');
       final keyAndValue = mockStringTypeRefContext();
 
       final typeNameContext = MockTypeNameContext();
       final typeArgumentContext = MockTypeArgumentContext();
       final typeListContext = MockTypeListContext();
 
-      when(() => setTypeRefContext.text).thenReturn('Map<String, String>');
       when(() => setTypeRefContext.typeName(0)).thenReturn(typeNameContext);
       when(() => typeNameContext.MAP()).thenReturn(MockTerminalNode());
       when(() => typeNameContext.typeArguments())
@@ -144,7 +148,7 @@ main() {
 }
 
 TypeRefContext mockStringTypeRefContext() {
-  final ofStringTypeRefContext = MockTypeRefContext();
+  final ofStringTypeRefContext = MockTypeRefContext('String');
   final stringTypeNameContext = MockTypeNameContext();
 
   when(() => ofStringTypeRefContext.typeName(0))

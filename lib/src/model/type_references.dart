@@ -3,8 +3,6 @@ import 'package:apexdocs_dart/src/antlr/lib/apex/ApexParser.dart';
 
 part 'type_references.g.dart';
 
-// TODO: Update the MemberMirror Typescript type to add the different types of
-// ObjectTypeReference that are possible
 abstract class ObjectTypeReference {
   late String type;
   late String rawDeclaration;
@@ -55,10 +53,18 @@ abstract class ObjectTypeReference {
         typeRefContext.text,
       );
     }
+    if (typeRefContext.typeName(0)!.typeArguments() != null) {
+      // If there are type arguments (arguments between < >), it means we are dealing with a Generic type
+      final type = typeRefContext.typeName(0)!.id()!.text;
+      final childTypeRefContext =
+          typeRefContext.typeName(0)!.typeArguments()!.typeList()!.typeRef(0)!;
+      return GenericObjectType(
+           type, ObjectTypeReference(childTypeRefContext), typeRefContext.text);
+    }
 
     // If we got to this point that means we are dealing with a regular (non-collection)
     // type reference.
-    return ReferenceObjectType(typeRefContext.typeName(0)!.text);
+    return ReferenceObjectType(typeRefContext.text);
   }
 }
 
@@ -161,4 +167,24 @@ class SetObjectType implements ObjectTypeReference {
 
   @override
   Map<String, dynamic> toJson() => _$SetObjectTypeToJson(this);
+}
+
+@JsonSerializable()
+class GenericObjectType implements ObjectTypeReference {
+  @override
+  late String type;
+
+  @override
+  late String rawDeclaration;
+
+  @JsonKey(fromJson: objectTypeFromJson, toJson: objectTypeToJson)
+  final ObjectTypeReference ofType;
+
+  GenericObjectType(this.type, this.ofType, this.rawDeclaration);
+
+  factory GenericObjectType.fromJson(Map<String, dynamic> json) =>
+      _$GenericObjectTypeFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() => _$GenericObjectTypeToJson(this);
 }

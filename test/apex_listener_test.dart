@@ -403,6 +403,28 @@ void main() {
       expect(field1.typeReference.type, equals('String'));
     });
 
+    test('Fields can be final', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var classBody = '''
+      public class MyClass {
+        final String myVar1;
+      }
+      ''';
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
+      var generatedClass =
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      expect(generatedClass.fields.length, equals(1));
+      expect(generatedClass.fields.any((element) => element.name == 'myVar1'),
+          isTrue);
+
+      FieldMirror field1 = generatedClass.fields
+          .firstWhere((element) => element.name == 'myVar1');
+      expect(field1.isPrivate, isTrue);
+      expect(field1.memberModifiers, contains(MemberModifier.isFinal));
+      expect(field1.typeReference.type, equals('String'));
+    });
+
     test('Classes can have fields in groups', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
       var classBody = '''

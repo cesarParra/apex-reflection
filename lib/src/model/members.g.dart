@@ -50,7 +50,7 @@ const _$AccessModifierEnumMap = {
 const _$MemberModifierEnumMap = {
   MemberModifier.static: 'static',
   MemberModifier.webService: 'webService',
-  MemberModifier.isFinal: 'isFinal',
+  MemberModifier.isFinal: 'final',
   MemberModifier.override: 'override',
   MemberModifier.testMethod: 'testMethod',
   MemberModifier.transient: 'transient',

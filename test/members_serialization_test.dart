@@ -17,7 +17,7 @@ void main() {
       String encodedProperty = jsonEncode(property);
       expect(encodedProperty, isNotNull);
       final decodedProperty =
-          PropertyMirror.fromJson(jsonDecode(encodedProperty));
+      PropertyMirror.fromJson(jsonDecode(encodedProperty));
       expect(property.name, equals(decodedProperty.name));
     });
 
@@ -49,7 +49,8 @@ void main() {
       var field = FieldMirror(
           name: 'FieldName', typeReference: ReferenceObjectType('String'))
         ..annotations = [Annotation('@NamespaceAccessible')]
-        ..accessModifier = AccessModifier.public;
+        ..accessModifier = AccessModifier.public
+        ..memberModifiers = [MemberModifier.isFinal];
 
       String encodedField = jsonEncode(field);
       expect(encodedField, isNotNull);
@@ -69,7 +70,7 @@ void main() {
           }
         ],
         "name": "FieldName",
-        "memberModifiers": [],
+        "memberModifiers": ["final"],
         "typeReference": {"type": "String", "rawDeclaration": "String"}
       }
       ''';
@@ -79,6 +80,8 @@ void main() {
       expect(field.typeReference.type, equals('String'));
       expect(field.accessModifier, equals(AccessModifier.public));
       expect(field.isNamespaceAccessible, equals(true));
+      expect(field.memberModifiers.length, equals(1));
+      expect(field.memberModifiers.first, equals(MemberModifier.isFinal));
     });
   });
 
@@ -140,7 +143,7 @@ void main() {
       String encodedParameter = jsonEncode(parameter);
       expect(encodedParameter, isNotNull);
       final decodedParameter =
-          ParameterMirror.fromJson(jsonDecode(encodedParameter));
+      ParameterMirror.fromJson(jsonDecode(encodedParameter));
       expect(parameter.name, equals(decodedParameter.name));
     });
 
@@ -171,7 +174,7 @@ void main() {
       String encodedConstructor = jsonEncode(constructor);
       expect(encodedConstructor, isNotNull);
       final decodedConstructor =
-          ConstructorMirror.fromJson(jsonDecode(encodedConstructor));
+      ConstructorMirror.fromJson(jsonDecode(encodedConstructor));
       expect(decodedConstructor.isPublic, equals(true));
       expect(decodedConstructor.isNamespaceAccessible, equals(true));
     });
@@ -199,7 +202,7 @@ void main() {
       ''';
 
       final constructor =
-          ConstructorMirror.fromJson(jsonDecode(constructorAsJson));
+      ConstructorMirror.fromJson(jsonDecode(constructorAsJson));
       expect(constructor.isPublic, equals(true));
       expect(constructor.isNamespaceAccessible, equals(true));
       expect(constructor.parameters.length, equals(1));

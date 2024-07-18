@@ -12,7 +12,21 @@ enum SharingModifier { withSharing, withoutSharing, inheritedSharing }
 
 enum ClassModifier { virtual, abstract }
 
-enum MemberModifier { static, webService, isFinal, override, testMethod, transient, virtual, abstract }
+enum MemberModifier {
+  static('static'),
+  webService('webservice'),
+  @JsonValue('final')
+  isFinal('final'),
+  override('override'),
+  testMethod('testmethod'),
+  transient('transient'),
+  virtual('virtual'),
+  abstract('abstract');
+
+  final String value;
+
+  const MemberModifier(this.value);
+}
 
 enum AnnotationType {
   auraEnabled,
@@ -37,18 +51,21 @@ enum AnnotationType {
   other
 }
 
-dynamic getModifierFromStringDeclaration(dynamic modifierDeclarationContext, {isMember = false}) {
+dynamic getModifierFromStringDeclaration(dynamic modifierDeclarationContext,
+    {isMember = false}) {
   final modifierDeclaration = modifierDeclarationContext.text;
   if (modifierDeclarationContext is AnnotationContext) {
     return Annotation.fromAnnotationContext(modifierDeclarationContext);
   }
 
-  if (modifierDeclarationContext is ModifierContext && modifierDeclarationContext.annotation() != null) {
-    return Annotation.fromAnnotationContext(modifierDeclarationContext.annotation()!);
+  if (modifierDeclarationContext is ModifierContext &&
+      modifierDeclarationContext.annotation() != null) {
+    return Annotation.fromAnnotationContext(
+        modifierDeclarationContext.annotation()!);
   }
 
   dynamic enumValue = AccessModifier.values.firstWhereOrNull((element) =>
-  describeEnum(element).toLowerCase() == modifierDeclaration.toLowerCase());
+      describeEnum(element).toLowerCase() == modifierDeclaration.toLowerCase());
 
   if (enumValue != null) {
     return enumValue;
@@ -56,7 +73,8 @@ dynamic getModifierFromStringDeclaration(dynamic modifierDeclarationContext, {is
 
   if (!isMember) {
     enumValue = ClassModifier.values.firstWhereOrNull((element) =>
-    describeEnum(element).toLowerCase() == modifierDeclaration.toLowerCase());
+        describeEnum(element).toLowerCase() ==
+        modifierDeclaration.toLowerCase());
 
     if (enumValue != null) {
       return enumValue;
@@ -71,7 +89,7 @@ dynamic getModifierFromStringDeclaration(dynamic modifierDeclarationContext, {is
   }
 
   enumValue = MemberModifier.values.firstWhereOrNull((element) =>
-      describeEnum(element).toLowerCase() == modifierDeclaration.toLowerCase());
+      element.value == modifierDeclaration.toLowerCase());
 
   return enumValue;
 }
@@ -90,9 +108,13 @@ class Annotation {
 
   factory Annotation.fromAnnotationContext(AnnotationContext ctx) {
     final annotation = Annotation(ctx.text);
-    annotation.elementValues = ctx.elementValuePairs()?.elementValuePairs().map((valuePair) =>
-        AnnotationElementValue(
-            valuePair.id()!.text, valuePair.elementValue()!.text)).toList() ?? [];
+    annotation.elementValues = ctx
+            .elementValuePairs()
+            ?.elementValuePairs()
+            .map((valuePair) => AnnotationElementValue(
+                valuePair.id()!.text, valuePair.elementValue()!.text))
+            .toList() ??
+        [];
     return annotation;
   }
 

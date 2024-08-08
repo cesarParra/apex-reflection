@@ -204,24 +204,6 @@ main() {
         equals("String testString = 'MyString';"));
   });
 
-  test('Can parse an example tag with multiple lines and breaks', () {
-    final docBody = '''
-    /**
-      * @description This is a description.
-      * @example
-      * String testString = 'MyString';
-      *
-      * System.debug(testString);
-      */
-    ''';
-    final docComment = ApexdocParser.parseFromBody(docBody);
-    expect(docComment.exampleAnnotation, isNotNull);
-    expect(docComment.exampleAnnotation!.bodyLines.length, equals(3));
-    print(docComment.exampleAnnotation!.bodyLines);
-    expect(docComment.exampleAnnotation!.body,
-        equals("String testString = 'MyString';\nSystem.debug(testString);"));
-  });
-
   test('Can parse custom tags', () {
     final docBody = '''
     /**

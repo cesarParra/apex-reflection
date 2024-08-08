@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:apexdocs_dart/src/extension_methods/list_extensions.dart';
 
 import 'doc_sanitizer.dart';

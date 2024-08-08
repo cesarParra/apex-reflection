@@ -19,9 +19,3 @@ extension FirstWhereOrNullExtension<E> on Iterable<E> {
     return null;
   }
 }
-
-extension ReversedIterable<E> on Iterable<E> {
-  Iterable<E> get reversed {
-    return toList().reversed;
-  }
-}

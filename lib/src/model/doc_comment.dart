@@ -1,5 +1,4 @@
 import 'package:apexdocs_dart/src/extension_methods/list_extensions.dart';
-import 'package:apexdocs_dart/src/model/multi_line_apex_doc_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'doc_comment.g.dart';
@@ -44,8 +43,36 @@ class DocComment {
           [];
 
   set descriptionLines(List<String> descriptionLines) {
-    _descriptionLines =
-        MultiLineApexDocAnnotation.parse(descriptionLines).lines;
+    List<String> cleanLines = [];
+    for (String currentLine in descriptionLines) {
+      List<String> splitLines = currentLine.split('\n');
+      for (String splitLine in splitLines) {
+        String trimmedLine = splitLine.trim();
+        if (trimmedLine == '*') {
+          trimmedLine = '';
+        }
+
+        cleanLines.add(trimmedLine);
+      }
+    }
+
+    // If the first line is empty, remove it
+    if (cleanLines.isNotEmpty && cleanLines.first.isEmpty) {
+      cleanLines.removeAt(0);
+    }
+    // If the last line is empty, remove it
+    if (cleanLines.isNotEmpty && cleanLines.last.isEmpty) {
+      cleanLines.removeLast();
+    }
+
+    // When there are 2 blank strings back to back, remove one of them
+    for (int i = 0; i < cleanLines.length - 1; i++) {
+      if (cleanLines[i].isEmpty && cleanLines[i + 1].isEmpty) {
+        cleanLines.removeAt(i);
+      }
+    }
+
+    _descriptionLines = cleanLines;
   }
 
   /// Gets the description as a single line.

@@ -1,8 +1,9 @@
-import 'dart:convert';
-
 import 'package:apexdocs_dart/src/antlr/lib/apexdoc/ApexdocParser.dart';
 import 'package:apexdocs_dart/src/antlr/lib/apexdoc/ApexdocParserBaseListener.dart';
 import 'package:apexdocs_dart/src/model/doc_comment.dart';
+import 'package:apexdocs_dart/src/model/multi_line_apex_doc_annotation.dart';
+
+import '../model/doc_sanitizer.dart';
 
 class ApexdocListener extends ApexdocParserBaseListener {
   var descriptionLines = <String>[];
@@ -14,7 +15,12 @@ class ApexdocListener extends ApexdocParserBaseListener {
   @override
   void enterDescriptionLine(DescriptionLineContext ctx) {
     var descriptionText = ctx.text;
-    descriptionLines.add(_sanitizeLineStart(descriptionText));
+    descriptionLines.add(sanitizeLineStart(descriptionText));
+  }
+
+  @override
+  void enterDescriptionNewline(DescriptionNewlineContext ctx) {
+    descriptionLines.add('');
   }
 
   @override
@@ -27,21 +33,21 @@ class ApexdocListener extends ApexdocParserBaseListener {
   @override
   void enterDefaultBlockTag(DefaultBlockTagContext ctx) {
     final tagName = ctx.blockTagName()!.text;
-    generatedDocComment.annotations.add(DocCommentAnnotation(
-        tagName, _getContentLines(ctx.blockTagContents())));
+    generatedDocComment.annotations
+        .add(DocCommentAnnotation(tagName, ctx.blockTagContents().sanitize()));
   }
 
   @override
   void enterParamBlockTag(ParamBlockTagContext ctx) {
     final paramName = ctx.paramName()!.text;
-    final contentLines = _getContentLines(ctx.blockTagContents());
+    final contentLines = ctx.blockTagContents().sanitize();
     generatedDocComment.paramAnnotations
         .add(ParamDocCommentAnnotation(paramName, contentLines));
   }
 
   @override
   void enterReturnBlockTag(ReturnBlockTagContext ctx) {
-    final contentLines = _getContentLines(ctx.blockTagContents());
+    final contentLines = ctx.blockTagContents().sanitize();
     generatedDocComment.returnAnnotation =
         ReturnDocCommentAnnotation(contentLines);
   }
@@ -49,34 +55,23 @@ class ApexdocListener extends ApexdocParserBaseListener {
   @override
   void enterThrowsBlockTag(ThrowsBlockTagContext ctx) {
     final exceptionName = ctx.exceptionName()!.text;
-    final contentLines = _getContentLines(ctx.blockTagContents());
+    final contentLines = ctx.blockTagContents().sanitize();
     generatedDocComment.throwsAnnotations
         .add(ThrowsDocCommentAnnotation(exceptionName, contentLines));
   }
 
   @override
   void enterExampleBlockTag(ExampleBlockTagContext ctx) {
-    final contentLines = _getContentLines(ctx.blockTagContents());
+    final contentLines = ctx.blockTagContents().sanitize();
     generatedDocComment.exampleAnnotation =
         ExampleDocCommentAnnotation(contentLines);
   }
+}
 
-  List<String> _getContentLines(List<BlockTagContentContext> blockTagContents) {
-    final rawContent = blockTagContents.map((e) => e.text).join('');
-    return LineSplitter.split(rawContent)
-        .map((e) => _sanitizeLineStart(e))
-        .where((element) => element.isNotEmpty)
-        .toList();
-  }
-
-  String _sanitizeLineStart(String line) {
-    var sanitizedLine = line.trimLeft();
-    if (sanitizedLine.startsWith('*')) {
-      sanitizedLine = sanitizedLine.replaceFirst('*', '');
-    }
-    if (sanitizedLine.startsWith(' ')) {
-      sanitizedLine = sanitizedLine.replaceFirst(' ', '');
-    }
-    return sanitizedLine.trimRight();
+extension DocumentationLineSanitizer on List<BlockTagContentContext> {
+  List<String> sanitize() {
+    return MultiLineApexDocAnnotation.parse(
+            map((content) => content.text).toList())
+        .lines;
   }
 }

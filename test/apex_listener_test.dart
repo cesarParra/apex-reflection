@@ -58,7 +58,29 @@ void main() {
           equals('Continues here'));
     });
 
-    // TODO: Same test with @description
+    test('Empty lines in Apex docs are respected when using @description', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      const classBody = '''
+      /**
+       * @description Class description
+       *
+       * Continues here
+       */
+      class MyClass{}
+      ''';
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.rawDocComment,
+          isNotNull);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.docComment?.descriptionLines.length,
+          equals(3));
+      expect(apexWalkerDefinition.getGeneratedApexType()!.docComment!.descriptionLines.first,
+          equals('Class description'));
+      expect(apexWalkerDefinition.getGeneratedApexType()!.docComment!.descriptionLines[1],
+          equals(''));
+      expect(apexWalkerDefinition.getGeneratedApexType()!.docComment!.descriptionLines.last,
+          equals('Continues here'));
+    });
 
     test('Classes can have Apex block style docs', () {
       final apexWalkerDefinition = ApexWalkerDefinition();

@@ -18,11 +18,6 @@ class ApexdocListener extends ApexdocParserBaseListener {
   }
 
   @override
-  void enterDescriptionNewline(DescriptionNewlineContext ctx) {
-    descriptionLines.add('');
-  }
-
-  @override
   void exitDescriptionLine(DescriptionLineContext ctx) {
     generatedDocComment.descriptionLines = descriptionLines;
   }
@@ -67,35 +62,11 @@ class ApexdocListener extends ApexdocParserBaseListener {
   }
 
   List<String> _getContentLines(List<BlockTagContentContext> blockTagContents) {
-    final contentLines = blockTagContents
-        .map((e) => e.text)
+    final rawContent = blockTagContents.map((e) => e.text).join('');
+    return LineSplitter.split(rawContent)
         .map((e) => _sanitizeLineStart(e))
-        .map((e) => LineSplitter.split(e)
-            .map((e) => _sanitizeLineStart(e))
-            .map((e) => e.trim())
-            .join(''))
-        .map((e) => e.trim())
+        .where((element) => element.isNotEmpty)
         .toList();
-
-    // if there are 2 consecutive empty lines, remove one
-    for (var i = 0; i < contentLines.length - 1; i++) {
-      if (contentLines[i].isEmpty && contentLines[i + 1].isEmpty) {
-        contentLines.removeAt(i);
-      }
-    }
-
-    // if the first line is empty, remove it
-    if (contentLines.isNotEmpty && contentLines.first.isEmpty) {
-      contentLines.removeAt(0);
-    }
-
-    // if the last line is empty, remove it
-    if (contentLines.isNotEmpty && contentLines.last.isEmpty) {
-      contentLines.removeLast();
-    }
-
-    print('about to return content lines $contentLines');
-    return contentLines;
   }
 
   String _sanitizeLineStart(String line) {

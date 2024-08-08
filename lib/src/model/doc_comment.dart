@@ -35,16 +35,11 @@ class DocComment {
 
   Map<String, dynamic> toJson() => _$DocCommentToJson(this);
 
-  List<String> get descriptionLines {
-    print('getting description lines ${_descriptionLines.length}');
-    print('with annotations ${annotations.map((e) => e.toJson())}');
-    return _descriptionLines.isNotEmpty
-        ? _descriptionLines
-        : annotations
-                .firstWhereOrNull((element) => element.name == 'description')
-                ?.bodyLines ??
-            [];
-  }
+  List<String> get descriptionLines => _descriptionLines.isNotEmpty
+      ? _descriptionLines
+      : annotations
+          .firstWhereOrNull((element) => element.name == 'description')
+          ?.bodyLines ?? [];
 
   set descriptionLines(List<String> descriptionLines) {
     List<String> cleanLines = [];
@@ -56,33 +51,16 @@ class DocComment {
           trimmedLine = '';
         }
 
-        cleanLines.add(trimmedLine);
+        if (trimmedLine.isNotEmpty) {
+          cleanLines.add(trimmedLine);
+        }
       }
     }
-
-    // If the first line is empty, remove it
-    if (cleanLines.isNotEmpty && cleanLines.first.isEmpty) {
-      cleanLines.removeAt(0);
-    }
-    // If the last line is empty, remove it
-    if (cleanLines.isNotEmpty && cleanLines.last.isEmpty) {
-      cleanLines.removeLast();
-    }
-
-    // When there are 2 blank strings back to back, remove one of them
-    for (int i = 0; i < cleanLines.length - 1; i++) {
-      if (cleanLines[i].isEmpty && cleanLines[i + 1].isEmpty) {
-        cleanLines.removeAt(i);
-      }
-    }
-
     _descriptionLines = cleanLines;
   }
 
   /// Gets the description as a single line.
-  String get description => descriptionLines
-      .map((e) => e == '' ? '\n' : e)
-      .join('');
+  String get description => descriptionLines.join(' ');
 
   List<DocCommentAnnotation> annotationsByName(String annotationName) {
     return annotations
@@ -99,7 +77,7 @@ class DocCommentAnnotation {
 
   List<String> bodyLines = [];
 
-  String get body => bodyLines.map((e) => e.isEmpty ? '\n' : e).join('');
+  String get body => bodyLines.join(' ');
 
   DocCommentAnnotation(this.name, body) {
     if (body is String) {

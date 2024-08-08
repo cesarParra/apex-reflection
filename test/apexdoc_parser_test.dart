@@ -40,7 +40,7 @@ main() {
     ''';
     final docComment = ApexdocParser.parseFromBody(docBody);
     expect(docComment.description,
-        'This is a description.\nThe description continues here.');
+        'This is a description. The description continues here.');
   });
 
   test('Can parse tagged description', () {
@@ -102,9 +102,9 @@ main() {
       */
     ''';
     final docComment = ApexdocParser.parseFromBody(docBody);
-    expect(docComment.descriptionLines.length, equals(3));
+    expect(docComment.descriptionLines.length, equals(2));
     expect(docComment.description,
-        equals('This is a description.\nThe description continues here'));
+        equals('This is a description. The description continues here'));
   });
 
   test('Can parse a tag', () {
@@ -148,7 +148,7 @@ main() {
     expect(docComment.paramAnnotations.length, equals(1));
     expect(docComment.paramAnnotations.first.paramName, equals('param1'));
     expect(docComment.paramAnnotations.first.body,
-        equals('description1\nThe description continues here.'));
+        equals('description1 The description continues here.'));
   });
 
   test('Can parse a return tag', () {

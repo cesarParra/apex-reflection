@@ -35,16 +35,12 @@ class DocComment {
 
   Map<String, dynamic> toJson() => _$DocCommentToJson(this);
 
-  List<String> get descriptionLines {
-    print('getting description lines ${_descriptionLines.length}');
-    print('with annotations ${annotations.map((e) => e.toJson())}');
-    return _descriptionLines.isNotEmpty
-        ? _descriptionLines
-        : annotations
-                .firstWhereOrNull((element) => element.name == 'description')
-                ?.bodyLines ??
-            [];
-  }
+  List<String> get descriptionLines => _descriptionLines.isNotEmpty
+      ? _descriptionLines
+      : annotations
+              .firstWhereOrNull((element) => element.name == 'description')
+              ?.bodyLines ??
+          [];
 
   set descriptionLines(List<String> descriptionLines) {
     List<String> cleanLines = [];
@@ -80,9 +76,8 @@ class DocComment {
   }
 
   /// Gets the description as a single line.
-  String get description => descriptionLines
-      .map((e) => e == '' ? '\n' : e)
-      .join('');
+  String get description =>
+      descriptionLines.map((e) => e == '' ? '\n' : e).join('');
 
   List<DocCommentAnnotation> annotationsByName(String annotationName) {
     return annotations

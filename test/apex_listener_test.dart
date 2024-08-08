@@ -34,6 +34,32 @@ void main() {
           equals('Class description'));
     });
 
+    test('Empty lines in Apex docs are respected', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      const classBody = '''
+      /**
+       * Class description
+       *
+       * Continues here
+       */
+      class MyClass{}
+      ''';
+      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.rawDocComment,
+          isNotNull);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.docComment?.descriptionLines.length,
+          equals(3));
+      expect(apexWalkerDefinition.getGeneratedApexType()!.docComment!.descriptionLines.first,
+          equals('Class description'));
+      expect(apexWalkerDefinition.getGeneratedApexType()!.docComment!.descriptionLines[1],
+          equals(''));
+      expect(apexWalkerDefinition.getGeneratedApexType()!.docComment!.descriptionLines.last,
+          equals('Continues here'));
+    });
+
+    // TODO: Same test with @description
+
     test('Classes can have Apex block style docs', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
       const classBody = '''
@@ -188,7 +214,7 @@ void main() {
               'public virtual class MyClass{}'),
           apexWalkerDefinition);
       final generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.isVirtual, isTrue);
     });
 
@@ -199,7 +225,7 @@ void main() {
               'public abstract class MyClass{}'),
           apexWalkerDefinition);
       final generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.isAbstract, isTrue);
     });
 
@@ -268,7 +294,7 @@ void main() {
           CaseInsensitiveInputStream.fromString('public class MyClass{}'),
           apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.extendedClass, isNull);
     });
 
@@ -279,7 +305,7 @@ void main() {
               'public class MyClass extends ParentClass{}'),
           apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.extendedClass, equals('ParentClass'));
     });
 
@@ -294,7 +320,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.properties.length, equals(2));
       expect(
           generatedClass.properties
@@ -333,7 +359,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.properties.length, equals(1));
       expect(
           generatedClass.properties
@@ -356,7 +382,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(3));
       expect(generatedClass.fields.any((element) => element.name == 'myVar1'),
           isTrue);
@@ -391,7 +417,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
       expect(generatedClass.fields.any((element) => element.name == 'myVar1'),
           isTrue);
@@ -413,7 +439,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
       expect(generatedClass.fields.any((element) => element.name == 'myVar1'),
           isTrue);
@@ -438,7 +464,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(3));
       expect(generatedClass.fields.any((element) => element.name == 'myVar1'),
           isTrue);
@@ -560,8 +586,8 @@ void main() {
       final apexWalkerDefinition = ApexWalkerDefinition();
       var classBody = '''
       public class MyClass {
-        /** 
-         * @start-group Variables 
+        /**
+         * @start-group Variables
          * @description Group description
          */
         private String myVar1, myVar2;
@@ -648,7 +674,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
       expect(generatedClass.fields.any((element) => element.name == 'myVar1'),
           isTrue);
@@ -672,7 +698,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(3));
       expect(generatedClass.fields.any((element) => element.name == 'myVar1'),
           isTrue);
@@ -713,7 +739,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(3));
       expect(generatedClass.fields.any((element) => element.name == 'myVar1'),
           isTrue);
@@ -754,7 +780,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
       expect(generatedClass.fields.any((element) => element.name == 'myVar1'),
           isTrue);
@@ -781,7 +807,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.methods.length, equals(2));
       expect(generatedClass.methods.any((element) => element.name == 'sayHi'),
           isTrue);
@@ -903,7 +929,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.methods.length, equals(1));
       expect(generatedClass.methods.any((element) => element.name == 'sayHi'),
           isTrue);
@@ -930,7 +956,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.methods.length, equals(1));
       expect(generatedClass.methods.any((element) => element.name == 'sayHi'),
           isTrue);
@@ -958,7 +984,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.methods.length, equals(1));
       expect(generatedClass.methods.any((element) => element.name == 'sayHi'),
           isTrue);
@@ -989,7 +1015,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.constructors.length, equals(2));
       expect(
           generatedClass.constructors
@@ -1029,7 +1055,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.constructors.length, equals(1));
       expect(
           generatedClass.constructors
@@ -1055,7 +1081,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.enums.length, equals(1));
       expect(generatedClass.enums.first.name, equals('MyEnum'));
       expect(generatedClass.enums.first.isNamespaceAccessible, isTrue);
@@ -1079,7 +1105,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.enums.length, equals(1));
       expect(generatedClass.enums.first.rawDocComment, isNotNull);
     });
@@ -1098,7 +1124,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.interfaces.length, equals(1));
 
       var innerInterface = generatedClass.interfaces.first;
@@ -1126,7 +1152,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.interfaces.length, equals(1));
 
       var innerInterface = generatedClass.interfaces.first;
@@ -1148,7 +1174,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.classes.length, equals(1));
 
       var innerClass = generatedClass.classes.first;
@@ -1178,7 +1204,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.classes.length, equals(1));
 
       var innerClass = generatedClass.classes.first;
@@ -1252,7 +1278,7 @@ void main() {
               'public interface MyInterface extends Interface1, Interface2{}'),
           apexWalkerDefinition);
       var generatedInterface =
-          apexWalkerDefinition.getGeneratedApexType() as InterfaceMirror;
+      apexWalkerDefinition.getGeneratedApexType() as InterfaceMirror;
       expect(generatedInterface.extendedInterfaces, isNotEmpty);
       expect(generatedInterface.extendedInterfaces[0], 'Interface1');
       expect(generatedInterface.extendedInterfaces[1], 'Interface2');
@@ -1271,7 +1297,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(interfaceBody),
           apexWalkerDefinition);
       var generatedInterface =
-          apexWalkerDefinition.getGeneratedApexType() as InterfaceMirror;
+      apexWalkerDefinition.getGeneratedApexType() as InterfaceMirror;
       expect(generatedInterface.methods.length, equals(2));
       expect(
           generatedInterface.methods.any((element) => element.name == 'sayHi'),
@@ -1311,7 +1337,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(interfaceBody),
           apexWalkerDefinition);
       var generatedInterface =
-          apexWalkerDefinition.getGeneratedApexType() as InterfaceMirror;
+      apexWalkerDefinition.getGeneratedApexType() as InterfaceMirror;
       expect(generatedInterface.methods.length, equals(1));
       expect(
           generatedInterface.methods.any((element) => element.name == 'sayHi'),
@@ -1426,7 +1452,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(enumBody),
           apexWalkerDefinition);
       var generatedEnum =
-          apexWalkerDefinition.getGeneratedApexType() as EnumMirror;
+      apexWalkerDefinition.getGeneratedApexType() as EnumMirror;
       expect(generatedEnum.values.length, equals(3));
       expect(generatedEnum.values.any((element) => element.name == 'VALUE1'),
           isTrue);
@@ -1436,7 +1462,6 @@ void main() {
           isTrue);
     });
 
-    // enum values can have descriptions
     test('enum values can have descriptions', () {
       final apexWalkerDefinition = ApexWalkerDefinition();
       var enumBody = '''
@@ -1453,7 +1478,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(enumBody),
           apexWalkerDefinition);
       var generatedEnum =
-          apexWalkerDefinition.getGeneratedApexType() as EnumMirror;
+      apexWalkerDefinition.getGeneratedApexType() as EnumMirror;
       expect(generatedEnum.values.length, equals(3));
       expect(generatedEnum.values.any((element) => element.name == 'VALUE1'),
           isTrue);

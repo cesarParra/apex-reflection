@@ -145,8 +145,10 @@ class ApexClassListener extends ApexParserBaseListener {
       // We take and parse the first doc comment, in case it is the
       // start of a group.
       String potentialDocComment = allDocComments.first;
+      print('potentialDocComment: $potentialDocComment');
       DocComment docCommentObject =
           ApexdocParser.parseFromBody(potentialDocComment);
+      print('docCommentObject: ${docCommentObject.description}');
 
       if (docCommentObject.annotations
           .any((element) => element.name.toLowerCase() == 'start-group')) {

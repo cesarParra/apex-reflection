@@ -22,5 +22,5 @@ String _parseFromDeclarationBody(String declarationBody) {
 
 void main() {
   exports.reflect = allowInterop(
-      (String declarationBody) => _parseFromDeclarationBody(declarationBody));
+          (String declarationBody) => _parseFromDeclarationBody(declarationBody));
 }

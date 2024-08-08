@@ -49,8 +49,7 @@ class DocComment {
   }
 
   /// Gets the description as a single line.
-  String get description =>
-      descriptionLines.map((e) => e == '' ? '\n' : e).join('');
+  String get description => descriptionLines.asSingleLine;
 
   List<DocCommentAnnotation> annotationsByName(String annotationName) {
     return annotations
@@ -67,7 +66,7 @@ class DocCommentAnnotation {
 
   List<String> bodyLines = [];
 
-  String get body => bodyLines.map((e) => e.isEmpty ? '\n' : e).join('');
+  String get body => bodyLines.asSingleLine;
 
   DocCommentAnnotation(this.name, body) {
     if (body is String) {
@@ -141,4 +140,8 @@ class ExampleDocCommentAnnotation extends DocCommentAnnotation {
 
   @override
   Map<String, dynamic> toJson() => _$ExampleDocCommentAnnotationToJson(this);
+}
+
+extension on List<String> {
+  String get asSingleLine => map((e) => e.isEmpty ? '\n' : e).join('');
 }

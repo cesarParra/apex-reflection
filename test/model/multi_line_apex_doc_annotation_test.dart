@@ -16,45 +16,48 @@ main() {
       expect(result, equals('line 1'));
     });
   });
-  // test('does nothing when the lines are already sanitized', () {
-  //   const input = ['line 1', 'line 2', 'line 3'];
-  //   final result = sanitizeDocContent(input);
-  //   expect(result, equals(input));
-  // });
-  //
-  // test('sanitizes line starts', () {
-  //   const input = ['line 1', '* line 2', 'line 3'];
-  //   final result = sanitizeDocContent(input);
-  //   expect(result, equals(['line 1', 'line 2', 'line 3']));
-  // });
-  //
-  // test('sanitization of line starts keeps extra white spaces after the *', () {
-  //   const input = ['line 1', ' *  line 2', 'line 3'];
-  //   final result = sanitizeDocContent(input);
-  //   expect(result, equals(['line 1', ' line 2', 'line 3']));
-  // });
-  //
-  // test('breaks up lines with new lines', () {
-  //   const input = ['line 1', 'line 2\nline3', 'line 4'];
-  //   final result = sanitizeDocContent(input);
-  //   expect(result, equals(['line 1', 'line 2', 'line3', 'line 4']));
-  // });
-  //
-  // test('gets rid of leading empty lines', () {
-  //   const input = ['', 'line 2', 'line 3'];
-  //   final result = sanitizeDocContent(input);
-  //   expect(result, equals(['line 2', 'line 3']));
-  // });
-  //
-  // test('gets rid of trailing empty lines', () {
-  //   const input = ['line 1', 'line 2', ''];
-  //   final result = sanitizeDocContent(input);
-  //   expect(result, equals(['line 1', 'line 2']));
-  // });
-  //
-  // test('gets rid of repeating empty lines', () {
-  //   const input = ['line 1', '', '', 'line 2', ''];
-  //   final result = sanitizeDocContent(input);
-  //   expect(result, equals(['line 1', '', 'line 2']));
-  // });
+
+  group('sanitizes doc content', () {
+    test('does nothing when the lines are already sanitized', () {
+      const input = 'line 1\nline 2\nline 3';
+      final result = sanitizeDocContent(input);
+      expect(result, equals(['line 1', 'line 2', 'line 3']));
+    });
+
+    test('sanitizes line starts', () {
+      const input = 'line 1\n* line 2\nline 3';
+      final result = sanitizeDocContent(input);
+      expect(result, equals(['line 1', 'line 2', 'line 3']));
+    });
+
+    test('sanitization of line starts keeps extra white spaces after the *', () {
+      const input = 'line 1\n *  line 2\nline 3';
+      final result = sanitizeDocContent(input);
+      expect(result, equals(['line 1', ' line 2', 'line 3']));
+    });
+
+    test('breaks up lines with new lines', () {
+      const input = 'line 1\nline 2\nline3\nline 4';
+      final result = sanitizeDocContent(input);
+      expect(result, equals(['line 1', 'line 2', 'line3', 'line 4']));
+    });
+
+    test('gets rid of leading empty lines', () {
+      const input = '\nline 2\nline 3';
+      final result = sanitizeDocContent(input);
+      expect(result, equals(['line 2', 'line 3']));
+    });
+
+    test('gets rid of trailing empty lines', () {
+      const input = 'line 1\nline 2\n';
+      final result = sanitizeDocContent(input);
+      expect(result, equals(['line 1', 'line 2']));
+    });
+
+    test('gets rid of repeating empty lines', () {
+      const input = 'line 1\n\n\nline 2\n';
+      final result = sanitizeDocContent(input);
+      expect(result, equals(['line 1', '', 'line 2']));
+    });
+  });
 }

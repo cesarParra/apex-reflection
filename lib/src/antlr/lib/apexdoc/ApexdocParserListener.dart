@@ -1,4 +1,4 @@
-// Generated from lib/src/antlr/grammars/apexdoc/ApexdocParser.g4 by ANTLR 4.13.2
+// Generated from lib/src/antlr/grammars/apexdoc/ApexdocParser.g4 by ANTLR 4.9.3
 // ignore_for_file: unused_import, unused_local_variable, prefer_single_quotes
 import 'package:antlr4/antlr4.dart';
 

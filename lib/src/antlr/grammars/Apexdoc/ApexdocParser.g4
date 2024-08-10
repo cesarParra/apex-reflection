@@ -84,11 +84,11 @@ tagSection
 	;
 
 blockTag
-	: SPACE? PARAM SPACE* paramName SPACE* blockTagContent?                         #ParamBlockTag
-	| SPACE? (THROWS | EXCEPTION) SPACE* exceptionName SPACE* blockTagContent?      #ThrowsBlockTag
-	| SPACE? RETURN SPACE* blockTagContent?                                         #ReturnBlockTag
-	| SPACE? EXAMPLE skipWhitespace* blockTagContent?                               #ExampleBlockTag
-	| SPACE? AT blockTagName SPACE* blockTagContent?                                #DefaultBlockTag
+	: SPACE? PARAM SPACE* paramName SPACE* blockTagContent*                         #ParamBlockTag
+	| SPACE? (THROWS | EXCEPTION) SPACE* exceptionName SPACE* blockTagContent*      #ThrowsBlockTag
+	| SPACE? RETURN SPACE* blockTagContent*                                         #ReturnBlockTag
+	| SPACE? EXAMPLE skipWhitespace* blockTagContent*                               #ExampleBlockTag
+	| SPACE? AT blockTagName SPACE* blockTagContent*                                #DefaultBlockTag
 	;
 
 paramName

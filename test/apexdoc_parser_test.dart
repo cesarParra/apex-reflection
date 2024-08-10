@@ -215,4 +215,50 @@ main() {
     expect(docComment.annotationsByName('author').first.body,
         equals('Some Author'));
   });
+
+  test('Can parse group tags', () {
+    final docBody = '''
+      /**
+       * @description This is a sample enum. This references {@link ReferencedEnum}.
+       *
+       * This description has several lines
+       * @group Sample Enums
+       * @author John Doe
+       * @date 2022-01-01
+       * @some-custom Test. I can also have a {@link ReferencedEnum} here.
+       *                    And it can be multiline.
+       * @see ReferencedEnum
+       * @mermaid
+       * graph TD
+       *  A[SampleEnum] -->|references| B[ReferencedEnum]
+       *  B -->|referenced by| A
+       */
+    ''';
+    final docComment = ApexdocParser.parseFromBody(docBody);
+    expect(docComment.annotationsByName('group').length, equals(1));
+    expect(docComment.annotationsByName('group').first.body, equals('Sample Enums'));
+  });
+
+  test('Doc contents can have @links', () {
+    final docBody = '''
+      /**
+       * @description This is a sample enum. This references {@link ReferencedEnum}.
+       *
+       * This description has several lines
+       * @group Sample Enums
+       * @author John Doe
+       * @date 2022-01-01
+       * @some-custom Test. I can also have a {@link ReferencedEnum} here.
+       *                    And it can be multiline.
+       * @see ReferencedEnum
+       * @mermaid
+       * graph TD
+       *  A[SampleEnum] -->|references| B[ReferencedEnum]
+       *  B -->|referenced by| A
+       */
+    ''';
+    final docComment = ApexdocParser.parseFromBody(docBody);
+    expect(docComment.descriptionLines.length, equals(3));
+    expect(docComment.descriptionLines.first, equals('This is a sample enum. This references {@link ReferencedEnum}.'));
+  });
 }

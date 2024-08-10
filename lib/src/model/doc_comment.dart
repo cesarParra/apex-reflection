@@ -37,9 +37,6 @@ class DocComment {
   Map<String, dynamic> toJson() => _$DocCommentToJson(this);
 
   List<String> get descriptionLines {
-    print('descriptionLines: $_descriptionLines');
-    print('annotations: ${annotations.firstWhereOrNull((element) => element.name == 'description')?.bodyLines}');
-
     if (_descriptionLines.isNotEmpty) {
       return _descriptionLines;
     }

@@ -17,7 +17,7 @@ main() {
     });
   });
 
-  group('sanitizes doc content', () {
+  group('parses and sanitizes doc content', () {
     test('does nothing when the lines are already sanitized', () {
       const input = 'line 1\nline 2\nline 3';
       final result = sanitizeDocContent(input);
@@ -58,6 +58,20 @@ main() {
       const input = 'line 1\n\n\nline 2\n';
       final result = sanitizeDocContent(input);
       expect(result, equals(['line 1', '', 'line 2']));
+    });
+  });
+
+  group('parses code block content', () {
+    test('sanitizes a single-line code block', () {
+      const input = '``` print(\'Hello, World!\'); ```';
+      final result = sanitizeDocContent(input);
+      expect(result, equals(['``` print(\'Hello, World!\'); ```']));
+    });
+
+    test('sanitizes a multi-line code block', () {
+      const input = '```\nprint(\'Hello, World!\');\nprint(\'Goodbye, World!\');\n```';
+      final result = sanitizeDocContent(input);
+      expect(result, equals(['```', 'print(\'Hello, World!\');', 'print(\'Goodbye, World!\');', '```']));
     });
   });
 }

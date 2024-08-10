@@ -72,6 +72,10 @@ TICKED_CONTENT
     : '`' ~('`'|'\n'|'\r')* '`'
     ;
 
+CODE_BLOCK
+    : '```' NAME+ .*? '```'
+    ;
+
 AT
 	: '@'
 	;

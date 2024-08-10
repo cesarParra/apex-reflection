@@ -121,8 +121,8 @@ blockTagTextElement
 	| BRACE_OPEN
 	| BRACE_CLOSE
     | TICKED_CONTENT
+    | CODE_BLOCK
 	;
-
 
 inlineTag
 	: INLINE_TAG_START inlineTagName SPACE* inlineTagContent? BRACE_CLOSE

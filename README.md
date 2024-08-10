@@ -81,8 +81,6 @@ dart run build_runner watch
 
 ### Parsing
 
-⚠️ This needs to be run with ANTLR 4.9.3
-
 The parsing algorithm relies on using ANTLR4 and its Dart target. 
 
 To generate the Antlr4 **Apex** output run:

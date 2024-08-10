@@ -55,9 +55,9 @@ JavaLetterOrDigit
     ;
 
 NEWLINE
-	: '\n' (SPACE? (STAR {inputStream.LA(1) != '/'}?)+)?
-	| '\r\n' (SPACE? (STAR {inputStream.LA(1) != '/'}?)+)?
-	| '\r' (SPACE? (STAR {inputStream.LA(1) != '/'}?)+)?
+	: '\n'
+	| '\r\n'
+	| '\r'
 	;
 
 SPACE

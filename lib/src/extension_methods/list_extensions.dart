@@ -19,3 +19,9 @@ extension FirstWhereOrNullExtension<E> on Iterable<E> {
     return null;
   }
 }
+
+extension StringExtensions on Iterable<String> {
+  String asSingleLine() {
+    return join('\n');
+  }
+}

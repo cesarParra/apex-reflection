@@ -1,4 +1,5 @@
 import 'package:apexdocs_dart/src/extension_methods/list_extensions.dart';
+import 'package:apexdocs_dart/src/model/multi_line_apex_doc_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'doc_comment.g.dart';
@@ -35,32 +36,21 @@ class DocComment {
 
   Map<String, dynamic> toJson() => _$DocCommentToJson(this);
 
-  List<String> get descriptionLines => _descriptionLines.isNotEmpty
-      ? _descriptionLines
-      : annotations
-          .firstWhereOrNull((element) => element.name == 'description')
-          ?.bodyLines ?? [];
+  List<String> get descriptionLines {
+    if (_descriptionLines.isNotEmpty) {
+      return _descriptionLines;
+    }
+
+    final descriptionTag = annotations.firstWhereOrNull((element) => element.name == 'description');
+    return descriptionTag?.bodyLines ?? [];
+  }
 
   set descriptionLines(List<String> descriptionLines) {
-    List<String> cleanLines = [];
-    for (String currentLine in descriptionLines) {
-      List<String> splitLines = currentLine.split('\n');
-      for (String splitLine in splitLines) {
-        String trimmedLine = splitLine.trim();
-        if (trimmedLine == '*') {
-          trimmedLine = '';
-        }
-
-        if (trimmedLine.isNotEmpty) {
-          cleanLines.add(trimmedLine);
-        }
-      }
-    }
-    _descriptionLines = cleanLines;
+    _descriptionLines = descriptionLines.map((e) => sanitizeDocContent(e)).expand((e) => e).toList();
   }
 
   /// Gets the description as a single line.
-  String get description => descriptionLines.join(' ');
+  String get description => descriptionLines.asSingleLine();
 
   List<DocCommentAnnotation> annotationsByName(String annotationName) {
     return annotations
@@ -77,7 +67,7 @@ class DocCommentAnnotation {
 
   List<String> bodyLines = [];
 
-  String get body => bodyLines.join(' ');
+  String get body => bodyLines.asSingleLine();
 
   DocCommentAnnotation(this.name, body) {
     if (body is String) {

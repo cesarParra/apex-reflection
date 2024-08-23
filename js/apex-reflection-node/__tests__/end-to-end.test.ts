@@ -387,4 +387,22 @@ describe('Class reflection', () => {
     expect(result.properties[1].group).toBe('Group Name');
     expect(result.properties[1].groupDescription).toBe('Group Description');
   });
+
+  test('Supports block style apex docs', () => {
+    const classBody = `/**********************************************************
+    @description Uses a block style apex doc
+@group           Main
+@test-class      {@link SampleClass}
+    ***********************************************************/
+    public class GroupedClass {
+    
+    }
+    `;
+
+    const result = reflect(classBody);
+    expect(result.error).toBeNull()
+
+    const typeResult = result.typeMirror as ClassMirror;
+    expect(typeResult.name).toBe('GroupedClass');
+  });
 });

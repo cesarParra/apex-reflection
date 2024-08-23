@@ -92,7 +92,7 @@ java org.antlr.v4.Tool -Dlanguage=Dart lib/src/antlr/grammars/apex/ApexLexer.g4 
 To generate the Antlr4 **Apexdoc** output run:
 
 ```shell
-java org.antlr.v4.Tool -Dlanguage=Dart lib/src/antlr/grammars/apexdoc/ApexdocLexer.g4 lib/src/antlr/grammars/apexdoc/ApexdocParser.g4 -o lib/src/antlr/lib/apexdoc/
+java org.antlr.v4.Tool -Dlanguage=Dart lib/src/antlr/grammars/apexdoc/ApexdocLexer.g4 lib/src/antlr/grammars/apexdoc/ApexdocParser.g4
 ```
 
 ## Typescript

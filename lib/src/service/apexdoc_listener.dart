@@ -1,7 +1,8 @@
-import 'package:apexdocs_dart/src/antlr/lib/apexdoc/ApexdocParser.dart';
-import 'package:apexdocs_dart/src/antlr/lib/apexdoc/ApexdocParserBaseListener.dart';
 import 'package:apexdocs_dart/src/model/doc_comment.dart';
 import 'package:apexdocs_dart/src/model/multi_line_apex_doc_annotation.dart';
+
+import '../antlr/grammars/Apexdoc/ApexdocParser.dart';
+import '../antlr/grammars/Apexdoc/ApexdocParserBaseListener.dart';
 
 class ApexdocListener extends ApexdocParserBaseListener {
   var descriptionLines = <String>[];

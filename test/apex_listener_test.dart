@@ -1203,6 +1203,25 @@ void main() {
       expect(() => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition), returnsNormally);
     });
+
+    test('Supports multi-level SOQL queries', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var classBody = '''
+      public class MyClass {
+        /**
+         * @description Some description
+         */
+         public class InnerClass {
+             public List<SObject> innerMethod() {
+                 return [SELECT Name, (SELECT Id, (SELECT Id, (SELECT Id, (SELECT Id FROM Child4 ) FROM Child3 ) FROM Child2 ) FROM Child1) FROM Parent];
+             }
+         }
+      }
+      ''';
+
+      expect(() => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition), returnsNormally);
+    });
   });
 
   group('Parses Apex Interfaces', () {

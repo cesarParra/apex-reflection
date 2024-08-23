@@ -122,6 +122,7 @@ blockTagTextElement
 	| BRACE_CLOSE
     | TICKED_CONTENT
     | CODE_BLOCK
+    | NEWLINE
 	;
 
 inlineTag

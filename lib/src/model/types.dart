@@ -12,8 +12,7 @@ abstract class TypeMirror extends DeclarationMirror {
   @JsonKey(name: 'type_name')
   String typeName = '';
 
-  TypeMirror({required String name, String? rawDocComment})
-      : super(name: name, rawDocComment: rawDocComment);
+  TypeMirror({required super.name, String? super.rawDocComment});
 
   bool isClass() {
     return false;
@@ -56,11 +55,10 @@ class ClassMirror extends TypeMirror
   List<ClassMirror> classes = [];
 
   ClassMirror(
-      {required String name,
-      String? rawDocComment,
+      {required super.name,
+      super.rawDocComment,
       this.extendedClass,
-      this.implementedInterfaces = const []})
-      : super(name: name, rawDocComment: rawDocComment) {
+      this.implementedInterfaces = const []}) {
     typeName = 'class';
   }
 
@@ -112,10 +110,9 @@ class InterfaceMirror extends TypeMirror
   late final List<String> extendedInterfaces;
 
   InterfaceMirror(
-      {required String name,
-      String? rawDocComment,
-      this.extendedInterfaces = const []})
-      : super(name: name, rawDocComment: rawDocComment) {
+      {required super.name,
+      super.rawDocComment,
+      this.extendedInterfaces = const []}) {
     typeName = 'interface';
   }
 
@@ -152,8 +149,7 @@ class EnumMirror extends TypeMirror {
   @JsonKey(name: 'values')
   List<EnumValue> values = [];
 
-  EnumMirror({required String name, String? rawDocComment})
-      : super(name: name, rawDocComment: rawDocComment) {
+  EnumMirror({required super.name, super.rawDocComment}) {
     typeName = 'enum';
   }
 

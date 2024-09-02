@@ -1,6 +1,6 @@
 import 'package:antlr4/antlr4.dart';
-import 'package:apexdocs_dart/src/antlr/lib/apex/ApexLexer.dart';
-import 'package:apexdocs_dart/src/antlr/lib/apex/ApexParser.dart';
+import 'package:apexdocs_dart/src/antlr/grammars/apex/ApexLexer.dart';
+import 'package:apexdocs_dart/src/antlr/grammars/apex/ApexParser.dart';
 import 'package:apexdocs_dart/src/service/case_insensitive_input_stream.dart';
 import 'package:test/test.dart';
 

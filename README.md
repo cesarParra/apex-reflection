@@ -86,7 +86,7 @@ The parsing algorithm relies on using ANTLR4 and its Dart target.
 To generate the Antlr4 **Apex** output run:
 
 ```shell
-java org.antlr.v4.Tool -Dlanguage=Dart lib/src/antlr/grammars/apex/ApexLexer.g4 lib/src/antlr/grammars/apex/ApexParser.g4 -o lib/src/antlr/lib/apex/
+java org.antlr.v4.Tool -Dlanguage=Dart lib/src/antlr/grammars/apex/ApexLexer.g4 lib/src/antlr/grammars/apex/ApexParser.g4
 ```
 
 To generate the Antlr4 **Apexdoc** output run:

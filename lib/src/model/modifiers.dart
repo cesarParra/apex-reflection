@@ -2,7 +2,7 @@ import 'package:apexdocs_dart/src/extension_methods/list_extensions.dart';
 import 'package:apexdocs_dart/src/service/utils/parsing/parsing_utils.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import 'package:apexdocs_dart/src/antlr/lib/apex/ApexParser.dart';
+import '../antlr/grammars/apex/ApexParser.dart';
 
 part 'modifiers.g.dart';
 

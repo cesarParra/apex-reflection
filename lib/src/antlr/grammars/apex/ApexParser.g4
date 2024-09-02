@@ -617,11 +617,23 @@ soqlFunction
     | WEEK_IN_MONTH LPAREN dateFieldName RPAREN
     | WEEK_IN_YEAR LPAREN dateFieldName RPAREN
     | FIELDS LPAREN soqlFieldsParameter RPAREN
+    | DISTANCE LPAREN locationValue COMMA locationValue COMMA StringLiteral RPAREN
     ;
 
- dateFieldName
-    : CONVERT_TIMEZONE LPAREN fieldName RPAREN
-    | fieldName
+dateFieldName
+   : CONVERT_TIMEZONE LPAREN fieldName RPAREN
+   | fieldName
+   ;
+
+locationValue
+    : fieldName
+    | boundExpression
+    | GEOLOCATION LPAREN coordinateValue COMMA coordinateValue  RPAREN
+    ;
+
+coordinateValue
+    : signedNumber
+    | boundExpression
     ;
 
 typeOf

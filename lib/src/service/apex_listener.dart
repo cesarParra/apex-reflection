@@ -1,9 +1,6 @@
 import 'dart:collection';
 
 import 'package:antlr4/antlr4.dart';
-import 'package:apexdocs_dart/src/antlr/lib/apex/ApexLexer.dart';
-import 'package:apexdocs_dart/src/antlr/lib/apex/ApexParser.dart';
-import 'package:apexdocs_dart/src/antlr/lib/apex/ApexParserBaseListener.dart';
 import 'package:apexdocs_dart/src/builders/builders.dart';
 import 'package:apexdocs_dart/src/model/declaration_mirror.dart';
 import 'package:apexdocs_dart/src/model/members.dart';
@@ -13,6 +10,9 @@ import 'package:apexdocs_dart/src/service/parsers.dart';
 import 'package:apexdocs_dart/src/service/utils/parsing/parsing_utils.dart';
 import 'package:apexdocs_dart/src/extension_methods/list_extensions.dart';
 
+import '../antlr/grammars/apex/ApexLexer.dart';
+import '../antlr/grammars/apex/ApexParser.dart';
+import '../antlr/grammars/apex/ApexParserBaseListener.dart';
 import '../model/doc_comment.dart';
 
 class DeclarationDescriptor {

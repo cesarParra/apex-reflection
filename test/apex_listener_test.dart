@@ -1503,5 +1503,24 @@ void main() {
       expect(() => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition), returnsNormally);
     });
+
+    test('Parses SOQL with the GROUPING keyword', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var classBody = '''
+      public class MyClass {
+        public void myMethod() {
+          List<Object> groupedResults = 
+            [SELECT LeadSource, Rating,
+              GROUPING(LeadSource) grpLS, GROUPING(Rating) grpRating,
+              COUNT(Name) cnt
+              FROM Lead
+              GROUP BY ROLLUP(LeadSource, Rating)];
+        }
+      }
+      ''';
+
+      expect(() => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition), returnsNormally);
+    });
   });
 }

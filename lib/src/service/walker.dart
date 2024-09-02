@@ -1,13 +1,13 @@
 import 'package:antlr4/antlr4.dart';
 
-import 'package:apexdocs_dart/src/antlr/lib/apex/ApexLexer.dart';
-import 'package:apexdocs_dart/src/antlr/lib/apex/ApexParser.dart';
 import 'package:apexdocs_dart/src/model/doc_comment.dart';
 import 'package:apexdocs_dart/src/service/apex_listener.dart';
 import 'package:apexdocs_dart/src/model/types.dart';
 
 import '../antlr/grammars/Apexdoc/ApexdocLexer.dart';
 import '../antlr/grammars/Apexdoc/ApexdocParser.dart';
+import '../antlr/grammars/apex/ApexLexer.dart';
+import '../antlr/grammars/apex/ApexParser.dart';
 import 'apexdoc_listener.dart';
 
 class Walker {

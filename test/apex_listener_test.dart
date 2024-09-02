@@ -1485,4 +1485,42 @@ void main() {
       expect(generatedEnum.values.firstWhere((element) => element.name == 'VALUE3').docDescription, 'Value 3');
     });
   });
+
+  group('Parses SOQL', () {
+    test('Parses SOQL with the DISTANCE keyword', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var classBody = '''
+      public class MyClass {
+        public void myMethod() {
+          List<Account> accounts = 
+            [SELECT Name, Location__c 
+              FROM Warehouse__c 
+              WHERE DISTANCE(Location__c, GEOLOCATION(37.775,-122.418), 'mi') < 20];
+        }
+      }
+      ''';
+
+      expect(() => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition), returnsNormally);
+    });
+
+    test('Parses SOQL with the GROUPING keyword', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var classBody = '''
+      public class MyClass {
+        public void myMethod() {
+          List<Object> groupedResults = 
+            [SELECT LeadSource, Rating,
+              GROUPING(LeadSource) grpLS, GROUPING(Rating) grpRating,
+              COUNT(Name) cnt
+              FROM Lead
+              GROUP BY ROLLUP(LeadSource, Rating)];
+        }
+      }
+      ''';
+
+      expect(() => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition), returnsNormally);
+    });
+  });
 }

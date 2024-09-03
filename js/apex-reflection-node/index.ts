@@ -31,8 +31,8 @@ export interface DocCommentAnnotation {
 export interface DocComment {
     rawDeclaration?: string;
     paramAnnotations: ParamAnnotation[];
-    returnAnnotation: ReturnAnnotation;
-    exampleAnnotation: ExampleAnnotation;
+    returnAnnotation: ReturnAnnotation | null;
+    exampleAnnotation: ExampleAnnotation | null;
     throwsAnnotations: ThrowsAnnotation[];
     annotations: DocCommentAnnotation[];
     descriptionLines: string[];

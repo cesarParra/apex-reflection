@@ -843,6 +843,7 @@ fieldSpec
 
 fieldList
     : soslId (COMMA fieldList)*
+    | TOLABEL LPAREN soslId RPAREN
     ;
 
 updateList

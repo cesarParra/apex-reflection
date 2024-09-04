@@ -1523,4 +1523,22 @@ void main() {
           apexWalkerDefinition), returnsNormally);
     });
   });
+
+  group('Parses SOSL', () {
+    test('Parses SOSL with the toLabel keyword', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var classBody = '''
+      public class MyClass {
+        public void myMethod() {
+          String searchTerm = 'test';
+          Object result = 
+            [FIND :searchTerm IN ALL FIELDS RETURNING Account(Id, toLabel(Name)) LIMIT 10];
+        }
+      }
+      ''';
+
+      expect(() => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition), returnsNormally);
+    });
+  });
 }

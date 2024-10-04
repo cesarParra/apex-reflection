@@ -466,7 +466,8 @@ void main() {
       expect(field2.group, equals('Variables'));
     });
 
-    test('Classes can have fields in groups using traditional /** comments ', () {
+    test('Classes can have fields in groups using traditional /** comments ',
+        () {
       final apexWalkerDefinition = ApexWalkerDefinition();
       var classBody = '''
       public class MyClass {
@@ -480,7 +481,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(3));
       expect(generatedClass.fields.any((element) => element.name == 'myVar1'),
           isTrue);
@@ -494,7 +495,8 @@ void main() {
       expect(field1.isPrivate, isTrue);
       expect(field1.typeReference.type, equals('String'));
       expect(field1.group, equals('Variables'));
-      expect(field1.docDescription, equals('The description for the variables'));
+      expect(
+          field1.docDescription, equals('The description for the variables'));
 
       FieldMirror field2 = generatedClass.fields
           .firstWhere((element) => element.name == 'myVar2');
@@ -509,7 +511,9 @@ void main() {
       expect(field2.group, equals('Variables'));
     });
 
-    test('Classes can have fields in groups using traditional /** comments with a description', () {
+    test(
+        'Classes can have fields in groups using traditional /** comments with a description',
+        () {
       final apexWalkerDefinition = ApexWalkerDefinition();
       var classBody = '''
       public class MyClass {
@@ -526,7 +530,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(3));
       expect(generatedClass.fields.any((element) => element.name == 'myVar1'),
           isTrue);
@@ -541,7 +545,8 @@ void main() {
       expect(field1.typeReference.type, equals('String'));
       expect(field1.group, equals('Variables'));
       expect(field1.groupDescription, equals('Group description'));
-      expect(field1.docDescription, equals('The description for the variables'));
+      expect(
+          field1.docDescription, equals('The description for the variables'));
 
       FieldMirror field2 = generatedClass.fields
           .firstWhere((element) => element.name == 'myVar2');
@@ -556,7 +561,9 @@ void main() {
       expect(field2.group, equals('Variables'));
     });
 
-    test('Classes can have fields in groups using traditional /** comments with a description, but not having a description themselves', () {
+    test(
+        'Classes can have fields in groups using traditional /** comments with a description, but not having a description themselves',
+        () {
       final apexWalkerDefinition = ApexWalkerDefinition();
       var classBody = '''
       public class MyClass {
@@ -572,7 +579,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(3));
       expect(generatedClass.fields.any((element) => element.name == 'myVar1'),
           isTrue);
@@ -618,11 +625,13 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.properties.length, equals(2));
-      expect(generatedClass.properties.any((element) => element.name == 'Prop1'),
+      expect(
+          generatedClass.properties.any((element) => element.name == 'Prop1'),
           isTrue);
-      expect(generatedClass.properties.any((element) => element.name == 'Prop1'),
+      expect(
+          generatedClass.properties.any((element) => element.name == 'Prop1'),
           isTrue);
 
       PropertyMirror property1 = generatedClass.properties
@@ -821,7 +830,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.methods.length, equals(2));
       expect(generatedClass.methods.any((element) => element.name == 'sayHi'),
           isTrue);
@@ -862,7 +871,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition);
       var generatedClass =
-      apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.methods.length, equals(2));
       expect(generatedClass.methods.any((element) => element.name == 'sayHi'),
           isTrue);
@@ -1200,8 +1209,10 @@ void main() {
       }
       ''';
 
-      expect(() => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
-          apexWalkerDefinition), returnsNormally);
+      expect(
+          () => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+              apexWalkerDefinition),
+          returnsNormally);
     });
 
     test('Supports multi-level SOQL queries', () {
@@ -1219,8 +1230,10 @@ void main() {
       }
       ''';
 
-      expect(() => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
-          apexWalkerDefinition), returnsNormally);
+      expect(
+          () => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+              apexWalkerDefinition),
+          returnsNormally);
     });
   });
 
@@ -1356,7 +1369,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(interfaceBody),
           apexWalkerDefinition);
       var generatedInterface =
-      apexWalkerDefinition.getGeneratedApexType() as InterfaceMirror;
+          apexWalkerDefinition.getGeneratedApexType() as InterfaceMirror;
       expect(generatedInterface.methods.length, equals(1));
       expect(
           generatedInterface.methods.any((element) => element.name == 'sayHi'),
@@ -1367,7 +1380,9 @@ void main() {
       expect(method1.isNamespaceAccessible, isTrue);
     });
 
-    test('Interfaces methods inherit the interface annotation but also can have their own annotations', () {
+    test(
+        'Interfaces methods inherit the interface annotation but also can have their own annotations',
+        () {
       final apexWalkerDefinition = ApexWalkerDefinition();
       var interfaceBody = '''
       @NamespaceAccessible
@@ -1383,7 +1398,7 @@ void main() {
       Walker.walk(CaseInsensitiveInputStream.fromString(interfaceBody),
           apexWalkerDefinition);
       var generatedInterface =
-      apexWalkerDefinition.getGeneratedApexType() as InterfaceMirror;
+          apexWalkerDefinition.getGeneratedApexType() as InterfaceMirror;
       expect(generatedInterface.methods.length, equals(1));
       expect(
           generatedInterface.methods.any((element) => element.name == 'sayHi'),
@@ -1480,9 +1495,21 @@ void main() {
           isTrue);
       expect(generatedEnum.values.any((element) => element.name == 'VALUE3'),
           isTrue);
-      expect(generatedEnum.values.firstWhere((element) => element.name == 'VALUE1').docDescription, 'Value 1');
-      expect(generatedEnum.values.firstWhere((element) => element.name == 'VALUE2').docDescription, 'Value 2');
-      expect(generatedEnum.values.firstWhere((element) => element.name == 'VALUE3').docDescription, 'Value 3');
+      expect(
+          generatedEnum.values
+              .firstWhere((element) => element.name == 'VALUE1')
+              .docDescription,
+          'Value 1');
+      expect(
+          generatedEnum.values
+              .firstWhere((element) => element.name == 'VALUE2')
+              .docDescription,
+          'Value 2');
+      expect(
+          generatedEnum.values
+              .firstWhere((element) => element.name == 'VALUE3')
+              .docDescription,
+          'Value 3');
     });
   });
 
@@ -1500,8 +1527,10 @@ void main() {
       }
       ''';
 
-      expect(() => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
-          apexWalkerDefinition), returnsNormally);
+      expect(
+          () => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+              apexWalkerDefinition),
+          returnsNormally);
     });
 
     test('Parses SOQL with the GROUPING keyword', () {
@@ -1519,8 +1548,10 @@ void main() {
       }
       ''';
 
-      expect(() => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
-          apexWalkerDefinition), returnsNormally);
+      expect(
+          () => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+              apexWalkerDefinition),
+          returnsNormally);
     });
 
     test('Parses SOQL with the convertCurrency function', () {
@@ -1533,8 +1564,46 @@ void main() {
       }
       ''';
 
-      expect(() => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
-          apexWalkerDefinition), returnsNormally);
+      expect(
+          () => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+              apexWalkerDefinition),
+          returnsNormally);
+    });
+
+    test('Parses SOQL with the convertCurrency and formatting', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var classBody = '''
+      public class MyClass {
+        public void myMethod() {
+          List<Object> result = [
+              SELECT Amount, FORMAT(amount) Amt, convertCurrency(amount) convertedAmount,
+                  FORMAT(convertCurrency(amount)) convertedCurrency
+              FROM Opportunity where id = '006R00000024gDtIAI'
+            ];
+        }
+      }
+      ''';
+
+      expect(
+          () => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+              apexWalkerDefinition),
+          returnsNormally);
+    });
+
+    test('Parses SOQL with the format function with aggregate', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var classBody = '''
+      public class MyClass {
+        public void myMethod() {
+          List<Object> result = [ SELECT FORMAT(MIN(closedate)) Amt FROM opportunity ];
+        }
+      }
+      ''';
+
+      expect(
+          () => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+              apexWalkerDefinition),
+          returnsNormally);
     });
   });
 
@@ -1551,8 +1620,75 @@ void main() {
       }
       ''';
 
-      expect(() => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
-          apexWalkerDefinition), returnsNormally);
+      expect(
+          () => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+              apexWalkerDefinition),
+          returnsNormally);
+    });
+
+    test('Parses SOSL with the toLabel keyword using an alias', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var classBody = '''
+      public class MyClass {
+        public void myMethod() {
+          String searchTerm = 'test';
+          Object result = [FIND :searchTerm IN ALL FIELDS RETURNING Account(Id, toLabel(Name) AliasName) LIMIT 10];
+        }
+      }
+      ''';
+
+      expect(
+              () => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+              apexWalkerDefinition),
+          returnsNormally);
+    });
+
+    test('Parses SOSL that converts currency', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var classBody = '''
+      public class MyClass {
+        public void myMethod() {
+          Object result = [ FIND 'test' RETURNING Opportunity(Name, convertCurrency(Amount), convertCurrency(Amount) AliasCurrency) ];
+        }
+      }
+      ''';
+
+      expect(
+              () => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+              apexWalkerDefinition),
+          returnsNormally);
+    });
+
+    test('Parses SOSL that converts and formats currency', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var classBody = '''
+      public class MyClass {
+        public void myMethod() {
+          Object result = [ FIND 'Acme' RETURNING Account(AnnualRevenue, FORMAT(convertCurrency(AnnualRevenue)) convertedCurrency) ];
+        }
+      }
+      ''';
+
+      expect(
+              () => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+              apexWalkerDefinition),
+          returnsNormally);
+    });
+
+    test('Parses SOSL that formats with aggregate', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var classBody = '''
+      public class MyClass {
+        public void myMethod() {
+          Object result = [ FIND 'Acme' RETURNING Account(AnnualRevenue, FORMAT(MIN(CloseDate))) ];
+        }
+      }
+      ''';
+
+      expect(
+              () => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+              apexWalkerDefinition),
+          returnsNormally);
     });
   });
 }

@@ -1522,6 +1522,20 @@ void main() {
       expect(() => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
           apexWalkerDefinition), returnsNormally);
     });
+
+    test('Parses SOQL with the convertCurrency function', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var classBody = '''
+      public class MyClass {
+        public void myMethod() {
+          List<Object> result = [ SELECT convertCurrency(Amount) FROM Opportunity ];
+        }
+      }
+      ''';
+
+      expect(() => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          apexWalkerDefinition), returnsNormally);
+    });
   });
 
   group('Parses SOSL', () {

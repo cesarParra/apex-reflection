@@ -12,7 +12,7 @@
         <entry key="_macros">
           <value>
             <list>
-              <option value="/opt/homebrew/Cellar/dart/3.5.1/libexec/pkg/_macros/lib" />
+              <option value="/opt/homebrew/Cellar/dart/3.5.3/libexec/pkg/_macros/lib" />
             </list>
           </value>
         </entry>
@@ -596,7 +596,7 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/web_socket_channel-3.0.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/webkit_inspection_protocol-1.2.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/yaml-3.1.2/lib" />
-      <root url="file:///opt/homebrew/Cellar/dart/3.5.1/libexec/pkg/_macros/lib" />
+      <root url="file:///opt/homebrew/Cellar/dart/3.5.3/libexec/pkg/_macros/lib" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

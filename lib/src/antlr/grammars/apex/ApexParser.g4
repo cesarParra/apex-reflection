@@ -602,7 +602,7 @@ soqlFunction
     | MAX LPAREN fieldName RPAREN
     | SUM LPAREN fieldName RPAREN
     | TOLABEL LPAREN fieldName RPAREN
-    | FORMAT LPAREN fieldName RPAREN
+    | FORMAT LPAREN ( fieldName | soqlFunction ) RPAREN
     | CALENDAR_MONTH LPAREN dateFieldName RPAREN
     | CALENDAR_QUARTER LPAREN dateFieldName RPAREN
     | CALENDAR_YEAR LPAREN dateFieldName RPAREN
@@ -619,6 +619,7 @@ soqlFunction
     | FIELDS LPAREN soqlFieldsParameter RPAREN
     | DISTANCE LPAREN locationValue COMMA locationValue COMMA StringLiteral RPAREN
     | GROUPING LPAREN fieldName RPAREN
+    | CONVERT_CURRENCY LPAREN fieldName RPAREN
     ;
 
 dateFieldName
@@ -843,7 +844,9 @@ fieldSpec
 
 fieldList
     : soslId (COMMA fieldList)*
-    | TOLABEL LPAREN soslId RPAREN
+    | TOLABEL LPAREN soslId RPAREN soslId?
+    | CONVERT_CURRENCY LPAREN soslId RPAREN soslId?
+    | FORMAT LPAREN (soslId | soqlFunction) RPAREN soslId?
     ;
 
 updateList
@@ -944,6 +947,7 @@ id
     | DISTANCE
     | GEOLOCATION
     | GROUPING
+    | CONVERT_CURRENCY
     // SOQL date functions
     | CALENDAR_MONTH
     | CALENDAR_QUARTER
@@ -1144,6 +1148,7 @@ anyId
     | DISTANCE
     | GEOLOCATION
     | GROUPING
+    | CONVERT_CURRENCY
     // SOQL date functions
     | CALENDAR_MONTH
     | CALENDAR_QUARTER

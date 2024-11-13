@@ -2440,7 +2440,7 @@ class ApexParser extends Parser {
       case 3:
         enterOuterAlt(_localctx, 3);
         state = 748;
-        id();
+        typeRef();
         state = 749;
         id();
         break;
@@ -8958,7 +8958,7 @@ class ApexParser extends Parser {
   	'\u{2}\u{2}\u{2}\u{2EA}\u{2ED}\u{3}\u{2}\u{2}\u{2}\u{2EB}\u{2E9}\u{3}'
   	'\u{2}\u{2}\u{2}\u{2EB}\u{2EC}\u{3}\u{2}\u{2}\u{2}\u{2EC}\u{2F2}\u{3}'
   	'\u{2}\u{2}\u{2}\u{2ED}\u{2EB}\u{3}\u{2}\u{2}\u{2}\u{2EE}\u{2EF}\u{5}'
-  	'\u{120}\u{91}\u{2}\u{2EF}\u{2F0}\u{5}\u{120}\u{91}\u{2}\u{2F0}\u{2F2}'
+  	'\u{30}\u{19}\u{2}\u{2EF}\u{2F0}\u{5}\u{120}\u{91}\u{2}\u{2F0}\u{2F2}'
   	'\u{3}\u{2}\u{2}\u{2}\u{2F1}\u{2E5}\u{3}\u{2}\u{2}\u{2}\u{2F1}\u{2E6}'
   	'\u{3}\u{2}\u{2}\u{2}\u{2F1}\u{2EE}\u{3}\u{2}\u{2}\u{2}\u{2F2}\u{5B}\u{3}'
   	'\u{2}\u{2}\u{2}\u{2F3}\u{2F5}\u{7}\u{E4}\u{2}\u{2}\u{2F4}\u{2F3}\u{3}'
@@ -10564,8 +10564,8 @@ class WhenValueContext extends ParserRuleContext {
   WhenLiteralContext? whenLiteral(int i) => getRuleContext<WhenLiteralContext>(i);
   List<TerminalNode> COMMAs() => getTokens(ApexParser.TOKEN_COMMA);
   TerminalNode? COMMA(int i) => getToken(ApexParser.TOKEN_COMMA, i);
-  List<IdContext> ids() => getRuleContexts<IdContext>();
-  IdContext? id(int i) => getRuleContext<IdContext>(i);
+  TypeRefContext? typeRef() => getRuleContext<TypeRefContext>(0);
+  IdContext? id() => getRuleContext<IdContext>(0);
   WhenValueContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
   @override
   int get ruleIndex => RULE_whenValue;

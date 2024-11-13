@@ -1235,6 +1235,26 @@ void main() {
               apexWalkerDefinition),
           returnsNormally);
     });
+
+    test('Supports switch when', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var classBody = '''
+      public class MyClass {
+        public void doSomething() {
+          switch on Account.SObjectType.newSObject() {
+            when Schema.Account someAccount {
+              System.debug(someAccount.Name);
+            }
+          }
+        }
+      }
+      ''';
+
+      expect(
+              () => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+              apexWalkerDefinition),
+          returnsNormally);
+    });
   });
 
   group('Parses Apex Interfaces', () {

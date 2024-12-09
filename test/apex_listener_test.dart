@@ -1251,7 +1251,7 @@ void main() {
       ''';
 
       expect(
-              () => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          () => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
               apexWalkerDefinition),
           returnsNormally);
     });
@@ -1625,6 +1625,22 @@ void main() {
               apexWalkerDefinition),
           returnsNormally);
     });
+
+    test('Parses SOQL with time literals', () {
+      final apexWalkerDefinition = ApexWalkerDefinition();
+      var classBody = '''
+      public class MyClass {
+        public void myMethod() {
+          List<Object> result = [SELECT Break__c,Check_Out__c FROM VMS_Time_Card_Item__c WHERE Time_Card__c =:timeCard.Id AND Check_Out__c = 01:00:00.000Z];
+        }
+      }
+      ''';
+
+      expect(
+          () => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+              apexWalkerDefinition),
+          returnsNormally);
+    });
   });
 
   group('Parses SOSL', () {
@@ -1658,7 +1674,7 @@ void main() {
       ''';
 
       expect(
-              () => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          () => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
               apexWalkerDefinition),
           returnsNormally);
     });
@@ -1674,7 +1690,7 @@ void main() {
       ''';
 
       expect(
-              () => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          () => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
               apexWalkerDefinition),
           returnsNormally);
     });
@@ -1690,7 +1706,7 @@ void main() {
       ''';
 
       expect(
-              () => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          () => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
               apexWalkerDefinition),
           returnsNormally);
     });
@@ -1706,7 +1722,7 @@ void main() {
       ''';
 
       expect(
-              () => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
+          () => Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
               apexWalkerDefinition),
           returnsNormally);
     });

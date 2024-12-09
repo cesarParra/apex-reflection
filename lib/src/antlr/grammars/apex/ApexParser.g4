@@ -678,6 +678,7 @@ value
     | signedNumber
     | StringLiteral
     | DateLiteral
+    | TimeLiteral
     | DateTimeLiteral
     | dateFormula
     | IntegralCurrencyLiteral (DOT IntegerLiteral?)?

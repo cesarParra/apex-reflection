@@ -1,7 +1,8 @@
-const lib = require('./out');
+import "./out";
 
 export function reflect(declarationBody: string): ReflectionResult {
-    return JSON.parse(lib.reflect(declarationBody)) as ReflectionResult;
+    // @ts-expect-error "reflect" is added to self by the "out" module
+    return JSON.parse(self.reflect(declarationBody)) as ReflectionResult;
 }
 
 export interface ParamAnnotation {

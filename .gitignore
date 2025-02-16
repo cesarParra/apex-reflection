@@ -16,3 +16,4 @@ gen/
 /js/apex-reflection-node/node_modules/
 /js/apex-reflection-node/out.js
 /js/apex-reflection-node/coverage/
+/js/apex-reflection-node/dist/

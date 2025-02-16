@@ -2,9 +2,12 @@
   "compilerOptions": {
     "allowJs": true,
     "declaration": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "outDir": "./dist",
+    "module": "CommonJS",
+    "target": "ES2020",
   },
   "include": [
-    "index.ts",
+    "index.ts"
   ]
 }

@@ -1,21 +1,24 @@
+var dartNodeIsActuallyNode = typeof process !== "undefined" && (process.versions || {}).hasOwnProperty('node');
+
 // make sure to keep this as 'var'
 // we don't want block scoping
-
-var dartNodePreambleSelf = typeof global !== "undefined" ? global : window;
-
-var self = Object.create(dartNodePreambleSelf);
+var self = dartNodeIsActuallyNode ? Object.create(globalThis) : globalThis;
 
 self.scheduleImmediate = typeof setImmediate !== "undefined"
   ? function (cb) {
     setImmediate(cb);
   }
-  : function (cb) {
+  : function(cb) {
     setTimeout(cb, 0);
   };
 
 // CommonJS globals.
-self.require = require;
-self.exports = exports;
+if (typeof require !== "undefined") {
+  self.require = require;
+}
+if (typeof exports !== "undefined") {
+  self.exports = exports;
+}
 
 // Node.js specific exports, check to see if they exist & or polyfilled
 
@@ -38,21 +41,6 @@ if (typeof Buffer !== "undefined") {
 // if we're running in a browser, Dart supports most of this out of box
 // make sure we only run these in Node.js environment
 
-var dartNodeIsActuallyNode = !dartNodePreambleSelf.window
-
-try {
-  // Check if we're in a Web Worker instead.
-  if ("undefined" !== typeof WorkerGlobalScope && dartNodePreambleSelf instanceof WorkerGlobalScope) {
-    dartNodeIsActuallyNode = false;
-  }
-
-  // Check if we're in Electron, with Node.js integration, and override if true.
-  if ("undefined" !== typeof process && process.versions && process.versions.hasOwnProperty('electron') && process.versions.hasOwnProperty('node')) {
-    dartNodeIsActuallyNode = true;
-  }
-} catch (e) {
-}
-
 if (dartNodeIsActuallyNode) {
   // This line is to:
   // 1) Prevent Webpack from bundling.
@@ -72,7 +60,7 @@ if (dartNodeIsActuallyNode) {
           // for versions of Node <10.12.0 which introduced `url.pathToFileURL()`.
           // For example, it will fail for paths that contain characters that need
           // to be escaped in URLs.
-          return "file://" + (function () {
+          return "file://" + (function() {
             var cwd = process.cwd();
             if (process.platform != "win32") return cwd;
             return "/" + cwd.replace(/\\/g, "/");
@@ -82,11 +70,11 @@ if (dartNodeIsActuallyNode) {
     }
   });
 
-  (function () {
+  (function() {
     function computeCurrentScript() {
       try {
         throw new Error();
-      } catch (e) {
+      } catch(e) {
         var stack = e.stack;
         var re = new RegExp("^ *at [^(]*\\((.*):[0-9]*:[0-9]*\\)$", "mg");
         var lastMatch = null;
@@ -114,7 +102,7 @@ if (dartNodeIsActuallyNode) {
     });
   })();
 
-  self.dartDeferredLibraryLoader = function (uri, successCallback, errorCallback) {
+  self.dartDeferredLibraryLoader = function(uri, successCallback, errorCallback) {
     try {
       load(uri);
       successCallback();
@@ -123,3 +111,6 @@ if (dartNodeIsActuallyNode) {
     }
   };
 }
+
+// ADDED THIS LINE
+globalThis.self = self;

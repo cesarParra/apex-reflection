@@ -1,4 +1,4 @@
-import "./out";
+require('./out.js');
 
 export function reflect(declarationBody: string): ReflectionResult {
     // @ts-expect-error "reflect" is added to self by the "out" module

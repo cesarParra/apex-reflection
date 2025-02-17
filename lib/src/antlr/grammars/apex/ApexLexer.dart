@@ -246,7 +246,7 @@ class ApexLexer extends Lexer {
   }
 
 
-  ApexLexer(CharStream input) : super(input) {
+  ApexLexer(super.input) {
     interpreter = LexerATNSimulator(_ATN, _decisionToDFA, _sharedContextCache, recog: this);
   }
 

@@ -296,16 +296,16 @@ class ApexParser extends Parser {
    return _ATN;
   }
 
-  ApexParser(TokenStream input) : super(input) {
+  ApexParser(super.input) {
     interpreter = ParserATNSimulator(this, _ATN, _decisionToDFA, _sharedContextCache);
   }
 
   TriggerUnitContext triggerUnit() {
-    dynamic _localctx = TriggerUnitContext(context, state);
-    enterRule(_localctx, 0, RULE_triggerUnit);
-    int _la;
+    dynamic localctx = TriggerUnitContext(context, state);
+    enterRule(localctx, 0, RULE_triggerUnit);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 290;
       match(TOKEN_TRIGGER);
       state = 291;
@@ -320,15 +320,15 @@ class ApexParser extends Parser {
       triggerCase();
       state = 300;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      while (_la == TOKEN_COMMA) {
+      la = tokenStream.LA(1)!;
+      while (la == TOKEN_COMMA) {
         state = 296;
         match(TOKEN_COMMA);
         state = 297;
         triggerCase();
         state = 302;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
+        la = tokenStream.LA(1)!;
       }
       state = 303;
       match(TOKEN_RPAREN);
@@ -337,24 +337,24 @@ class ApexParser extends Parser {
       state = 305;
       match(TOKEN_EOF);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   TriggerCaseContext triggerCase() {
-    dynamic _localctx = TriggerCaseContext(context, state);
-    enterRule(_localctx, 2, RULE_triggerCase);
-    int _la;
+    dynamic localctx = TriggerCaseContext(context, state);
+    enterRule(localctx, 2, RULE_triggerCase);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 307;
-      _la = tokenStream.LA(1)!;
-      if (!(_la == TOKEN_AFTER || _la == TOKEN_BEFORE)) {
+      la = tokenStream.LA(1)!;
+      if (!(la == TOKEN_AFTER || la == TOKEN_BEFORE)) {
       errorHandler.recoverInline(this);
       } else {
         if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -362,8 +362,8 @@ class ApexParser extends Parser {
         consume();
       }
       state = 308;
-      _la = tokenStream.LA(1)!;
-      if (!((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_DELETE) | (BigInt.one << TOKEN_INSERT) | (BigInt.one << TOKEN_UNDELETE) | (BigInt.one << TOKEN_UPDATE))) != BigInt.zero))) {
+      la = tokenStream.LA(1)!;
+      if (!((((la) & ~0x3f) == 0 && ((BigInt.one << la) & ((BigInt.one << TOKEN_DELETE) | (BigInt.one << TOKEN_INSERT) | (BigInt.one << TOKEN_UNDELETE) | (BigInt.one << TOKEN_UPDATE))) != BigInt.zero))) {
       errorHandler.recoverInline(this);
       } else {
         if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -371,152 +371,152 @@ class ApexParser extends Parser {
         consume();
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   CompilationUnitContext compilationUnit() {
-    dynamic _localctx = CompilationUnitContext(context, state);
-    enterRule(_localctx, 4, RULE_compilationUnit);
+    dynamic localctx = CompilationUnitContext(context, state);
+    enterRule(localctx, 4, RULE_compilationUnit);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 310;
       typeDeclaration();
       state = 311;
       match(TOKEN_EOF);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   TypeDeclarationContext typeDeclaration() {
-    dynamic _localctx = TypeDeclarationContext(context, state);
-    enterRule(_localctx, 6, RULE_typeDeclaration);
-    int _la;
+    dynamic localctx = TypeDeclarationContext(context, state);
+    enterRule(localctx, 6, RULE_typeDeclaration);
+    int la;
     try {
-      int _alt;
+      int alt;
       state = 352;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 7, context)) {
       case 1:
-        _localctx = TypeClassDeclarationContext(_localctx);
-        enterOuterAlt(_localctx, 1);
+        localctx = TypeClassDeclarationContext(localctx);
+        enterOuterAlt(localctx, 1);
         state = 316;
         errorHandler.sync(this);
-        _alt = interpreter!.adaptivePredict(tokenStream, 1, context);
-        while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
-          if (_alt == 1) {
+        alt = interpreter!.adaptivePredict(tokenStream, 1, context);
+        while (alt != 2 && alt != ATN.INVALID_ALT_NUMBER) {
+          if (alt == 1) {
             state = 313;
             annotation(); 
           }
           state = 318;
           errorHandler.sync(this);
-          _alt = interpreter!.adaptivePredict(tokenStream, 1, context);
+          alt = interpreter!.adaptivePredict(tokenStream, 1, context);
         }
         state = 322;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        while ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_ABSTRACT) | (BigInt.one << TOKEN_FINAL) | (BigInt.one << TOKEN_GLOBAL) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_OVERRIDE) | (BigInt.one << TOKEN_PRIVATE) | (BigInt.one << TOKEN_PROTECTED) | (BigInt.one << TOKEN_PUBLIC) | (BigInt.one << TOKEN_STATIC) | (BigInt.one << TOKEN_TESTMETHOD) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_VIRTUAL) | (BigInt.one << TOKEN_WEBSERVICE) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT))) != BigInt.zero) || _la == TOKEN_ATSIGN) {
+        la = tokenStream.LA(1)!;
+        while ((((la) & ~0x3f) == 0 && ((BigInt.one << la) & ((BigInt.one << TOKEN_ABSTRACT) | (BigInt.one << TOKEN_FINAL) | (BigInt.one << TOKEN_GLOBAL) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_OVERRIDE) | (BigInt.one << TOKEN_PRIVATE) | (BigInt.one << TOKEN_PROTECTED) | (BigInt.one << TOKEN_PUBLIC) | (BigInt.one << TOKEN_STATIC) | (BigInt.one << TOKEN_TESTMETHOD) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_VIRTUAL) | (BigInt.one << TOKEN_WEBSERVICE) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT))) != BigInt.zero) || la == TOKEN_ATSIGN) {
           state = 319;
           modifier();
           state = 324;
           errorHandler.sync(this);
-          _la = tokenStream.LA(1)!;
+          la = tokenStream.LA(1)!;
         }
         state = 325;
         classDeclaration();
         break;
       case 2:
-        _localctx = TypeEnumDeclarationContext(_localctx);
-        enterOuterAlt(_localctx, 2);
+        localctx = TypeEnumDeclarationContext(localctx);
+        enterOuterAlt(localctx, 2);
         state = 329;
         errorHandler.sync(this);
-        _alt = interpreter!.adaptivePredict(tokenStream, 3, context);
-        while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
-          if (_alt == 1) {
+        alt = interpreter!.adaptivePredict(tokenStream, 3, context);
+        while (alt != 2 && alt != ATN.INVALID_ALT_NUMBER) {
+          if (alt == 1) {
             state = 326;
             annotation(); 
           }
           state = 331;
           errorHandler.sync(this);
-          _alt = interpreter!.adaptivePredict(tokenStream, 3, context);
+          alt = interpreter!.adaptivePredict(tokenStream, 3, context);
         }
         state = 335;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        while ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_ABSTRACT) | (BigInt.one << TOKEN_FINAL) | (BigInt.one << TOKEN_GLOBAL) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_OVERRIDE) | (BigInt.one << TOKEN_PRIVATE) | (BigInt.one << TOKEN_PROTECTED) | (BigInt.one << TOKEN_PUBLIC) | (BigInt.one << TOKEN_STATIC) | (BigInt.one << TOKEN_TESTMETHOD) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_VIRTUAL) | (BigInt.one << TOKEN_WEBSERVICE) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT))) != BigInt.zero) || _la == TOKEN_ATSIGN) {
+        la = tokenStream.LA(1)!;
+        while ((((la) & ~0x3f) == 0 && ((BigInt.one << la) & ((BigInt.one << TOKEN_ABSTRACT) | (BigInt.one << TOKEN_FINAL) | (BigInt.one << TOKEN_GLOBAL) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_OVERRIDE) | (BigInt.one << TOKEN_PRIVATE) | (BigInt.one << TOKEN_PROTECTED) | (BigInt.one << TOKEN_PUBLIC) | (BigInt.one << TOKEN_STATIC) | (BigInt.one << TOKEN_TESTMETHOD) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_VIRTUAL) | (BigInt.one << TOKEN_WEBSERVICE) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT))) != BigInt.zero) || la == TOKEN_ATSIGN) {
           state = 332;
           modifier();
           state = 337;
           errorHandler.sync(this);
-          _la = tokenStream.LA(1)!;
+          la = tokenStream.LA(1)!;
         }
         state = 338;
         enumDeclaration();
         break;
       case 3:
-        _localctx = TypeInterfaceDeclarationContext(_localctx);
-        enterOuterAlt(_localctx, 3);
+        localctx = TypeInterfaceDeclarationContext(localctx);
+        enterOuterAlt(localctx, 3);
         state = 342;
         errorHandler.sync(this);
-        _alt = interpreter!.adaptivePredict(tokenStream, 5, context);
-        while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
-          if (_alt == 1) {
+        alt = interpreter!.adaptivePredict(tokenStream, 5, context);
+        while (alt != 2 && alt != ATN.INVALID_ALT_NUMBER) {
+          if (alt == 1) {
             state = 339;
             annotation(); 
           }
           state = 344;
           errorHandler.sync(this);
-          _alt = interpreter!.adaptivePredict(tokenStream, 5, context);
+          alt = interpreter!.adaptivePredict(tokenStream, 5, context);
         }
         state = 348;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        while ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_ABSTRACT) | (BigInt.one << TOKEN_FINAL) | (BigInt.one << TOKEN_GLOBAL) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_OVERRIDE) | (BigInt.one << TOKEN_PRIVATE) | (BigInt.one << TOKEN_PROTECTED) | (BigInt.one << TOKEN_PUBLIC) | (BigInt.one << TOKEN_STATIC) | (BigInt.one << TOKEN_TESTMETHOD) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_VIRTUAL) | (BigInt.one << TOKEN_WEBSERVICE) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT))) != BigInt.zero) || _la == TOKEN_ATSIGN) {
+        la = tokenStream.LA(1)!;
+        while ((((la) & ~0x3f) == 0 && ((BigInt.one << la) & ((BigInt.one << TOKEN_ABSTRACT) | (BigInt.one << TOKEN_FINAL) | (BigInt.one << TOKEN_GLOBAL) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_OVERRIDE) | (BigInt.one << TOKEN_PRIVATE) | (BigInt.one << TOKEN_PROTECTED) | (BigInt.one << TOKEN_PUBLIC) | (BigInt.one << TOKEN_STATIC) | (BigInt.one << TOKEN_TESTMETHOD) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_VIRTUAL) | (BigInt.one << TOKEN_WEBSERVICE) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT))) != BigInt.zero) || la == TOKEN_ATSIGN) {
           state = 345;
           modifier();
           state = 350;
           errorHandler.sync(this);
-          _la = tokenStream.LA(1)!;
+          la = tokenStream.LA(1)!;
         }
         state = 351;
         interfaceDeclaration();
         break;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   ClassDeclarationContext classDeclaration() {
-    dynamic _localctx = ClassDeclarationContext(context, state);
-    enterRule(_localctx, 8, RULE_classDeclaration);
-    int _la;
+    dynamic localctx = ClassDeclarationContext(context, state);
+    enterRule(localctx, 8, RULE_classDeclaration);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 354;
       match(TOKEN_CLASS);
       state = 355;
       id();
       state = 358;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_EXTENDS) {
+      la = tokenStream.LA(1)!;
+      if (la == TOKEN_EXTENDS) {
         state = 356;
         match(TOKEN_EXTENDS);
         state = 357;
@@ -525,8 +525,8 @@ class ApexParser extends Parser {
 
       state = 362;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_IMPLEMENTS) {
+      la = tokenStream.LA(1)!;
+      if (la == TOKEN_IMPLEMENTS) {
         state = 360;
         match(TOKEN_IMPLEMENTS);
         state = 361;
@@ -536,21 +536,21 @@ class ApexParser extends Parser {
       state = 364;
       classBody();
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   EnumDeclarationContext enumDeclaration() {
-    dynamic _localctx = EnumDeclarationContext(context, state);
-    enterRule(_localctx, 10, RULE_enumDeclaration);
-    int _la;
+    dynamic localctx = EnumDeclarationContext(context, state);
+    enterRule(localctx, 10, RULE_enumDeclaration);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 366;
       match(TOKEN_ENUM);
       state = 367;
@@ -559,8 +559,8 @@ class ApexParser extends Parser {
       match(TOKEN_LBRACE);
       state = 370;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((_la - 64)) & ~0x3f) == 0 && ((BigInt.one << (_la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((_la - 128)) & ~0x3f) == 0 && ((BigInt.one << (_la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || _la == TOKEN_LISTVIEW || _la == TOKEN_Identifier) {
+      la = tokenStream.LA(1)!;
+      if ((((la) & ~0x3f) == 0 && ((BigInt.one << la) & ((BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((la - 64)) & ~0x3f) == 0 && ((BigInt.one << (la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((la - 128)) & ~0x3f) == 0 && ((BigInt.one << (la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || la == TOKEN_LISTVIEW || la == TOKEN_Identifier) {
         state = 369;
         enumConstants();
       }
@@ -568,59 +568,59 @@ class ApexParser extends Parser {
       state = 372;
       match(TOKEN_RBRACE);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   EnumConstantsContext enumConstants() {
-    dynamic _localctx = EnumConstantsContext(context, state);
-    enterRule(_localctx, 12, RULE_enumConstants);
-    int _la;
+    dynamic localctx = EnumConstantsContext(context, state);
+    enterRule(localctx, 12, RULE_enumConstants);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 374;
       id();
       state = 379;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      while (_la == TOKEN_COMMA) {
+      la = tokenStream.LA(1)!;
+      while (la == TOKEN_COMMA) {
         state = 375;
         match(TOKEN_COMMA);
         state = 376;
         id();
         state = 381;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
+        la = tokenStream.LA(1)!;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   InterfaceDeclarationContext interfaceDeclaration() {
-    dynamic _localctx = InterfaceDeclarationContext(context, state);
-    enterRule(_localctx, 14, RULE_interfaceDeclaration);
-    int _la;
+    dynamic localctx = InterfaceDeclarationContext(context, state);
+    enterRule(localctx, 14, RULE_interfaceDeclaration);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 382;
       match(TOKEN_INTERFACE);
       state = 383;
       id();
       state = 386;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_EXTENDS) {
+      la = tokenStream.LA(1)!;
+      if (la == TOKEN_EXTENDS) {
         state = 384;
         match(TOKEN_EXTENDS);
         state = 385;
@@ -630,57 +630,57 @@ class ApexParser extends Parser {
       state = 388;
       interfaceBody();
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   TypeListContext typeList() {
-    dynamic _localctx = TypeListContext(context, state);
-    enterRule(_localctx, 16, RULE_typeList);
-    int _la;
+    dynamic localctx = TypeListContext(context, state);
+    enterRule(localctx, 16, RULE_typeList);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 390;
       typeRef();
       state = 395;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      while (_la == TOKEN_COMMA) {
+      la = tokenStream.LA(1)!;
+      while (la == TOKEN_COMMA) {
         state = 391;
         match(TOKEN_COMMA);
         state = 392;
         typeRef();
         state = 397;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
+        la = tokenStream.LA(1)!;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   ClassBodyContext classBody() {
-    dynamic _localctx = ClassBodyContext(context, state);
-    enterRule(_localctx, 18, RULE_classBody);
-    int _la;
+    dynamic localctx = ClassBodyContext(context, state);
+    enterRule(localctx, 18, RULE_classBody);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 398;
       match(TOKEN_LBRACE);
       state = 403;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      while ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_ABSTRACT) | (BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_CLASS) | (BigInt.one << TOKEN_ENUM) | (BigInt.one << TOKEN_FINAL) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_GLOBAL) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_INTERFACE) | (BigInt.one << TOKEN_OVERRIDE) | (BigInt.one << TOKEN_PRIVATE) | (BigInt.one << TOKEN_PROTECTED) | (BigInt.one << TOKEN_PUBLIC) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_STATIC) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_TESTMETHOD) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VIRTUAL) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WEBSERVICE) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((_la - 64)) & ~0x3f) == 0 && ((BigInt.one << (_la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((_la - 128)) & ~0x3f) == 0 && ((BigInt.one << (_la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((_la - 192)) & ~0x3f) == 0 && ((BigInt.one << (_la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_LBRACE - 192)) | (BigInt.one << (TOKEN_SEMI - 192)) | (BigInt.one << (TOKEN_ATSIGN - 192)) | (BigInt.one << (TOKEN_Identifier - 192)) | (BigInt.one << (TOKEN_START_GROUP_COMMENT - 192)))) != BigInt.zero)) {
+      la = tokenStream.LA(1)!;
+      while ((((la) & ~0x3f) == 0 && ((BigInt.one << la) & ((BigInt.one << TOKEN_ABSTRACT) | (BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_CLASS) | (BigInt.one << TOKEN_ENUM) | (BigInt.one << TOKEN_FINAL) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_GLOBAL) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_INTERFACE) | (BigInt.one << TOKEN_OVERRIDE) | (BigInt.one << TOKEN_PRIVATE) | (BigInt.one << TOKEN_PROTECTED) | (BigInt.one << TOKEN_PUBLIC) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_STATIC) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_TESTMETHOD) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VIRTUAL) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WEBSERVICE) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((la - 64)) & ~0x3f) == 0 && ((BigInt.one << (la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((la - 128)) & ~0x3f) == 0 && ((BigInt.one << (la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((la - 192)) & ~0x3f) == 0 && ((BigInt.one << (la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_LBRACE - 192)) | (BigInt.one << (TOKEN_SEMI - 192)) | (BigInt.one << (TOKEN_ATSIGN - 192)) | (BigInt.one << (TOKEN_Identifier - 192)) | (BigInt.one << (TOKEN_START_GROUP_COMMENT - 192)))) != BigInt.zero)) {
         state = 401;
         errorHandler.sync(this);
         switch (tokenStream.LA(1)!) {
@@ -863,102 +863,102 @@ class ApexParser extends Parser {
         }
         state = 405;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
+        la = tokenStream.LA(1)!;
       }
       state = 406;
       match(TOKEN_RBRACE);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   GroupedDeclarationsContext groupedDeclarations() {
-    dynamic _localctx = GroupedDeclarationsContext(context, state);
-    enterRule(_localctx, 20, RULE_groupedDeclarations);
-    int _la;
+    dynamic localctx = GroupedDeclarationsContext(context, state);
+    enterRule(localctx, 20, RULE_groupedDeclarations);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 408;
       match(TOKEN_START_GROUP_COMMENT);
       state = 412;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      while ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_ABSTRACT) | (BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_CLASS) | (BigInt.one << TOKEN_ENUM) | (BigInt.one << TOKEN_FINAL) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_GLOBAL) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_INTERFACE) | (BigInt.one << TOKEN_OVERRIDE) | (BigInt.one << TOKEN_PRIVATE) | (BigInt.one << TOKEN_PROTECTED) | (BigInt.one << TOKEN_PUBLIC) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_STATIC) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_TESTMETHOD) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VIRTUAL) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WEBSERVICE) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((_la - 64)) & ~0x3f) == 0 && ((BigInt.one << (_la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((_la - 128)) & ~0x3f) == 0 && ((BigInt.one << (_la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((_la - 192)) & ~0x3f) == 0 && ((BigInt.one << (_la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_LBRACE - 192)) | (BigInt.one << (TOKEN_SEMI - 192)) | (BigInt.one << (TOKEN_ATSIGN - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
+      la = tokenStream.LA(1)!;
+      while ((((la) & ~0x3f) == 0 && ((BigInt.one << la) & ((BigInt.one << TOKEN_ABSTRACT) | (BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_CLASS) | (BigInt.one << TOKEN_ENUM) | (BigInt.one << TOKEN_FINAL) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_GLOBAL) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_INTERFACE) | (BigInt.one << TOKEN_OVERRIDE) | (BigInt.one << TOKEN_PRIVATE) | (BigInt.one << TOKEN_PROTECTED) | (BigInt.one << TOKEN_PUBLIC) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_STATIC) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_TESTMETHOD) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VIRTUAL) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WEBSERVICE) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((la - 64)) & ~0x3f) == 0 && ((BigInt.one << (la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((la - 128)) & ~0x3f) == 0 && ((BigInt.one << (la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((la - 192)) & ~0x3f) == 0 && ((BigInt.one << (la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_LBRACE - 192)) | (BigInt.one << (TOKEN_SEMI - 192)) | (BigInt.one << (TOKEN_ATSIGN - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
         state = 409;
         classBodyDeclaration();
         state = 414;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
+        la = tokenStream.LA(1)!;
       }
       state = 415;
       match(TOKEN_END_GROUP_COMMENT);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   InterfaceBodyContext interfaceBody() {
-    dynamic _localctx = InterfaceBodyContext(context, state);
-    enterRule(_localctx, 22, RULE_interfaceBody);
-    int _la;
+    dynamic localctx = InterfaceBodyContext(context, state);
+    enterRule(localctx, 22, RULE_interfaceBody);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 417;
       match(TOKEN_LBRACE);
       state = 421;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      while ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_ABSTRACT) | (BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_FINAL) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_GLOBAL) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_OVERRIDE) | (BigInt.one << TOKEN_PRIVATE) | (BigInt.one << TOKEN_PROTECTED) | (BigInt.one << TOKEN_PUBLIC) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_STATIC) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_TESTMETHOD) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VIRTUAL) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WEBSERVICE) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((_la - 64)) & ~0x3f) == 0 && ((BigInt.one << (_la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((_la - 128)) & ~0x3f) == 0 && ((BigInt.one << (_la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((_la - 192)) & ~0x3f) == 0 && ((BigInt.one << (_la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_ATSIGN - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
+      la = tokenStream.LA(1)!;
+      while ((((la) & ~0x3f) == 0 && ((BigInt.one << la) & ((BigInt.one << TOKEN_ABSTRACT) | (BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_FINAL) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_GLOBAL) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_OVERRIDE) | (BigInt.one << TOKEN_PRIVATE) | (BigInt.one << TOKEN_PROTECTED) | (BigInt.one << TOKEN_PUBLIC) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_STATIC) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_TESTMETHOD) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VIRTUAL) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WEBSERVICE) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((la - 64)) & ~0x3f) == 0 && ((BigInt.one << (la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((la - 128)) & ~0x3f) == 0 && ((BigInt.one << (la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((la - 192)) & ~0x3f) == 0 && ((BigInt.one << (la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_ATSIGN - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
         state = 418;
         interfaceMethodDeclaration();
         state = 423;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
+        la = tokenStream.LA(1)!;
       }
       state = 424;
       match(TOKEN_RBRACE);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   ClassBodyDeclarationContext classBodyDeclaration() {
-    dynamic _localctx = ClassBodyDeclarationContext(context, state);
-    enterRule(_localctx, 24, RULE_classBodyDeclaration);
-    int _la;
+    dynamic localctx = ClassBodyDeclarationContext(context, state);
+    enterRule(localctx, 24, RULE_classBodyDeclaration);
+    int la;
     try {
-      int _alt;
+      int alt;
       state = 447;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 22, context)) {
       case 1:
-        _localctx = EmptyClassBodyDeclarationContext(_localctx);
-        enterOuterAlt(_localctx, 1);
+        localctx = EmptyClassBodyDeclarationContext(localctx);
+        enterOuterAlt(localctx, 1);
         state = 426;
         match(TOKEN_SEMI);
         break;
       case 2:
-        _localctx = StaticBlockClassBodyDeclarationContext(_localctx);
-        enterOuterAlt(_localctx, 2);
+        localctx = StaticBlockClassBodyDeclarationContext(localctx);
+        enterOuterAlt(localctx, 2);
         state = 428;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if (_la == TOKEN_STATIC) {
+        la = tokenStream.LA(1)!;
+        if (la == TOKEN_STATIC) {
           state = 427;
           match(TOKEN_STATIC);
         }
@@ -967,31 +967,31 @@ class ApexParser extends Parser {
         block();
         break;
       case 3:
-        _localctx = MemberClassBodyDeclarationContext(_localctx);
-        enterOuterAlt(_localctx, 3);
+        localctx = MemberClassBodyDeclarationContext(localctx);
+        enterOuterAlt(localctx, 3);
         state = 434;
         errorHandler.sync(this);
-        _alt = interpreter!.adaptivePredict(tokenStream, 19, context);
-        while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
-          if (_alt == 1) {
+        alt = interpreter!.adaptivePredict(tokenStream, 19, context);
+        while (alt != 2 && alt != ATN.INVALID_ALT_NUMBER) {
+          if (alt == 1) {
             state = 431;
             annotation(); 
           }
           state = 436;
           errorHandler.sync(this);
-          _alt = interpreter!.adaptivePredict(tokenStream, 19, context);
+          alt = interpreter!.adaptivePredict(tokenStream, 19, context);
         }
         state = 440;
         errorHandler.sync(this);
-        _alt = interpreter!.adaptivePredict(tokenStream, 20, context);
-        while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
-          if (_alt == 1) {
+        alt = interpreter!.adaptivePredict(tokenStream, 20, context);
+        while (alt != 2 && alt != ATN.INVALID_ALT_NUMBER) {
+          if (alt == 1) {
             state = 437;
             modifier(); 
           }
           state = 442;
           errorHandler.sync(this);
-          _alt = interpreter!.adaptivePredict(tokenStream, 20, context);
+          alt = interpreter!.adaptivePredict(tokenStream, 20, context);
         }
         state = 443;
         memberDeclaration();
@@ -1006,103 +1006,103 @@ class ApexParser extends Parser {
         break;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   ModifierContext modifier() {
-    dynamic _localctx = ModifierContext(context, state);
-    enterRule(_localctx, 26, RULE_modifier);
+    dynamic localctx = ModifierContext(context, state);
+    enterRule(localctx, 26, RULE_modifier);
     try {
       state = 468;
       errorHandler.sync(this);
       switch (tokenStream.LA(1)!) {
       case TOKEN_ATSIGN:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 449;
         annotation();
         break;
       case TOKEN_GLOBAL:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 450;
         match(TOKEN_GLOBAL);
         break;
       case TOKEN_PUBLIC:
-        enterOuterAlt(_localctx, 3);
+        enterOuterAlt(localctx, 3);
         state = 451;
         match(TOKEN_PUBLIC);
         break;
       case TOKEN_PROTECTED:
-        enterOuterAlt(_localctx, 4);
+        enterOuterAlt(localctx, 4);
         state = 452;
         match(TOKEN_PROTECTED);
         break;
       case TOKEN_PRIVATE:
-        enterOuterAlt(_localctx, 5);
+        enterOuterAlt(localctx, 5);
         state = 453;
         match(TOKEN_PRIVATE);
         break;
       case TOKEN_TRANSIENT:
-        enterOuterAlt(_localctx, 6);
+        enterOuterAlt(localctx, 6);
         state = 454;
         match(TOKEN_TRANSIENT);
         break;
       case TOKEN_STATIC:
-        enterOuterAlt(_localctx, 7);
+        enterOuterAlt(localctx, 7);
         state = 455;
         match(TOKEN_STATIC);
         break;
       case TOKEN_ABSTRACT:
-        enterOuterAlt(_localctx, 8);
+        enterOuterAlt(localctx, 8);
         state = 456;
         match(TOKEN_ABSTRACT);
         break;
       case TOKEN_FINAL:
-        enterOuterAlt(_localctx, 9);
+        enterOuterAlt(localctx, 9);
         state = 457;
         match(TOKEN_FINAL);
         break;
       case TOKEN_WEBSERVICE:
-        enterOuterAlt(_localctx, 10);
+        enterOuterAlt(localctx, 10);
         state = 458;
         match(TOKEN_WEBSERVICE);
         break;
       case TOKEN_OVERRIDE:
-        enterOuterAlt(_localctx, 11);
+        enterOuterAlt(localctx, 11);
         state = 459;
         match(TOKEN_OVERRIDE);
         break;
       case TOKEN_VIRTUAL:
-        enterOuterAlt(_localctx, 12);
+        enterOuterAlt(localctx, 12);
         state = 460;
         match(TOKEN_VIRTUAL);
         break;
       case TOKEN_TESTMETHOD:
-        enterOuterAlt(_localctx, 13);
+        enterOuterAlt(localctx, 13);
         state = 461;
         match(TOKEN_TESTMETHOD);
         break;
       case TOKEN_WITH:
-        enterOuterAlt(_localctx, 14);
+        enterOuterAlt(localctx, 14);
         state = 462;
         match(TOKEN_WITH);
         state = 463;
         match(TOKEN_SHARING);
         break;
       case TOKEN_WITHOUT:
-        enterOuterAlt(_localctx, 15);
+        enterOuterAlt(localctx, 15);
         state = 464;
         match(TOKEN_WITHOUT);
         state = 465;
         match(TOKEN_SHARING);
         break;
       case TOKEN_INHERITED:
-        enterOuterAlt(_localctx, 16);
+        enterOuterAlt(localctx, 16);
         state = 466;
         match(TOKEN_INHERITED);
         state = 467;
@@ -1112,80 +1112,80 @@ class ApexParser extends Parser {
         throw NoViableAltException(this);
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   MemberDeclarationContext memberDeclaration() {
-    dynamic _localctx = MemberDeclarationContext(context, state);
-    enterRule(_localctx, 28, RULE_memberDeclaration);
+    dynamic localctx = MemberDeclarationContext(context, state);
+    enterRule(localctx, 28, RULE_memberDeclaration);
     try {
       state = 477;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 24, context)) {
       case 1:
-        _localctx = MethodMemberDeclarationContext(_localctx);
-        enterOuterAlt(_localctx, 1);
+        localctx = MethodMemberDeclarationContext(localctx);
+        enterOuterAlt(localctx, 1);
         state = 470;
         methodDeclaration();
         break;
       case 2:
-        _localctx = FieldMemberDeclarationContext(_localctx);
-        enterOuterAlt(_localctx, 2);
+        localctx = FieldMemberDeclarationContext(localctx);
+        enterOuterAlt(localctx, 2);
         state = 471;
         fieldDeclaration();
         break;
       case 3:
-        _localctx = ConstructorMemberDeclarationContext(_localctx);
-        enterOuterAlt(_localctx, 3);
+        localctx = ConstructorMemberDeclarationContext(localctx);
+        enterOuterAlt(localctx, 3);
         state = 472;
         constructorDeclaration();
         break;
       case 4:
-        _localctx = InterfaceMemberDeclarationContext(_localctx);
-        enterOuterAlt(_localctx, 4);
+        localctx = InterfaceMemberDeclarationContext(localctx);
+        enterOuterAlt(localctx, 4);
         state = 473;
         interfaceDeclaration();
         break;
       case 5:
-        _localctx = ClassMemberDeclarationContext(_localctx);
-        enterOuterAlt(_localctx, 5);
+        localctx = ClassMemberDeclarationContext(localctx);
+        enterOuterAlt(localctx, 5);
         state = 474;
         classDeclaration();
         break;
       case 6:
-        _localctx = EnumMemberDeclarationContext(_localctx);
-        enterOuterAlt(_localctx, 6);
+        localctx = EnumMemberDeclarationContext(localctx);
+        enterOuterAlt(localctx, 6);
         state = 475;
         enumDeclaration();
         break;
       case 7:
-        _localctx = PropertyMemberDeclarationContext(_localctx);
-        enterOuterAlt(_localctx, 7);
+        localctx = PropertyMemberDeclarationContext(localctx);
+        enterOuterAlt(localctx, 7);
         state = 476;
         propertyDeclaration();
         break;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   MethodDeclarationContext methodDeclaration() {
-    dynamic _localctx = MethodDeclarationContext(context, state);
-    enterRule(_localctx, 30, RULE_methodDeclaration);
+    dynamic localctx = MethodDeclarationContext(context, state);
+    enterRule(localctx, 30, RULE_methodDeclaration);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 481;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 25, context)) {
@@ -1217,20 +1217,20 @@ class ApexParser extends Parser {
         throw NoViableAltException(this);
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   ConstructorDeclarationContext constructorDeclaration() {
-    dynamic _localctx = ConstructorDeclarationContext(context, state);
-    enterRule(_localctx, 32, RULE_constructorDeclaration);
+    dynamic localctx = ConstructorDeclarationContext(context, state);
+    enterRule(localctx, 32, RULE_constructorDeclaration);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 489;
       qualifiedName();
       state = 490;
@@ -1238,20 +1238,20 @@ class ApexParser extends Parser {
       state = 491;
       block();
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   FieldDeclarationContext fieldDeclaration() {
-    dynamic _localctx = FieldDeclarationContext(context, state);
-    enterRule(_localctx, 34, RULE_fieldDeclaration);
+    dynamic localctx = FieldDeclarationContext(context, state);
+    enterRule(localctx, 34, RULE_fieldDeclaration);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 493;
       typeRef();
       state = 494;
@@ -1259,21 +1259,21 @@ class ApexParser extends Parser {
       state = 495;
       match(TOKEN_SEMI);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   PropertyDeclarationContext propertyDeclaration() {
-    dynamic _localctx = PropertyDeclarationContext(context, state);
-    enterRule(_localctx, 36, RULE_propertyDeclaration);
-    int _la;
+    dynamic localctx = PropertyDeclarationContext(context, state);
+    enterRule(localctx, 36, RULE_propertyDeclaration);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 497;
       typeRef();
       state = 498;
@@ -1282,55 +1282,55 @@ class ApexParser extends Parser {
       match(TOKEN_LBRACE);
       state = 503;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      while ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_ABSTRACT) | (BigInt.one << TOKEN_FINAL) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_GLOBAL) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_OVERRIDE) | (BigInt.one << TOKEN_PRIVATE) | (BigInt.one << TOKEN_PROTECTED) | (BigInt.one << TOKEN_PUBLIC) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_STATIC) | (BigInt.one << TOKEN_TESTMETHOD) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_VIRTUAL) | (BigInt.one << TOKEN_WEBSERVICE) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT))) != BigInt.zero) || _la == TOKEN_ATSIGN) {
+      la = tokenStream.LA(1)!;
+      while ((((la) & ~0x3f) == 0 && ((BigInt.one << la) & ((BigInt.one << TOKEN_ABSTRACT) | (BigInt.one << TOKEN_FINAL) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_GLOBAL) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_OVERRIDE) | (BigInt.one << TOKEN_PRIVATE) | (BigInt.one << TOKEN_PROTECTED) | (BigInt.one << TOKEN_PUBLIC) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_STATIC) | (BigInt.one << TOKEN_TESTMETHOD) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_VIRTUAL) | (BigInt.one << TOKEN_WEBSERVICE) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT))) != BigInt.zero) || la == TOKEN_ATSIGN) {
         state = 500;
         propertyBlock();
         state = 505;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
+        la = tokenStream.LA(1)!;
       }
       state = 506;
       match(TOKEN_RBRACE);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   InterfaceMethodDeclarationContext interfaceMethodDeclaration() {
-    dynamic _localctx = InterfaceMethodDeclarationContext(context, state);
-    enterRule(_localctx, 38, RULE_interfaceMethodDeclaration);
+    dynamic localctx = InterfaceMethodDeclarationContext(context, state);
+    enterRule(localctx, 38, RULE_interfaceMethodDeclaration);
     try {
-      int _alt;
-      enterOuterAlt(_localctx, 1);
+      int alt;
+      enterOuterAlt(localctx, 1);
       state = 511;
       errorHandler.sync(this);
-      _alt = interpreter!.adaptivePredict(tokenStream, 28, context);
-      while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
-        if (_alt == 1) {
+      alt = interpreter!.adaptivePredict(tokenStream, 28, context);
+      while (alt != 2 && alt != ATN.INVALID_ALT_NUMBER) {
+        if (alt == 1) {
           state = 508;
           annotation(); 
         }
         state = 513;
         errorHandler.sync(this);
-        _alt = interpreter!.adaptivePredict(tokenStream, 28, context);
+        alt = interpreter!.adaptivePredict(tokenStream, 28, context);
       }
       state = 517;
       errorHandler.sync(this);
-      _alt = interpreter!.adaptivePredict(tokenStream, 29, context);
-      while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
-        if (_alt == 1) {
+      alt = interpreter!.adaptivePredict(tokenStream, 29, context);
+      while (alt != 2 && alt != ATN.INVALID_ALT_NUMBER) {
+        if (alt == 1) {
           state = 514;
           modifier(); 
         }
         state = 519;
         errorHandler.sync(this);
-        _alt = interpreter!.adaptivePredict(tokenStream, 29, context);
+        alt = interpreter!.adaptivePredict(tokenStream, 29, context);
       }
       state = 522;
       errorHandler.sync(this);
@@ -1351,57 +1351,57 @@ class ApexParser extends Parser {
       state = 526;
       match(TOKEN_SEMI);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   VariableDeclaratorsContext variableDeclarators() {
-    dynamic _localctx = VariableDeclaratorsContext(context, state);
-    enterRule(_localctx, 40, RULE_variableDeclarators);
-    int _la;
+    dynamic localctx = VariableDeclaratorsContext(context, state);
+    enterRule(localctx, 40, RULE_variableDeclarators);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 528;
       variableDeclarator();
       state = 533;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      while (_la == TOKEN_COMMA) {
+      la = tokenStream.LA(1)!;
+      while (la == TOKEN_COMMA) {
         state = 529;
         match(TOKEN_COMMA);
         state = 530;
         variableDeclarator();
         state = 535;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
+        la = tokenStream.LA(1)!;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   VariableDeclaratorContext variableDeclarator() {
-    dynamic _localctx = VariableDeclaratorContext(context, state);
-    enterRule(_localctx, 42, RULE_variableDeclarator);
-    int _la;
+    dynamic localctx = VariableDeclaratorContext(context, state);
+    enterRule(localctx, 42, RULE_variableDeclarator);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 536;
       id();
       state = 539;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_ASSIGN) {
+      la = tokenStream.LA(1)!;
+      if (la == TOKEN_ASSIGN) {
         state = 537;
         match(TOKEN_ASSIGN);
         state = 538;
@@ -1409,35 +1409,35 @@ class ApexParser extends Parser {
       }
 
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   ArrayInitializerContext arrayInitializer() {
-    dynamic _localctx = ArrayInitializerContext(context, state);
-    enterRule(_localctx, 44, RULE_arrayInitializer);
-    int _la;
+    dynamic localctx = ArrayInitializerContext(context, state);
+    enterRule(localctx, 44, RULE_arrayInitializer);
+    int la;
     try {
-      int _alt;
-      enterOuterAlt(_localctx, 1);
+      int alt;
+      enterOuterAlt(localctx, 1);
       state = 541;
       match(TOKEN_LBRACE);
       state = 553;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_NEW) | (BigInt.one << TOKEN_NULL) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_SUPER) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_THIS) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((_la - 64)) & ~0x3f) == 0 && ((BigInt.one << (_la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((_la - 128)) & ~0x3f) == 0 && ((BigInt.one << (_la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((_la - 192)) & ~0x3f) == 0 && ((BigInt.one << (_la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_FindLiteral - 192)) | (BigInt.one << (TOKEN_IntegerLiteral - 192)) | (BigInt.one << (TOKEN_LongLiteral - 192)) | (BigInt.one << (TOKEN_NumberLiteral - 192)) | (BigInt.one << (TOKEN_BooleanLiteral - 192)) | (BigInt.one << (TOKEN_StringLiteral - 192)) | (BigInt.one << (TOKEN_LPAREN - 192)) | (BigInt.one << (TOKEN_LBRACK - 192)) | (BigInt.one << (TOKEN_BANG - 192)) | (BigInt.one << (TOKEN_TILDE - 192)) | (BigInt.one << (TOKEN_INC - 192)) | (BigInt.one << (TOKEN_DEC - 192)) | (BigInt.one << (TOKEN_ADD - 192)) | (BigInt.one << (TOKEN_SUB - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
+      la = tokenStream.LA(1)!;
+      if ((((la) & ~0x3f) == 0 && ((BigInt.one << la) & ((BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_NEW) | (BigInt.one << TOKEN_NULL) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_SUPER) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_THIS) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((la - 64)) & ~0x3f) == 0 && ((BigInt.one << (la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((la - 128)) & ~0x3f) == 0 && ((BigInt.one << (la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((la - 192)) & ~0x3f) == 0 && ((BigInt.one << (la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_FindLiteral - 192)) | (BigInt.one << (TOKEN_IntegerLiteral - 192)) | (BigInt.one << (TOKEN_LongLiteral - 192)) | (BigInt.one << (TOKEN_NumberLiteral - 192)) | (BigInt.one << (TOKEN_BooleanLiteral - 192)) | (BigInt.one << (TOKEN_StringLiteral - 192)) | (BigInt.one << (TOKEN_LPAREN - 192)) | (BigInt.one << (TOKEN_LBRACK - 192)) | (BigInt.one << (TOKEN_BANG - 192)) | (BigInt.one << (TOKEN_TILDE - 192)) | (BigInt.one << (TOKEN_INC - 192)) | (BigInt.one << (TOKEN_DEC - 192)) | (BigInt.one << (TOKEN_ADD - 192)) | (BigInt.one << (TOKEN_SUB - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
         state = 542;
         expression(0);
         state = 547;
         errorHandler.sync(this);
-        _alt = interpreter!.adaptivePredict(tokenStream, 33, context);
-        while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
-          if (_alt == 1) {
+        alt = interpreter!.adaptivePredict(tokenStream, 33, context);
+        while (alt != 2 && alt != ATN.INVALID_ALT_NUMBER) {
+          if (alt == 1) {
             state = 543;
             match(TOKEN_COMMA);
             state = 544;
@@ -1445,12 +1445,12 @@ class ApexParser extends Parser {
           }
           state = 549;
           errorHandler.sync(this);
-          _alt = interpreter!.adaptivePredict(tokenStream, 33, context);
+          alt = interpreter!.adaptivePredict(tokenStream, 33, context);
         }
         state = 551;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if (_la == TOKEN_COMMA) {
+        la = tokenStream.LA(1)!;
+        if (la == TOKEN_COMMA) {
           state = 550;
           match(TOKEN_COMMA);
         }
@@ -1460,28 +1460,28 @@ class ApexParser extends Parser {
       state = 555;
       match(TOKEN_RBRACE);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   TypeRefContext typeRef() {
-    dynamic _localctx = TypeRefContext(context, state);
-    enterRule(_localctx, 46, RULE_typeRef);
+    dynamic localctx = TypeRefContext(context, state);
+    enterRule(localctx, 46, RULE_typeRef);
     try {
-      int _alt;
-      enterOuterAlt(_localctx, 1);
+      int alt;
+      enterOuterAlt(localctx, 1);
       state = 557;
       typeName();
       state = 562;
       errorHandler.sync(this);
-      _alt = interpreter!.adaptivePredict(tokenStream, 36, context);
-      while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
-        if (_alt == 1) {
+      alt = interpreter!.adaptivePredict(tokenStream, 36, context);
+      while (alt != 2 && alt != ATN.INVALID_ALT_NUMBER) {
+        if (alt == 1) {
           state = 558;
           match(TOKEN_DOT);
           state = 559;
@@ -1489,31 +1489,31 @@ class ApexParser extends Parser {
         }
         state = 564;
         errorHandler.sync(this);
-        _alt = interpreter!.adaptivePredict(tokenStream, 36, context);
+        alt = interpreter!.adaptivePredict(tokenStream, 36, context);
       }
       state = 565;
       arraySubscripts();
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   ArraySubscriptsContext arraySubscripts() {
-    dynamic _localctx = ArraySubscriptsContext(context, state);
-    enterRule(_localctx, 48, RULE_arraySubscripts);
+    dynamic localctx = ArraySubscriptsContext(context, state);
+    enterRule(localctx, 48, RULE_arraySubscripts);
     try {
-      int _alt;
-      enterOuterAlt(_localctx, 1);
+      int alt;
+      enterOuterAlt(localctx, 1);
       state = 571;
       errorHandler.sync(this);
-      _alt = interpreter!.adaptivePredict(tokenStream, 37, context);
-      while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
-        if (_alt == 1) {
+      alt = interpreter!.adaptivePredict(tokenStream, 37, context);
+      while (alt != 2 && alt != ATN.INVALID_ALT_NUMBER) {
+        if (alt == 1) {
           state = 567;
           match(TOKEN_LBRACK);
           state = 568;
@@ -1521,27 +1521,27 @@ class ApexParser extends Parser {
         }
         state = 573;
         errorHandler.sync(this);
-        _alt = interpreter!.adaptivePredict(tokenStream, 37, context);
+        alt = interpreter!.adaptivePredict(tokenStream, 37, context);
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   TypeNameContext typeName() {
-    dynamic _localctx = TypeNameContext(context, state);
-    enterRule(_localctx, 50, RULE_typeName);
+    dynamic localctx = TypeNameContext(context, state);
+    enterRule(localctx, 50, RULE_typeName);
     try {
       state = 590;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 42, context)) {
       case 1:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 574;
         match(TOKEN_LIST);
         state = 576;
@@ -1554,7 +1554,7 @@ class ApexParser extends Parser {
         }
         break;
       case 2:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 578;
         match(TOKEN_SET);
         state = 580;
@@ -1567,7 +1567,7 @@ class ApexParser extends Parser {
         }
         break;
       case 3:
-        enterOuterAlt(_localctx, 3);
+        enterOuterAlt(localctx, 3);
         state = 582;
         match(TOKEN_MAP);
         state = 584;
@@ -1580,7 +1580,7 @@ class ApexParser extends Parser {
         }
         break;
       case 4:
-        enterOuterAlt(_localctx, 4);
+        enterOuterAlt(localctx, 4);
         state = 586;
         id();
         state = 588;
@@ -1594,20 +1594,20 @@ class ApexParser extends Parser {
         break;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   TypeArgumentsContext typeArguments() {
-    dynamic _localctx = TypeArgumentsContext(context, state);
-    enterRule(_localctx, 52, RULE_typeArguments);
+    dynamic localctx = TypeArgumentsContext(context, state);
+    enterRule(localctx, 52, RULE_typeArguments);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 592;
       match(TOKEN_LT);
       state = 593;
@@ -1615,27 +1615,27 @@ class ApexParser extends Parser {
       state = 594;
       match(TOKEN_GT);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   FormalParametersContext formalParameters() {
-    dynamic _localctx = FormalParametersContext(context, state);
-    enterRule(_localctx, 54, RULE_formalParameters);
-    int _la;
+    dynamic localctx = FormalParametersContext(context, state);
+    enterRule(localctx, 54, RULE_formalParameters);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 596;
       match(TOKEN_LPAREN);
       state = 598;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_ABSTRACT) | (BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_FINAL) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_GLOBAL) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_OVERRIDE) | (BigInt.one << TOKEN_PRIVATE) | (BigInt.one << TOKEN_PROTECTED) | (BigInt.one << TOKEN_PUBLIC) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_STATIC) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_TESTMETHOD) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VIRTUAL) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WEBSERVICE) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((_la - 64)) & ~0x3f) == 0 && ((BigInt.one << (_la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((_la - 128)) & ~0x3f) == 0 && ((BigInt.one << (_la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((_la - 192)) & ~0x3f) == 0 && ((BigInt.one << (_la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_ATSIGN - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
+      la = tokenStream.LA(1)!;
+      if ((((la) & ~0x3f) == 0 && ((BigInt.one << la) & ((BigInt.one << TOKEN_ABSTRACT) | (BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_FINAL) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_GLOBAL) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_OVERRIDE) | (BigInt.one << TOKEN_PRIVATE) | (BigInt.one << TOKEN_PROTECTED) | (BigInt.one << TOKEN_PUBLIC) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_STATIC) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_TESTMETHOD) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VIRTUAL) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WEBSERVICE) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((la - 64)) & ~0x3f) == 0 && ((BigInt.one << (la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((la - 128)) & ~0x3f) == 0 && ((BigInt.one << (la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((la - 192)) & ~0x3f) == 0 && ((BigInt.one << (la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_ATSIGN - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
         state = 597;
         formalParameterList();
       }
@@ -1643,116 +1643,116 @@ class ApexParser extends Parser {
       state = 600;
       match(TOKEN_RPAREN);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   FormalParameterListContext formalParameterList() {
-    dynamic _localctx = FormalParameterListContext(context, state);
-    enterRule(_localctx, 56, RULE_formalParameterList);
-    int _la;
+    dynamic localctx = FormalParameterListContext(context, state);
+    enterRule(localctx, 56, RULE_formalParameterList);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 602;
       formalParameter();
       state = 607;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      while (_la == TOKEN_COMMA) {
+      la = tokenStream.LA(1)!;
+      while (la == TOKEN_COMMA) {
         state = 603;
         match(TOKEN_COMMA);
         state = 604;
         formalParameter();
         state = 609;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
+        la = tokenStream.LA(1)!;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   FormalParameterContext formalParameter() {
-    dynamic _localctx = FormalParameterContext(context, state);
-    enterRule(_localctx, 58, RULE_formalParameter);
+    dynamic localctx = FormalParameterContext(context, state);
+    enterRule(localctx, 58, RULE_formalParameter);
     try {
-      int _alt;
-      enterOuterAlt(_localctx, 1);
+      int alt;
+      enterOuterAlt(localctx, 1);
       state = 613;
       errorHandler.sync(this);
-      _alt = interpreter!.adaptivePredict(tokenStream, 45, context);
-      while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
-        if (_alt == 1) {
+      alt = interpreter!.adaptivePredict(tokenStream, 45, context);
+      while (alt != 2 && alt != ATN.INVALID_ALT_NUMBER) {
+        if (alt == 1) {
           state = 610;
           modifier(); 
         }
         state = 615;
         errorHandler.sync(this);
-        _alt = interpreter!.adaptivePredict(tokenStream, 45, context);
+        alt = interpreter!.adaptivePredict(tokenStream, 45, context);
       }
       state = 616;
       typeRef();
       state = 617;
       id();
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   QualifiedNameContext qualifiedName() {
-    dynamic _localctx = QualifiedNameContext(context, state);
-    enterRule(_localctx, 60, RULE_qualifiedName);
-    int _la;
+    dynamic localctx = QualifiedNameContext(context, state);
+    enterRule(localctx, 60, RULE_qualifiedName);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 619;
       id();
       state = 624;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      while (_la == TOKEN_DOT) {
+      la = tokenStream.LA(1)!;
+      while (la == TOKEN_DOT) {
         state = 620;
         match(TOKEN_DOT);
         state = 621;
         id();
         state = 626;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
+        la = tokenStream.LA(1)!;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   LiteralContext literal() {
-    dynamic _localctx = LiteralContext(context, state);
-    enterRule(_localctx, 62, RULE_literal);
-    int _la;
+    dynamic localctx = LiteralContext(context, state);
+    enterRule(localctx, 62, RULE_literal);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 627;
-      _la = tokenStream.LA(1)!;
-      if (!(_la == TOKEN_NULL || ((((_la - 194)) & ~0x3f) == 0 && ((BigInt.one << (_la - 194)) & ((BigInt.one << (TOKEN_IntegerLiteral - 194)) | (BigInt.one << (TOKEN_LongLiteral - 194)) | (BigInt.one << (TOKEN_NumberLiteral - 194)) | (BigInt.one << (TOKEN_BooleanLiteral - 194)) | (BigInt.one << (TOKEN_StringLiteral - 194)))) != BigInt.zero))) {
+      la = tokenStream.LA(1)!;
+      if (!(la == TOKEN_NULL || ((((la - 194)) & ~0x3f) == 0 && ((BigInt.one << (la - 194)) & ((BigInt.one << (TOKEN_IntegerLiteral - 194)) | (BigInt.one << (TOKEN_LongLiteral - 194)) | (BigInt.one << (TOKEN_NumberLiteral - 194)) | (BigInt.one << (TOKEN_BooleanLiteral - 194)) | (BigInt.one << (TOKEN_StringLiteral - 194)))) != BigInt.zero))) {
       errorHandler.recoverInline(this);
       } else {
         if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -1760,29 +1760,29 @@ class ApexParser extends Parser {
         consume();
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   AnnotationContext annotation() {
-    dynamic _localctx = AnnotationContext(context, state);
-    enterRule(_localctx, 64, RULE_annotation);
-    int _la;
+    dynamic localctx = AnnotationContext(context, state);
+    enterRule(localctx, 64, RULE_annotation);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 629;
       match(TOKEN_ATSIGN);
       state = 630;
       qualifiedName();
       state = 637;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_LPAREN) {
+      la = tokenStream.LA(1)!;
+      if (la == TOKEN_LPAREN) {
         state = 631;
         match(TOKEN_LPAREN);
         state = 634;
@@ -1802,31 +1802,31 @@ class ApexParser extends Parser {
       }
 
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   ElementValuePairsContext elementValuePairs() {
-    dynamic _localctx = ElementValuePairsContext(context, state);
-    enterRule(_localctx, 66, RULE_elementValuePairs);
-    int _la;
+    dynamic localctx = ElementValuePairsContext(context, state);
+    enterRule(localctx, 66, RULE_elementValuePairs);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 639;
       elementValuePair();
       state = 646;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      while ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((_la - 64)) & ~0x3f) == 0 && ((BigInt.one << (_la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((_la - 128)) & ~0x3f) == 0 && ((BigInt.one << (_la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((_la - 192)) & ~0x3f) == 0 && ((BigInt.one << (_la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_COMMA - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
+      la = tokenStream.LA(1)!;
+      while ((((la) & ~0x3f) == 0 && ((BigInt.one << la) & ((BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((la - 64)) & ~0x3f) == 0 && ((BigInt.one << (la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((la - 128)) & ~0x3f) == 0 && ((BigInt.one << (la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((la - 192)) & ~0x3f) == 0 && ((BigInt.one << (la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_COMMA - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
         state = 641;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if (_la == TOKEN_COMMA) {
+        la = tokenStream.LA(1)!;
+        if (la == TOKEN_COMMA) {
           state = 640;
           match(TOKEN_COMMA);
         }
@@ -1835,23 +1835,23 @@ class ApexParser extends Parser {
         elementValuePair();
         state = 648;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
+        la = tokenStream.LA(1)!;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   ElementValuePairContext elementValuePair() {
-    dynamic _localctx = ElementValuePairContext(context, state);
-    enterRule(_localctx, 68, RULE_elementValuePair);
+    dynamic localctx = ElementValuePairContext(context, state);
+    enterRule(localctx, 68, RULE_elementValuePair);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 649;
       id();
       state = 650;
@@ -1859,18 +1859,18 @@ class ApexParser extends Parser {
       state = 651;
       elementValue();
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   ElementValueContext elementValue() {
-    dynamic _localctx = ElementValueContext(context, state);
-    enterRule(_localctx, 70, RULE_elementValue);
+    dynamic localctx = ElementValueContext(context, state);
+    enterRule(localctx, 70, RULE_elementValue);
     try {
       state = 656;
       errorHandler.sync(this);
@@ -2043,17 +2043,17 @@ class ApexParser extends Parser {
       case TOKEN_ADD:
       case TOKEN_SUB:
       case TOKEN_Identifier:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 653;
         expression(0);
         break;
       case TOKEN_ATSIGN:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 654;
         annotation();
         break;
       case TOKEN_LBRACE:
-        enterOuterAlt(_localctx, 3);
+        enterOuterAlt(localctx, 3);
         state = 655;
         elementValueArrayInitializer();
         break;
@@ -2061,35 +2061,35 @@ class ApexParser extends Parser {
         throw NoViableAltException(this);
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   ElementValueArrayInitializerContext elementValueArrayInitializer() {
-    dynamic _localctx = ElementValueArrayInitializerContext(context, state);
-    enterRule(_localctx, 72, RULE_elementValueArrayInitializer);
-    int _la;
+    dynamic localctx = ElementValueArrayInitializerContext(context, state);
+    enterRule(localctx, 72, RULE_elementValueArrayInitializer);
+    int la;
     try {
-      int _alt;
-      enterOuterAlt(_localctx, 1);
+      int alt;
+      enterOuterAlt(localctx, 1);
       state = 658;
       match(TOKEN_LBRACE);
       state = 667;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_NEW) | (BigInt.one << TOKEN_NULL) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_SUPER) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_THIS) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((_la - 64)) & ~0x3f) == 0 && ((BigInt.one << (_la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((_la - 128)) & ~0x3f) == 0 && ((BigInt.one << (_la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((_la - 192)) & ~0x3f) == 0 && ((BigInt.one << (_la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_FindLiteral - 192)) | (BigInt.one << (TOKEN_IntegerLiteral - 192)) | (BigInt.one << (TOKEN_LongLiteral - 192)) | (BigInt.one << (TOKEN_NumberLiteral - 192)) | (BigInt.one << (TOKEN_BooleanLiteral - 192)) | (BigInt.one << (TOKEN_StringLiteral - 192)) | (BigInt.one << (TOKEN_LPAREN - 192)) | (BigInt.one << (TOKEN_LBRACE - 192)) | (BigInt.one << (TOKEN_LBRACK - 192)) | (BigInt.one << (TOKEN_BANG - 192)) | (BigInt.one << (TOKEN_TILDE - 192)) | (BigInt.one << (TOKEN_INC - 192)) | (BigInt.one << (TOKEN_DEC - 192)) | (BigInt.one << (TOKEN_ADD - 192)) | (BigInt.one << (TOKEN_SUB - 192)) | (BigInt.one << (TOKEN_ATSIGN - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
+      la = tokenStream.LA(1)!;
+      if ((((la) & ~0x3f) == 0 && ((BigInt.one << la) & ((BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_NEW) | (BigInt.one << TOKEN_NULL) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_SUPER) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_THIS) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((la - 64)) & ~0x3f) == 0 && ((BigInt.one << (la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((la - 128)) & ~0x3f) == 0 && ((BigInt.one << (la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((la - 192)) & ~0x3f) == 0 && ((BigInt.one << (la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_FindLiteral - 192)) | (BigInt.one << (TOKEN_IntegerLiteral - 192)) | (BigInt.one << (TOKEN_LongLiteral - 192)) | (BigInt.one << (TOKEN_NumberLiteral - 192)) | (BigInt.one << (TOKEN_BooleanLiteral - 192)) | (BigInt.one << (TOKEN_StringLiteral - 192)) | (BigInt.one << (TOKEN_LPAREN - 192)) | (BigInt.one << (TOKEN_LBRACE - 192)) | (BigInt.one << (TOKEN_LBRACK - 192)) | (BigInt.one << (TOKEN_BANG - 192)) | (BigInt.one << (TOKEN_TILDE - 192)) | (BigInt.one << (TOKEN_INC - 192)) | (BigInt.one << (TOKEN_DEC - 192)) | (BigInt.one << (TOKEN_ADD - 192)) | (BigInt.one << (TOKEN_SUB - 192)) | (BigInt.one << (TOKEN_ATSIGN - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
         state = 659;
         elementValue();
         state = 664;
         errorHandler.sync(this);
-        _alt = interpreter!.adaptivePredict(tokenStream, 52, context);
-        while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
-          if (_alt == 1) {
+        alt = interpreter!.adaptivePredict(tokenStream, 52, context);
+        while (alt != 2 && alt != ATN.INVALID_ALT_NUMBER) {
+          if (alt == 1) {
             state = 660;
             match(TOKEN_COMMA);
             state = 661;
@@ -2097,14 +2097,14 @@ class ApexParser extends Parser {
           }
           state = 666;
           errorHandler.sync(this);
-          _alt = interpreter!.adaptivePredict(tokenStream, 52, context);
+          alt = interpreter!.adaptivePredict(tokenStream, 52, context);
         }
       }
 
       state = 670;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_COMMA) {
+      la = tokenStream.LA(1)!;
+      if (la == TOKEN_COMMA) {
         state = 669;
         match(TOKEN_COMMA);
       }
@@ -2112,219 +2112,219 @@ class ApexParser extends Parser {
       state = 672;
       match(TOKEN_RBRACE);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   BlockContext block() {
-    dynamic _localctx = BlockContext(context, state);
-    enterRule(_localctx, 74, RULE_block);
-    int _la;
+    dynamic localctx = BlockContext(context, state);
+    enterRule(localctx, 74, RULE_block);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 674;
       match(TOKEN_LBRACE);
       state = 678;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      while ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_ABSTRACT) | (BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_BREAK) | (BigInt.one << TOKEN_CONTINUE) | (BigInt.one << TOKEN_DELETE) | (BigInt.one << TOKEN_DO) | (BigInt.one << TOKEN_FINAL) | (BigInt.one << TOKEN_FOR) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_GLOBAL) | (BigInt.one << TOKEN_IF) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSERT) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_MERGE) | (BigInt.one << TOKEN_NEW) | (BigInt.one << TOKEN_NULL) | (BigInt.one << TOKEN_OVERRIDE) | (BigInt.one << TOKEN_PRIVATE) | (BigInt.one << TOKEN_PROTECTED) | (BigInt.one << TOKEN_PUBLIC) | (BigInt.one << TOKEN_RETURN) | (BigInt.one << TOKEN_SYSTEMRUNAS) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_STATIC) | (BigInt.one << TOKEN_SUPER) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_TESTMETHOD) | (BigInt.one << TOKEN_THIS) | (BigInt.one << TOKEN_THROW) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_TRY) | (BigInt.one << TOKEN_UNDELETE) | (BigInt.one << TOKEN_UPDATE) | (BigInt.one << TOKEN_UPSERT) | (BigInt.one << TOKEN_VIRTUAL) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WEBSERVICE) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WHILE) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((_la - 64)) & ~0x3f) == 0 && ((BigInt.one << (_la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((_la - 128)) & ~0x3f) == 0 && ((BigInt.one << (_la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((_la - 192)) & ~0x3f) == 0 && ((BigInt.one << (_la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_FindLiteral - 192)) | (BigInt.one << (TOKEN_IntegerLiteral - 192)) | (BigInt.one << (TOKEN_LongLiteral - 192)) | (BigInt.one << (TOKEN_NumberLiteral - 192)) | (BigInt.one << (TOKEN_BooleanLiteral - 192)) | (BigInt.one << (TOKEN_StringLiteral - 192)) | (BigInt.one << (TOKEN_LPAREN - 192)) | (BigInt.one << (TOKEN_LBRACE - 192)) | (BigInt.one << (TOKEN_LBRACK - 192)) | (BigInt.one << (TOKEN_BANG - 192)) | (BigInt.one << (TOKEN_TILDE - 192)) | (BigInt.one << (TOKEN_INC - 192)) | (BigInt.one << (TOKEN_DEC - 192)) | (BigInt.one << (TOKEN_ADD - 192)) | (BigInt.one << (TOKEN_SUB - 192)) | (BigInt.one << (TOKEN_ATSIGN - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
+      la = tokenStream.LA(1)!;
+      while ((((la) & ~0x3f) == 0 && ((BigInt.one << la) & ((BigInt.one << TOKEN_ABSTRACT) | (BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_BREAK) | (BigInt.one << TOKEN_CONTINUE) | (BigInt.one << TOKEN_DELETE) | (BigInt.one << TOKEN_DO) | (BigInt.one << TOKEN_FINAL) | (BigInt.one << TOKEN_FOR) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_GLOBAL) | (BigInt.one << TOKEN_IF) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSERT) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_MERGE) | (BigInt.one << TOKEN_NEW) | (BigInt.one << TOKEN_NULL) | (BigInt.one << TOKEN_OVERRIDE) | (BigInt.one << TOKEN_PRIVATE) | (BigInt.one << TOKEN_PROTECTED) | (BigInt.one << TOKEN_PUBLIC) | (BigInt.one << TOKEN_RETURN) | (BigInt.one << TOKEN_SYSTEMRUNAS) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_STATIC) | (BigInt.one << TOKEN_SUPER) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_TESTMETHOD) | (BigInt.one << TOKEN_THIS) | (BigInt.one << TOKEN_THROW) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_TRY) | (BigInt.one << TOKEN_UNDELETE) | (BigInt.one << TOKEN_UPDATE) | (BigInt.one << TOKEN_UPSERT) | (BigInt.one << TOKEN_VIRTUAL) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WEBSERVICE) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WHILE) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((la - 64)) & ~0x3f) == 0 && ((BigInt.one << (la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((la - 128)) & ~0x3f) == 0 && ((BigInt.one << (la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((la - 192)) & ~0x3f) == 0 && ((BigInt.one << (la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_FindLiteral - 192)) | (BigInt.one << (TOKEN_IntegerLiteral - 192)) | (BigInt.one << (TOKEN_LongLiteral - 192)) | (BigInt.one << (TOKEN_NumberLiteral - 192)) | (BigInt.one << (TOKEN_BooleanLiteral - 192)) | (BigInt.one << (TOKEN_StringLiteral - 192)) | (BigInt.one << (TOKEN_LPAREN - 192)) | (BigInt.one << (TOKEN_LBRACE - 192)) | (BigInt.one << (TOKEN_LBRACK - 192)) | (BigInt.one << (TOKEN_BANG - 192)) | (BigInt.one << (TOKEN_TILDE - 192)) | (BigInt.one << (TOKEN_INC - 192)) | (BigInt.one << (TOKEN_DEC - 192)) | (BigInt.one << (TOKEN_ADD - 192)) | (BigInt.one << (TOKEN_SUB - 192)) | (BigInt.one << (TOKEN_ATSIGN - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
         state = 675;
         statement();
         state = 680;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
+        la = tokenStream.LA(1)!;
       }
       state = 681;
       match(TOKEN_RBRACE);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   LocalVariableDeclarationStatementContext localVariableDeclarationStatement() {
-    dynamic _localctx = LocalVariableDeclarationStatementContext(context, state);
-    enterRule(_localctx, 76, RULE_localVariableDeclarationStatement);
+    dynamic localctx = LocalVariableDeclarationStatementContext(context, state);
+    enterRule(localctx, 76, RULE_localVariableDeclarationStatement);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 683;
       localVariableDeclaration();
       state = 684;
       match(TOKEN_SEMI);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   LocalVariableDeclarationContext localVariableDeclaration() {
-    dynamic _localctx = LocalVariableDeclarationContext(context, state);
-    enterRule(_localctx, 78, RULE_localVariableDeclaration);
+    dynamic localctx = LocalVariableDeclarationContext(context, state);
+    enterRule(localctx, 78, RULE_localVariableDeclaration);
     try {
-      int _alt;
-      enterOuterAlt(_localctx, 1);
+      int alt;
+      enterOuterAlt(localctx, 1);
       state = 689;
       errorHandler.sync(this);
-      _alt = interpreter!.adaptivePredict(tokenStream, 56, context);
-      while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
-        if (_alt == 1) {
+      alt = interpreter!.adaptivePredict(tokenStream, 56, context);
+      while (alt != 2 && alt != ATN.INVALID_ALT_NUMBER) {
+        if (alt == 1) {
           state = 686;
           modifier(); 
         }
         state = 691;
         errorHandler.sync(this);
-        _alt = interpreter!.adaptivePredict(tokenStream, 56, context);
+        alt = interpreter!.adaptivePredict(tokenStream, 56, context);
       }
       state = 692;
       typeRef();
       state = 693;
       variableDeclarators();
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   StatementContext statement() {
-    dynamic _localctx = StatementContext(context, state);
-    enterRule(_localctx, 80, RULE_statement);
+    dynamic localctx = StatementContext(context, state);
+    enterRule(localctx, 80, RULE_statement);
     try {
       state = 715;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 57, context)) {
       case 1:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 695;
         block();
         break;
       case 2:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 696;
         ifStatement();
         break;
       case 3:
-        enterOuterAlt(_localctx, 3);
+        enterOuterAlt(localctx, 3);
         state = 697;
         switchStatement();
         break;
       case 4:
-        enterOuterAlt(_localctx, 4);
+        enterOuterAlt(localctx, 4);
         state = 698;
         forStatement();
         break;
       case 5:
-        enterOuterAlt(_localctx, 5);
+        enterOuterAlt(localctx, 5);
         state = 699;
         whileStatement();
         break;
       case 6:
-        enterOuterAlt(_localctx, 6);
+        enterOuterAlt(localctx, 6);
         state = 700;
         doWhileStatement();
         break;
       case 7:
-        enterOuterAlt(_localctx, 7);
+        enterOuterAlt(localctx, 7);
         state = 701;
         tryStatement();
         break;
       case 8:
-        enterOuterAlt(_localctx, 8);
+        enterOuterAlt(localctx, 8);
         state = 702;
         returnStatement();
         break;
       case 9:
-        enterOuterAlt(_localctx, 9);
+        enterOuterAlt(localctx, 9);
         state = 703;
         throwStatement();
         break;
       case 10:
-        enterOuterAlt(_localctx, 10);
+        enterOuterAlt(localctx, 10);
         state = 704;
         breakStatement();
         break;
       case 11:
-        enterOuterAlt(_localctx, 11);
+        enterOuterAlt(localctx, 11);
         state = 705;
         continueStatement();
         break;
       case 12:
-        enterOuterAlt(_localctx, 12);
+        enterOuterAlt(localctx, 12);
         state = 706;
         insertStatement();
         break;
       case 13:
-        enterOuterAlt(_localctx, 13);
+        enterOuterAlt(localctx, 13);
         state = 707;
         updateStatement();
         break;
       case 14:
-        enterOuterAlt(_localctx, 14);
+        enterOuterAlt(localctx, 14);
         state = 708;
         deleteStatement();
         break;
       case 15:
-        enterOuterAlt(_localctx, 15);
+        enterOuterAlt(localctx, 15);
         state = 709;
         undeleteStatement();
         break;
       case 16:
-        enterOuterAlt(_localctx, 16);
+        enterOuterAlt(localctx, 16);
         state = 710;
         upsertStatement();
         break;
       case 17:
-        enterOuterAlt(_localctx, 17);
+        enterOuterAlt(localctx, 17);
         state = 711;
         mergeStatement();
         break;
       case 18:
-        enterOuterAlt(_localctx, 18);
+        enterOuterAlt(localctx, 18);
         state = 712;
         runAsStatement();
         break;
       case 19:
-        enterOuterAlt(_localctx, 19);
+        enterOuterAlt(localctx, 19);
         state = 713;
         localVariableDeclarationStatement();
         break;
       case 20:
-        enterOuterAlt(_localctx, 20);
+        enterOuterAlt(localctx, 20);
         state = 714;
         expressionStatement();
         break;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   IfStatementContext ifStatement() {
-    dynamic _localctx = IfStatementContext(context, state);
-    enterRule(_localctx, 82, RULE_ifStatement);
+    dynamic localctx = IfStatementContext(context, state);
+    enterRule(localctx, 82, RULE_ifStatement);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 717;
       match(TOKEN_IF);
       state = 718;
@@ -2342,21 +2342,21 @@ class ApexParser extends Parser {
         break;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   SwitchStatementContext switchStatement() {
-    dynamic _localctx = SwitchStatementContext(context, state);
-    enterRule(_localctx, 84, RULE_switchStatement);
-    int _la;
+    dynamic localctx = SwitchStatementContext(context, state);
+    enterRule(localctx, 84, RULE_switchStatement);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 724;
       match(TOKEN_SWITCH);
       state = 725;
@@ -2367,31 +2367,31 @@ class ApexParser extends Parser {
       match(TOKEN_LBRACE);
       state = 729; 
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
+      la = tokenStream.LA(1)!;
       do {
         state = 728;
         whenControl();
         state = 731; 
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-      } while (_la == TOKEN_WHEN);
+        la = tokenStream.LA(1)!;
+      } while (la == TOKEN_WHEN);
       state = 733;
       match(TOKEN_RBRACE);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   WhenControlContext whenControl() {
-    dynamic _localctx = WhenControlContext(context, state);
-    enterRule(_localctx, 86, RULE_whenControl);
+    dynamic localctx = WhenControlContext(context, state);
+    enterRule(localctx, 86, RULE_whenControl);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 735;
       match(TOKEN_WHEN);
       state = 736;
@@ -2399,47 +2399,47 @@ class ApexParser extends Parser {
       state = 737;
       block();
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   WhenValueContext whenValue() {
-    dynamic _localctx = WhenValueContext(context, state);
-    enterRule(_localctx, 88, RULE_whenValue);
-    int _la;
+    dynamic localctx = WhenValueContext(context, state);
+    enterRule(localctx, 88, RULE_whenValue);
+    int la;
     try {
       state = 751;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 61, context)) {
       case 1:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 739;
         match(TOKEN_ELSE);
         break;
       case 2:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 740;
         whenLiteral();
         state = 745;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        while (_la == TOKEN_COMMA) {
+        la = tokenStream.LA(1)!;
+        while (la == TOKEN_COMMA) {
           state = 741;
           match(TOKEN_COMMA);
           state = 742;
           whenLiteral();
           state = 747;
           errorHandler.sync(this);
-          _la = tokenStream.LA(1)!;
+          la = tokenStream.LA(1)!;
         }
         break;
       case 3:
-        enterOuterAlt(_localctx, 3);
+        enterOuterAlt(localctx, 3);
         state = 748;
         typeRef();
         state = 749;
@@ -2447,30 +2447,30 @@ class ApexParser extends Parser {
         break;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   WhenLiteralContext whenLiteral() {
-    dynamic _localctx = WhenLiteralContext(context, state);
-    enterRule(_localctx, 90, RULE_whenLiteral);
-    int _la;
+    dynamic localctx = WhenLiteralContext(context, state);
+    enterRule(localctx, 90, RULE_whenLiteral);
+    int la;
     try {
       state = 765;
       errorHandler.sync(this);
       switch (tokenStream.LA(1)!) {
       case TOKEN_IntegerLiteral:
       case TOKEN_SUB:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 754;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if (_la == TOKEN_SUB) {
+        la = tokenStream.LA(1)!;
+        if (la == TOKEN_SUB) {
           state = 753;
           match(TOKEN_SUB);
         }
@@ -2479,17 +2479,17 @@ class ApexParser extends Parser {
         match(TOKEN_IntegerLiteral);
         break;
       case TOKEN_LongLiteral:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 757;
         match(TOKEN_LongLiteral);
         break;
       case TOKEN_StringLiteral:
-        enterOuterAlt(_localctx, 3);
+        enterOuterAlt(localctx, 3);
         state = 758;
         match(TOKEN_StringLiteral);
         break;
       case TOKEN_NULL:
-        enterOuterAlt(_localctx, 4);
+        enterOuterAlt(localctx, 4);
         state = 759;
         match(TOKEN_NULL);
         break;
@@ -2641,12 +2641,12 @@ class ApexParser extends Parser {
       case TOKEN_RETURNING:
       case TOKEN_LISTVIEW:
       case TOKEN_Identifier:
-        enterOuterAlt(_localctx, 5);
+        enterOuterAlt(localctx, 5);
         state = 760;
         id();
         break;
       case TOKEN_LPAREN:
-        enterOuterAlt(_localctx, 6);
+        enterOuterAlt(localctx, 6);
         state = 761;
         match(TOKEN_LPAREN);
         state = 762;
@@ -2658,20 +2658,20 @@ class ApexParser extends Parser {
         throw NoViableAltException(this);
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   ForStatementContext forStatement() {
-    dynamic _localctx = ForStatementContext(context, state);
-    enterRule(_localctx, 92, RULE_forStatement);
+    dynamic localctx = ForStatementContext(context, state);
+    enterRule(localctx, 92, RULE_forStatement);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 767;
       match(TOKEN_FOR);
       state = 768;
@@ -2891,20 +2891,20 @@ class ApexParser extends Parser {
         throw NoViableAltException(this);
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   WhileStatementContext whileStatement() {
-    dynamic _localctx = WhileStatementContext(context, state);
-    enterRule(_localctx, 94, RULE_whileStatement);
+    dynamic localctx = WhileStatementContext(context, state);
+    enterRule(localctx, 94, RULE_whileStatement);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 775;
       match(TOKEN_WHILE);
       state = 776;
@@ -3120,20 +3120,20 @@ class ApexParser extends Parser {
         throw NoViableAltException(this);
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   DoWhileStatementContext doWhileStatement() {
-    dynamic _localctx = DoWhileStatementContext(context, state);
-    enterRule(_localctx, 96, RULE_doWhileStatement);
+    dynamic localctx = DoWhileStatementContext(context, state);
+    enterRule(localctx, 96, RULE_doWhileStatement);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 781;
       match(TOKEN_DO);
       state = 782;
@@ -3145,21 +3145,21 @@ class ApexParser extends Parser {
       state = 785;
       match(TOKEN_SEMI);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   TryStatementContext tryStatement() {
-    dynamic _localctx = TryStatementContext(context, state);
-    enterRule(_localctx, 98, RULE_tryStatement);
-    int _la;
+    dynamic localctx = TryStatementContext(context, state);
+    enterRule(localctx, 98, RULE_tryStatement);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 787;
       match(TOKEN_TRY);
       state = 788;
@@ -3170,18 +3170,18 @@ class ApexParser extends Parser {
       case TOKEN_CATCH:
         state = 790; 
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
+        la = tokenStream.LA(1)!;
         do {
           state = 789;
           catchClause();
           state = 792; 
           errorHandler.sync(this);
-          _la = tokenStream.LA(1)!;
-        } while (_la == TOKEN_CATCH);
+          la = tokenStream.LA(1)!;
+        } while (la == TOKEN_CATCH);
         state = 795;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if (_la == TOKEN_FINALLY) {
+        la = tokenStream.LA(1)!;
+        if (la == TOKEN_FINALLY) {
           state = 794;
           finallyBlock();
         }
@@ -3195,27 +3195,27 @@ class ApexParser extends Parser {
         throw NoViableAltException(this);
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   ReturnStatementContext returnStatement() {
-    dynamic _localctx = ReturnStatementContext(context, state);
-    enterRule(_localctx, 100, RULE_returnStatement);
-    int _la;
+    dynamic localctx = ReturnStatementContext(context, state);
+    enterRule(localctx, 100, RULE_returnStatement);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 800;
       match(TOKEN_RETURN);
       state = 802;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_NEW) | (BigInt.one << TOKEN_NULL) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_SUPER) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_THIS) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((_la - 64)) & ~0x3f) == 0 && ((BigInt.one << (_la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((_la - 128)) & ~0x3f) == 0 && ((BigInt.one << (_la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((_la - 192)) & ~0x3f) == 0 && ((BigInt.one << (_la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_FindLiteral - 192)) | (BigInt.one << (TOKEN_IntegerLiteral - 192)) | (BigInt.one << (TOKEN_LongLiteral - 192)) | (BigInt.one << (TOKEN_NumberLiteral - 192)) | (BigInt.one << (TOKEN_BooleanLiteral - 192)) | (BigInt.one << (TOKEN_StringLiteral - 192)) | (BigInt.one << (TOKEN_LPAREN - 192)) | (BigInt.one << (TOKEN_LBRACK - 192)) | (BigInt.one << (TOKEN_BANG - 192)) | (BigInt.one << (TOKEN_TILDE - 192)) | (BigInt.one << (TOKEN_INC - 192)) | (BigInt.one << (TOKEN_DEC - 192)) | (BigInt.one << (TOKEN_ADD - 192)) | (BigInt.one << (TOKEN_SUB - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
+      la = tokenStream.LA(1)!;
+      if ((((la) & ~0x3f) == 0 && ((BigInt.one << la) & ((BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_NEW) | (BigInt.one << TOKEN_NULL) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_SUPER) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_THIS) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((la - 64)) & ~0x3f) == 0 && ((BigInt.one << (la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((la - 128)) & ~0x3f) == 0 && ((BigInt.one << (la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((la - 192)) & ~0x3f) == 0 && ((BigInt.one << (la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_FindLiteral - 192)) | (BigInt.one << (TOKEN_IntegerLiteral - 192)) | (BigInt.one << (TOKEN_LongLiteral - 192)) | (BigInt.one << (TOKEN_NumberLiteral - 192)) | (BigInt.one << (TOKEN_BooleanLiteral - 192)) | (BigInt.one << (TOKEN_StringLiteral - 192)) | (BigInt.one << (TOKEN_LPAREN - 192)) | (BigInt.one << (TOKEN_LBRACK - 192)) | (BigInt.one << (TOKEN_BANG - 192)) | (BigInt.one << (TOKEN_TILDE - 192)) | (BigInt.one << (TOKEN_INC - 192)) | (BigInt.one << (TOKEN_DEC - 192)) | (BigInt.one << (TOKEN_ADD - 192)) | (BigInt.one << (TOKEN_SUB - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
         state = 801;
         expression(0);
       }
@@ -3223,20 +3223,20 @@ class ApexParser extends Parser {
       state = 804;
       match(TOKEN_SEMI);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   ThrowStatementContext throwStatement() {
-    dynamic _localctx = ThrowStatementContext(context, state);
-    enterRule(_localctx, 102, RULE_throwStatement);
+    dynamic localctx = ThrowStatementContext(context, state);
+    enterRule(localctx, 102, RULE_throwStatement);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 806;
       match(TOKEN_THROW);
       state = 807;
@@ -3244,64 +3244,64 @@ class ApexParser extends Parser {
       state = 808;
       match(TOKEN_SEMI);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   BreakStatementContext breakStatement() {
-    dynamic _localctx = BreakStatementContext(context, state);
-    enterRule(_localctx, 104, RULE_breakStatement);
+    dynamic localctx = BreakStatementContext(context, state);
+    enterRule(localctx, 104, RULE_breakStatement);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 810;
       match(TOKEN_BREAK);
       state = 811;
       match(TOKEN_SEMI);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   ContinueStatementContext continueStatement() {
-    dynamic _localctx = ContinueStatementContext(context, state);
-    enterRule(_localctx, 106, RULE_continueStatement);
+    dynamic localctx = ContinueStatementContext(context, state);
+    enterRule(localctx, 106, RULE_continueStatement);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 813;
       match(TOKEN_CONTINUE);
       state = 814;
       match(TOKEN_SEMI);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   AccessLevelContext accessLevel() {
-    dynamic _localctx = AccessLevelContext(context, state);
-    enterRule(_localctx, 108, RULE_accessLevel);
-    int _la;
+    dynamic localctx = AccessLevelContext(context, state);
+    enterRule(localctx, 108, RULE_accessLevel);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 816;
       match(TOKEN_AS);
       state = 817;
-      _la = tokenStream.LA(1)!;
-      if (!(_la == TOKEN_SYSTEM || _la == TOKEN_USER)) {
+      la = tokenStream.LA(1)!;
+      if (!(la == TOKEN_SYSTEM || la == TOKEN_USER)) {
       errorHandler.recoverInline(this);
       } else {
         if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -3309,20 +3309,20 @@ class ApexParser extends Parser {
         consume();
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   InsertStatementContext insertStatement() {
-    dynamic _localctx = InsertStatementContext(context, state);
-    enterRule(_localctx, 110, RULE_insertStatement);
+    dynamic localctx = InsertStatementContext(context, state);
+    enterRule(localctx, 110, RULE_insertStatement);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 819;
       match(TOKEN_INSERT);
       state = 821;
@@ -3338,20 +3338,20 @@ class ApexParser extends Parser {
       state = 824;
       match(TOKEN_SEMI);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   UpdateStatementContext updateStatement() {
-    dynamic _localctx = UpdateStatementContext(context, state);
-    enterRule(_localctx, 112, RULE_updateStatement);
+    dynamic localctx = UpdateStatementContext(context, state);
+    enterRule(localctx, 112, RULE_updateStatement);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 826;
       match(TOKEN_UPDATE);
       state = 828;
@@ -3367,20 +3367,20 @@ class ApexParser extends Parser {
       state = 831;
       match(TOKEN_SEMI);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   DeleteStatementContext deleteStatement() {
-    dynamic _localctx = DeleteStatementContext(context, state);
-    enterRule(_localctx, 114, RULE_deleteStatement);
+    dynamic localctx = DeleteStatementContext(context, state);
+    enterRule(localctx, 114, RULE_deleteStatement);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 833;
       match(TOKEN_DELETE);
       state = 835;
@@ -3396,20 +3396,20 @@ class ApexParser extends Parser {
       state = 838;
       match(TOKEN_SEMI);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   UndeleteStatementContext undeleteStatement() {
-    dynamic _localctx = UndeleteStatementContext(context, state);
-    enterRule(_localctx, 116, RULE_undeleteStatement);
+    dynamic localctx = UndeleteStatementContext(context, state);
+    enterRule(localctx, 116, RULE_undeleteStatement);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 840;
       match(TOKEN_UNDELETE);
       state = 842;
@@ -3425,21 +3425,21 @@ class ApexParser extends Parser {
       state = 845;
       match(TOKEN_SEMI);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   UpsertStatementContext upsertStatement() {
-    dynamic _localctx = UpsertStatementContext(context, state);
-    enterRule(_localctx, 118, RULE_upsertStatement);
-    int _la;
+    dynamic localctx = UpsertStatementContext(context, state);
+    enterRule(localctx, 118, RULE_upsertStatement);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 847;
       match(TOKEN_UPSERT);
       state = 849;
@@ -3454,8 +3454,8 @@ class ApexParser extends Parser {
       expression(0);
       state = 853;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((_la - 64)) & ~0x3f) == 0 && ((BigInt.one << (_la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((_la - 128)) & ~0x3f) == 0 && ((BigInt.one << (_la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || _la == TOKEN_LISTVIEW || _la == TOKEN_Identifier) {
+      la = tokenStream.LA(1)!;
+      if ((((la) & ~0x3f) == 0 && ((BigInt.one << la) & ((BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((la - 64)) & ~0x3f) == 0 && ((BigInt.one << (la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((la - 128)) & ~0x3f) == 0 && ((BigInt.one << (la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || la == TOKEN_LISTVIEW || la == TOKEN_Identifier) {
         state = 852;
         qualifiedName();
       }
@@ -3463,20 +3463,20 @@ class ApexParser extends Parser {
       state = 855;
       match(TOKEN_SEMI);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   MergeStatementContext mergeStatement() {
-    dynamic _localctx = MergeStatementContext(context, state);
-    enterRule(_localctx, 120, RULE_mergeStatement);
+    dynamic localctx = MergeStatementContext(context, state);
+    enterRule(localctx, 120, RULE_mergeStatement);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 857;
       match(TOKEN_MERGE);
       state = 859;
@@ -3494,29 +3494,29 @@ class ApexParser extends Parser {
       state = 863;
       match(TOKEN_SEMI);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   RunAsStatementContext runAsStatement() {
-    dynamic _localctx = RunAsStatementContext(context, state);
-    enterRule(_localctx, 122, RULE_runAsStatement);
-    int _la;
+    dynamic localctx = RunAsStatementContext(context, state);
+    enterRule(localctx, 122, RULE_runAsStatement);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 865;
       match(TOKEN_SYSTEMRUNAS);
       state = 866;
       match(TOKEN_LPAREN);
       state = 868;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_NEW) | (BigInt.one << TOKEN_NULL) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_SUPER) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_THIS) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((_la - 64)) & ~0x3f) == 0 && ((BigInt.one << (_la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((_la - 128)) & ~0x3f) == 0 && ((BigInt.one << (_la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((_la - 192)) & ~0x3f) == 0 && ((BigInt.one << (_la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_FindLiteral - 192)) | (BigInt.one << (TOKEN_IntegerLiteral - 192)) | (BigInt.one << (TOKEN_LongLiteral - 192)) | (BigInt.one << (TOKEN_NumberLiteral - 192)) | (BigInt.one << (TOKEN_BooleanLiteral - 192)) | (BigInt.one << (TOKEN_StringLiteral - 192)) | (BigInt.one << (TOKEN_LPAREN - 192)) | (BigInt.one << (TOKEN_LBRACK - 192)) | (BigInt.one << (TOKEN_BANG - 192)) | (BigInt.one << (TOKEN_TILDE - 192)) | (BigInt.one << (TOKEN_INC - 192)) | (BigInt.one << (TOKEN_DEC - 192)) | (BigInt.one << (TOKEN_ADD - 192)) | (BigInt.one << (TOKEN_SUB - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
+      la = tokenStream.LA(1)!;
+      if ((((la) & ~0x3f) == 0 && ((BigInt.one << la) & ((BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_NEW) | (BigInt.one << TOKEN_NULL) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_SUPER) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_THIS) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((la - 64)) & ~0x3f) == 0 && ((BigInt.one << (la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((la - 128)) & ~0x3f) == 0 && ((BigInt.one << (la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((la - 192)) & ~0x3f) == 0 && ((BigInt.one << (la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_FindLiteral - 192)) | (BigInt.one << (TOKEN_IntegerLiteral - 192)) | (BigInt.one << (TOKEN_LongLiteral - 192)) | (BigInt.one << (TOKEN_NumberLiteral - 192)) | (BigInt.one << (TOKEN_BooleanLiteral - 192)) | (BigInt.one << (TOKEN_StringLiteral - 192)) | (BigInt.one << (TOKEN_LPAREN - 192)) | (BigInt.one << (TOKEN_LBRACK - 192)) | (BigInt.one << (TOKEN_BANG - 192)) | (BigInt.one << (TOKEN_TILDE - 192)) | (BigInt.one << (TOKEN_INC - 192)) | (BigInt.one << (TOKEN_DEC - 192)) | (BigInt.one << (TOKEN_ADD - 192)) | (BigInt.one << (TOKEN_SUB - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
         state = 867;
         expressionList();
       }
@@ -3526,49 +3526,49 @@ class ApexParser extends Parser {
       state = 871;
       block();
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   ExpressionStatementContext expressionStatement() {
-    dynamic _localctx = ExpressionStatementContext(context, state);
-    enterRule(_localctx, 124, RULE_expressionStatement);
+    dynamic localctx = ExpressionStatementContext(context, state);
+    enterRule(localctx, 124, RULE_expressionStatement);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 873;
       expression(0);
       state = 874;
       match(TOKEN_SEMI);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   PropertyBlockContext propertyBlock() {
-    dynamic _localctx = PropertyBlockContext(context, state);
-    enterRule(_localctx, 126, RULE_propertyBlock);
-    int _la;
+    dynamic localctx = PropertyBlockContext(context, state);
+    enterRule(localctx, 126, RULE_propertyBlock);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 879;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      while ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_ABSTRACT) | (BigInt.one << TOKEN_FINAL) | (BigInt.one << TOKEN_GLOBAL) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_OVERRIDE) | (BigInt.one << TOKEN_PRIVATE) | (BigInt.one << TOKEN_PROTECTED) | (BigInt.one << TOKEN_PUBLIC) | (BigInt.one << TOKEN_STATIC) | (BigInt.one << TOKEN_TESTMETHOD) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_VIRTUAL) | (BigInt.one << TOKEN_WEBSERVICE) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT))) != BigInt.zero) || _la == TOKEN_ATSIGN) {
+      la = tokenStream.LA(1)!;
+      while ((((la) & ~0x3f) == 0 && ((BigInt.one << la) & ((BigInt.one << TOKEN_ABSTRACT) | (BigInt.one << TOKEN_FINAL) | (BigInt.one << TOKEN_GLOBAL) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_OVERRIDE) | (BigInt.one << TOKEN_PRIVATE) | (BigInt.one << TOKEN_PROTECTED) | (BigInt.one << TOKEN_PUBLIC) | (BigInt.one << TOKEN_STATIC) | (BigInt.one << TOKEN_TESTMETHOD) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_VIRTUAL) | (BigInt.one << TOKEN_WEBSERVICE) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT))) != BigInt.zero) || la == TOKEN_ATSIGN) {
         state = 876;
         modifier();
         state = 881;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
+        la = tokenStream.LA(1)!;
       }
       state = 884;
       errorHandler.sync(this);
@@ -3585,20 +3585,20 @@ class ApexParser extends Parser {
         throw NoViableAltException(this);
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   GetterContext getter() {
-    dynamic _localctx = GetterContext(context, state);
-    enterRule(_localctx, 128, RULE_getter);
+    dynamic localctx = GetterContext(context, state);
+    enterRule(localctx, 128, RULE_getter);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 886;
       match(TOKEN_GET);
       state = 889;
@@ -3616,20 +3616,20 @@ class ApexParser extends Parser {
         throw NoViableAltException(this);
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   SetterContext setter() {
-    dynamic _localctx = SetterContext(context, state);
-    enterRule(_localctx, 130, RULE_setter);
+    dynamic localctx = SetterContext(context, state);
+    enterRule(localctx, 130, RULE_setter);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 891;
       match(TOKEN_SET);
       state = 894;
@@ -3647,36 +3647,36 @@ class ApexParser extends Parser {
         throw NoViableAltException(this);
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   CatchClauseContext catchClause() {
-    dynamic _localctx = CatchClauseContext(context, state);
-    enterRule(_localctx, 132, RULE_catchClause);
+    dynamic localctx = CatchClauseContext(context, state);
+    enterRule(localctx, 132, RULE_catchClause);
     try {
-      int _alt;
-      enterOuterAlt(_localctx, 1);
+      int alt;
+      enterOuterAlt(localctx, 1);
       state = 896;
       match(TOKEN_CATCH);
       state = 897;
       match(TOKEN_LPAREN);
       state = 901;
       errorHandler.sync(this);
-      _alt = interpreter!.adaptivePredict(tokenStream, 82, context);
-      while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
-        if (_alt == 1) {
+      alt = interpreter!.adaptivePredict(tokenStream, 82, context);
+      while (alt != 2 && alt != ATN.INVALID_ALT_NUMBER) {
+        if (alt == 1) {
           state = 898;
           modifier(); 
         }
         state = 903;
         errorHandler.sync(this);
-        _alt = interpreter!.adaptivePredict(tokenStream, 82, context);
+        alt = interpreter!.adaptivePredict(tokenStream, 82, context);
       }
       state = 904;
       qualifiedName();
@@ -3687,53 +3687,53 @@ class ApexParser extends Parser {
       state = 907;
       block();
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   FinallyBlockContext finallyBlock() {
-    dynamic _localctx = FinallyBlockContext(context, state);
-    enterRule(_localctx, 134, RULE_finallyBlock);
+    dynamic localctx = FinallyBlockContext(context, state);
+    enterRule(localctx, 134, RULE_finallyBlock);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 909;
       match(TOKEN_FINALLY);
       state = 910;
       block();
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   ForControlContext forControl() {
-    dynamic _localctx = ForControlContext(context, state);
-    enterRule(_localctx, 136, RULE_forControl);
-    int _la;
+    dynamic localctx = ForControlContext(context, state);
+    enterRule(localctx, 136, RULE_forControl);
+    int la;
     try {
       state = 924;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 86, context)) {
       case 1:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 912;
         enhancedForControl();
         break;
       case 2:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 914;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_ABSTRACT) | (BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_FINAL) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_GLOBAL) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_NEW) | (BigInt.one << TOKEN_NULL) | (BigInt.one << TOKEN_OVERRIDE) | (BigInt.one << TOKEN_PRIVATE) | (BigInt.one << TOKEN_PROTECTED) | (BigInt.one << TOKEN_PUBLIC) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_STATIC) | (BigInt.one << TOKEN_SUPER) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_TESTMETHOD) | (BigInt.one << TOKEN_THIS) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VIRTUAL) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WEBSERVICE) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((_la - 64)) & ~0x3f) == 0 && ((BigInt.one << (_la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((_la - 128)) & ~0x3f) == 0 && ((BigInt.one << (_la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((_la - 192)) & ~0x3f) == 0 && ((BigInt.one << (_la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_FindLiteral - 192)) | (BigInt.one << (TOKEN_IntegerLiteral - 192)) | (BigInt.one << (TOKEN_LongLiteral - 192)) | (BigInt.one << (TOKEN_NumberLiteral - 192)) | (BigInt.one << (TOKEN_BooleanLiteral - 192)) | (BigInt.one << (TOKEN_StringLiteral - 192)) | (BigInt.one << (TOKEN_LPAREN - 192)) | (BigInt.one << (TOKEN_LBRACK - 192)) | (BigInt.one << (TOKEN_BANG - 192)) | (BigInt.one << (TOKEN_TILDE - 192)) | (BigInt.one << (TOKEN_INC - 192)) | (BigInt.one << (TOKEN_DEC - 192)) | (BigInt.one << (TOKEN_ADD - 192)) | (BigInt.one << (TOKEN_SUB - 192)) | (BigInt.one << (TOKEN_ATSIGN - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
+        la = tokenStream.LA(1)!;
+        if ((((la) & ~0x3f) == 0 && ((BigInt.one << la) & ((BigInt.one << TOKEN_ABSTRACT) | (BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_FINAL) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_GLOBAL) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_NEW) | (BigInt.one << TOKEN_NULL) | (BigInt.one << TOKEN_OVERRIDE) | (BigInt.one << TOKEN_PRIVATE) | (BigInt.one << TOKEN_PROTECTED) | (BigInt.one << TOKEN_PUBLIC) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_STATIC) | (BigInt.one << TOKEN_SUPER) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_TESTMETHOD) | (BigInt.one << TOKEN_THIS) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VIRTUAL) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WEBSERVICE) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((la - 64)) & ~0x3f) == 0 && ((BigInt.one << (la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((la - 128)) & ~0x3f) == 0 && ((BigInt.one << (la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((la - 192)) & ~0x3f) == 0 && ((BigInt.one << (la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_FindLiteral - 192)) | (BigInt.one << (TOKEN_IntegerLiteral - 192)) | (BigInt.one << (TOKEN_LongLiteral - 192)) | (BigInt.one << (TOKEN_NumberLiteral - 192)) | (BigInt.one << (TOKEN_BooleanLiteral - 192)) | (BigInt.one << (TOKEN_StringLiteral - 192)) | (BigInt.one << (TOKEN_LPAREN - 192)) | (BigInt.one << (TOKEN_LBRACK - 192)) | (BigInt.one << (TOKEN_BANG - 192)) | (BigInt.one << (TOKEN_TILDE - 192)) | (BigInt.one << (TOKEN_INC - 192)) | (BigInt.one << (TOKEN_DEC - 192)) | (BigInt.one << (TOKEN_ADD - 192)) | (BigInt.one << (TOKEN_SUB - 192)) | (BigInt.one << (TOKEN_ATSIGN - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
           state = 913;
           forInit();
         }
@@ -3742,8 +3742,8 @@ class ApexParser extends Parser {
         match(TOKEN_SEMI);
         state = 918;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_NEW) | (BigInt.one << TOKEN_NULL) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_SUPER) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_THIS) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((_la - 64)) & ~0x3f) == 0 && ((BigInt.one << (_la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((_la - 128)) & ~0x3f) == 0 && ((BigInt.one << (_la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((_la - 192)) & ~0x3f) == 0 && ((BigInt.one << (_la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_FindLiteral - 192)) | (BigInt.one << (TOKEN_IntegerLiteral - 192)) | (BigInt.one << (TOKEN_LongLiteral - 192)) | (BigInt.one << (TOKEN_NumberLiteral - 192)) | (BigInt.one << (TOKEN_BooleanLiteral - 192)) | (BigInt.one << (TOKEN_StringLiteral - 192)) | (BigInt.one << (TOKEN_LPAREN - 192)) | (BigInt.one << (TOKEN_LBRACK - 192)) | (BigInt.one << (TOKEN_BANG - 192)) | (BigInt.one << (TOKEN_TILDE - 192)) | (BigInt.one << (TOKEN_INC - 192)) | (BigInt.one << (TOKEN_DEC - 192)) | (BigInt.one << (TOKEN_ADD - 192)) | (BigInt.one << (TOKEN_SUB - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
+        la = tokenStream.LA(1)!;
+        if ((((la) & ~0x3f) == 0 && ((BigInt.one << la) & ((BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_NEW) | (BigInt.one << TOKEN_NULL) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_SUPER) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_THIS) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((la - 64)) & ~0x3f) == 0 && ((BigInt.one << (la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((la - 128)) & ~0x3f) == 0 && ((BigInt.one << (la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((la - 192)) & ~0x3f) == 0 && ((BigInt.one << (la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_FindLiteral - 192)) | (BigInt.one << (TOKEN_IntegerLiteral - 192)) | (BigInt.one << (TOKEN_LongLiteral - 192)) | (BigInt.one << (TOKEN_NumberLiteral - 192)) | (BigInt.one << (TOKEN_BooleanLiteral - 192)) | (BigInt.one << (TOKEN_StringLiteral - 192)) | (BigInt.one << (TOKEN_LPAREN - 192)) | (BigInt.one << (TOKEN_LBRACK - 192)) | (BigInt.one << (TOKEN_BANG - 192)) | (BigInt.one << (TOKEN_TILDE - 192)) | (BigInt.one << (TOKEN_INC - 192)) | (BigInt.one << (TOKEN_DEC - 192)) | (BigInt.one << (TOKEN_ADD - 192)) | (BigInt.one << (TOKEN_SUB - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
           state = 917;
           expression(0);
         }
@@ -3752,8 +3752,8 @@ class ApexParser extends Parser {
         match(TOKEN_SEMI);
         state = 922;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_NEW) | (BigInt.one << TOKEN_NULL) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_SUPER) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_THIS) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((_la - 64)) & ~0x3f) == 0 && ((BigInt.one << (_la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((_la - 128)) & ~0x3f) == 0 && ((BigInt.one << (_la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((_la - 192)) & ~0x3f) == 0 && ((BigInt.one << (_la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_FindLiteral - 192)) | (BigInt.one << (TOKEN_IntegerLiteral - 192)) | (BigInt.one << (TOKEN_LongLiteral - 192)) | (BigInt.one << (TOKEN_NumberLiteral - 192)) | (BigInt.one << (TOKEN_BooleanLiteral - 192)) | (BigInt.one << (TOKEN_StringLiteral - 192)) | (BigInt.one << (TOKEN_LPAREN - 192)) | (BigInt.one << (TOKEN_LBRACK - 192)) | (BigInt.one << (TOKEN_BANG - 192)) | (BigInt.one << (TOKEN_TILDE - 192)) | (BigInt.one << (TOKEN_INC - 192)) | (BigInt.one << (TOKEN_DEC - 192)) | (BigInt.one << (TOKEN_ADD - 192)) | (BigInt.one << (TOKEN_SUB - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
+        la = tokenStream.LA(1)!;
+        if ((((la) & ~0x3f) == 0 && ((BigInt.one << la) & ((BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_NEW) | (BigInt.one << TOKEN_NULL) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_SUPER) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_THIS) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((la - 64)) & ~0x3f) == 0 && ((BigInt.one << (la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((la - 128)) & ~0x3f) == 0 && ((BigInt.one << (la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((la - 192)) & ~0x3f) == 0 && ((BigInt.one << (la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_FindLiteral - 192)) | (BigInt.one << (TOKEN_IntegerLiteral - 192)) | (BigInt.one << (TOKEN_LongLiteral - 192)) | (BigInt.one << (TOKEN_NumberLiteral - 192)) | (BigInt.one << (TOKEN_BooleanLiteral - 192)) | (BigInt.one << (TOKEN_StringLiteral - 192)) | (BigInt.one << (TOKEN_LPAREN - 192)) | (BigInt.one << (TOKEN_LBRACK - 192)) | (BigInt.one << (TOKEN_BANG - 192)) | (BigInt.one << (TOKEN_TILDE - 192)) | (BigInt.one << (TOKEN_INC - 192)) | (BigInt.one << (TOKEN_DEC - 192)) | (BigInt.one << (TOKEN_ADD - 192)) | (BigInt.one << (TOKEN_SUB - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
           state = 921;
           forUpdate();
         }
@@ -3761,48 +3761,48 @@ class ApexParser extends Parser {
         break;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   ForInitContext forInit() {
-    dynamic _localctx = ForInitContext(context, state);
-    enterRule(_localctx, 138, RULE_forInit);
+    dynamic localctx = ForInitContext(context, state);
+    enterRule(localctx, 138, RULE_forInit);
     try {
       state = 928;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 87, context)) {
       case 1:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 926;
         localVariableDeclaration();
         break;
       case 2:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 927;
         expressionList();
         break;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   EnhancedForControlContext enhancedForControl() {
-    dynamic _localctx = EnhancedForControlContext(context, state);
-    enterRule(_localctx, 140, RULE_enhancedForControl);
+    dynamic localctx = EnhancedForControlContext(context, state);
+    enterRule(localctx, 140, RULE_enhancedForControl);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 930;
       typeRef();
       state = 931;
@@ -3812,37 +3812,37 @@ class ApexParser extends Parser {
       state = 933;
       expression(0);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   ForUpdateContext forUpdate() {
-    dynamic _localctx = ForUpdateContext(context, state);
-    enterRule(_localctx, 142, RULE_forUpdate);
+    dynamic localctx = ForUpdateContext(context, state);
+    enterRule(localctx, 142, RULE_forUpdate);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 935;
       expressionList();
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   ParExpressionContext parExpression() {
-    dynamic _localctx = ParExpressionContext(context, state);
-    enterRule(_localctx, 144, RULE_parExpression);
+    dynamic localctx = ParExpressionContext(context, state);
+    enterRule(localctx, 144, RULE_parExpression);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 937;
       match(TOKEN_LPAREN);
       state = 938;
@@ -3850,87 +3850,87 @@ class ApexParser extends Parser {
       state = 939;
       match(TOKEN_RPAREN);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   ExpressionListContext expressionList() {
-    dynamic _localctx = ExpressionListContext(context, state);
-    enterRule(_localctx, 146, RULE_expressionList);
-    int _la;
+    dynamic localctx = ExpressionListContext(context, state);
+    enterRule(localctx, 146, RULE_expressionList);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 941;
       expression(0);
       state = 946;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      while (_la == TOKEN_COMMA) {
+      la = tokenStream.LA(1)!;
+      while (la == TOKEN_COMMA) {
         state = 942;
         match(TOKEN_COMMA);
         state = 943;
         expression(0);
         state = 948;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
+        la = tokenStream.LA(1)!;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
-  ExpressionContext expression([int _p = 0]) {
-    final _parentctx = context;
-    final _parentState = state;
-    dynamic _localctx = ExpressionContext(context, _parentState);
-    var _prevctx = _localctx;
-    var _startState = 148;
-    enterRecursionRule(_localctx, 148, RULE_expression, _p);
-    int _la;
+  ExpressionContext expression([int p = 0]) {
+    final parentctx = context;
+    final parentState = state;
+    dynamic localctx = ExpressionContext(context, parentState);
+    var prevctx = localctx;
+    var startState = 148;
+    enterRecursionRule(localctx, 148, RULE_expression, p);
+    int la;
     try {
-      int _alt;
-      enterOuterAlt(_localctx, 1);
+      int alt;
+      enterOuterAlt(localctx, 1);
       state = 967;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 89, context)) {
       case 1:
-        _localctx = PrimaryExpressionContext(_localctx);
-        context = _localctx;
-        _prevctx = _localctx;
+        localctx = PrimaryExpressionContext(localctx);
+        context = localctx;
+        prevctx = localctx;
 
         state = 950;
         primary();
         break;
       case 2:
-        _localctx = MethodCallExpressionContext(_localctx);
-        context = _localctx;
-        _prevctx = _localctx;
+        localctx = MethodCallExpressionContext(localctx);
+        context = localctx;
+        prevctx = localctx;
         state = 951;
         methodCall();
         break;
       case 3:
-        _localctx = NewExpressionContext(_localctx);
-        context = _localctx;
-        _prevctx = _localctx;
+        localctx = NewExpressionContext(localctx);
+        context = localctx;
+        prevctx = localctx;
         state = 952;
         match(TOKEN_NEW);
         state = 953;
         creator();
         break;
       case 4:
-        _localctx = CastExpressionContext(_localctx);
-        context = _localctx;
-        _prevctx = _localctx;
+        localctx = CastExpressionContext(localctx);
+        context = localctx;
+        prevctx = localctx;
         state = 954;
         match(TOKEN_LPAREN);
         state = 955;
@@ -3941,9 +3941,9 @@ class ApexParser extends Parser {
         expression(19);
         break;
       case 5:
-        _localctx = SubExpressionContext(_localctx);
-        context = _localctx;
-        _prevctx = _localctx;
+        localctx = SubExpressionContext(localctx);
+        context = localctx;
+        prevctx = localctx;
         state = 959;
         match(TOKEN_LPAREN);
         state = 960;
@@ -3952,12 +3952,12 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case 6:
-        _localctx = PreOpExpressionContext(_localctx);
-        context = _localctx;
-        _prevctx = _localctx;
+        localctx = PreOpExpressionContext(localctx);
+        context = localctx;
+        prevctx = localctx;
         state = 963;
-        _la = tokenStream.LA(1)!;
-        if (!(((((_la - 224)) & ~0x3f) == 0 && ((BigInt.one << (_la - 224)) & ((BigInt.one << (TOKEN_INC - 224)) | (BigInt.one << (TOKEN_DEC - 224)) | (BigInt.one << (TOKEN_ADD - 224)) | (BigInt.one << (TOKEN_SUB - 224)))) != BigInt.zero))) {
+        la = tokenStream.LA(1)!;
+        if (!(((((la - 224)) & ~0x3f) == 0 && ((BigInt.one << (la - 224)) & ((BigInt.one << (TOKEN_INC - 224)) | (BigInt.one << (TOKEN_DEC - 224)) | (BigInt.one << (TOKEN_ADD - 224)) | (BigInt.one << (TOKEN_SUB - 224)))) != BigInt.zero))) {
         errorHandler.recoverInline(this);
         } else {
           if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -3968,12 +3968,12 @@ class ApexParser extends Parser {
         expression(16);
         break;
       case 7:
-        _localctx = NegExpressionContext(_localctx);
-        context = _localctx;
-        _prevctx = _localctx;
+        localctx = NegExpressionContext(localctx);
+        context = localctx;
+        prevctx = localctx;
         state = 965;
-        _la = tokenStream.LA(1)!;
-        if (!(_la == TOKEN_BANG || _la == TOKEN_TILDE)) {
+        la = tokenStream.LA(1)!;
+        if (!(la == TOKEN_BANG || la == TOKEN_TILDE)) {
         errorHandler.recoverInline(this);
         } else {
           if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -3987,24 +3987,24 @@ class ApexParser extends Parser {
       context!.stop = tokenStream.LT(-1);
       state = 1040;
       errorHandler.sync(this);
-      _alt = interpreter!.adaptivePredict(tokenStream, 94, context);
-      while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
-        if (_alt == 1) {
+      alt = interpreter!.adaptivePredict(tokenStream, 94, context);
+      while (alt != 2 && alt != ATN.INVALID_ALT_NUMBER) {
+        if (alt == 1) {
           if (parseListeners != null) triggerExitRuleEvent();
-          _prevctx = _localctx;
+          prevctx = localctx;
           state = 1038;
           errorHandler.sync(this);
           switch (interpreter!.adaptivePredict(tokenStream, 93, context)) {
           case 1:
-            _localctx = Arth1ExpressionContext(new ExpressionContext(_parentctx, _parentState));
-            pushNewRecursionContext(_localctx, _startState, RULE_expression);
+            localctx = Arth1ExpressionContext(ExpressionContext(parentctx, parentState));
+            pushNewRecursionContext(localctx, startState, RULE_expression);
             state = 969;
             if (!(precpred(context, 14))) {
               throw FailedPredicateException(this, "precpred(context, 14)");
             }
             state = 970;
-            _la = tokenStream.LA(1)!;
-            if (!(((((_la - 228)) & ~0x3f) == 0 && ((BigInt.one << (_la - 228)) & ((BigInt.one << (TOKEN_MUL - 228)) | (BigInt.one << (TOKEN_DIV - 228)) | (BigInt.one << (TOKEN_MOD - 228)))) != BigInt.zero))) {
+            la = tokenStream.LA(1)!;
+            if (!(((((la - 228)) & ~0x3f) == 0 && ((BigInt.one << (la - 228)) & ((BigInt.one << (TOKEN_MUL - 228)) | (BigInt.one << (TOKEN_DIV - 228)) | (BigInt.one << (TOKEN_MOD - 228)))) != BigInt.zero))) {
             errorHandler.recoverInline(this);
             } else {
               if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -4015,15 +4015,15 @@ class ApexParser extends Parser {
             expression(15);
             break;
           case 2:
-            _localctx = Arth2ExpressionContext(new ExpressionContext(_parentctx, _parentState));
-            pushNewRecursionContext(_localctx, _startState, RULE_expression);
+            localctx = Arth2ExpressionContext(ExpressionContext(parentctx, parentState));
+            pushNewRecursionContext(localctx, startState, RULE_expression);
             state = 972;
             if (!(precpred(context, 13))) {
               throw FailedPredicateException(this, "precpred(context, 13)");
             }
             state = 973;
-            _la = tokenStream.LA(1)!;
-            if (!(_la == TOKEN_ADD || _la == TOKEN_SUB)) {
+            la = tokenStream.LA(1)!;
+            if (!(la == TOKEN_ADD || la == TOKEN_SUB)) {
             errorHandler.recoverInline(this);
             } else {
               if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -4034,8 +4034,8 @@ class ApexParser extends Parser {
             expression(14);
             break;
           case 3:
-            _localctx = BitExpressionContext(new ExpressionContext(_parentctx, _parentState));
-            pushNewRecursionContext(_localctx, _startState, RULE_expression);
+            localctx = BitExpressionContext(ExpressionContext(parentctx, parentState));
+            pushNewRecursionContext(localctx, startState, RULE_expression);
             state = 975;
             if (!(precpred(context, 12))) {
               throw FailedPredicateException(this, "precpred(context, 12)");
@@ -4068,15 +4068,15 @@ class ApexParser extends Parser {
             expression(13);
             break;
           case 4:
-            _localctx = CmpExpressionContext(new ExpressionContext(_parentctx, _parentState));
-            pushNewRecursionContext(_localctx, _startState, RULE_expression);
+            localctx = CmpExpressionContext(ExpressionContext(parentctx, parentState));
+            pushNewRecursionContext(localctx, startState, RULE_expression);
             state = 986;
             if (!(precpred(context, 11))) {
               throw FailedPredicateException(this, "precpred(context, 11)");
             }
             state = 987;
-            _la = tokenStream.LA(1)!;
-            if (!(_la == TOKEN_GT || _la == TOKEN_LT)) {
+            la = tokenStream.LA(1)!;
+            if (!(la == TOKEN_GT || la == TOKEN_LT)) {
             errorHandler.recoverInline(this);
             } else {
               if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -4085,8 +4085,8 @@ class ApexParser extends Parser {
             }
             state = 989;
             errorHandler.sync(this);
-            _la = tokenStream.LA(1)!;
-            if (_la == TOKEN_ASSIGN) {
+            la = tokenStream.LA(1)!;
+            if (la == TOKEN_ASSIGN) {
               state = 988;
               match(TOKEN_ASSIGN);
             }
@@ -4095,15 +4095,15 @@ class ApexParser extends Parser {
             expression(12);
             break;
           case 5:
-            _localctx = EqualityExpressionContext(new ExpressionContext(_parentctx, _parentState));
-            pushNewRecursionContext(_localctx, _startState, RULE_expression);
+            localctx = EqualityExpressionContext(ExpressionContext(parentctx, parentState));
+            pushNewRecursionContext(localctx, startState, RULE_expression);
             state = 992;
             if (!(precpred(context, 9))) {
               throw FailedPredicateException(this, "precpred(context, 9)");
             }
             state = 993;
-            _la = tokenStream.LA(1)!;
-            if (!(((((_la - 217)) & ~0x3f) == 0 && ((BigInt.one << (_la - 217)) & ((BigInt.one << (TOKEN_EQUAL - 217)) | (BigInt.one << (TOKEN_TRIPLEEQUAL - 217)) | (BigInt.one << (TOKEN_NOTEQUAL - 217)) | (BigInt.one << (TOKEN_LESSANDGREATER - 217)) | (BigInt.one << (TOKEN_TRIPLENOTEQUAL - 217)))) != BigInt.zero))) {
+            la = tokenStream.LA(1)!;
+            if (!(((((la - 217)) & ~0x3f) == 0 && ((BigInt.one << (la - 217)) & ((BigInt.one << (TOKEN_EQUAL - 217)) | (BigInt.one << (TOKEN_TRIPLEEQUAL - 217)) | (BigInt.one << (TOKEN_NOTEQUAL - 217)) | (BigInt.one << (TOKEN_LESSANDGREATER - 217)) | (BigInt.one << (TOKEN_TRIPLENOTEQUAL - 217)))) != BigInt.zero))) {
             errorHandler.recoverInline(this);
             } else {
               if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -4114,8 +4114,8 @@ class ApexParser extends Parser {
             expression(10);
             break;
           case 6:
-            _localctx = BitAndExpressionContext(new ExpressionContext(_parentctx, _parentState));
-            pushNewRecursionContext(_localctx, _startState, RULE_expression);
+            localctx = BitAndExpressionContext(ExpressionContext(parentctx, parentState));
+            pushNewRecursionContext(localctx, startState, RULE_expression);
             state = 995;
             if (!(precpred(context, 8))) {
               throw FailedPredicateException(this, "precpred(context, 8)");
@@ -4126,8 +4126,8 @@ class ApexParser extends Parser {
             expression(9);
             break;
           case 7:
-            _localctx = BitNotExpressionContext(new ExpressionContext(_parentctx, _parentState));
-            pushNewRecursionContext(_localctx, _startState, RULE_expression);
+            localctx = BitNotExpressionContext(ExpressionContext(parentctx, parentState));
+            pushNewRecursionContext(localctx, startState, RULE_expression);
             state = 998;
             if (!(precpred(context, 7))) {
               throw FailedPredicateException(this, "precpred(context, 7)");
@@ -4138,8 +4138,8 @@ class ApexParser extends Parser {
             expression(8);
             break;
           case 8:
-            _localctx = BitOrExpressionContext(new ExpressionContext(_parentctx, _parentState));
-            pushNewRecursionContext(_localctx, _startState, RULE_expression);
+            localctx = BitOrExpressionContext(ExpressionContext(parentctx, parentState));
+            pushNewRecursionContext(localctx, startState, RULE_expression);
             state = 1001;
             if (!(precpred(context, 6))) {
               throw FailedPredicateException(this, "precpred(context, 6)");
@@ -4150,8 +4150,8 @@ class ApexParser extends Parser {
             expression(7);
             break;
           case 9:
-            _localctx = LogAndExpressionContext(new ExpressionContext(_parentctx, _parentState));
-            pushNewRecursionContext(_localctx, _startState, RULE_expression);
+            localctx = LogAndExpressionContext(ExpressionContext(parentctx, parentState));
+            pushNewRecursionContext(localctx, startState, RULE_expression);
             state = 1004;
             if (!(precpred(context, 5))) {
               throw FailedPredicateException(this, "precpred(context, 5)");
@@ -4162,8 +4162,8 @@ class ApexParser extends Parser {
             expression(6);
             break;
           case 10:
-            _localctx = LogOrExpressionContext(new ExpressionContext(_parentctx, _parentState));
-            pushNewRecursionContext(_localctx, _startState, RULE_expression);
+            localctx = LogOrExpressionContext(ExpressionContext(parentctx, parentState));
+            pushNewRecursionContext(localctx, startState, RULE_expression);
             state = 1007;
             if (!(precpred(context, 4))) {
               throw FailedPredicateException(this, "precpred(context, 4)");
@@ -4174,8 +4174,8 @@ class ApexParser extends Parser {
             expression(5);
             break;
           case 11:
-            _localctx = NullCoalesceExpressionContext(new ExpressionContext(_parentctx, _parentState));
-            pushNewRecursionContext(_localctx, _startState, RULE_expression);
+            localctx = NullCoalesceExpressionContext(ExpressionContext(parentctx, parentState));
+            pushNewRecursionContext(localctx, startState, RULE_expression);
             state = 1010;
             if (!(precpred(context, 3))) {
               throw FailedPredicateException(this, "precpred(context, 3)");
@@ -4186,8 +4186,8 @@ class ApexParser extends Parser {
             expression(4);
             break;
           case 12:
-            _localctx = CondExpressionContext(new ExpressionContext(_parentctx, _parentState));
-            pushNewRecursionContext(_localctx, _startState, RULE_expression);
+            localctx = CondExpressionContext(ExpressionContext(parentctx, parentState));
+            pushNewRecursionContext(localctx, startState, RULE_expression);
             state = 1013;
             if (!(precpred(context, 2))) {
               throw FailedPredicateException(this, "precpred(context, 2)");
@@ -4202,15 +4202,15 @@ class ApexParser extends Parser {
             expression(2);
             break;
           case 13:
-            _localctx = AssignExpressionContext(new ExpressionContext(_parentctx, _parentState));
-            pushNewRecursionContext(_localctx, _startState, RULE_expression);
+            localctx = AssignExpressionContext(ExpressionContext(parentctx, parentState));
+            pushNewRecursionContext(localctx, startState, RULE_expression);
             state = 1019;
             if (!(precpred(context, 1))) {
               throw FailedPredicateException(this, "precpred(context, 1)");
             }
             state = 1020;
-            _la = tokenStream.LA(1)!;
-            if (!(((((_la - 209)) & ~0x3f) == 0 && ((BigInt.one << (_la - 209)) & ((BigInt.one << (TOKEN_ASSIGN - 209)) | (BigInt.one << (TOKEN_ADD_ASSIGN - 209)) | (BigInt.one << (TOKEN_SUB_ASSIGN - 209)) | (BigInt.one << (TOKEN_MUL_ASSIGN - 209)) | (BigInt.one << (TOKEN_DIV_ASSIGN - 209)) | (BigInt.one << (TOKEN_AND_ASSIGN - 209)) | (BigInt.one << (TOKEN_OR_ASSIGN - 209)) | (BigInt.one << (TOKEN_XOR_ASSIGN - 209)) | (BigInt.one << (TOKEN_MOD_ASSIGN - 209)) | (BigInt.one << (TOKEN_LSHIFT_ASSIGN - 209)) | (BigInt.one << (TOKEN_RSHIFT_ASSIGN - 209)) | (BigInt.one << (TOKEN_URSHIFT_ASSIGN - 209)))) != BigInt.zero))) {
+            la = tokenStream.LA(1)!;
+            if (!(((((la - 209)) & ~0x3f) == 0 && ((BigInt.one << (la - 209)) & ((BigInt.one << (TOKEN_ASSIGN - 209)) | (BigInt.one << (TOKEN_ADD_ASSIGN - 209)) | (BigInt.one << (TOKEN_SUB_ASSIGN - 209)) | (BigInt.one << (TOKEN_MUL_ASSIGN - 209)) | (BigInt.one << (TOKEN_DIV_ASSIGN - 209)) | (BigInt.one << (TOKEN_AND_ASSIGN - 209)) | (BigInt.one << (TOKEN_OR_ASSIGN - 209)) | (BigInt.one << (TOKEN_XOR_ASSIGN - 209)) | (BigInt.one << (TOKEN_MOD_ASSIGN - 209)) | (BigInt.one << (TOKEN_LSHIFT_ASSIGN - 209)) | (BigInt.one << (TOKEN_RSHIFT_ASSIGN - 209)) | (BigInt.one << (TOKEN_URSHIFT_ASSIGN - 209)))) != BigInt.zero))) {
             errorHandler.recoverInline(this);
             } else {
               if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -4221,15 +4221,15 @@ class ApexParser extends Parser {
             expression(1);
             break;
           case 14:
-            _localctx = DotExpressionContext(new ExpressionContext(_parentctx, _parentState));
-            pushNewRecursionContext(_localctx, _startState, RULE_expression);
+            localctx = DotExpressionContext(ExpressionContext(parentctx, parentState));
+            pushNewRecursionContext(localctx, startState, RULE_expression);
             state = 1022;
             if (!(precpred(context, 23))) {
               throw FailedPredicateException(this, "precpred(context, 23)");
             }
             state = 1023;
-            _la = tokenStream.LA(1)!;
-            if (!(_la == TOKEN_DOT || _la == TOKEN_QUESTIONDOT)) {
+            la = tokenStream.LA(1)!;
+            if (!(la == TOKEN_DOT || la == TOKEN_QUESTIONDOT)) {
             errorHandler.recoverInline(this);
             } else {
               if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -4250,8 +4250,8 @@ class ApexParser extends Parser {
             }
             break;
           case 15:
-            _localctx = ArrayExpressionContext(new ExpressionContext(_parentctx, _parentState));
-            pushNewRecursionContext(_localctx, _startState, RULE_expression);
+            localctx = ArrayExpressionContext(ExpressionContext(parentctx, parentState));
+            pushNewRecursionContext(localctx, startState, RULE_expression);
             state = 1028;
             if (!(precpred(context, 22))) {
               throw FailedPredicateException(this, "precpred(context, 22)");
@@ -4264,15 +4264,15 @@ class ApexParser extends Parser {
             match(TOKEN_RBRACK);
             break;
           case 16:
-            _localctx = PostOpExpressionContext(new ExpressionContext(_parentctx, _parentState));
-            pushNewRecursionContext(_localctx, _startState, RULE_expression);
+            localctx = PostOpExpressionContext(ExpressionContext(parentctx, parentState));
+            pushNewRecursionContext(localctx, startState, RULE_expression);
             state = 1033;
             if (!(precpred(context, 17))) {
               throw FailedPredicateException(this, "precpred(context, 17)");
             }
             state = 1034;
-            _la = tokenStream.LA(1)!;
-            if (!(_la == TOKEN_INC || _la == TOKEN_DEC)) {
+            la = tokenStream.LA(1)!;
+            if (!(la == TOKEN_INC || la == TOKEN_DEC)) {
             errorHandler.recoverInline(this);
             } else {
               if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -4281,8 +4281,8 @@ class ApexParser extends Parser {
             }
             break;
           case 17:
-            _localctx = InstanceOfExpressionContext(new ExpressionContext(_parentctx, _parentState));
-            pushNewRecursionContext(_localctx, _startState, RULE_expression);
+            localctx = InstanceOfExpressionContext(ExpressionContext(parentctx, parentState));
+            pushNewRecursionContext(localctx, startState, RULE_expression);
             state = 1035;
             if (!(precpred(context, 10))) {
               throw FailedPredicateException(this, "precpred(context, 10)");
@@ -4296,46 +4296,46 @@ class ApexParser extends Parser {
         }
         state = 1042;
         errorHandler.sync(this);
-        _alt = interpreter!.adaptivePredict(tokenStream, 94, context);
+        alt = interpreter!.adaptivePredict(tokenStream, 94, context);
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
-      unrollRecursionContexts(_parentctx);
+      unrollRecursionContexts(parentctx);
     }
-    return _localctx;
+    return localctx;
   }
 
   PrimaryContext primary() {
-    dynamic _localctx = PrimaryContext(context, state);
-    enterRule(_localctx, 150, RULE_primary);
+    dynamic localctx = PrimaryContext(context, state);
+    enterRule(localctx, 150, RULE_primary);
     try {
       state = 1056;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 95, context)) {
       case 1:
-        _localctx = ThisPrimaryContext(_localctx);
-        enterOuterAlt(_localctx, 1);
+        localctx = ThisPrimaryContext(localctx);
+        enterOuterAlt(localctx, 1);
         state = 1043;
         match(TOKEN_THIS);
         break;
       case 2:
-        _localctx = SuperPrimaryContext(_localctx);
-        enterOuterAlt(_localctx, 2);
+        localctx = SuperPrimaryContext(localctx);
+        enterOuterAlt(localctx, 2);
         state = 1044;
         match(TOKEN_SUPER);
         break;
       case 3:
-        _localctx = LiteralPrimaryContext(_localctx);
-        enterOuterAlt(_localctx, 3);
+        localctx = LiteralPrimaryContext(localctx);
+        enterOuterAlt(localctx, 3);
         state = 1045;
         literal();
         break;
       case 4:
-        _localctx = TypeRefPrimaryContext(_localctx);
-        enterOuterAlt(_localctx, 4);
+        localctx = TypeRefPrimaryContext(localctx);
+        enterOuterAlt(localctx, 4);
         state = 1046;
         typeRef();
         state = 1047;
@@ -4344,8 +4344,8 @@ class ApexParser extends Parser {
         match(TOKEN_CLASS);
         break;
       case 5:
-        _localctx = VoidPrimaryContext(_localctx);
-        enterOuterAlt(_localctx, 5);
+        localctx = VoidPrimaryContext(localctx);
+        enterOuterAlt(localctx, 5);
         state = 1050;
         match(TOKEN_VOID);
         state = 1051;
@@ -4354,38 +4354,38 @@ class ApexParser extends Parser {
         match(TOKEN_CLASS);
         break;
       case 6:
-        _localctx = IdPrimaryContext(_localctx);
-        enterOuterAlt(_localctx, 6);
+        localctx = IdPrimaryContext(localctx);
+        enterOuterAlt(localctx, 6);
         state = 1053;
         id();
         break;
       case 7:
-        _localctx = SoqlPrimaryContext(_localctx);
-        enterOuterAlt(_localctx, 7);
+        localctx = SoqlPrimaryContext(localctx);
+        enterOuterAlt(localctx, 7);
         state = 1054;
         soqlLiteral();
         break;
       case 8:
-        _localctx = SoslPrimaryContext(_localctx);
-        enterOuterAlt(_localctx, 8);
+        localctx = SoslPrimaryContext(localctx);
+        enterOuterAlt(localctx, 8);
         state = 1055;
         soslLiteral();
         break;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   MethodCallContext methodCall() {
-    dynamic _localctx = MethodCallContext(context, state);
-    enterRule(_localctx, 152, RULE_methodCall);
-    int _la;
+    dynamic localctx = MethodCallContext(context, state);
+    enterRule(localctx, 152, RULE_methodCall);
+    int la;
     try {
       state = 1077;
       errorHandler.sync(this);
@@ -4538,15 +4538,15 @@ class ApexParser extends Parser {
       case TOKEN_RETURNING:
       case TOKEN_LISTVIEW:
       case TOKEN_Identifier:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 1058;
         id();
         state = 1059;
         match(TOKEN_LPAREN);
         state = 1061;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_NEW) | (BigInt.one << TOKEN_NULL) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_SUPER) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_THIS) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((_la - 64)) & ~0x3f) == 0 && ((BigInt.one << (_la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((_la - 128)) & ~0x3f) == 0 && ((BigInt.one << (_la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((_la - 192)) & ~0x3f) == 0 && ((BigInt.one << (_la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_FindLiteral - 192)) | (BigInt.one << (TOKEN_IntegerLiteral - 192)) | (BigInt.one << (TOKEN_LongLiteral - 192)) | (BigInt.one << (TOKEN_NumberLiteral - 192)) | (BigInt.one << (TOKEN_BooleanLiteral - 192)) | (BigInt.one << (TOKEN_StringLiteral - 192)) | (BigInt.one << (TOKEN_LPAREN - 192)) | (BigInt.one << (TOKEN_LBRACK - 192)) | (BigInt.one << (TOKEN_BANG - 192)) | (BigInt.one << (TOKEN_TILDE - 192)) | (BigInt.one << (TOKEN_INC - 192)) | (BigInt.one << (TOKEN_DEC - 192)) | (BigInt.one << (TOKEN_ADD - 192)) | (BigInt.one << (TOKEN_SUB - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
+        la = tokenStream.LA(1)!;
+        if ((((la) & ~0x3f) == 0 && ((BigInt.one << la) & ((BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_NEW) | (BigInt.one << TOKEN_NULL) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_SUPER) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_THIS) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((la - 64)) & ~0x3f) == 0 && ((BigInt.one << (la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((la - 128)) & ~0x3f) == 0 && ((BigInt.one << (la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((la - 192)) & ~0x3f) == 0 && ((BigInt.one << (la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_FindLiteral - 192)) | (BigInt.one << (TOKEN_IntegerLiteral - 192)) | (BigInt.one << (TOKEN_LongLiteral - 192)) | (BigInt.one << (TOKEN_NumberLiteral - 192)) | (BigInt.one << (TOKEN_BooleanLiteral - 192)) | (BigInt.one << (TOKEN_StringLiteral - 192)) | (BigInt.one << (TOKEN_LPAREN - 192)) | (BigInt.one << (TOKEN_LBRACK - 192)) | (BigInt.one << (TOKEN_BANG - 192)) | (BigInt.one << (TOKEN_TILDE - 192)) | (BigInt.one << (TOKEN_INC - 192)) | (BigInt.one << (TOKEN_DEC - 192)) | (BigInt.one << (TOKEN_ADD - 192)) | (BigInt.one << (TOKEN_SUB - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
           state = 1060;
           expressionList();
         }
@@ -4555,15 +4555,15 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case TOKEN_THIS:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 1065;
         match(TOKEN_THIS);
         state = 1066;
         match(TOKEN_LPAREN);
         state = 1068;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_NEW) | (BigInt.one << TOKEN_NULL) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_SUPER) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_THIS) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((_la - 64)) & ~0x3f) == 0 && ((BigInt.one << (_la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((_la - 128)) & ~0x3f) == 0 && ((BigInt.one << (_la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((_la - 192)) & ~0x3f) == 0 && ((BigInt.one << (_la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_FindLiteral - 192)) | (BigInt.one << (TOKEN_IntegerLiteral - 192)) | (BigInt.one << (TOKEN_LongLiteral - 192)) | (BigInt.one << (TOKEN_NumberLiteral - 192)) | (BigInt.one << (TOKEN_BooleanLiteral - 192)) | (BigInt.one << (TOKEN_StringLiteral - 192)) | (BigInt.one << (TOKEN_LPAREN - 192)) | (BigInt.one << (TOKEN_LBRACK - 192)) | (BigInt.one << (TOKEN_BANG - 192)) | (BigInt.one << (TOKEN_TILDE - 192)) | (BigInt.one << (TOKEN_INC - 192)) | (BigInt.one << (TOKEN_DEC - 192)) | (BigInt.one << (TOKEN_ADD - 192)) | (BigInt.one << (TOKEN_SUB - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
+        la = tokenStream.LA(1)!;
+        if ((((la) & ~0x3f) == 0 && ((BigInt.one << la) & ((BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_NEW) | (BigInt.one << TOKEN_NULL) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_SUPER) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_THIS) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((la - 64)) & ~0x3f) == 0 && ((BigInt.one << (la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((la - 128)) & ~0x3f) == 0 && ((BigInt.one << (la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((la - 192)) & ~0x3f) == 0 && ((BigInt.one << (la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_FindLiteral - 192)) | (BigInt.one << (TOKEN_IntegerLiteral - 192)) | (BigInt.one << (TOKEN_LongLiteral - 192)) | (BigInt.one << (TOKEN_NumberLiteral - 192)) | (BigInt.one << (TOKEN_BooleanLiteral - 192)) | (BigInt.one << (TOKEN_StringLiteral - 192)) | (BigInt.one << (TOKEN_LPAREN - 192)) | (BigInt.one << (TOKEN_LBRACK - 192)) | (BigInt.one << (TOKEN_BANG - 192)) | (BigInt.one << (TOKEN_TILDE - 192)) | (BigInt.one << (TOKEN_INC - 192)) | (BigInt.one << (TOKEN_DEC - 192)) | (BigInt.one << (TOKEN_ADD - 192)) | (BigInt.one << (TOKEN_SUB - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
           state = 1067;
           expressionList();
         }
@@ -4572,15 +4572,15 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case TOKEN_SUPER:
-        enterOuterAlt(_localctx, 3);
+        enterOuterAlt(localctx, 3);
         state = 1071;
         match(TOKEN_SUPER);
         state = 1072;
         match(TOKEN_LPAREN);
         state = 1074;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_NEW) | (BigInt.one << TOKEN_NULL) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_SUPER) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_THIS) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((_la - 64)) & ~0x3f) == 0 && ((BigInt.one << (_la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((_la - 128)) & ~0x3f) == 0 && ((BigInt.one << (_la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((_la - 192)) & ~0x3f) == 0 && ((BigInt.one << (_la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_FindLiteral - 192)) | (BigInt.one << (TOKEN_IntegerLiteral - 192)) | (BigInt.one << (TOKEN_LongLiteral - 192)) | (BigInt.one << (TOKEN_NumberLiteral - 192)) | (BigInt.one << (TOKEN_BooleanLiteral - 192)) | (BigInt.one << (TOKEN_StringLiteral - 192)) | (BigInt.one << (TOKEN_LPAREN - 192)) | (BigInt.one << (TOKEN_LBRACK - 192)) | (BigInt.one << (TOKEN_BANG - 192)) | (BigInt.one << (TOKEN_TILDE - 192)) | (BigInt.one << (TOKEN_INC - 192)) | (BigInt.one << (TOKEN_DEC - 192)) | (BigInt.one << (TOKEN_ADD - 192)) | (BigInt.one << (TOKEN_SUB - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
+        la = tokenStream.LA(1)!;
+        if ((((la) & ~0x3f) == 0 && ((BigInt.one << la) & ((BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_NEW) | (BigInt.one << TOKEN_NULL) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_SUPER) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_THIS) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((la - 64)) & ~0x3f) == 0 && ((BigInt.one << (la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((la - 128)) & ~0x3f) == 0 && ((BigInt.one << (la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((la - 192)) & ~0x3f) == 0 && ((BigInt.one << (la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_FindLiteral - 192)) | (BigInt.one << (TOKEN_IntegerLiteral - 192)) | (BigInt.one << (TOKEN_LongLiteral - 192)) | (BigInt.one << (TOKEN_NumberLiteral - 192)) | (BigInt.one << (TOKEN_BooleanLiteral - 192)) | (BigInt.one << (TOKEN_StringLiteral - 192)) | (BigInt.one << (TOKEN_LPAREN - 192)) | (BigInt.one << (TOKEN_LBRACK - 192)) | (BigInt.one << (TOKEN_BANG - 192)) | (BigInt.one << (TOKEN_TILDE - 192)) | (BigInt.one << (TOKEN_INC - 192)) | (BigInt.one << (TOKEN_DEC - 192)) | (BigInt.one << (TOKEN_ADD - 192)) | (BigInt.one << (TOKEN_SUB - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
           state = 1073;
           expressionList();
         }
@@ -4592,29 +4592,29 @@ class ApexParser extends Parser {
         throw NoViableAltException(this);
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   DotMethodCallContext dotMethodCall() {
-    dynamic _localctx = DotMethodCallContext(context, state);
-    enterRule(_localctx, 154, RULE_dotMethodCall);
-    int _la;
+    dynamic localctx = DotMethodCallContext(context, state);
+    enterRule(localctx, 154, RULE_dotMethodCall);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1079;
       anyId();
       state = 1080;
       match(TOKEN_LPAREN);
       state = 1082;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_NEW) | (BigInt.one << TOKEN_NULL) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_SUPER) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_THIS) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((_la - 64)) & ~0x3f) == 0 && ((BigInt.one << (_la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((_la - 128)) & ~0x3f) == 0 && ((BigInt.one << (_la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((_la - 192)) & ~0x3f) == 0 && ((BigInt.one << (_la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_FindLiteral - 192)) | (BigInt.one << (TOKEN_IntegerLiteral - 192)) | (BigInt.one << (TOKEN_LongLiteral - 192)) | (BigInt.one << (TOKEN_NumberLiteral - 192)) | (BigInt.one << (TOKEN_BooleanLiteral - 192)) | (BigInt.one << (TOKEN_StringLiteral - 192)) | (BigInt.one << (TOKEN_LPAREN - 192)) | (BigInt.one << (TOKEN_LBRACK - 192)) | (BigInt.one << (TOKEN_BANG - 192)) | (BigInt.one << (TOKEN_TILDE - 192)) | (BigInt.one << (TOKEN_INC - 192)) | (BigInt.one << (TOKEN_DEC - 192)) | (BigInt.one << (TOKEN_ADD - 192)) | (BigInt.one << (TOKEN_SUB - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
+      la = tokenStream.LA(1)!;
+      if ((((la) & ~0x3f) == 0 && ((BigInt.one << la) & ((BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_NEW) | (BigInt.one << TOKEN_NULL) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_SUPER) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_THIS) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((la - 64)) & ~0x3f) == 0 && ((BigInt.one << (la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((la - 128)) & ~0x3f) == 0 && ((BigInt.one << (la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((la - 192)) & ~0x3f) == 0 && ((BigInt.one << (la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_FindLiteral - 192)) | (BigInt.one << (TOKEN_IntegerLiteral - 192)) | (BigInt.one << (TOKEN_LongLiteral - 192)) | (BigInt.one << (TOKEN_NumberLiteral - 192)) | (BigInt.one << (TOKEN_BooleanLiteral - 192)) | (BigInt.one << (TOKEN_StringLiteral - 192)) | (BigInt.one << (TOKEN_LPAREN - 192)) | (BigInt.one << (TOKEN_LBRACK - 192)) | (BigInt.one << (TOKEN_BANG - 192)) | (BigInt.one << (TOKEN_TILDE - 192)) | (BigInt.one << (TOKEN_INC - 192)) | (BigInt.one << (TOKEN_DEC - 192)) | (BigInt.one << (TOKEN_ADD - 192)) | (BigInt.one << (TOKEN_SUB - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
         state = 1081;
         expressionList();
       }
@@ -4622,20 +4622,20 @@ class ApexParser extends Parser {
       state = 1084;
       match(TOKEN_RPAREN);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   CreatorContext creator() {
-    dynamic _localctx = CreatorContext(context, state);
-    enterRule(_localctx, 156, RULE_creator);
+    dynamic localctx = CreatorContext(context, state);
+    enterRule(localctx, 156, RULE_creator);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1086;
       createdName();
       state = 1092;
@@ -4663,57 +4663,57 @@ class ApexParser extends Parser {
         break;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   CreatedNameContext createdName() {
-    dynamic _localctx = CreatedNameContext(context, state);
-    enterRule(_localctx, 158, RULE_createdName);
-    int _la;
+    dynamic localctx = CreatedNameContext(context, state);
+    enterRule(localctx, 158, RULE_createdName);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1094;
       idCreatedNamePair();
       state = 1099;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      while (_la == TOKEN_DOT) {
+      la = tokenStream.LA(1)!;
+      while (la == TOKEN_DOT) {
         state = 1095;
         match(TOKEN_DOT);
         state = 1096;
         idCreatedNamePair();
         state = 1101;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
+        la = tokenStream.LA(1)!;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   IdCreatedNamePairContext idCreatedNamePair() {
-    dynamic _localctx = IdCreatedNamePairContext(context, state);
-    enterRule(_localctx, 160, RULE_idCreatedNamePair);
-    int _la;
+    dynamic localctx = IdCreatedNamePairContext(context, state);
+    enterRule(localctx, 160, RULE_idCreatedNamePair);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1102;
       anyId();
       state = 1107;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_LT) {
+      la = tokenStream.LA(1)!;
+      if (la == TOKEN_LT) {
         state = 1103;
         match(TOKEN_LT);
         state = 1104;
@@ -4723,60 +4723,60 @@ class ApexParser extends Parser {
       }
 
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   NoRestContext noRest() {
-    dynamic _localctx = NoRestContext(context, state);
-    enterRule(_localctx, 162, RULE_noRest);
+    dynamic localctx = NoRestContext(context, state);
+    enterRule(localctx, 162, RULE_noRest);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1109;
       match(TOKEN_LBRACE);
       state = 1110;
       match(TOKEN_RBRACE);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   ClassCreatorRestContext classCreatorRest() {
-    dynamic _localctx = ClassCreatorRestContext(context, state);
-    enterRule(_localctx, 164, RULE_classCreatorRest);
+    dynamic localctx = ClassCreatorRestContext(context, state);
+    enterRule(localctx, 164, RULE_classCreatorRest);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1112;
       arguments();
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   ArrayCreatorRestContext arrayCreatorRest() {
-    dynamic _localctx = ArrayCreatorRestContext(context, state);
-    enterRule(_localctx, 166, RULE_arrayCreatorRest);
+    dynamic localctx = ArrayCreatorRestContext(context, state);
+    enterRule(localctx, 166, RULE_arrayCreatorRest);
     try {
       state = 1123;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 105, context)) {
       case 1:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 1114;
         match(TOKEN_LBRACK);
         state = 1115;
@@ -4785,7 +4785,7 @@ class ApexParser extends Parser {
         match(TOKEN_RBRACK);
         break;
       case 2:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 1118;
         match(TOKEN_LBRACK);
         state = 1119;
@@ -4801,54 +4801,54 @@ class ApexParser extends Parser {
         break;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   MapCreatorRestContext mapCreatorRest() {
-    dynamic _localctx = MapCreatorRestContext(context, state);
-    enterRule(_localctx, 168, RULE_mapCreatorRest);
-    int _la;
+    dynamic localctx = MapCreatorRestContext(context, state);
+    enterRule(localctx, 168, RULE_mapCreatorRest);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1125;
       match(TOKEN_LBRACE);
       state = 1126;
       mapCreatorRestPair();
       state = 1131;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      while (_la == TOKEN_COMMA) {
+      la = tokenStream.LA(1)!;
+      while (la == TOKEN_COMMA) {
         state = 1127;
         match(TOKEN_COMMA);
         state = 1128;
         mapCreatorRestPair();
         state = 1133;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
+        la = tokenStream.LA(1)!;
       }
       state = 1134;
       match(TOKEN_RBRACE);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   MapCreatorRestPairContext mapCreatorRestPair() {
-    dynamic _localctx = MapCreatorRestPairContext(context, state);
-    enterRule(_localctx, 170, RULE_mapCreatorRestPair);
+    dynamic localctx = MapCreatorRestPairContext(context, state);
+    enterRule(localctx, 170, RULE_mapCreatorRestPair);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1136;
       expression(0);
       state = 1137;
@@ -4856,29 +4856,29 @@ class ApexParser extends Parser {
       state = 1138;
       expression(0);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   SetCreatorRestContext setCreatorRest() {
-    dynamic _localctx = SetCreatorRestContext(context, state);
-    enterRule(_localctx, 172, RULE_setCreatorRest);
-    int _la;
+    dynamic localctx = SetCreatorRestContext(context, state);
+    enterRule(localctx, 172, RULE_setCreatorRest);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1140;
       match(TOKEN_LBRACE);
       state = 1141;
       expression(0);
       state = 1146;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      while (_la == TOKEN_COMMA) {
+      la = tokenStream.LA(1)!;
+      while (la == TOKEN_COMMA) {
         state = 1142;
         match(TOKEN_COMMA);
 
@@ -4886,32 +4886,32 @@ class ApexParser extends Parser {
         expression(0);
         state = 1148;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
+        la = tokenStream.LA(1)!;
       }
       state = 1149;
       match(TOKEN_RBRACE);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   ArgumentsContext arguments() {
-    dynamic _localctx = ArgumentsContext(context, state);
-    enterRule(_localctx, 174, RULE_arguments);
-    int _la;
+    dynamic localctx = ArgumentsContext(context, state);
+    enterRule(localctx, 174, RULE_arguments);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1151;
       match(TOKEN_LPAREN);
       state = 1153;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if ((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_NEW) | (BigInt.one << TOKEN_NULL) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_SUPER) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_THIS) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((_la - 64)) & ~0x3f) == 0 && ((BigInt.one << (_la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((_la - 128)) & ~0x3f) == 0 && ((BigInt.one << (_la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((_la - 192)) & ~0x3f) == 0 && ((BigInt.one << (_la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_FindLiteral - 192)) | (BigInt.one << (TOKEN_IntegerLiteral - 192)) | (BigInt.one << (TOKEN_LongLiteral - 192)) | (BigInt.one << (TOKEN_NumberLiteral - 192)) | (BigInt.one << (TOKEN_BooleanLiteral - 192)) | (BigInt.one << (TOKEN_StringLiteral - 192)) | (BigInt.one << (TOKEN_LPAREN - 192)) | (BigInt.one << (TOKEN_LBRACK - 192)) | (BigInt.one << (TOKEN_BANG - 192)) | (BigInt.one << (TOKEN_TILDE - 192)) | (BigInt.one << (TOKEN_INC - 192)) | (BigInt.one << (TOKEN_DEC - 192)) | (BigInt.one << (TOKEN_ADD - 192)) | (BigInt.one << (TOKEN_SUB - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
+      la = tokenStream.LA(1)!;
+      if ((((la) & ~0x3f) == 0 && ((BigInt.one << la) & ((BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_NEW) | (BigInt.one << TOKEN_NULL) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_SUPER) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_THIS) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((la - 64)) & ~0x3f) == 0 && ((BigInt.one << (la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((la - 128)) & ~0x3f) == 0 && ((BigInt.one << (la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || ((((la - 192)) & ~0x3f) == 0 && ((BigInt.one << (la - 192)) & ((BigInt.one << (TOKEN_LISTVIEW - 192)) | (BigInt.one << (TOKEN_FindLiteral - 192)) | (BigInt.one << (TOKEN_IntegerLiteral - 192)) | (BigInt.one << (TOKEN_LongLiteral - 192)) | (BigInt.one << (TOKEN_NumberLiteral - 192)) | (BigInt.one << (TOKEN_BooleanLiteral - 192)) | (BigInt.one << (TOKEN_StringLiteral - 192)) | (BigInt.one << (TOKEN_LPAREN - 192)) | (BigInt.one << (TOKEN_LBRACK - 192)) | (BigInt.one << (TOKEN_BANG - 192)) | (BigInt.one << (TOKEN_TILDE - 192)) | (BigInt.one << (TOKEN_INC - 192)) | (BigInt.one << (TOKEN_DEC - 192)) | (BigInt.one << (TOKEN_ADD - 192)) | (BigInt.one << (TOKEN_SUB - 192)) | (BigInt.one << (TOKEN_Identifier - 192)))) != BigInt.zero)) {
         state = 1152;
         expressionList();
       }
@@ -4919,20 +4919,20 @@ class ApexParser extends Parser {
       state = 1155;
       match(TOKEN_RPAREN);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   SoqlLiteralContext soqlLiteral() {
-    dynamic _localctx = SoqlLiteralContext(context, state);
-    enterRule(_localctx, 176, RULE_soqlLiteral);
+    dynamic localctx = SoqlLiteralContext(context, state);
+    enterRule(localctx, 176, RULE_soqlLiteral);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1157;
       match(TOKEN_LBRACK);
       state = 1158;
@@ -4940,21 +4940,21 @@ class ApexParser extends Parser {
       state = 1159;
       match(TOKEN_RBRACK);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   QueryContext query() {
-    dynamic _localctx = QueryContext(context, state);
-    enterRule(_localctx, 178, RULE_query);
-    int _la;
+    dynamic localctx = QueryContext(context, state);
+    enterRule(localctx, 178, RULE_query);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1161;
       match(TOKEN_SELECT);
       state = 1162;
@@ -4965,64 +4965,64 @@ class ApexParser extends Parser {
       fromNameList();
       state = 1166;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_USING) {
+      la = tokenStream.LA(1)!;
+      if (la == TOKEN_USING) {
         state = 1165;
         usingScope();
       }
 
       state = 1169;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_WHERE) {
+      la = tokenStream.LA(1)!;
+      if (la == TOKEN_WHERE) {
         state = 1168;
         whereClause();
       }
 
       state = 1172;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_WITH) {
+      la = tokenStream.LA(1)!;
+      if (la == TOKEN_WITH) {
         state = 1171;
         withClause();
       }
 
       state = 1175;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_GROUP) {
+      la = tokenStream.LA(1)!;
+      if (la == TOKEN_GROUP) {
         state = 1174;
         groupByClause();
       }
 
       state = 1178;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_ORDER) {
+      la = tokenStream.LA(1)!;
+      if (la == TOKEN_ORDER) {
         state = 1177;
         orderByClause();
       }
 
       state = 1181;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_LIMIT) {
+      la = tokenStream.LA(1)!;
+      if (la == TOKEN_LIMIT) {
         state = 1180;
         limitClause();
       }
 
       state = 1184;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_OFFSET) {
+      la = tokenStream.LA(1)!;
+      if (la == TOKEN_OFFSET) {
         state = 1183;
         offsetClause();
       }
 
       state = 1187;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_ALL) {
+      la = tokenStream.LA(1)!;
+      if (la == TOKEN_ALL) {
         state = 1186;
         allRowsClause();
       }
@@ -5031,8 +5031,8 @@ class ApexParser extends Parser {
       forClauses();
       state = 1192;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_UPDATE) {
+      la = tokenStream.LA(1)!;
+      if (la == TOKEN_UPDATE) {
         state = 1190;
         match(TOKEN_UPDATE);
         state = 1191;
@@ -5040,21 +5040,21 @@ class ApexParser extends Parser {
       }
 
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   SubQueryContext subQuery() {
-    dynamic _localctx = SubQueryContext(context, state);
-    enterRule(_localctx, 180, RULE_subQuery);
-    int _la;
+    dynamic localctx = SubQueryContext(context, state);
+    enterRule(localctx, 180, RULE_subQuery);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1194;
       match(TOKEN_SELECT);
       state = 1195;
@@ -5065,24 +5065,24 @@ class ApexParser extends Parser {
       fromNameList();
       state = 1199;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_WHERE) {
+      la = tokenStream.LA(1)!;
+      if (la == TOKEN_WHERE) {
         state = 1198;
         whereClause();
       }
 
       state = 1202;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_ORDER) {
+      la = tokenStream.LA(1)!;
+      if (la == TOKEN_ORDER) {
         state = 1201;
         orderByClause();
       }
 
       state = 1205;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_LIMIT) {
+      la = tokenStream.LA(1)!;
+      if (la == TOKEN_LIMIT) {
         state = 1204;
         limitClause();
       }
@@ -5091,8 +5091,8 @@ class ApexParser extends Parser {
       forClauses();
       state = 1210;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_UPDATE) {
+      la = tokenStream.LA(1)!;
+      if (la == TOKEN_UPDATE) {
         state = 1208;
         match(TOKEN_UPDATE);
         state = 1209;
@@ -5100,54 +5100,54 @@ class ApexParser extends Parser {
       }
 
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   SelectListContext selectList() {
-    dynamic _localctx = SelectListContext(context, state);
-    enterRule(_localctx, 182, RULE_selectList);
-    int _la;
+    dynamic localctx = SelectListContext(context, state);
+    enterRule(localctx, 182, RULE_selectList);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1212;
       selectEntry();
       state = 1217;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      while (_la == TOKEN_COMMA) {
+      la = tokenStream.LA(1)!;
+      while (la == TOKEN_COMMA) {
         state = 1213;
         match(TOKEN_COMMA);
         state = 1214;
         selectEntry();
         state = 1219;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
+        la = tokenStream.LA(1)!;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   SelectEntryContext selectEntry() {
-    dynamic _localctx = SelectEntryContext(context, state);
-    enterRule(_localctx, 184, RULE_selectEntry);
+    dynamic localctx = SelectEntryContext(context, state);
+    enterRule(localctx, 184, RULE_selectEntry);
     try {
       state = 1235;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 126, context)) {
       case 1:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 1220;
         fieldName();
         state = 1222;
@@ -5160,7 +5160,7 @@ class ApexParser extends Parser {
         }
         break;
       case 2:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 1224;
         soqlFunction();
         state = 1226;
@@ -5173,7 +5173,7 @@ class ApexParser extends Parser {
         }
         break;
       case 3:
-        enterOuterAlt(_localctx, 3);
+        enterOuterAlt(localctx, 3);
         state = 1228;
         match(TOKEN_LPAREN);
         state = 1229;
@@ -5190,57 +5190,57 @@ class ApexParser extends Parser {
         }
         break;
       case 4:
-        enterOuterAlt(_localctx, 4);
+        enterOuterAlt(localctx, 4);
         state = 1234;
         typeOf();
         break;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   FieldNameContext fieldName() {
-    dynamic _localctx = FieldNameContext(context, state);
-    enterRule(_localctx, 186, RULE_fieldName);
-    int _la;
+    dynamic localctx = FieldNameContext(context, state);
+    enterRule(localctx, 186, RULE_fieldName);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1237;
       soqlId();
       state = 1242;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      while (_la == TOKEN_DOT) {
+      la = tokenStream.LA(1)!;
+      while (la == TOKEN_DOT) {
         state = 1238;
         match(TOKEN_DOT);
         state = 1239;
         soqlId();
         state = 1244;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
+        la = tokenStream.LA(1)!;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   FromNameListContext fromNameList() {
-    dynamic _localctx = FromNameListContext(context, state);
-    enterRule(_localctx, 188, RULE_fromNameList);
-    int _la;
+    dynamic localctx = FromNameListContext(context, state);
+    enterRule(localctx, 188, RULE_fromNameList);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1245;
       fieldName();
       state = 1247;
@@ -5253,8 +5253,8 @@ class ApexParser extends Parser {
       }
       state = 1256;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      while (_la == TOKEN_COMMA) {
+      la = tokenStream.LA(1)!;
+      while (la == TOKEN_COMMA) {
         state = 1249;
         match(TOKEN_COMMA);
         state = 1250;
@@ -5269,57 +5269,57 @@ class ApexParser extends Parser {
         }
         state = 1258;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
+        la = tokenStream.LA(1)!;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   SubFieldListContext subFieldList() {
-    dynamic _localctx = SubFieldListContext(context, state);
-    enterRule(_localctx, 190, RULE_subFieldList);
-    int _la;
+    dynamic localctx = SubFieldListContext(context, state);
+    enterRule(localctx, 190, RULE_subFieldList);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1259;
       subFieldEntry();
       state = 1264;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      while (_la == TOKEN_COMMA) {
+      la = tokenStream.LA(1)!;
+      while (la == TOKEN_COMMA) {
         state = 1260;
         match(TOKEN_COMMA);
         state = 1261;
         subFieldEntry();
         state = 1266;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
+        la = tokenStream.LA(1)!;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   SubFieldEntryContext subFieldEntry() {
-    dynamic _localctx = SubFieldEntryContext(context, state);
-    enterRule(_localctx, 192, RULE_subFieldEntry);
+    dynamic localctx = SubFieldEntryContext(context, state);
+    enterRule(localctx, 192, RULE_subFieldEntry);
     try {
       state = 1282;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 135, context)) {
       case 1:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 1267;
         fieldName();
         state = 1269;
@@ -5332,7 +5332,7 @@ class ApexParser extends Parser {
         }
         break;
       case 2:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 1271;
         soqlFunction();
         state = 1273;
@@ -5345,7 +5345,7 @@ class ApexParser extends Parser {
         }
         break;
       case 3:
-        enterOuterAlt(_localctx, 3);
+        enterOuterAlt(localctx, 3);
         state = 1275;
         match(TOKEN_LPAREN);
         state = 1276;
@@ -5362,30 +5362,30 @@ class ApexParser extends Parser {
         }
         break;
       case 4:
-        enterOuterAlt(_localctx, 4);
+        enterOuterAlt(localctx, 4);
         state = 1281;
         typeOf();
         break;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   SoqlFieldsParameterContext soqlFieldsParameter() {
-    dynamic _localctx = SoqlFieldsParameterContext(context, state);
-    enterRule(_localctx, 194, RULE_soqlFieldsParameter);
-    int _la;
+    dynamic localctx = SoqlFieldsParameterContext(context, state);
+    enterRule(localctx, 194, RULE_soqlFieldsParameter);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1284;
-      _la = tokenStream.LA(1)!;
-      if (!(((((_la - 90)) & ~0x3f) == 0 && ((BigInt.one << (_la - 90)) & ((BigInt.one << (TOKEN_ALL - 90)) | (BigInt.one << (TOKEN_CUSTOM - 90)) | (BigInt.one << (TOKEN_STANDARD - 90)))) != BigInt.zero))) {
+      la = tokenStream.LA(1)!;
+      if (!(((((la - 90)) & ~0x3f) == 0 && ((BigInt.one << (la - 90)) & ((BigInt.one << (TOKEN_ALL - 90)) | (BigInt.one << (TOKEN_CUSTOM - 90)) | (BigInt.one << (TOKEN_STANDARD - 90)))) != BigInt.zero))) {
       errorHandler.recoverInline(this);
       } else {
         if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -5393,24 +5393,24 @@ class ApexParser extends Parser {
         consume();
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   SoqlFunctionContext soqlFunction() {
-    dynamic _localctx = SoqlFunctionContext(context, state);
-    enterRule(_localctx, 196, RULE_soqlFunction);
+    dynamic localctx = SoqlFunctionContext(context, state);
+    enterRule(localctx, 196, RULE_soqlFunction);
     try {
       state = 1421;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 137, context)) {
       case 1:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 1286;
         match(TOKEN_AVG);
         state = 1287;
@@ -5421,7 +5421,7 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case 2:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 1291;
         match(TOKEN_COUNT);
         state = 1292;
@@ -5430,7 +5430,7 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case 3:
-        enterOuterAlt(_localctx, 3);
+        enterOuterAlt(localctx, 3);
         state = 1294;
         match(TOKEN_COUNT);
         state = 1295;
@@ -5441,7 +5441,7 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case 4:
-        enterOuterAlt(_localctx, 4);
+        enterOuterAlt(localctx, 4);
         state = 1299;
         match(TOKEN_COUNT_DISTINCT);
         state = 1300;
@@ -5452,7 +5452,7 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case 5:
-        enterOuterAlt(_localctx, 5);
+        enterOuterAlt(localctx, 5);
         state = 1304;
         match(TOKEN_MIN);
         state = 1305;
@@ -5463,7 +5463,7 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case 6:
-        enterOuterAlt(_localctx, 6);
+        enterOuterAlt(localctx, 6);
         state = 1309;
         match(TOKEN_MAX);
         state = 1310;
@@ -5474,7 +5474,7 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case 7:
-        enterOuterAlt(_localctx, 7);
+        enterOuterAlt(localctx, 7);
         state = 1314;
         match(TOKEN_SUM);
         state = 1315;
@@ -5485,7 +5485,7 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case 8:
-        enterOuterAlt(_localctx, 8);
+        enterOuterAlt(localctx, 8);
         state = 1319;
         match(TOKEN_TOLABEL);
         state = 1320;
@@ -5496,7 +5496,7 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case 9:
-        enterOuterAlt(_localctx, 9);
+        enterOuterAlt(localctx, 9);
         state = 1324;
         match(TOKEN_FORMAT);
         state = 1325;
@@ -5517,7 +5517,7 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case 10:
-        enterOuterAlt(_localctx, 10);
+        enterOuterAlt(localctx, 10);
         state = 1332;
         match(TOKEN_CALENDAR_MONTH);
         state = 1333;
@@ -5528,7 +5528,7 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case 11:
-        enterOuterAlt(_localctx, 11);
+        enterOuterAlt(localctx, 11);
         state = 1337;
         match(TOKEN_CALENDAR_QUARTER);
         state = 1338;
@@ -5539,7 +5539,7 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case 12:
-        enterOuterAlt(_localctx, 12);
+        enterOuterAlt(localctx, 12);
         state = 1342;
         match(TOKEN_CALENDAR_YEAR);
         state = 1343;
@@ -5550,7 +5550,7 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case 13:
-        enterOuterAlt(_localctx, 13);
+        enterOuterAlt(localctx, 13);
         state = 1347;
         match(TOKEN_DAY_IN_MONTH);
         state = 1348;
@@ -5561,7 +5561,7 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case 14:
-        enterOuterAlt(_localctx, 14);
+        enterOuterAlt(localctx, 14);
         state = 1352;
         match(TOKEN_DAY_IN_WEEK);
         state = 1353;
@@ -5572,7 +5572,7 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case 15:
-        enterOuterAlt(_localctx, 15);
+        enterOuterAlt(localctx, 15);
         state = 1357;
         match(TOKEN_DAY_IN_YEAR);
         state = 1358;
@@ -5583,7 +5583,7 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case 16:
-        enterOuterAlt(_localctx, 16);
+        enterOuterAlt(localctx, 16);
         state = 1362;
         match(TOKEN_DAY_ONLY);
         state = 1363;
@@ -5594,7 +5594,7 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case 17:
-        enterOuterAlt(_localctx, 17);
+        enterOuterAlt(localctx, 17);
         state = 1367;
         match(TOKEN_FISCAL_MONTH);
         state = 1368;
@@ -5605,7 +5605,7 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case 18:
-        enterOuterAlt(_localctx, 18);
+        enterOuterAlt(localctx, 18);
         state = 1372;
         match(TOKEN_FISCAL_QUARTER);
         state = 1373;
@@ -5616,7 +5616,7 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case 19:
-        enterOuterAlt(_localctx, 19);
+        enterOuterAlt(localctx, 19);
         state = 1377;
         match(TOKEN_FISCAL_YEAR);
         state = 1378;
@@ -5627,7 +5627,7 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case 20:
-        enterOuterAlt(_localctx, 20);
+        enterOuterAlt(localctx, 20);
         state = 1382;
         match(TOKEN_HOUR_IN_DAY);
         state = 1383;
@@ -5638,7 +5638,7 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case 21:
-        enterOuterAlt(_localctx, 21);
+        enterOuterAlt(localctx, 21);
         state = 1387;
         match(TOKEN_WEEK_IN_MONTH);
         state = 1388;
@@ -5649,7 +5649,7 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case 22:
-        enterOuterAlt(_localctx, 22);
+        enterOuterAlt(localctx, 22);
         state = 1392;
         match(TOKEN_WEEK_IN_YEAR);
         state = 1393;
@@ -5660,7 +5660,7 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case 23:
-        enterOuterAlt(_localctx, 23);
+        enterOuterAlt(localctx, 23);
         state = 1397;
         match(TOKEN_FIELDS);
         state = 1398;
@@ -5671,7 +5671,7 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case 24:
-        enterOuterAlt(_localctx, 24);
+        enterOuterAlt(localctx, 24);
         state = 1402;
         match(TOKEN_DISTANCE);
         state = 1403;
@@ -5690,7 +5690,7 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case 25:
-        enterOuterAlt(_localctx, 25);
+        enterOuterAlt(localctx, 25);
         state = 1411;
         match(TOKEN_GROUPING);
         state = 1412;
@@ -5701,7 +5701,7 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case 26:
-        enterOuterAlt(_localctx, 26);
+        enterOuterAlt(localctx, 26);
         state = 1416;
         match(TOKEN_CONVERT_CURRENCY);
         state = 1417;
@@ -5713,24 +5713,24 @@ class ApexParser extends Parser {
         break;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   DateFieldNameContext dateFieldName() {
-    dynamic _localctx = DateFieldNameContext(context, state);
-    enterRule(_localctx, 198, RULE_dateFieldName);
+    dynamic localctx = DateFieldNameContext(context, state);
+    enterRule(localctx, 198, RULE_dateFieldName);
     try {
       state = 1429;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 138, context)) {
       case 1:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 1423;
         match(TOKEN_CONVERT_TIMEZONE);
         state = 1424;
@@ -5741,40 +5741,40 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case 2:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 1428;
         fieldName();
         break;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   LocationValueContext locationValue() {
-    dynamic _localctx = LocationValueContext(context, state);
-    enterRule(_localctx, 200, RULE_locationValue);
+    dynamic localctx = LocationValueContext(context, state);
+    enterRule(localctx, 200, RULE_locationValue);
     try {
       state = 1440;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 139, context)) {
       case 1:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 1431;
         fieldName();
         break;
       case 2:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 1432;
         boundExpression();
         break;
       case 3:
-        enterOuterAlt(_localctx, 3);
+        enterOuterAlt(localctx, 3);
         state = 1433;
         match(TOKEN_GEOLOCATION);
         state = 1434;
@@ -5790,18 +5790,18 @@ class ApexParser extends Parser {
         break;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   CoordinateValueContext coordinateValue() {
-    dynamic _localctx = CoordinateValueContext(context, state);
-    enterRule(_localctx, 202, RULE_coordinateValue);
+    dynamic localctx = CoordinateValueContext(context, state);
+    enterRule(localctx, 202, RULE_coordinateValue);
     try {
       state = 1444;
       errorHandler.sync(this);
@@ -5810,12 +5810,12 @@ class ApexParser extends Parser {
       case TOKEN_NumberLiteral:
       case TOKEN_ADD:
       case TOKEN_SUB:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 1442;
         signedNumber();
         break;
       case TOKEN_COLON:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 1443;
         boundExpression();
         break;
@@ -5823,39 +5823,39 @@ class ApexParser extends Parser {
         throw NoViableAltException(this);
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   TypeOfContext typeOf() {
-    dynamic _localctx = TypeOfContext(context, state);
-    enterRule(_localctx, 204, RULE_typeOf);
-    int _la;
+    dynamic localctx = TypeOfContext(context, state);
+    enterRule(localctx, 204, RULE_typeOf);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1446;
       match(TOKEN_TYPEOF);
       state = 1447;
       fieldName();
       state = 1449; 
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
+      la = tokenStream.LA(1)!;
       do {
         state = 1448;
         whenClause();
         state = 1451; 
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-      } while (_la == TOKEN_WHEN);
+        la = tokenStream.LA(1)!;
+      } while (la == TOKEN_WHEN);
       state = 1454;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_ELSE) {
+      la = tokenStream.LA(1)!;
+      if (la == TOKEN_ELSE) {
         state = 1453;
         elseClause();
       }
@@ -5863,20 +5863,20 @@ class ApexParser extends Parser {
       state = 1456;
       match(TOKEN_END);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   WhenClauseContext whenClause() {
-    dynamic _localctx = WhenClauseContext(context, state);
-    enterRule(_localctx, 206, RULE_whenClause);
+    dynamic localctx = WhenClauseContext(context, state);
+    enterRule(localctx, 206, RULE_whenClause);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1458;
       match(TOKEN_WHEN);
       state = 1459;
@@ -5886,69 +5886,69 @@ class ApexParser extends Parser {
       state = 1461;
       fieldNameList();
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   ElseClauseContext elseClause() {
-    dynamic _localctx = ElseClauseContext(context, state);
-    enterRule(_localctx, 208, RULE_elseClause);
+    dynamic localctx = ElseClauseContext(context, state);
+    enterRule(localctx, 208, RULE_elseClause);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1463;
       match(TOKEN_ELSE);
       state = 1464;
       fieldNameList();
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   FieldNameListContext fieldNameList() {
-    dynamic _localctx = FieldNameListContext(context, state);
-    enterRule(_localctx, 210, RULE_fieldNameList);
-    int _la;
+    dynamic localctx = FieldNameListContext(context, state);
+    enterRule(localctx, 210, RULE_fieldNameList);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1466;
       fieldName();
       state = 1471;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      while (_la == TOKEN_COMMA) {
+      la = tokenStream.LA(1)!;
+      while (la == TOKEN_COMMA) {
         state = 1467;
         match(TOKEN_COMMA);
         state = 1468;
         fieldName();
         state = 1473;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
+        la = tokenStream.LA(1)!;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   UsingScopeContext usingScope() {
-    dynamic _localctx = UsingScopeContext(context, state);
-    enterRule(_localctx, 212, RULE_usingScope);
+    dynamic localctx = UsingScopeContext(context, state);
+    enterRule(localctx, 212, RULE_usingScope);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1474;
       match(TOKEN_USING);
       state = 1475;
@@ -5956,78 +5956,78 @@ class ApexParser extends Parser {
       state = 1476;
       soqlId();
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   WhereClauseContext whereClause() {
-    dynamic _localctx = WhereClauseContext(context, state);
-    enterRule(_localctx, 214, RULE_whereClause);
+    dynamic localctx = WhereClauseContext(context, state);
+    enterRule(localctx, 214, RULE_whereClause);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1478;
       match(TOKEN_WHERE);
       state = 1479;
       logicalExpression();
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   LogicalExpressionContext logicalExpression() {
-    dynamic _localctx = LogicalExpressionContext(context, state);
-    enterRule(_localctx, 216, RULE_logicalExpression);
-    int _la;
+    dynamic localctx = LogicalExpressionContext(context, state);
+    enterRule(localctx, 216, RULE_logicalExpression);
+    int la;
     try {
       state = 1499;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 146, context)) {
       case 1:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 1481;
         conditionalExpression();
         state = 1486;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        while (_la == TOKEN_SOQLAND) {
+        la = tokenStream.LA(1)!;
+        while (la == TOKEN_SOQLAND) {
           state = 1482;
           match(TOKEN_SOQLAND);
           state = 1483;
           conditionalExpression();
           state = 1488;
           errorHandler.sync(this);
-          _la = tokenStream.LA(1)!;
+          la = tokenStream.LA(1)!;
         }
         break;
       case 2:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 1489;
         conditionalExpression();
         state = 1494;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        while (_la == TOKEN_SOQLOR) {
+        la = tokenStream.LA(1)!;
+        while (la == TOKEN_SOQLOR) {
           state = 1490;
           match(TOKEN_SOQLOR);
           state = 1491;
           conditionalExpression();
           state = 1496;
           errorHandler.sync(this);
-          _la = tokenStream.LA(1)!;
+          la = tokenStream.LA(1)!;
         }
         break;
       case 3:
-        enterOuterAlt(_localctx, 3);
+        enterOuterAlt(localctx, 3);
         state = 1497;
         match(TOKEN_NOT);
         state = 1498;
@@ -6035,24 +6035,24 @@ class ApexParser extends Parser {
         break;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   ConditionalExpressionContext conditionalExpression() {
-    dynamic _localctx = ConditionalExpressionContext(context, state);
-    enterRule(_localctx, 218, RULE_conditionalExpression);
+    dynamic localctx = ConditionalExpressionContext(context, state);
+    enterRule(localctx, 218, RULE_conditionalExpression);
     try {
       state = 1506;
       errorHandler.sync(this);
       switch (tokenStream.LA(1)!) {
       case TOKEN_LPAREN:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 1501;
         match(TOKEN_LPAREN);
         state = 1502;
@@ -6208,7 +6208,7 @@ class ApexParser extends Parser {
       case TOKEN_RETURNING:
       case TOKEN_LISTVIEW:
       case TOKEN_Identifier:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 1505;
         fieldExpression();
         break;
@@ -6216,24 +6216,24 @@ class ApexParser extends Parser {
         throw NoViableAltException(this);
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   FieldExpressionContext fieldExpression() {
-    dynamic _localctx = FieldExpressionContext(context, state);
-    enterRule(_localctx, 220, RULE_fieldExpression);
+    dynamic localctx = FieldExpressionContext(context, state);
+    enterRule(localctx, 220, RULE_fieldExpression);
     try {
       state = 1516;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 148, context)) {
       case 1:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 1508;
         fieldName();
         state = 1509;
@@ -6242,7 +6242,7 @@ class ApexParser extends Parser {
         value();
         break;
       case 2:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 1512;
         soqlFunction();
         state = 1513;
@@ -6252,161 +6252,161 @@ class ApexParser extends Parser {
         break;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   ComparisonOperatorContext comparisonOperator() {
-    dynamic _localctx = ComparisonOperatorContext(context, state);
-    enterRule(_localctx, 222, RULE_comparisonOperator);
+    dynamic localctx = ComparisonOperatorContext(context, state);
+    enterRule(localctx, 222, RULE_comparisonOperator);
     try {
       state = 1533;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 149, context)) {
       case 1:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 1518;
         match(TOKEN_ASSIGN);
         break;
       case 2:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 1519;
         match(TOKEN_NOTEQUAL);
         break;
       case 3:
-        enterOuterAlt(_localctx, 3);
+        enterOuterAlt(localctx, 3);
         state = 1520;
         match(TOKEN_LT);
         break;
       case 4:
-        enterOuterAlt(_localctx, 4);
+        enterOuterAlt(localctx, 4);
         state = 1521;
         match(TOKEN_GT);
         break;
       case 5:
-        enterOuterAlt(_localctx, 5);
+        enterOuterAlt(localctx, 5);
         state = 1522;
         match(TOKEN_LT);
         state = 1523;
         match(TOKEN_ASSIGN);
         break;
       case 6:
-        enterOuterAlt(_localctx, 6);
+        enterOuterAlt(localctx, 6);
         state = 1524;
         match(TOKEN_GT);
         state = 1525;
         match(TOKEN_ASSIGN);
         break;
       case 7:
-        enterOuterAlt(_localctx, 7);
+        enterOuterAlt(localctx, 7);
         state = 1526;
         match(TOKEN_LESSANDGREATER);
         break;
       case 8:
-        enterOuterAlt(_localctx, 8);
+        enterOuterAlt(localctx, 8);
         state = 1527;
         match(TOKEN_LIKE);
         break;
       case 9:
-        enterOuterAlt(_localctx, 9);
+        enterOuterAlt(localctx, 9);
         state = 1528;
         match(TOKEN_IN);
         break;
       case 10:
-        enterOuterAlt(_localctx, 10);
+        enterOuterAlt(localctx, 10);
         state = 1529;
         match(TOKEN_NOT);
         state = 1530;
         match(TOKEN_IN);
         break;
       case 11:
-        enterOuterAlt(_localctx, 11);
+        enterOuterAlt(localctx, 11);
         state = 1531;
         match(TOKEN_INCLUDES);
         break;
       case 12:
-        enterOuterAlt(_localctx, 12);
+        enterOuterAlt(localctx, 12);
         state = 1532;
         match(TOKEN_EXCLUDES);
         break;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   ValueContext value() {
-    dynamic _localctx = ValueContext(context, state);
-    enterRule(_localctx, 224, RULE_value);
-    int _la;
+    dynamic localctx = ValueContext(context, state);
+    enterRule(localctx, 224, RULE_value);
+    int la;
     try {
       state = 1556;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 152, context)) {
       case 1:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 1535;
         match(TOKEN_NULL);
         break;
       case 2:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 1536;
         match(TOKEN_BooleanLiteral);
         break;
       case 3:
-        enterOuterAlt(_localctx, 3);
+        enterOuterAlt(localctx, 3);
         state = 1537;
         signedNumber();
         break;
       case 4:
-        enterOuterAlt(_localctx, 4);
+        enterOuterAlt(localctx, 4);
         state = 1538;
         match(TOKEN_StringLiteral);
         break;
       case 5:
-        enterOuterAlt(_localctx, 5);
+        enterOuterAlt(localctx, 5);
         state = 1539;
         match(TOKEN_DateLiteral);
         break;
       case 6:
-        enterOuterAlt(_localctx, 6);
+        enterOuterAlt(localctx, 6);
         state = 1540;
         match(TOKEN_TimeLiteral);
         break;
       case 7:
-        enterOuterAlt(_localctx, 7);
+        enterOuterAlt(localctx, 7);
         state = 1541;
         match(TOKEN_DateTimeLiteral);
         break;
       case 8:
-        enterOuterAlt(_localctx, 8);
+        enterOuterAlt(localctx, 8);
         state = 1542;
         dateFormula();
         break;
       case 9:
-        enterOuterAlt(_localctx, 9);
+        enterOuterAlt(localctx, 9);
         state = 1543;
         match(TOKEN_IntegralCurrencyLiteral);
         state = 1548;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if (_la == TOKEN_DOT) {
+        la = tokenStream.LA(1)!;
+        if (la == TOKEN_DOT) {
           state = 1544;
           match(TOKEN_DOT);
           state = 1546;
           errorHandler.sync(this);
-          _la = tokenStream.LA(1)!;
-          if (_la == TOKEN_IntegerLiteral) {
+          la = tokenStream.LA(1)!;
+          if (la == TOKEN_IntegerLiteral) {
             state = 1545;
             match(TOKEN_IntegerLiteral);
           }
@@ -6415,7 +6415,7 @@ class ApexParser extends Parser {
 
         break;
       case 10:
-        enterOuterAlt(_localctx, 10);
+        enterOuterAlt(localctx, 10);
         state = 1550;
         match(TOKEN_LPAREN);
         state = 1551;
@@ -6424,73 +6424,73 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case 11:
-        enterOuterAlt(_localctx, 11);
+        enterOuterAlt(localctx, 11);
         state = 1554;
         valueList();
         break;
       case 12:
-        enterOuterAlt(_localctx, 12);
+        enterOuterAlt(localctx, 12);
         state = 1555;
         boundExpression();
         break;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   ValueListContext valueList() {
-    dynamic _localctx = ValueListContext(context, state);
-    enterRule(_localctx, 226, RULE_valueList);
-    int _la;
+    dynamic localctx = ValueListContext(context, state);
+    enterRule(localctx, 226, RULE_valueList);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1558;
       match(TOKEN_LPAREN);
       state = 1559;
       value();
       state = 1564;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      while (_la == TOKEN_COMMA) {
+      la = tokenStream.LA(1)!;
+      while (la == TOKEN_COMMA) {
         state = 1560;
         match(TOKEN_COMMA);
         state = 1561;
         value();
         state = 1566;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
+        la = tokenStream.LA(1)!;
       }
       state = 1567;
       match(TOKEN_RPAREN);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   SignedNumberContext signedNumber() {
-    dynamic _localctx = SignedNumberContext(context, state);
-    enterRule(_localctx, 228, RULE_signedNumber);
-    int _la;
+    dynamic localctx = SignedNumberContext(context, state);
+    enterRule(localctx, 228, RULE_signedNumber);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1570;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_ADD || _la == TOKEN_SUB) {
+      la = tokenStream.LA(1)!;
+      if (la == TOKEN_ADD || la == TOKEN_SUB) {
         state = 1569;
-        _la = tokenStream.LA(1)!;
-        if (!(_la == TOKEN_ADD || _la == TOKEN_SUB)) {
+        la = tokenStream.LA(1)!;
+        if (!(la == TOKEN_ADD || la == TOKEN_SUB)) {
         errorHandler.recoverInline(this);
         } else {
           if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -6500,8 +6500,8 @@ class ApexParser extends Parser {
       }
 
       state = 1572;
-      _la = tokenStream.LA(1)!;
-      if (!(_la == TOKEN_IntegerLiteral || _la == TOKEN_NumberLiteral)) {
+      la = tokenStream.LA(1)!;
+      if (!(la == TOKEN_IntegerLiteral || la == TOKEN_NumberLiteral)) {
       errorHandler.recoverInline(this);
       } else {
         if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -6509,24 +6509,24 @@ class ApexParser extends Parser {
         consume();
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   WithClauseContext withClause() {
-    dynamic _localctx = WithClauseContext(context, state);
-    enterRule(_localctx, 230, RULE_withClause);
+    dynamic localctx = WithClauseContext(context, state);
+    enterRule(localctx, 230, RULE_withClause);
     try {
       state = 1586;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 155, context)) {
       case 1:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 1574;
         match(TOKEN_WITH);
         state = 1575;
@@ -6537,28 +6537,28 @@ class ApexParser extends Parser {
         filteringExpression();
         break;
       case 2:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 1578;
         match(TOKEN_WITH);
         state = 1579;
         match(TOKEN_SECURITY_ENFORCED);
         break;
       case 3:
-        enterOuterAlt(_localctx, 3);
+        enterOuterAlt(localctx, 3);
         state = 1580;
         match(TOKEN_WITH);
         state = 1581;
         match(TOKEN_SYSTEM_MODE);
         break;
       case 4:
-        enterOuterAlt(_localctx, 4);
+        enterOuterAlt(localctx, 4);
         state = 1582;
         match(TOKEN_WITH);
         state = 1583;
         match(TOKEN_USER_MODE);
         break;
       case 5:
-        enterOuterAlt(_localctx, 5);
+        enterOuterAlt(localctx, 5);
         state = 1584;
         match(TOKEN_WITH);
         state = 1585;
@@ -6566,50 +6566,50 @@ class ApexParser extends Parser {
         break;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   FilteringExpressionContext filteringExpression() {
-    dynamic _localctx = FilteringExpressionContext(context, state);
-    enterRule(_localctx, 232, RULE_filteringExpression);
-    int _la;
+    dynamic localctx = FilteringExpressionContext(context, state);
+    enterRule(localctx, 232, RULE_filteringExpression);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1588;
       dataCategorySelection();
       state = 1593;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      while (_la == TOKEN_AND) {
+      la = tokenStream.LA(1)!;
+      while (la == TOKEN_AND) {
         state = 1589;
         match(TOKEN_AND);
         state = 1590;
         dataCategorySelection();
         state = 1595;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
+        la = tokenStream.LA(1)!;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   DataCategorySelectionContext dataCategorySelection() {
-    dynamic _localctx = DataCategorySelectionContext(context, state);
-    enterRule(_localctx, 234, RULE_dataCategorySelection);
+    dynamic localctx = DataCategorySelectionContext(context, state);
+    enterRule(localctx, 234, RULE_dataCategorySelection);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1596;
       soqlId();
       state = 1597;
@@ -6617,19 +6617,19 @@ class ApexParser extends Parser {
       state = 1598;
       dataCategoryName();
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   DataCategoryNameContext dataCategoryName() {
-    dynamic _localctx = DataCategoryNameContext(context, state);
-    enterRule(_localctx, 236, RULE_dataCategoryName);
-    int _la;
+    dynamic localctx = DataCategoryNameContext(context, state);
+    enterRule(localctx, 236, RULE_dataCategoryName);
+    int la;
     try {
       state = 1612;
       errorHandler.sync(this);
@@ -6782,27 +6782,27 @@ class ApexParser extends Parser {
       case TOKEN_RETURNING:
       case TOKEN_LISTVIEW:
       case TOKEN_Identifier:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 1600;
         soqlId();
         break;
       case TOKEN_LPAREN:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 1601;
         match(TOKEN_LPAREN);
         state = 1602;
         soqlId();
         state = 1607;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        while (_la == TOKEN_COMMA) {
+        la = tokenStream.LA(1)!;
+        while (la == TOKEN_COMMA) {
           state = 1603;
           match(TOKEN_COMMA);
           state = 1604;
           soqlId();
           state = 1609;
           errorHandler.sync(this);
-          _la = tokenStream.LA(1)!;
+          la = tokenStream.LA(1)!;
         }
         state = 1610;
         match(TOKEN_LPAREN);
@@ -6811,24 +6811,24 @@ class ApexParser extends Parser {
         throw NoViableAltException(this);
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   FilteringSelectorContext filteringSelector() {
-    dynamic _localctx = FilteringSelectorContext(context, state);
-    enterRule(_localctx, 238, RULE_filteringSelector);
-    int _la;
+    dynamic localctx = FilteringSelectorContext(context, state);
+    enterRule(localctx, 238, RULE_filteringSelector);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1614;
-      _la = tokenStream.LA(1)!;
-      if (!(((((_la - 99)) & ~0x3f) == 0 && ((BigInt.one << (_la - 99)) & ((BigInt.one << (TOKEN_AT - 99)) | (BigInt.one << (TOKEN_ABOVE - 99)) | (BigInt.one << (TOKEN_BELOW - 99)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 99)))) != BigInt.zero))) {
+      la = tokenStream.LA(1)!;
+      if (!(((((la - 99)) & ~0x3f) == 0 && ((BigInt.one << (la - 99)) & ((BigInt.one << (TOKEN_AT - 99)) | (BigInt.one << (TOKEN_ABOVE - 99)) | (BigInt.one << (TOKEN_BELOW - 99)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 99)))) != BigInt.zero))) {
       errorHandler.recoverInline(this);
       } else {
         if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -6836,25 +6836,25 @@ class ApexParser extends Parser {
         consume();
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   GroupByClauseContext groupByClause() {
-    dynamic _localctx = GroupByClauseContext(context, state);
-    enterRule(_localctx, 240, RULE_groupByClause);
-    int _la;
+    dynamic localctx = GroupByClauseContext(context, state);
+    enterRule(localctx, 240, RULE_groupByClause);
+    int la;
     try {
       state = 1651;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 162, context)) {
       case 1:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 1616;
         match(TOKEN_GROUP);
         state = 1617;
@@ -6863,8 +6863,8 @@ class ApexParser extends Parser {
         selectList();
         state = 1621;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if (_la == TOKEN_HAVING) {
+        la = tokenStream.LA(1)!;
+        if (la == TOKEN_HAVING) {
           state = 1619;
           match(TOKEN_HAVING);
           state = 1620;
@@ -6873,7 +6873,7 @@ class ApexParser extends Parser {
 
         break;
       case 2:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 1623;
         match(TOKEN_GROUP);
         state = 1624;
@@ -6886,21 +6886,21 @@ class ApexParser extends Parser {
         fieldName();
         state = 1632;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        while (_la == TOKEN_COMMA) {
+        la = tokenStream.LA(1)!;
+        while (la == TOKEN_COMMA) {
           state = 1628;
           match(TOKEN_COMMA);
           state = 1629;
           fieldName();
           state = 1634;
           errorHandler.sync(this);
-          _la = tokenStream.LA(1)!;
+          la = tokenStream.LA(1)!;
         }
         state = 1635;
         match(TOKEN_RPAREN);
         break;
       case 3:
-        enterOuterAlt(_localctx, 3);
+        enterOuterAlt(localctx, 3);
         state = 1637;
         match(TOKEN_GROUP);
         state = 1638;
@@ -6913,35 +6913,35 @@ class ApexParser extends Parser {
         fieldName();
         state = 1646;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        while (_la == TOKEN_COMMA) {
+        la = tokenStream.LA(1)!;
+        while (la == TOKEN_COMMA) {
           state = 1642;
           match(TOKEN_COMMA);
           state = 1643;
           fieldName();
           state = 1648;
           errorHandler.sync(this);
-          _la = tokenStream.LA(1)!;
+          la = tokenStream.LA(1)!;
         }
         state = 1649;
         match(TOKEN_RPAREN);
         break;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   OrderByClauseContext orderByClause() {
-    dynamic _localctx = OrderByClauseContext(context, state);
-    enterRule(_localctx, 242, RULE_orderByClause);
+    dynamic localctx = OrderByClauseContext(context, state);
+    enterRule(localctx, 242, RULE_orderByClause);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1653;
       match(TOKEN_ORDER);
       state = 1654;
@@ -6949,64 +6949,64 @@ class ApexParser extends Parser {
       state = 1655;
       fieldOrderList();
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   FieldOrderListContext fieldOrderList() {
-    dynamic _localctx = FieldOrderListContext(context, state);
-    enterRule(_localctx, 244, RULE_fieldOrderList);
-    int _la;
+    dynamic localctx = FieldOrderListContext(context, state);
+    enterRule(localctx, 244, RULE_fieldOrderList);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1657;
       fieldOrder();
       state = 1662;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      while (_la == TOKEN_COMMA) {
+      la = tokenStream.LA(1)!;
+      while (la == TOKEN_COMMA) {
         state = 1658;
         match(TOKEN_COMMA);
         state = 1659;
         fieldOrder();
         state = 1664;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
+        la = tokenStream.LA(1)!;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   FieldOrderContext fieldOrder() {
-    dynamic _localctx = FieldOrderContext(context, state);
-    enterRule(_localctx, 246, RULE_fieldOrder);
-    int _la;
+    dynamic localctx = FieldOrderContext(context, state);
+    enterRule(localctx, 246, RULE_fieldOrder);
+    int la;
     try {
       state = 1681;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 168, context)) {
       case 1:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 1665;
         fieldName();
         state = 1667;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if (_la == TOKEN_ASC || _la == TOKEN_DESC) {
+        la = tokenStream.LA(1)!;
+        if (la == TOKEN_ASC || la == TOKEN_DESC) {
           state = 1666;
-          _la = tokenStream.LA(1)!;
-          if (!(_la == TOKEN_ASC || _la == TOKEN_DESC)) {
+          la = tokenStream.LA(1)!;
+          if (!(la == TOKEN_ASC || la == TOKEN_DESC)) {
           errorHandler.recoverInline(this);
           } else {
             if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -7017,13 +7017,13 @@ class ApexParser extends Parser {
 
         state = 1671;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if (_la == TOKEN_NULLS) {
+        la = tokenStream.LA(1)!;
+        if (la == TOKEN_NULLS) {
           state = 1669;
           match(TOKEN_NULLS);
           state = 1670;
-          _la = tokenStream.LA(1)!;
-          if (!(_la == TOKEN_FIRST || _la == TOKEN_LAST)) {
+          la = tokenStream.LA(1)!;
+          if (!(la == TOKEN_FIRST || la == TOKEN_LAST)) {
           errorHandler.recoverInline(this);
           } else {
             if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -7034,16 +7034,16 @@ class ApexParser extends Parser {
 
         break;
       case 2:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 1673;
         soqlFunction();
         state = 1675;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if (_la == TOKEN_ASC || _la == TOKEN_DESC) {
+        la = tokenStream.LA(1)!;
+        if (la == TOKEN_ASC || la == TOKEN_DESC) {
           state = 1674;
-          _la = tokenStream.LA(1)!;
-          if (!(_la == TOKEN_ASC || _la == TOKEN_DESC)) {
+          la = tokenStream.LA(1)!;
+          if (!(la == TOKEN_ASC || la == TOKEN_DESC)) {
           errorHandler.recoverInline(this);
           } else {
             if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -7054,13 +7054,13 @@ class ApexParser extends Parser {
 
         state = 1679;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if (_la == TOKEN_NULLS) {
+        la = tokenStream.LA(1)!;
+        if (la == TOKEN_NULLS) {
           state = 1677;
           match(TOKEN_NULLS);
           state = 1678;
-          _la = tokenStream.LA(1)!;
-          if (!(_la == TOKEN_FIRST || _la == TOKEN_LAST)) {
+          la = tokenStream.LA(1)!;
+          if (!(la == TOKEN_FIRST || la == TOKEN_LAST)) {
           errorHandler.recoverInline(this);
           } else {
             if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -7072,31 +7072,31 @@ class ApexParser extends Parser {
         break;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   LimitClauseContext limitClause() {
-    dynamic _localctx = LimitClauseContext(context, state);
-    enterRule(_localctx, 248, RULE_limitClause);
+    dynamic localctx = LimitClauseContext(context, state);
+    enterRule(localctx, 248, RULE_limitClause);
     try {
       state = 1687;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 169, context)) {
       case 1:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 1683;
         match(TOKEN_LIMIT);
         state = 1684;
         match(TOKEN_IntegerLiteral);
         break;
       case 2:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 1685;
         match(TOKEN_LIMIT);
         state = 1686;
@@ -7104,31 +7104,31 @@ class ApexParser extends Parser {
         break;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   OffsetClauseContext offsetClause() {
-    dynamic _localctx = OffsetClauseContext(context, state);
-    enterRule(_localctx, 250, RULE_offsetClause);
+    dynamic localctx = OffsetClauseContext(context, state);
+    enterRule(localctx, 250, RULE_offsetClause);
     try {
       state = 1693;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 170, context)) {
       case 1:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 1689;
         match(TOKEN_OFFSET);
         state = 1690;
         match(TOKEN_IntegerLiteral);
         break;
       case 2:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 1691;
         match(TOKEN_OFFSET);
         state = 1692;
@@ -7136,49 +7136,49 @@ class ApexParser extends Parser {
         break;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   AllRowsClauseContext allRowsClause() {
-    dynamic _localctx = AllRowsClauseContext(context, state);
-    enterRule(_localctx, 252, RULE_allRowsClause);
+    dynamic localctx = AllRowsClauseContext(context, state);
+    enterRule(localctx, 252, RULE_allRowsClause);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1695;
       match(TOKEN_ALL);
       state = 1696;
       match(TOKEN_ROWS);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   ForClausesContext forClauses() {
-    dynamic _localctx = ForClausesContext(context, state);
-    enterRule(_localctx, 254, RULE_forClauses);
-    int _la;
+    dynamic localctx = ForClausesContext(context, state);
+    enterRule(localctx, 254, RULE_forClauses);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1702;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      while (_la == TOKEN_FOR) {
+      la = tokenStream.LA(1)!;
+      while (la == TOKEN_FOR) {
         state = 1698;
         match(TOKEN_FOR);
         state = 1699;
-        _la = tokenStream.LA(1)!;
-        if (!(((((_la - 46)) & ~0x3f) == 0 && ((BigInt.one << (_la - 46)) & ((BigInt.one << (TOKEN_UPDATE - 46)) | (BigInt.one << (TOKEN_VIEW - 46)) | (BigInt.one << (TOKEN_REFERENCE - 46)))) != BigInt.zero))) {
+        la = tokenStream.LA(1)!;
+        if (!(((((la - 46)) & ~0x3f) == 0 && ((BigInt.one << (la - 46)) & ((BigInt.one << (TOKEN_UPDATE - 46)) | (BigInt.one << (TOKEN_VIEW - 46)) | (BigInt.one << (TOKEN_REFERENCE - 46)))) != BigInt.zero))) {
         errorHandler.recoverInline(this);
         } else {
           if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -7187,101 +7187,101 @@ class ApexParser extends Parser {
         }
         state = 1704;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
+        la = tokenStream.LA(1)!;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   BoundExpressionContext boundExpression() {
-    dynamic _localctx = BoundExpressionContext(context, state);
-    enterRule(_localctx, 256, RULE_boundExpression);
+    dynamic localctx = BoundExpressionContext(context, state);
+    enterRule(localctx, 256, RULE_boundExpression);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1705;
       match(TOKEN_COLON);
       state = 1706;
       expression(0);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   DateFormulaContext dateFormula() {
-    dynamic _localctx = DateFormulaContext(context, state);
-    enterRule(_localctx, 258, RULE_dateFormula);
+    dynamic localctx = DateFormulaContext(context, state);
+    enterRule(localctx, 258, RULE_dateFormula);
     try {
       state = 1794;
       errorHandler.sync(this);
       switch (tokenStream.LA(1)!) {
       case TOKEN_YESTERDAY:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 1708;
         match(TOKEN_YESTERDAY);
         break;
       case TOKEN_TODAY:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 1709;
         match(TOKEN_TODAY);
         break;
       case TOKEN_TOMORROW:
-        enterOuterAlt(_localctx, 3);
+        enterOuterAlt(localctx, 3);
         state = 1710;
         match(TOKEN_TOMORROW);
         break;
       case TOKEN_LAST_WEEK:
-        enterOuterAlt(_localctx, 4);
+        enterOuterAlt(localctx, 4);
         state = 1711;
         match(TOKEN_LAST_WEEK);
         break;
       case TOKEN_THIS_WEEK:
-        enterOuterAlt(_localctx, 5);
+        enterOuterAlt(localctx, 5);
         state = 1712;
         match(TOKEN_THIS_WEEK);
         break;
       case TOKEN_NEXT_WEEK:
-        enterOuterAlt(_localctx, 6);
+        enterOuterAlt(localctx, 6);
         state = 1713;
         match(TOKEN_NEXT_WEEK);
         break;
       case TOKEN_LAST_MONTH:
-        enterOuterAlt(_localctx, 7);
+        enterOuterAlt(localctx, 7);
         state = 1714;
         match(TOKEN_LAST_MONTH);
         break;
       case TOKEN_THIS_MONTH:
-        enterOuterAlt(_localctx, 8);
+        enterOuterAlt(localctx, 8);
         state = 1715;
         match(TOKEN_THIS_MONTH);
         break;
       case TOKEN_NEXT_MONTH:
-        enterOuterAlt(_localctx, 9);
+        enterOuterAlt(localctx, 9);
         state = 1716;
         match(TOKEN_NEXT_MONTH);
         break;
       case TOKEN_LAST_90_DAYS:
-        enterOuterAlt(_localctx, 10);
+        enterOuterAlt(localctx, 10);
         state = 1717;
         match(TOKEN_LAST_90_DAYS);
         break;
       case TOKEN_NEXT_90_DAYS:
-        enterOuterAlt(_localctx, 11);
+        enterOuterAlt(localctx, 11);
         state = 1718;
         match(TOKEN_NEXT_90_DAYS);
         break;
       case TOKEN_LAST_N_DAYS_N:
-        enterOuterAlt(_localctx, 12);
+        enterOuterAlt(localctx, 12);
         state = 1719;
         match(TOKEN_LAST_N_DAYS_N);
         state = 1720;
@@ -7290,7 +7290,7 @@ class ApexParser extends Parser {
         signedInteger();
         break;
       case TOKEN_NEXT_N_DAYS_N:
-        enterOuterAlt(_localctx, 13);
+        enterOuterAlt(localctx, 13);
         state = 1722;
         match(TOKEN_NEXT_N_DAYS_N);
         state = 1723;
@@ -7299,7 +7299,7 @@ class ApexParser extends Parser {
         signedInteger();
         break;
       case TOKEN_N_DAYS_AGO_N:
-        enterOuterAlt(_localctx, 14);
+        enterOuterAlt(localctx, 14);
         state = 1725;
         match(TOKEN_N_DAYS_AGO_N);
         state = 1726;
@@ -7308,7 +7308,7 @@ class ApexParser extends Parser {
         signedInteger();
         break;
       case TOKEN_NEXT_N_WEEKS_N:
-        enterOuterAlt(_localctx, 15);
+        enterOuterAlt(localctx, 15);
         state = 1728;
         match(TOKEN_NEXT_N_WEEKS_N);
         state = 1729;
@@ -7317,7 +7317,7 @@ class ApexParser extends Parser {
         signedInteger();
         break;
       case TOKEN_LAST_N_WEEKS_N:
-        enterOuterAlt(_localctx, 16);
+        enterOuterAlt(localctx, 16);
         state = 1731;
         match(TOKEN_LAST_N_WEEKS_N);
         state = 1732;
@@ -7326,7 +7326,7 @@ class ApexParser extends Parser {
         signedInteger();
         break;
       case TOKEN_N_WEEKS_AGO_N:
-        enterOuterAlt(_localctx, 17);
+        enterOuterAlt(localctx, 17);
         state = 1734;
         match(TOKEN_N_WEEKS_AGO_N);
         state = 1735;
@@ -7335,7 +7335,7 @@ class ApexParser extends Parser {
         signedInteger();
         break;
       case TOKEN_NEXT_N_MONTHS_N:
-        enterOuterAlt(_localctx, 18);
+        enterOuterAlt(localctx, 18);
         state = 1737;
         match(TOKEN_NEXT_N_MONTHS_N);
         state = 1738;
@@ -7344,7 +7344,7 @@ class ApexParser extends Parser {
         signedInteger();
         break;
       case TOKEN_LAST_N_MONTHS_N:
-        enterOuterAlt(_localctx, 19);
+        enterOuterAlt(localctx, 19);
         state = 1740;
         match(TOKEN_LAST_N_MONTHS_N);
         state = 1741;
@@ -7353,7 +7353,7 @@ class ApexParser extends Parser {
         signedInteger();
         break;
       case TOKEN_N_MONTHS_AGO_N:
-        enterOuterAlt(_localctx, 20);
+        enterOuterAlt(localctx, 20);
         state = 1743;
         match(TOKEN_N_MONTHS_AGO_N);
         state = 1744;
@@ -7362,22 +7362,22 @@ class ApexParser extends Parser {
         signedInteger();
         break;
       case TOKEN_THIS_QUARTER:
-        enterOuterAlt(_localctx, 21);
+        enterOuterAlt(localctx, 21);
         state = 1746;
         match(TOKEN_THIS_QUARTER);
         break;
       case TOKEN_LAST_QUARTER:
-        enterOuterAlt(_localctx, 22);
+        enterOuterAlt(localctx, 22);
         state = 1747;
         match(TOKEN_LAST_QUARTER);
         break;
       case TOKEN_NEXT_QUARTER:
-        enterOuterAlt(_localctx, 23);
+        enterOuterAlt(localctx, 23);
         state = 1748;
         match(TOKEN_NEXT_QUARTER);
         break;
       case TOKEN_NEXT_N_QUARTERS_N:
-        enterOuterAlt(_localctx, 24);
+        enterOuterAlt(localctx, 24);
         state = 1749;
         match(TOKEN_NEXT_N_QUARTERS_N);
         state = 1750;
@@ -7386,7 +7386,7 @@ class ApexParser extends Parser {
         signedInteger();
         break;
       case TOKEN_LAST_N_QUARTERS_N:
-        enterOuterAlt(_localctx, 25);
+        enterOuterAlt(localctx, 25);
         state = 1752;
         match(TOKEN_LAST_N_QUARTERS_N);
         state = 1753;
@@ -7395,7 +7395,7 @@ class ApexParser extends Parser {
         signedInteger();
         break;
       case TOKEN_N_QUARTERS_AGO_N:
-        enterOuterAlt(_localctx, 26);
+        enterOuterAlt(localctx, 26);
         state = 1755;
         match(TOKEN_N_QUARTERS_AGO_N);
         state = 1756;
@@ -7404,22 +7404,22 @@ class ApexParser extends Parser {
         signedInteger();
         break;
       case TOKEN_THIS_YEAR:
-        enterOuterAlt(_localctx, 27);
+        enterOuterAlt(localctx, 27);
         state = 1758;
         match(TOKEN_THIS_YEAR);
         break;
       case TOKEN_LAST_YEAR:
-        enterOuterAlt(_localctx, 28);
+        enterOuterAlt(localctx, 28);
         state = 1759;
         match(TOKEN_LAST_YEAR);
         break;
       case TOKEN_NEXT_YEAR:
-        enterOuterAlt(_localctx, 29);
+        enterOuterAlt(localctx, 29);
         state = 1760;
         match(TOKEN_NEXT_YEAR);
         break;
       case TOKEN_NEXT_N_YEARS_N:
-        enterOuterAlt(_localctx, 30);
+        enterOuterAlt(localctx, 30);
         state = 1761;
         match(TOKEN_NEXT_N_YEARS_N);
         state = 1762;
@@ -7428,7 +7428,7 @@ class ApexParser extends Parser {
         signedInteger();
         break;
       case TOKEN_LAST_N_YEARS_N:
-        enterOuterAlt(_localctx, 31);
+        enterOuterAlt(localctx, 31);
         state = 1764;
         match(TOKEN_LAST_N_YEARS_N);
         state = 1765;
@@ -7437,7 +7437,7 @@ class ApexParser extends Parser {
         signedInteger();
         break;
       case TOKEN_N_YEARS_AGO_N:
-        enterOuterAlt(_localctx, 32);
+        enterOuterAlt(localctx, 32);
         state = 1767;
         match(TOKEN_N_YEARS_AGO_N);
         state = 1768;
@@ -7446,22 +7446,22 @@ class ApexParser extends Parser {
         signedInteger();
         break;
       case TOKEN_THIS_FISCAL_QUARTER:
-        enterOuterAlt(_localctx, 33);
+        enterOuterAlt(localctx, 33);
         state = 1770;
         match(TOKEN_THIS_FISCAL_QUARTER);
         break;
       case TOKEN_LAST_FISCAL_QUARTER:
-        enterOuterAlt(_localctx, 34);
+        enterOuterAlt(localctx, 34);
         state = 1771;
         match(TOKEN_LAST_FISCAL_QUARTER);
         break;
       case TOKEN_NEXT_FISCAL_QUARTER:
-        enterOuterAlt(_localctx, 35);
+        enterOuterAlt(localctx, 35);
         state = 1772;
         match(TOKEN_NEXT_FISCAL_QUARTER);
         break;
       case TOKEN_NEXT_N_FISCAL_QUARTERS_N:
-        enterOuterAlt(_localctx, 36);
+        enterOuterAlt(localctx, 36);
         state = 1773;
         match(TOKEN_NEXT_N_FISCAL_QUARTERS_N);
         state = 1774;
@@ -7470,7 +7470,7 @@ class ApexParser extends Parser {
         signedInteger();
         break;
       case TOKEN_LAST_N_FISCAL_QUARTERS_N:
-        enterOuterAlt(_localctx, 37);
+        enterOuterAlt(localctx, 37);
         state = 1776;
         match(TOKEN_LAST_N_FISCAL_QUARTERS_N);
         state = 1777;
@@ -7479,7 +7479,7 @@ class ApexParser extends Parser {
         signedInteger();
         break;
       case TOKEN_N_FISCAL_QUARTERS_AGO_N:
-        enterOuterAlt(_localctx, 38);
+        enterOuterAlt(localctx, 38);
         state = 1779;
         match(TOKEN_N_FISCAL_QUARTERS_AGO_N);
         state = 1780;
@@ -7488,22 +7488,22 @@ class ApexParser extends Parser {
         signedInteger();
         break;
       case TOKEN_THIS_FISCAL_YEAR:
-        enterOuterAlt(_localctx, 39);
+        enterOuterAlt(localctx, 39);
         state = 1782;
         match(TOKEN_THIS_FISCAL_YEAR);
         break;
       case TOKEN_LAST_FISCAL_YEAR:
-        enterOuterAlt(_localctx, 40);
+        enterOuterAlt(localctx, 40);
         state = 1783;
         match(TOKEN_LAST_FISCAL_YEAR);
         break;
       case TOKEN_NEXT_FISCAL_YEAR:
-        enterOuterAlt(_localctx, 41);
+        enterOuterAlt(localctx, 41);
         state = 1784;
         match(TOKEN_NEXT_FISCAL_YEAR);
         break;
       case TOKEN_NEXT_N_FISCAL_YEARS_N:
-        enterOuterAlt(_localctx, 42);
+        enterOuterAlt(localctx, 42);
         state = 1785;
         match(TOKEN_NEXT_N_FISCAL_YEARS_N);
         state = 1786;
@@ -7512,7 +7512,7 @@ class ApexParser extends Parser {
         signedInteger();
         break;
       case TOKEN_LAST_N_FISCAL_YEARS_N:
-        enterOuterAlt(_localctx, 43);
+        enterOuterAlt(localctx, 43);
         state = 1788;
         match(TOKEN_LAST_N_FISCAL_YEARS_N);
         state = 1789;
@@ -7521,7 +7521,7 @@ class ApexParser extends Parser {
         signedInteger();
         break;
       case TOKEN_N_FISCAL_YEARS_AGO_N:
-        enterOuterAlt(_localctx, 44);
+        enterOuterAlt(localctx, 44);
         state = 1791;
         match(TOKEN_N_FISCAL_YEARS_AGO_N);
         state = 1792;
@@ -7533,28 +7533,28 @@ class ApexParser extends Parser {
         throw NoViableAltException(this);
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   SignedIntegerContext signedInteger() {
-    dynamic _localctx = SignedIntegerContext(context, state);
-    enterRule(_localctx, 260, RULE_signedInteger);
-    int _la;
+    dynamic localctx = SignedIntegerContext(context, state);
+    enterRule(localctx, 260, RULE_signedInteger);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1797;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_ADD || _la == TOKEN_SUB) {
+      la = tokenStream.LA(1)!;
+      if (la == TOKEN_ADD || la == TOKEN_SUB) {
         state = 1796;
-        _la = tokenStream.LA(1)!;
-        if (!(_la == TOKEN_ADD || _la == TOKEN_SUB)) {
+        la = tokenStream.LA(1)!;
+        if (!(la == TOKEN_ADD || la == TOKEN_SUB)) {
         errorHandler.recoverInline(this);
         } else {
           if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -7566,41 +7566,41 @@ class ApexParser extends Parser {
       state = 1799;
       match(TOKEN_IntegerLiteral);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   SoqlIdContext soqlId() {
-    dynamic _localctx = SoqlIdContext(context, state);
-    enterRule(_localctx, 262, RULE_soqlId);
+    dynamic localctx = SoqlIdContext(context, state);
+    enterRule(localctx, 262, RULE_soqlId);
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1801;
       id();
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   SoslLiteralContext soslLiteral() {
-    dynamic _localctx = SoslLiteralContext(context, state);
-    enterRule(_localctx, 264, RULE_soslLiteral);
+    dynamic localctx = SoslLiteralContext(context, state);
+    enterRule(localctx, 264, RULE_soslLiteral);
     try {
       state = 1813;
       errorHandler.sync(this);
       switch (tokenStream.LA(1)!) {
       case TOKEN_FindLiteral:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 1803;
         match(TOKEN_FindLiteral);
         state = 1804;
@@ -7609,7 +7609,7 @@ class ApexParser extends Parser {
         match(TOKEN_RBRACK);
         break;
       case TOKEN_LBRACK:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 1807;
         match(TOKEN_LBRACK);
         state = 1808;
@@ -7625,25 +7625,25 @@ class ApexParser extends Parser {
         throw NoViableAltException(this);
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   SoslClausesContext soslClauses() {
-    dynamic _localctx = SoslClausesContext(context, state);
-    enterRule(_localctx, 266, RULE_soslClauses);
-    int _la;
+    dynamic localctx = SoslClausesContext(context, state);
+    enterRule(localctx, 266, RULE_soslClauses);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1817;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_IN) {
+      la = tokenStream.LA(1)!;
+      if (la == TOKEN_IN) {
         state = 1815;
         match(TOKEN_IN);
         state = 1816;
@@ -7652,8 +7652,8 @@ class ApexParser extends Parser {
 
       state = 1821;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_RETURNING) {
+      la = tokenStream.LA(1)!;
+      if (la == TOKEN_RETURNING) {
         state = 1819;
         match(TOKEN_RETURNING);
         state = 1820;
@@ -7662,26 +7662,26 @@ class ApexParser extends Parser {
 
       state = 1826;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      while (_la == TOKEN_WITH) {
+      la = tokenStream.LA(1)!;
+      while (la == TOKEN_WITH) {
         state = 1823;
         soslWithClause();
         state = 1828;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
+        la = tokenStream.LA(1)!;
       }
       state = 1830;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_LIMIT) {
+      la = tokenStream.LA(1)!;
+      if (la == TOKEN_LIMIT) {
         state = 1829;
         limitClause();
       }
 
       state = 1834;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_UPDATE) {
+      la = tokenStream.LA(1)!;
+      if (la == TOKEN_UPDATE) {
         state = 1832;
         match(TOKEN_UPDATE);
         state = 1833;
@@ -7689,25 +7689,25 @@ class ApexParser extends Parser {
       }
 
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   SoslWithClauseContext soslWithClause() {
-    dynamic _localctx = SoslWithClauseContext(context, state);
-    enterRule(_localctx, 268, RULE_soslWithClause);
-    int _la;
+    dynamic localctx = SoslWithClauseContext(context, state);
+    enterRule(localctx, 268, RULE_soslWithClause);
+    int la;
     try {
       state = 1876;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 181, context)) {
       case 1:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 1836;
         match(TOKEN_WITH);
         state = 1837;
@@ -7718,7 +7718,7 @@ class ApexParser extends Parser {
         match(TOKEN_StringLiteral);
         break;
       case 2:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 1840;
         match(TOKEN_WITH);
         state = 1841;
@@ -7729,15 +7729,15 @@ class ApexParser extends Parser {
         filteringExpression();
         break;
       case 3:
-        enterOuterAlt(_localctx, 3);
+        enterOuterAlt(localctx, 3);
         state = 1844;
         match(TOKEN_WITH);
         state = 1845;
         match(TOKEN_SNIPPET);
         state = 1851;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if (_la == TOKEN_LPAREN) {
+        la = tokenStream.LA(1)!;
+        if (la == TOKEN_LPAREN) {
           state = 1846;
           match(TOKEN_LPAREN);
           state = 1847;
@@ -7752,7 +7752,7 @@ class ApexParser extends Parser {
 
         break;
       case 4:
-        enterOuterAlt(_localctx, 4);
+        enterOuterAlt(localctx, 4);
         state = 1853;
         match(TOKEN_WITH);
         state = 1854;
@@ -7767,7 +7767,7 @@ class ApexParser extends Parser {
         match(TOKEN_RPAREN);
         break;
       case 5:
-        enterOuterAlt(_localctx, 5);
+        enterOuterAlt(localctx, 5);
         state = 1860;
         match(TOKEN_WITH);
         state = 1861;
@@ -7778,7 +7778,7 @@ class ApexParser extends Parser {
         match(TOKEN_StringLiteral);
         break;
       case 6:
-        enterOuterAlt(_localctx, 6);
+        enterOuterAlt(localctx, 6);
         state = 1864;
         match(TOKEN_WITH);
         state = 1865;
@@ -7789,7 +7789,7 @@ class ApexParser extends Parser {
         match(TOKEN_StringLiteral);
         break;
       case 7:
-        enterOuterAlt(_localctx, 7);
+        enterOuterAlt(localctx, 7);
         state = 1868;
         match(TOKEN_WITH);
         state = 1869;
@@ -7800,14 +7800,14 @@ class ApexParser extends Parser {
         match(TOKEN_StringLiteral);
         break;
       case 8:
-        enterOuterAlt(_localctx, 8);
+        enterOuterAlt(localctx, 8);
         state = 1872;
         match(TOKEN_WITH);
         state = 1873;
         match(TOKEN_USER_MODE);
         break;
       case 9:
-        enterOuterAlt(_localctx, 9);
+        enterOuterAlt(localctx, 9);
         state = 1874;
         match(TOKEN_WITH);
         state = 1875;
@@ -7815,24 +7815,24 @@ class ApexParser extends Parser {
         break;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   SearchGroupContext searchGroup() {
-    dynamic _localctx = SearchGroupContext(context, state);
-    enterRule(_localctx, 270, RULE_searchGroup);
-    int _la;
+    dynamic localctx = SearchGroupContext(context, state);
+    enterRule(localctx, 270, RULE_searchGroup);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1878;
-      _la = tokenStream.LA(1)!;
-      if (!(_la == TOKEN_ALL || ((((_la - 180)) & ~0x3f) == 0 && ((BigInt.one << (_la - 180)) & ((BigInt.one << (TOKEN_EMAIL - 180)) | (BigInt.one << (TOKEN_NAME - 180)) | (BigInt.one << (TOKEN_PHONE - 180)) | (BigInt.one << (TOKEN_SIDEBAR - 180)))) != BigInt.zero))) {
+      la = tokenStream.LA(1)!;
+      if (!(la == TOKEN_ALL || ((((la - 180)) & ~0x3f) == 0 && ((BigInt.one << (la - 180)) & ((BigInt.one << (TOKEN_EMAIL - 180)) | (BigInt.one << (TOKEN_NAME - 180)) | (BigInt.one << (TOKEN_PHONE - 180)) | (BigInt.one << (TOKEN_SIDEBAR - 180)))) != BigInt.zero))) {
       errorHandler.recoverInline(this);
       } else {
         if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -7842,28 +7842,28 @@ class ApexParser extends Parser {
       state = 1879;
       match(TOKEN_FIELDS);
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   FieldSpecListContext fieldSpecList() {
-    dynamic _localctx = FieldSpecListContext(context, state);
-    enterRule(_localctx, 272, RULE_fieldSpecList);
+    dynamic localctx = FieldSpecListContext(context, state);
+    enterRule(localctx, 272, RULE_fieldSpecList);
     try {
-      int _alt;
-      enterOuterAlt(_localctx, 1);
+      int alt;
+      enterOuterAlt(localctx, 1);
       state = 1881;
       fieldSpec();
       state = 1886;
       errorHandler.sync(this);
-      _alt = interpreter!.adaptivePredict(tokenStream, 182, context);
-      while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
-        if (_alt == 1) {
+      alt = interpreter!.adaptivePredict(tokenStream, 182, context);
+      while (alt != 2 && alt != ATN.INVALID_ALT_NUMBER) {
+        if (alt == 1) {
           state = 1882;
           match(TOKEN_COMMA);
           state = 1883;
@@ -7871,38 +7871,38 @@ class ApexParser extends Parser {
         }
         state = 1888;
         errorHandler.sync(this);
-        _alt = interpreter!.adaptivePredict(tokenStream, 182, context);
+        alt = interpreter!.adaptivePredict(tokenStream, 182, context);
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   FieldSpecContext fieldSpec() {
-    dynamic _localctx = FieldSpecContext(context, state);
-    enterRule(_localctx, 274, RULE_fieldSpec);
-    int _la;
+    dynamic localctx = FieldSpecContext(context, state);
+    enterRule(localctx, 274, RULE_fieldSpec);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1889;
       soslId();
       state = 1915;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_LPAREN) {
+      la = tokenStream.LA(1)!;
+      if (la == TOKEN_LPAREN) {
         state = 1890;
         match(TOKEN_LPAREN);
         state = 1891;
         fieldList();
         state = 1894;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if (_la == TOKEN_WHERE) {
+        la = tokenStream.LA(1)!;
+        if (la == TOKEN_WHERE) {
           state = 1892;
           match(TOKEN_WHERE);
           state = 1893;
@@ -7911,8 +7911,8 @@ class ApexParser extends Parser {
 
         state = 1900;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if (_la == TOKEN_USING) {
+        la = tokenStream.LA(1)!;
+        if (la == TOKEN_USING) {
           state = 1896;
           match(TOKEN_USING);
           state = 1897;
@@ -7925,8 +7925,8 @@ class ApexParser extends Parser {
 
         state = 1905;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if (_la == TOKEN_ORDER) {
+        la = tokenStream.LA(1)!;
+        if (la == TOKEN_ORDER) {
           state = 1902;
           match(TOKEN_ORDER);
           state = 1903;
@@ -7937,16 +7937,16 @@ class ApexParser extends Parser {
 
         state = 1908;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if (_la == TOKEN_LIMIT) {
+        la = tokenStream.LA(1)!;
+        if (la == TOKEN_LIMIT) {
           state = 1907;
           limitClause();
         }
 
         state = 1911;
         errorHandler.sync(this);
-        _la = tokenStream.LA(1)!;
-        if (_la == TOKEN_OFFSET) {
+        la = tokenStream.LA(1)!;
+        if (la == TOKEN_OFFSET) {
           state = 1910;
           offsetClause();
         }
@@ -7956,32 +7956,32 @@ class ApexParser extends Parser {
       }
 
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   FieldListContext fieldList() {
-    dynamic _localctx = FieldListContext(context, state);
-    enterRule(_localctx, 276, RULE_fieldList);
+    dynamic localctx = FieldListContext(context, state);
+    enterRule(localctx, 276, RULE_fieldList);
     try {
-      int _alt;
+      int alt;
       state = 1949;
       errorHandler.sync(this);
       switch (interpreter!.adaptivePredict(tokenStream, 194, context)) {
       case 1:
-        enterOuterAlt(_localctx, 1);
+        enterOuterAlt(localctx, 1);
         state = 1917;
         soslId();
         state = 1922;
         errorHandler.sync(this);
-        _alt = interpreter!.adaptivePredict(tokenStream, 189, context);
-        while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
-          if (_alt == 1) {
+        alt = interpreter!.adaptivePredict(tokenStream, 189, context);
+        while (alt != 2 && alt != ATN.INVALID_ALT_NUMBER) {
+          if (alt == 1) {
             state = 1918;
             match(TOKEN_COMMA);
             state = 1919;
@@ -7989,11 +7989,11 @@ class ApexParser extends Parser {
           }
           state = 1924;
           errorHandler.sync(this);
-          _alt = interpreter!.adaptivePredict(tokenStream, 189, context);
+          alt = interpreter!.adaptivePredict(tokenStream, 189, context);
         }
         break;
       case 2:
-        enterOuterAlt(_localctx, 2);
+        enterOuterAlt(localctx, 2);
         state = 1925;
         match(TOKEN_TOLABEL);
         state = 1926;
@@ -8012,7 +8012,7 @@ class ApexParser extends Parser {
         }
         break;
       case 3:
-        enterOuterAlt(_localctx, 3);
+        enterOuterAlt(localctx, 3);
         state = 1932;
         match(TOKEN_CONVERT_CURRENCY);
         state = 1933;
@@ -8031,7 +8031,7 @@ class ApexParser extends Parser {
         }
         break;
       case 4:
-        enterOuterAlt(_localctx, 4);
+        enterOuterAlt(localctx, 4);
         state = 1939;
         match(TOKEN_FORMAT);
         state = 1940;
@@ -8061,27 +8061,27 @@ class ApexParser extends Parser {
         break;
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   UpdateListContext updateList() {
-    dynamic _localctx = UpdateListContext(context, state);
-    enterRule(_localctx, 278, RULE_updateList);
-    int _la;
+    dynamic localctx = UpdateListContext(context, state);
+    enterRule(localctx, 278, RULE_updateList);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1951;
       updateType();
       state = 1954;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_COMMA) {
+      la = tokenStream.LA(1)!;
+      if (la == TOKEN_COMMA) {
         state = 1952;
         match(TOKEN_COMMA);
         state = 1953;
@@ -8089,24 +8089,24 @@ class ApexParser extends Parser {
       }
 
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   UpdateTypeContext updateType() {
-    dynamic _localctx = UpdateTypeContext(context, state);
-    enterRule(_localctx, 280, RULE_updateType);
-    int _la;
+    dynamic localctx = UpdateTypeContext(context, state);
+    enterRule(localctx, 280, RULE_updateType);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1956;
-      _la = tokenStream.LA(1)!;
-      if (!(_la == TOKEN_TRACKING || _la == TOKEN_VIEWSTAT)) {
+      la = tokenStream.LA(1)!;
+      if (!(la == TOKEN_TRACKING || la == TOKEN_VIEWSTAT)) {
       errorHandler.recoverInline(this);
       } else {
         if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -8114,27 +8114,27 @@ class ApexParser extends Parser {
         consume();
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   NetworkListContext networkList() {
-    dynamic _localctx = NetworkListContext(context, state);
-    enterRule(_localctx, 282, RULE_networkList);
-    int _la;
+    dynamic localctx = NetworkListContext(context, state);
+    enterRule(localctx, 282, RULE_networkList);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1958;
       match(TOKEN_StringLiteral);
       state = 1961;
       errorHandler.sync(this);
-      _la = tokenStream.LA(1)!;
-      if (_la == TOKEN_COMMA) {
+      la = tokenStream.LA(1)!;
+      if (la == TOKEN_COMMA) {
         state = 1959;
         match(TOKEN_COMMA);
         state = 1960;
@@ -8142,28 +8142,28 @@ class ApexParser extends Parser {
       }
 
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   SoslIdContext soslId() {
-    dynamic _localctx = SoslIdContext(context, state);
-    enterRule(_localctx, 284, RULE_soslId);
+    dynamic localctx = SoslIdContext(context, state);
+    enterRule(localctx, 284, RULE_soslId);
     try {
-      int _alt;
-      enterOuterAlt(_localctx, 1);
+      int alt;
+      enterOuterAlt(localctx, 1);
       state = 1963;
       id();
       state = 1968;
       errorHandler.sync(this);
-      _alt = interpreter!.adaptivePredict(tokenStream, 197, context);
-      while (_alt != 2 && _alt != ATN.INVALID_ALT_NUMBER) {
-        if (_alt == 1) {
+      alt = interpreter!.adaptivePredict(tokenStream, 197, context);
+      while (alt != 2 && alt != ATN.INVALID_ALT_NUMBER) {
+        if (alt == 1) {
           state = 1964;
           match(TOKEN_DOT);
           state = 1965;
@@ -8171,27 +8171,27 @@ class ApexParser extends Parser {
         }
         state = 1970;
         errorHandler.sync(this);
-        _alt = interpreter!.adaptivePredict(tokenStream, 197, context);
+        alt = interpreter!.adaptivePredict(tokenStream, 197, context);
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   IdContext id() {
-    dynamic _localctx = IdContext(context, state);
-    enterRule(_localctx, 286, RULE_id);
-    int _la;
+    dynamic localctx = IdContext(context, state);
+    enterRule(localctx, 286, RULE_id);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1971;
-      _la = tokenStream.LA(1)!;
-      if (!((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((_la - 64)) & ~0x3f) == 0 && ((BigInt.one << (_la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((_la - 128)) & ~0x3f) == 0 && ((BigInt.one << (_la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || _la == TOKEN_LISTVIEW || _la == TOKEN_Identifier)) {
+      la = tokenStream.LA(1)!;
+      if (!((((la) & ~0x3f) == 0 && ((BigInt.one << la) & ((BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((la - 64)) & ~0x3f) == 0 && ((BigInt.one << (la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((la - 128)) & ~0x3f) == 0 && ((BigInt.one << (la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || la == TOKEN_LISTVIEW || la == TOKEN_Identifier)) {
       errorHandler.recoverInline(this);
       } else {
         if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -8199,24 +8199,24 @@ class ApexParser extends Parser {
         consume();
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   AnyIdContext anyId() {
-    dynamic _localctx = AnyIdContext(context, state);
-    enterRule(_localctx, 288, RULE_anyId);
-    int _la;
+    dynamic localctx = AnyIdContext(context, state);
+    enterRule(localctx, 288, RULE_anyId);
+    int la;
     try {
-      enterOuterAlt(_localctx, 1);
+      enterOuterAlt(localctx, 1);
       state = 1973;
-      _la = tokenStream.LA(1)!;
-      if (!((((_la) & ~0x3f) == 0 && ((BigInt.one << _la) & ((BigInt.one << TOKEN_ABSTRACT) | (BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_BREAK) | (BigInt.one << TOKEN_CATCH) | (BigInt.one << TOKEN_CLASS) | (BigInt.one << TOKEN_CONTINUE) | (BigInt.one << TOKEN_DELETE) | (BigInt.one << TOKEN_DO) | (BigInt.one << TOKEN_ELSE) | (BigInt.one << TOKEN_ENUM) | (BigInt.one << TOKEN_EXTENDS) | (BigInt.one << TOKEN_FINAL) | (BigInt.one << TOKEN_FINALLY) | (BigInt.one << TOKEN_FOR) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_GLOBAL) | (BigInt.one << TOKEN_IF) | (BigInt.one << TOKEN_IMPLEMENTS) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSERT) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_INTERFACE) | (BigInt.one << TOKEN_MERGE) | (BigInt.one << TOKEN_NEW) | (BigInt.one << TOKEN_NULL) | (BigInt.one << TOKEN_ON) | (BigInt.one << TOKEN_OVERRIDE) | (BigInt.one << TOKEN_PRIVATE) | (BigInt.one << TOKEN_PROTECTED) | (BigInt.one << TOKEN_PUBLIC) | (BigInt.one << TOKEN_RETURN) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_STATIC) | (BigInt.one << TOKEN_SUPER) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_TESTMETHOD) | (BigInt.one << TOKEN_THIS) | (BigInt.one << TOKEN_THROW) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_TRY) | (BigInt.one << TOKEN_UNDELETE) | (BigInt.one << TOKEN_UPDATE) | (BigInt.one << TOKEN_UPSERT) | (BigInt.one << TOKEN_VIRTUAL) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WEBSERVICE) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WHILE) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((_la - 64)) & ~0x3f) == 0 && ((BigInt.one << (_la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((_la - 128)) & ~0x3f) == 0 && ((BigInt.one << (_la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || _la == TOKEN_LISTVIEW || _la == TOKEN_Identifier)) {
+      la = tokenStream.LA(1)!;
+      if (!((((la) & ~0x3f) == 0 && ((BigInt.one << la) & ((BigInt.one << TOKEN_ABSTRACT) | (BigInt.one << TOKEN_AFTER) | (BigInt.one << TOKEN_BEFORE) | (BigInt.one << TOKEN_BREAK) | (BigInt.one << TOKEN_CATCH) | (BigInt.one << TOKEN_CLASS) | (BigInt.one << TOKEN_CONTINUE) | (BigInt.one << TOKEN_DELETE) | (BigInt.one << TOKEN_DO) | (BigInt.one << TOKEN_ELSE) | (BigInt.one << TOKEN_ENUM) | (BigInt.one << TOKEN_EXTENDS) | (BigInt.one << TOKEN_FINAL) | (BigInt.one << TOKEN_FINALLY) | (BigInt.one << TOKEN_FOR) | (BigInt.one << TOKEN_GET) | (BigInt.one << TOKEN_GLOBAL) | (BigInt.one << TOKEN_IF) | (BigInt.one << TOKEN_IMPLEMENTS) | (BigInt.one << TOKEN_INHERITED) | (BigInt.one << TOKEN_INSERT) | (BigInt.one << TOKEN_INSTANCEOF) | (BigInt.one << TOKEN_INTERFACE) | (BigInt.one << TOKEN_MERGE) | (BigInt.one << TOKEN_NEW) | (BigInt.one << TOKEN_NULL) | (BigInt.one << TOKEN_ON) | (BigInt.one << TOKEN_OVERRIDE) | (BigInt.one << TOKEN_PRIVATE) | (BigInt.one << TOKEN_PROTECTED) | (BigInt.one << TOKEN_PUBLIC) | (BigInt.one << TOKEN_RETURN) | (BigInt.one << TOKEN_SET) | (BigInt.one << TOKEN_SHARING) | (BigInt.one << TOKEN_STATIC) | (BigInt.one << TOKEN_SUPER) | (BigInt.one << TOKEN_SWITCH) | (BigInt.one << TOKEN_TESTMETHOD) | (BigInt.one << TOKEN_THIS) | (BigInt.one << TOKEN_THROW) | (BigInt.one << TOKEN_TRANSIENT) | (BigInt.one << TOKEN_TRIGGER) | (BigInt.one << TOKEN_TRY) | (BigInt.one << TOKEN_UNDELETE) | (BigInt.one << TOKEN_UPDATE) | (BigInt.one << TOKEN_UPSERT) | (BigInt.one << TOKEN_VIRTUAL) | (BigInt.one << TOKEN_VOID) | (BigInt.one << TOKEN_WEBSERVICE) | (BigInt.one << TOKEN_WHEN) | (BigInt.one << TOKEN_WHILE) | (BigInt.one << TOKEN_WITH) | (BigInt.one << TOKEN_WITHOUT) | (BigInt.one << TOKEN_LIST) | (BigInt.one << TOKEN_MAP) | (BigInt.one << TOKEN_SYSTEM) | (BigInt.one << TOKEN_USER) | (BigInt.one << TOKEN_SELECT) | (BigInt.one << TOKEN_COUNT) | (BigInt.one << TOKEN_FROM) | (BigInt.one << TOKEN_AS) | (BigInt.one << TOKEN_USING))) != BigInt.zero) || ((((la - 64)) & ~0x3f) == 0 && ((BigInt.one << (la - 64)) & ((BigInt.one << (TOKEN_SCOPE - 64)) | (BigInt.one << (TOKEN_WHERE - 64)) | (BigInt.one << (TOKEN_ORDER - 64)) | (BigInt.one << (TOKEN_BY - 64)) | (BigInt.one << (TOKEN_LIMIT - 64)) | (BigInt.one << (TOKEN_SOQLAND - 64)) | (BigInt.one << (TOKEN_SOQLOR - 64)) | (BigInt.one << (TOKEN_NOT - 64)) | (BigInt.one << (TOKEN_AVG - 64)) | (BigInt.one << (TOKEN_COUNT_DISTINCT - 64)) | (BigInt.one << (TOKEN_MIN - 64)) | (BigInt.one << (TOKEN_MAX - 64)) | (BigInt.one << (TOKEN_SUM - 64)) | (BigInt.one << (TOKEN_TYPEOF - 64)) | (BigInt.one << (TOKEN_END - 64)) | (BigInt.one << (TOKEN_THEN - 64)) | (BigInt.one << (TOKEN_LIKE - 64)) | (BigInt.one << (TOKEN_IN - 64)) | (BigInt.one << (TOKEN_INCLUDES - 64)) | (BigInt.one << (TOKEN_EXCLUDES - 64)) | (BigInt.one << (TOKEN_ASC - 64)) | (BigInt.one << (TOKEN_DESC - 64)) | (BigInt.one << (TOKEN_NULLS - 64)) | (BigInt.one << (TOKEN_FIRST - 64)) | (BigInt.one << (TOKEN_LAST - 64)) | (BigInt.one << (TOKEN_GROUP - 64)) | (BigInt.one << (TOKEN_ALL - 64)) | (BigInt.one << (TOKEN_ROWS - 64)) | (BigInt.one << (TOKEN_VIEW - 64)) | (BigInt.one << (TOKEN_HAVING - 64)) | (BigInt.one << (TOKEN_ROLLUP - 64)) | (BigInt.one << (TOKEN_TOLABEL - 64)) | (BigInt.one << (TOKEN_OFFSET - 64)) | (BigInt.one << (TOKEN_DATA - 64)) | (BigInt.one << (TOKEN_CATEGORY - 64)) | (BigInt.one << (TOKEN_AT - 64)) | (BigInt.one << (TOKEN_ABOVE - 64)) | (BigInt.one << (TOKEN_BELOW - 64)) | (BigInt.one << (TOKEN_ABOVE_OR_BELOW - 64)) | (BigInt.one << (TOKEN_SECURITY_ENFORCED - 64)) | (BigInt.one << (TOKEN_SYSTEM_MODE - 64)) | (BigInt.one << (TOKEN_USER_MODE - 64)) | (BigInt.one << (TOKEN_REFERENCE - 64)) | (BigInt.one << (TOKEN_CUBE - 64)) | (BigInt.one << (TOKEN_FORMAT - 64)) | (BigInt.one << (TOKEN_TRACKING - 64)) | (BigInt.one << (TOKEN_VIEWSTAT - 64)) | (BigInt.one << (TOKEN_CUSTOM - 64)) | (BigInt.one << (TOKEN_STANDARD - 64)) | (BigInt.one << (TOKEN_DISTANCE - 64)) | (BigInt.one << (TOKEN_GEOLOCATION - 64)) | (BigInt.one << (TOKEN_GROUPING - 64)) | (BigInt.one << (TOKEN_CONVERT_CURRENCY - 64)) | (BigInt.one << (TOKEN_CALENDAR_MONTH - 64)) | (BigInt.one << (TOKEN_CALENDAR_QUARTER - 64)) | (BigInt.one << (TOKEN_CALENDAR_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_IN_MONTH - 64)) | (BigInt.one << (TOKEN_DAY_IN_WEEK - 64)) | (BigInt.one << (TOKEN_DAY_IN_YEAR - 64)) | (BigInt.one << (TOKEN_DAY_ONLY - 64)) | (BigInt.one << (TOKEN_FISCAL_MONTH - 64)) | (BigInt.one << (TOKEN_FISCAL_QUARTER - 64)) | (BigInt.one << (TOKEN_FISCAL_YEAR - 64)) | (BigInt.one << (TOKEN_HOUR_IN_DAY - 64)))) != BigInt.zero) || ((((la - 128)) & ~0x3f) == 0 && ((BigInt.one << (la - 128)) & ((BigInt.one << (TOKEN_WEEK_IN_MONTH - 128)) | (BigInt.one << (TOKEN_WEEK_IN_YEAR - 128)) | (BigInt.one << (TOKEN_CONVERT_TIMEZONE - 128)) | (BigInt.one << (TOKEN_YESTERDAY - 128)) | (BigInt.one << (TOKEN_TODAY - 128)) | (BigInt.one << (TOKEN_TOMORROW - 128)) | (BigInt.one << (TOKEN_LAST_WEEK - 128)) | (BigInt.one << (TOKEN_THIS_WEEK - 128)) | (BigInt.one << (TOKEN_NEXT_WEEK - 128)) | (BigInt.one << (TOKEN_LAST_MONTH - 128)) | (BigInt.one << (TOKEN_THIS_MONTH - 128)) | (BigInt.one << (TOKEN_NEXT_MONTH - 128)) | (BigInt.one << (TOKEN_LAST_90_DAYS - 128)) | (BigInt.one << (TOKEN_NEXT_90_DAYS - 128)) | (BigInt.one << (TOKEN_LAST_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_DAYS_N - 128)) | (BigInt.one << (TOKEN_N_DAYS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_WEEKS_N - 128)) | (BigInt.one << (TOKEN_N_WEEKS_AGO_N - 128)) | (BigInt.one << (TOKEN_NEXT_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_MONTHS_N - 128)) | (BigInt.one << (TOKEN_N_MONTHS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_QUARTER - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_QUARTERS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_QUARTERS_AGO_N - 128)) | (BigInt.one << (TOKEN_THIS_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_LAST_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_FISCAL_YEAR - 128)) | (BigInt.one << (TOKEN_NEXT_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_LAST_N_FISCAL_YEARS_N - 128)) | (BigInt.one << (TOKEN_N_FISCAL_YEARS_AGO_N - 128)) | (BigInt.one << (TOKEN_IntegralCurrencyLiteral - 128)) | (BigInt.one << (TOKEN_FIND - 128)) | (BigInt.one << (TOKEN_EMAIL - 128)) | (BigInt.one << (TOKEN_NAME - 128)) | (BigInt.one << (TOKEN_PHONE - 128)) | (BigInt.one << (TOKEN_SIDEBAR - 128)) | (BigInt.one << (TOKEN_FIELDS - 128)) | (BigInt.one << (TOKEN_METADATA - 128)) | (BigInt.one << (TOKEN_PRICEBOOKID - 128)) | (BigInt.one << (TOKEN_NETWORK - 128)) | (BigInt.one << (TOKEN_SNIPPET - 128)) | (BigInt.one << (TOKEN_TARGET_LENGTH - 128)) | (BigInt.one << (TOKEN_DIVISION - 128)) | (BigInt.one << (TOKEN_RETURNING - 128)))) != BigInt.zero) || la == TOKEN_LISTVIEW || la == TOKEN_Identifier)) {
       errorHandler.recoverInline(this);
       } else {
         if ( tokenStream.LA(1)! == IntStream.EOF ) matchedEOF = true;
@@ -8224,24 +8224,24 @@ class ApexParser extends Parser {
         consume();
       }
     } on RecognitionException catch (re) {
-      _localctx.exception = re;
+      localctx.exception = re;
       errorHandler.reportError(this, re);
       errorHandler.recover(this, re);
     } finally {
       exitRule();
     }
-    return _localctx;
+    return localctx;
   }
 
   @override
-  bool sempred(RuleContext? _localctx, int ruleIndex, int predIndex) {
+  bool sempred(RuleContext? localctx, int ruleIndex, int predIndex) {
     switch (ruleIndex) {
     case 74:
-      return _expression_sempred(_localctx as ExpressionContext?, predIndex);
+      return _expression_sempred(localctx as ExpressionContext?, predIndex);
     }
     return true;
   }
-  bool _expression_sempred(dynamic _localctx, int predIndex) {
+  bool _expression_sempred(dynamic localctx, int predIndex) {
     switch (predIndex) {
       case 0: return precpred(context, 14);
       case 1: return precpred(context, 13);
@@ -9750,7 +9750,7 @@ class TriggerUnitContext extends ParserRuleContext {
   TerminalNode? EOF() => getToken(ApexParser.TOKEN_EOF, 0);
   List<TerminalNode> COMMAs() => getTokens(ApexParser.TOKEN_COMMA);
   TerminalNode? COMMA(int i) => getToken(ApexParser.TOKEN_COMMA, i);
-  TriggerUnitContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  TriggerUnitContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_triggerUnit;
   @override
@@ -9770,7 +9770,7 @@ class TriggerCaseContext extends ParserRuleContext {
   TerminalNode? UPDATE() => getToken(ApexParser.TOKEN_UPDATE, 0);
   TerminalNode? DELETE() => getToken(ApexParser.TOKEN_DELETE, 0);
   TerminalNode? UNDELETE() => getToken(ApexParser.TOKEN_UNDELETE, 0);
-  TriggerCaseContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  TriggerCaseContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_triggerCase;
   @override
@@ -9786,7 +9786,7 @@ class TriggerCaseContext extends ParserRuleContext {
 class CompilationUnitContext extends ParserRuleContext {
   TypeDeclarationContext? typeDeclaration() => getRuleContext<TypeDeclarationContext>(0);
   TerminalNode? EOF() => getToken(ApexParser.TOKEN_EOF, 0);
-  CompilationUnitContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  CompilationUnitContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_compilationUnit;
   @override
@@ -9800,14 +9800,10 @@ class CompilationUnitContext extends ParserRuleContext {
 }
 
 class TypeDeclarationContext extends ParserRuleContext {
-  TypeDeclarationContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  TypeDeclarationContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_typeDeclaration;
  
-  @override
-  void copyFrom(ParserRuleContext ctx) {
-    super.copyFrom(ctx);
-  }
 }
 
 class ClassDeclarationContext extends ParserRuleContext {
@@ -9818,7 +9814,7 @@ class ClassDeclarationContext extends ParserRuleContext {
   TypeRefContext? typeRef() => getRuleContext<TypeRefContext>(0);
   TerminalNode? IMPLEMENTS() => getToken(ApexParser.TOKEN_IMPLEMENTS, 0);
   TypeListContext? typeList() => getRuleContext<TypeListContext>(0);
-  ClassDeclarationContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ClassDeclarationContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_classDeclaration;
   @override
@@ -9837,7 +9833,7 @@ class EnumDeclarationContext extends ParserRuleContext {
   TerminalNode? LBRACE() => getToken(ApexParser.TOKEN_LBRACE, 0);
   TerminalNode? RBRACE() => getToken(ApexParser.TOKEN_RBRACE, 0);
   EnumConstantsContext? enumConstants() => getRuleContext<EnumConstantsContext>(0);
-  EnumDeclarationContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  EnumDeclarationContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_enumDeclaration;
   @override
@@ -9855,7 +9851,7 @@ class EnumConstantsContext extends ParserRuleContext {
   IdContext? id(int i) => getRuleContext<IdContext>(i);
   List<TerminalNode> COMMAs() => getTokens(ApexParser.TOKEN_COMMA);
   TerminalNode? COMMA(int i) => getToken(ApexParser.TOKEN_COMMA, i);
-  EnumConstantsContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  EnumConstantsContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_enumConstants;
   @override
@@ -9874,7 +9870,7 @@ class InterfaceDeclarationContext extends ParserRuleContext {
   InterfaceBodyContext? interfaceBody() => getRuleContext<InterfaceBodyContext>(0);
   TerminalNode? EXTENDS() => getToken(ApexParser.TOKEN_EXTENDS, 0);
   TypeListContext? typeList() => getRuleContext<TypeListContext>(0);
-  InterfaceDeclarationContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  InterfaceDeclarationContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_interfaceDeclaration;
   @override
@@ -9892,7 +9888,7 @@ class TypeListContext extends ParserRuleContext {
   TypeRefContext? typeRef(int i) => getRuleContext<TypeRefContext>(i);
   List<TerminalNode> COMMAs() => getTokens(ApexParser.TOKEN_COMMA);
   TerminalNode? COMMA(int i) => getToken(ApexParser.TOKEN_COMMA, i);
-  TypeListContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  TypeListContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_typeList;
   @override
@@ -9912,7 +9908,7 @@ class ClassBodyContext extends ParserRuleContext {
   GroupedDeclarationsContext? groupedDeclarations(int i) => getRuleContext<GroupedDeclarationsContext>(i);
   List<ClassBodyDeclarationContext> classBodyDeclarations() => getRuleContexts<ClassBodyDeclarationContext>();
   ClassBodyDeclarationContext? classBodyDeclaration(int i) => getRuleContext<ClassBodyDeclarationContext>(i);
-  ClassBodyContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ClassBodyContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_classBody;
   @override
@@ -9930,7 +9926,7 @@ class GroupedDeclarationsContext extends ParserRuleContext {
   TerminalNode? END_GROUP_COMMENT() => getToken(ApexParser.TOKEN_END_GROUP_COMMENT, 0);
   List<ClassBodyDeclarationContext> classBodyDeclarations() => getRuleContexts<ClassBodyDeclarationContext>();
   ClassBodyDeclarationContext? classBodyDeclaration(int i) => getRuleContext<ClassBodyDeclarationContext>(i);
-  GroupedDeclarationsContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  GroupedDeclarationsContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_groupedDeclarations;
   @override
@@ -9948,7 +9944,7 @@ class InterfaceBodyContext extends ParserRuleContext {
   TerminalNode? RBRACE() => getToken(ApexParser.TOKEN_RBRACE, 0);
   List<InterfaceMethodDeclarationContext> interfaceMethodDeclarations() => getRuleContexts<InterfaceMethodDeclarationContext>();
   InterfaceMethodDeclarationContext? interfaceMethodDeclaration(int i) => getRuleContext<InterfaceMethodDeclarationContext>(i);
-  InterfaceBodyContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  InterfaceBodyContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_interfaceBody;
   @override
@@ -9962,14 +9958,10 @@ class InterfaceBodyContext extends ParserRuleContext {
 }
 
 class ClassBodyDeclarationContext extends ParserRuleContext {
-  ClassBodyDeclarationContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ClassBodyDeclarationContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_classBodyDeclaration;
  
-  @override
-  void copyFrom(ParserRuleContext ctx) {
-    super.copyFrom(ctx);
-  }
 }
 
 class ModifierContext extends ParserRuleContext {
@@ -9990,7 +9982,7 @@ class ModifierContext extends ParserRuleContext {
   TerminalNode? SHARING() => getToken(ApexParser.TOKEN_SHARING, 0);
   TerminalNode? WITHOUT() => getToken(ApexParser.TOKEN_WITHOUT, 0);
   TerminalNode? INHERITED() => getToken(ApexParser.TOKEN_INHERITED, 0);
-  ModifierContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ModifierContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_modifier;
   @override
@@ -10004,14 +9996,10 @@ class ModifierContext extends ParserRuleContext {
 }
 
 class MemberDeclarationContext extends ParserRuleContext {
-  MemberDeclarationContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  MemberDeclarationContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_memberDeclaration;
  
-  @override
-  void copyFrom(ParserRuleContext ctx) {
-    super.copyFrom(ctx);
-  }
 }
 
 class MethodDeclarationContext extends ParserRuleContext {
@@ -10021,7 +10009,7 @@ class MethodDeclarationContext extends ParserRuleContext {
   TerminalNode? VOID() => getToken(ApexParser.TOKEN_VOID, 0);
   BlockContext? block() => getRuleContext<BlockContext>(0);
   TerminalNode? SEMI() => getToken(ApexParser.TOKEN_SEMI, 0);
-  MethodDeclarationContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  MethodDeclarationContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_methodDeclaration;
   @override
@@ -10038,7 +10026,7 @@ class ConstructorDeclarationContext extends ParserRuleContext {
   QualifiedNameContext? qualifiedName() => getRuleContext<QualifiedNameContext>(0);
   FormalParametersContext? formalParameters() => getRuleContext<FormalParametersContext>(0);
   BlockContext? block() => getRuleContext<BlockContext>(0);
-  ConstructorDeclarationContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ConstructorDeclarationContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_constructorDeclaration;
   @override
@@ -10055,7 +10043,7 @@ class FieldDeclarationContext extends ParserRuleContext {
   TypeRefContext? typeRef() => getRuleContext<TypeRefContext>(0);
   VariableDeclaratorsContext? variableDeclarators() => getRuleContext<VariableDeclaratorsContext>(0);
   TerminalNode? SEMI() => getToken(ApexParser.TOKEN_SEMI, 0);
-  FieldDeclarationContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  FieldDeclarationContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_fieldDeclaration;
   @override
@@ -10075,7 +10063,7 @@ class PropertyDeclarationContext extends ParserRuleContext {
   TerminalNode? RBRACE() => getToken(ApexParser.TOKEN_RBRACE, 0);
   List<PropertyBlockContext> propertyBlocks() => getRuleContexts<PropertyBlockContext>();
   PropertyBlockContext? propertyBlock(int i) => getRuleContext<PropertyBlockContext>(i);
-  PropertyDeclarationContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  PropertyDeclarationContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_propertyDeclaration;
   @override
@@ -10098,7 +10086,7 @@ class InterfaceMethodDeclarationContext extends ParserRuleContext {
   AnnotationContext? annotation(int i) => getRuleContext<AnnotationContext>(i);
   List<ModifierContext> modifiers() => getRuleContexts<ModifierContext>();
   ModifierContext? modifier(int i) => getRuleContext<ModifierContext>(i);
-  InterfaceMethodDeclarationContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  InterfaceMethodDeclarationContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_interfaceMethodDeclaration;
   @override
@@ -10116,7 +10104,7 @@ class VariableDeclaratorsContext extends ParserRuleContext {
   VariableDeclaratorContext? variableDeclarator(int i) => getRuleContext<VariableDeclaratorContext>(i);
   List<TerminalNode> COMMAs() => getTokens(ApexParser.TOKEN_COMMA);
   TerminalNode? COMMA(int i) => getToken(ApexParser.TOKEN_COMMA, i);
-  VariableDeclaratorsContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  VariableDeclaratorsContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_variableDeclarators;
   @override
@@ -10133,7 +10121,7 @@ class VariableDeclaratorContext extends ParserRuleContext {
   IdContext? id() => getRuleContext<IdContext>(0);
   TerminalNode? ASSIGN() => getToken(ApexParser.TOKEN_ASSIGN, 0);
   ExpressionContext? expression() => getRuleContext<ExpressionContext>(0);
-  VariableDeclaratorContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  VariableDeclaratorContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_variableDeclarator;
   @override
@@ -10153,7 +10141,7 @@ class ArrayInitializerContext extends ParserRuleContext {
   ExpressionContext? expression(int i) => getRuleContext<ExpressionContext>(i);
   List<TerminalNode> COMMAs() => getTokens(ApexParser.TOKEN_COMMA);
   TerminalNode? COMMA(int i) => getToken(ApexParser.TOKEN_COMMA, i);
-  ArrayInitializerContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ArrayInitializerContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_arrayInitializer;
   @override
@@ -10172,7 +10160,7 @@ class TypeRefContext extends ParserRuleContext {
   ArraySubscriptsContext? arraySubscripts() => getRuleContext<ArraySubscriptsContext>(0);
   List<TerminalNode> DOTs() => getTokens(ApexParser.TOKEN_DOT);
   TerminalNode? DOT(int i) => getToken(ApexParser.TOKEN_DOT, i);
-  TypeRefContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  TypeRefContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_typeRef;
   @override
@@ -10190,7 +10178,7 @@ class ArraySubscriptsContext extends ParserRuleContext {
   TerminalNode? LBRACK(int i) => getToken(ApexParser.TOKEN_LBRACK, i);
   List<TerminalNode> RBRACKs() => getTokens(ApexParser.TOKEN_RBRACK);
   TerminalNode? RBRACK(int i) => getToken(ApexParser.TOKEN_RBRACK, i);
-  ArraySubscriptsContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ArraySubscriptsContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_arraySubscripts;
   @override
@@ -10209,7 +10197,7 @@ class TypeNameContext extends ParserRuleContext {
   TerminalNode? SET() => getToken(ApexParser.TOKEN_SET, 0);
   TerminalNode? MAP() => getToken(ApexParser.TOKEN_MAP, 0);
   IdContext? id() => getRuleContext<IdContext>(0);
-  TypeNameContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  TypeNameContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_typeName;
   @override
@@ -10226,7 +10214,7 @@ class TypeArgumentsContext extends ParserRuleContext {
   TerminalNode? LT() => getToken(ApexParser.TOKEN_LT, 0);
   TypeListContext? typeList() => getRuleContext<TypeListContext>(0);
   TerminalNode? GT() => getToken(ApexParser.TOKEN_GT, 0);
-  TypeArgumentsContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  TypeArgumentsContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_typeArguments;
   @override
@@ -10243,7 +10231,7 @@ class FormalParametersContext extends ParserRuleContext {
   TerminalNode? LPAREN() => getToken(ApexParser.TOKEN_LPAREN, 0);
   TerminalNode? RPAREN() => getToken(ApexParser.TOKEN_RPAREN, 0);
   FormalParameterListContext? formalParameterList() => getRuleContext<FormalParameterListContext>(0);
-  FormalParametersContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  FormalParametersContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_formalParameters;
   @override
@@ -10261,7 +10249,7 @@ class FormalParameterListContext extends ParserRuleContext {
   FormalParameterContext? formalParameter(int i) => getRuleContext<FormalParameterContext>(i);
   List<TerminalNode> COMMAs() => getTokens(ApexParser.TOKEN_COMMA);
   TerminalNode? COMMA(int i) => getToken(ApexParser.TOKEN_COMMA, i);
-  FormalParameterListContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  FormalParameterListContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_formalParameterList;
   @override
@@ -10279,7 +10267,7 @@ class FormalParameterContext extends ParserRuleContext {
   IdContext? id() => getRuleContext<IdContext>(0);
   List<ModifierContext> modifiers() => getRuleContexts<ModifierContext>();
   ModifierContext? modifier(int i) => getRuleContext<ModifierContext>(i);
-  FormalParameterContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  FormalParameterContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_formalParameter;
   @override
@@ -10297,7 +10285,7 @@ class QualifiedNameContext extends ParserRuleContext {
   IdContext? id(int i) => getRuleContext<IdContext>(i);
   List<TerminalNode> DOTs() => getTokens(ApexParser.TOKEN_DOT);
   TerminalNode? DOT(int i) => getToken(ApexParser.TOKEN_DOT, i);
-  QualifiedNameContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  QualifiedNameContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_qualifiedName;
   @override
@@ -10317,7 +10305,7 @@ class LiteralContext extends ParserRuleContext {
   TerminalNode? StringLiteral() => getToken(ApexParser.TOKEN_StringLiteral, 0);
   TerminalNode? BooleanLiteral() => getToken(ApexParser.TOKEN_BooleanLiteral, 0);
   TerminalNode? NULL() => getToken(ApexParser.TOKEN_NULL, 0);
-  LiteralContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  LiteralContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_literal;
   @override
@@ -10337,7 +10325,7 @@ class AnnotationContext extends ParserRuleContext {
   TerminalNode? RPAREN() => getToken(ApexParser.TOKEN_RPAREN, 0);
   ElementValuePairsContext? elementValuePairs() => getRuleContext<ElementValuePairsContext>(0);
   ElementValueContext? elementValue() => getRuleContext<ElementValueContext>(0);
-  AnnotationContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  AnnotationContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_annotation;
   @override
@@ -10355,7 +10343,7 @@ class ElementValuePairsContext extends ParserRuleContext {
   ElementValuePairContext? elementValuePair(int i) => getRuleContext<ElementValuePairContext>(i);
   List<TerminalNode> COMMAs() => getTokens(ApexParser.TOKEN_COMMA);
   TerminalNode? COMMA(int i) => getToken(ApexParser.TOKEN_COMMA, i);
-  ElementValuePairsContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ElementValuePairsContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_elementValuePairs;
   @override
@@ -10372,7 +10360,7 @@ class ElementValuePairContext extends ParserRuleContext {
   IdContext? id() => getRuleContext<IdContext>(0);
   TerminalNode? ASSIGN() => getToken(ApexParser.TOKEN_ASSIGN, 0);
   ElementValueContext? elementValue() => getRuleContext<ElementValueContext>(0);
-  ElementValuePairContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ElementValuePairContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_elementValuePair;
   @override
@@ -10389,7 +10377,7 @@ class ElementValueContext extends ParserRuleContext {
   ExpressionContext? expression() => getRuleContext<ExpressionContext>(0);
   AnnotationContext? annotation() => getRuleContext<AnnotationContext>(0);
   ElementValueArrayInitializerContext? elementValueArrayInitializer() => getRuleContext<ElementValueArrayInitializerContext>(0);
-  ElementValueContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ElementValueContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_elementValue;
   @override
@@ -10409,7 +10397,7 @@ class ElementValueArrayInitializerContext extends ParserRuleContext {
   ElementValueContext? elementValue(int i) => getRuleContext<ElementValueContext>(i);
   List<TerminalNode> COMMAs() => getTokens(ApexParser.TOKEN_COMMA);
   TerminalNode? COMMA(int i) => getToken(ApexParser.TOKEN_COMMA, i);
-  ElementValueArrayInitializerContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ElementValueArrayInitializerContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_elementValueArrayInitializer;
   @override
@@ -10427,7 +10415,7 @@ class BlockContext extends ParserRuleContext {
   TerminalNode? RBRACE() => getToken(ApexParser.TOKEN_RBRACE, 0);
   List<StatementContext> statements() => getRuleContexts<StatementContext>();
   StatementContext? statement(int i) => getRuleContext<StatementContext>(i);
-  BlockContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  BlockContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_block;
   @override
@@ -10443,7 +10431,7 @@ class BlockContext extends ParserRuleContext {
 class LocalVariableDeclarationStatementContext extends ParserRuleContext {
   LocalVariableDeclarationContext? localVariableDeclaration() => getRuleContext<LocalVariableDeclarationContext>(0);
   TerminalNode? SEMI() => getToken(ApexParser.TOKEN_SEMI, 0);
-  LocalVariableDeclarationStatementContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  LocalVariableDeclarationStatementContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_localVariableDeclarationStatement;
   @override
@@ -10461,7 +10449,7 @@ class LocalVariableDeclarationContext extends ParserRuleContext {
   VariableDeclaratorsContext? variableDeclarators() => getRuleContext<VariableDeclaratorsContext>(0);
   List<ModifierContext> modifiers() => getRuleContexts<ModifierContext>();
   ModifierContext? modifier(int i) => getRuleContext<ModifierContext>(i);
-  LocalVariableDeclarationContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  LocalVariableDeclarationContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_localVariableDeclaration;
   @override
@@ -10495,7 +10483,7 @@ class StatementContext extends ParserRuleContext {
   RunAsStatementContext? runAsStatement() => getRuleContext<RunAsStatementContext>(0);
   LocalVariableDeclarationStatementContext? localVariableDeclarationStatement() => getRuleContext<LocalVariableDeclarationStatementContext>(0);
   ExpressionStatementContext? expressionStatement() => getRuleContext<ExpressionStatementContext>(0);
-  StatementContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  StatementContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_statement;
   @override
@@ -10514,7 +10502,7 @@ class IfStatementContext extends ParserRuleContext {
   List<StatementContext> statements() => getRuleContexts<StatementContext>();
   StatementContext? statement(int i) => getRuleContext<StatementContext>(i);
   TerminalNode? ELSE() => getToken(ApexParser.TOKEN_ELSE, 0);
-  IfStatementContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  IfStatementContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_ifStatement;
   @override
@@ -10535,7 +10523,7 @@ class SwitchStatementContext extends ParserRuleContext {
   TerminalNode? RBRACE() => getToken(ApexParser.TOKEN_RBRACE, 0);
   List<WhenControlContext> whenControls() => getRuleContexts<WhenControlContext>();
   WhenControlContext? whenControl(int i) => getRuleContext<WhenControlContext>(i);
-  SwitchStatementContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  SwitchStatementContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_switchStatement;
   @override
@@ -10552,7 +10540,7 @@ class WhenControlContext extends ParserRuleContext {
   TerminalNode? WHEN() => getToken(ApexParser.TOKEN_WHEN, 0);
   WhenValueContext? whenValue() => getRuleContext<WhenValueContext>(0);
   BlockContext? block() => getRuleContext<BlockContext>(0);
-  WhenControlContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  WhenControlContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_whenControl;
   @override
@@ -10573,7 +10561,7 @@ class WhenValueContext extends ParserRuleContext {
   TerminalNode? COMMA(int i) => getToken(ApexParser.TOKEN_COMMA, i);
   TypeRefContext? typeRef() => getRuleContext<TypeRefContext>(0);
   IdContext? id() => getRuleContext<IdContext>(0);
-  WhenValueContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  WhenValueContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_whenValue;
   @override
@@ -10596,7 +10584,7 @@ class WhenLiteralContext extends ParserRuleContext {
   TerminalNode? LPAREN() => getToken(ApexParser.TOKEN_LPAREN, 0);
   WhenLiteralContext? whenLiteral() => getRuleContext<WhenLiteralContext>(0);
   TerminalNode? RPAREN() => getToken(ApexParser.TOKEN_RPAREN, 0);
-  WhenLiteralContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  WhenLiteralContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_whenLiteral;
   @override
@@ -10616,7 +10604,7 @@ class ForStatementContext extends ParserRuleContext {
   TerminalNode? RPAREN() => getToken(ApexParser.TOKEN_RPAREN, 0);
   StatementContext? statement() => getRuleContext<StatementContext>(0);
   TerminalNode? SEMI() => getToken(ApexParser.TOKEN_SEMI, 0);
-  ForStatementContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ForStatementContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_forStatement;
   @override
@@ -10634,7 +10622,7 @@ class WhileStatementContext extends ParserRuleContext {
   ParExpressionContext? parExpression() => getRuleContext<ParExpressionContext>(0);
   StatementContext? statement() => getRuleContext<StatementContext>(0);
   TerminalNode? SEMI() => getToken(ApexParser.TOKEN_SEMI, 0);
-  WhileStatementContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  WhileStatementContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_whileStatement;
   @override
@@ -10653,7 +10641,7 @@ class DoWhileStatementContext extends ParserRuleContext {
   TerminalNode? WHILE() => getToken(ApexParser.TOKEN_WHILE, 0);
   ParExpressionContext? parExpression() => getRuleContext<ParExpressionContext>(0);
   TerminalNode? SEMI() => getToken(ApexParser.TOKEN_SEMI, 0);
-  DoWhileStatementContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  DoWhileStatementContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_doWhileStatement;
   @override
@@ -10672,7 +10660,7 @@ class TryStatementContext extends ParserRuleContext {
   FinallyBlockContext? finallyBlock() => getRuleContext<FinallyBlockContext>(0);
   List<CatchClauseContext> catchClauses() => getRuleContexts<CatchClauseContext>();
   CatchClauseContext? catchClause(int i) => getRuleContext<CatchClauseContext>(i);
-  TryStatementContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  TryStatementContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_tryStatement;
   @override
@@ -10689,7 +10677,7 @@ class ReturnStatementContext extends ParserRuleContext {
   TerminalNode? RETURN() => getToken(ApexParser.TOKEN_RETURN, 0);
   TerminalNode? SEMI() => getToken(ApexParser.TOKEN_SEMI, 0);
   ExpressionContext? expression() => getRuleContext<ExpressionContext>(0);
-  ReturnStatementContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ReturnStatementContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_returnStatement;
   @override
@@ -10706,7 +10694,7 @@ class ThrowStatementContext extends ParserRuleContext {
   TerminalNode? THROW() => getToken(ApexParser.TOKEN_THROW, 0);
   ExpressionContext? expression() => getRuleContext<ExpressionContext>(0);
   TerminalNode? SEMI() => getToken(ApexParser.TOKEN_SEMI, 0);
-  ThrowStatementContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ThrowStatementContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_throwStatement;
   @override
@@ -10722,7 +10710,7 @@ class ThrowStatementContext extends ParserRuleContext {
 class BreakStatementContext extends ParserRuleContext {
   TerminalNode? BREAK() => getToken(ApexParser.TOKEN_BREAK, 0);
   TerminalNode? SEMI() => getToken(ApexParser.TOKEN_SEMI, 0);
-  BreakStatementContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  BreakStatementContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_breakStatement;
   @override
@@ -10738,7 +10726,7 @@ class BreakStatementContext extends ParserRuleContext {
 class ContinueStatementContext extends ParserRuleContext {
   TerminalNode? CONTINUE() => getToken(ApexParser.TOKEN_CONTINUE, 0);
   TerminalNode? SEMI() => getToken(ApexParser.TOKEN_SEMI, 0);
-  ContinueStatementContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ContinueStatementContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_continueStatement;
   @override
@@ -10755,7 +10743,7 @@ class AccessLevelContext extends ParserRuleContext {
   TerminalNode? AS() => getToken(ApexParser.TOKEN_AS, 0);
   TerminalNode? SYSTEM() => getToken(ApexParser.TOKEN_SYSTEM, 0);
   TerminalNode? USER() => getToken(ApexParser.TOKEN_USER, 0);
-  AccessLevelContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  AccessLevelContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_accessLevel;
   @override
@@ -10773,7 +10761,7 @@ class InsertStatementContext extends ParserRuleContext {
   ExpressionContext? expression() => getRuleContext<ExpressionContext>(0);
   TerminalNode? SEMI() => getToken(ApexParser.TOKEN_SEMI, 0);
   AccessLevelContext? accessLevel() => getRuleContext<AccessLevelContext>(0);
-  InsertStatementContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  InsertStatementContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_insertStatement;
   @override
@@ -10791,7 +10779,7 @@ class UpdateStatementContext extends ParserRuleContext {
   ExpressionContext? expression() => getRuleContext<ExpressionContext>(0);
   TerminalNode? SEMI() => getToken(ApexParser.TOKEN_SEMI, 0);
   AccessLevelContext? accessLevel() => getRuleContext<AccessLevelContext>(0);
-  UpdateStatementContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  UpdateStatementContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_updateStatement;
   @override
@@ -10809,7 +10797,7 @@ class DeleteStatementContext extends ParserRuleContext {
   ExpressionContext? expression() => getRuleContext<ExpressionContext>(0);
   TerminalNode? SEMI() => getToken(ApexParser.TOKEN_SEMI, 0);
   AccessLevelContext? accessLevel() => getRuleContext<AccessLevelContext>(0);
-  DeleteStatementContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  DeleteStatementContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_deleteStatement;
   @override
@@ -10827,7 +10815,7 @@ class UndeleteStatementContext extends ParserRuleContext {
   ExpressionContext? expression() => getRuleContext<ExpressionContext>(0);
   TerminalNode? SEMI() => getToken(ApexParser.TOKEN_SEMI, 0);
   AccessLevelContext? accessLevel() => getRuleContext<AccessLevelContext>(0);
-  UndeleteStatementContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  UndeleteStatementContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_undeleteStatement;
   @override
@@ -10846,7 +10834,7 @@ class UpsertStatementContext extends ParserRuleContext {
   TerminalNode? SEMI() => getToken(ApexParser.TOKEN_SEMI, 0);
   AccessLevelContext? accessLevel() => getRuleContext<AccessLevelContext>(0);
   QualifiedNameContext? qualifiedName() => getRuleContext<QualifiedNameContext>(0);
-  UpsertStatementContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  UpsertStatementContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_upsertStatement;
   @override
@@ -10865,7 +10853,7 @@ class MergeStatementContext extends ParserRuleContext {
   ExpressionContext? expression(int i) => getRuleContext<ExpressionContext>(i);
   TerminalNode? SEMI() => getToken(ApexParser.TOKEN_SEMI, 0);
   AccessLevelContext? accessLevel() => getRuleContext<AccessLevelContext>(0);
-  MergeStatementContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  MergeStatementContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_mergeStatement;
   @override
@@ -10884,7 +10872,7 @@ class RunAsStatementContext extends ParserRuleContext {
   TerminalNode? RPAREN() => getToken(ApexParser.TOKEN_RPAREN, 0);
   BlockContext? block() => getRuleContext<BlockContext>(0);
   ExpressionListContext? expressionList() => getRuleContext<ExpressionListContext>(0);
-  RunAsStatementContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  RunAsStatementContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_runAsStatement;
   @override
@@ -10900,7 +10888,7 @@ class RunAsStatementContext extends ParserRuleContext {
 class ExpressionStatementContext extends ParserRuleContext {
   ExpressionContext? expression() => getRuleContext<ExpressionContext>(0);
   TerminalNode? SEMI() => getToken(ApexParser.TOKEN_SEMI, 0);
-  ExpressionStatementContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ExpressionStatementContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_expressionStatement;
   @override
@@ -10918,7 +10906,7 @@ class PropertyBlockContext extends ParserRuleContext {
   SetterContext? setter() => getRuleContext<SetterContext>(0);
   List<ModifierContext> modifiers() => getRuleContexts<ModifierContext>();
   ModifierContext? modifier(int i) => getRuleContext<ModifierContext>(i);
-  PropertyBlockContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  PropertyBlockContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_propertyBlock;
   @override
@@ -10935,7 +10923,7 @@ class GetterContext extends ParserRuleContext {
   TerminalNode? GET() => getToken(ApexParser.TOKEN_GET, 0);
   TerminalNode? SEMI() => getToken(ApexParser.TOKEN_SEMI, 0);
   BlockContext? block() => getRuleContext<BlockContext>(0);
-  GetterContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  GetterContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_getter;
   @override
@@ -10952,7 +10940,7 @@ class SetterContext extends ParserRuleContext {
   TerminalNode? SET() => getToken(ApexParser.TOKEN_SET, 0);
   TerminalNode? SEMI() => getToken(ApexParser.TOKEN_SEMI, 0);
   BlockContext? block() => getRuleContext<BlockContext>(0);
-  SetterContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  SetterContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_setter;
   @override
@@ -10974,7 +10962,7 @@ class CatchClauseContext extends ParserRuleContext {
   BlockContext? block() => getRuleContext<BlockContext>(0);
   List<ModifierContext> modifiers() => getRuleContexts<ModifierContext>();
   ModifierContext? modifier(int i) => getRuleContext<ModifierContext>(i);
-  CatchClauseContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  CatchClauseContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_catchClause;
   @override
@@ -10990,7 +10978,7 @@ class CatchClauseContext extends ParserRuleContext {
 class FinallyBlockContext extends ParserRuleContext {
   TerminalNode? FINALLY() => getToken(ApexParser.TOKEN_FINALLY, 0);
   BlockContext? block() => getRuleContext<BlockContext>(0);
-  FinallyBlockContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  FinallyBlockContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_finallyBlock;
   @override
@@ -11010,7 +10998,7 @@ class ForControlContext extends ParserRuleContext {
   ForInitContext? forInit() => getRuleContext<ForInitContext>(0);
   ExpressionContext? expression() => getRuleContext<ExpressionContext>(0);
   ForUpdateContext? forUpdate() => getRuleContext<ForUpdateContext>(0);
-  ForControlContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ForControlContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_forControl;
   @override
@@ -11026,7 +11014,7 @@ class ForControlContext extends ParserRuleContext {
 class ForInitContext extends ParserRuleContext {
   LocalVariableDeclarationContext? localVariableDeclaration() => getRuleContext<LocalVariableDeclarationContext>(0);
   ExpressionListContext? expressionList() => getRuleContext<ExpressionListContext>(0);
-  ForInitContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ForInitContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_forInit;
   @override
@@ -11044,7 +11032,7 @@ class EnhancedForControlContext extends ParserRuleContext {
   IdContext? id() => getRuleContext<IdContext>(0);
   TerminalNode? COLON() => getToken(ApexParser.TOKEN_COLON, 0);
   ExpressionContext? expression() => getRuleContext<ExpressionContext>(0);
-  EnhancedForControlContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  EnhancedForControlContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_enhancedForControl;
   @override
@@ -11059,7 +11047,7 @@ class EnhancedForControlContext extends ParserRuleContext {
 
 class ForUpdateContext extends ParserRuleContext {
   ExpressionListContext? expressionList() => getRuleContext<ExpressionListContext>(0);
-  ForUpdateContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ForUpdateContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_forUpdate;
   @override
@@ -11076,7 +11064,7 @@ class ParExpressionContext extends ParserRuleContext {
   TerminalNode? LPAREN() => getToken(ApexParser.TOKEN_LPAREN, 0);
   ExpressionContext? expression() => getRuleContext<ExpressionContext>(0);
   TerminalNode? RPAREN() => getToken(ApexParser.TOKEN_RPAREN, 0);
-  ParExpressionContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ParExpressionContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_parExpression;
   @override
@@ -11094,7 +11082,7 @@ class ExpressionListContext extends ParserRuleContext {
   ExpressionContext? expression(int i) => getRuleContext<ExpressionContext>(i);
   List<TerminalNode> COMMAs() => getTokens(ApexParser.TOKEN_COMMA);
   TerminalNode? COMMA(int i) => getToken(ApexParser.TOKEN_COMMA, i);
-  ExpressionListContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ExpressionListContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_expressionList;
   @override
@@ -11108,25 +11096,17 @@ class ExpressionListContext extends ParserRuleContext {
 }
 
 class ExpressionContext extends ParserRuleContext {
-  ExpressionContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ExpressionContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_expression;
  
-  @override
-  void copyFrom(ParserRuleContext ctx) {
-    super.copyFrom(ctx);
-  }
 }
 
 class PrimaryContext extends ParserRuleContext {
-  PrimaryContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  PrimaryContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_primary;
  
-  @override
-  void copyFrom(ParserRuleContext ctx) {
-    super.copyFrom(ctx);
-  }
 }
 
 class MethodCallContext extends ParserRuleContext {
@@ -11136,7 +11116,7 @@ class MethodCallContext extends ParserRuleContext {
   ExpressionListContext? expressionList() => getRuleContext<ExpressionListContext>(0);
   TerminalNode? THIS() => getToken(ApexParser.TOKEN_THIS, 0);
   TerminalNode? SUPER() => getToken(ApexParser.TOKEN_SUPER, 0);
-  MethodCallContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  MethodCallContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_methodCall;
   @override
@@ -11154,7 +11134,7 @@ class DotMethodCallContext extends ParserRuleContext {
   TerminalNode? LPAREN() => getToken(ApexParser.TOKEN_LPAREN, 0);
   TerminalNode? RPAREN() => getToken(ApexParser.TOKEN_RPAREN, 0);
   ExpressionListContext? expressionList() => getRuleContext<ExpressionListContext>(0);
-  DotMethodCallContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  DotMethodCallContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_dotMethodCall;
   @override
@@ -11174,7 +11154,7 @@ class CreatorContext extends ParserRuleContext {
   ArrayCreatorRestContext? arrayCreatorRest() => getRuleContext<ArrayCreatorRestContext>(0);
   MapCreatorRestContext? mapCreatorRest() => getRuleContext<MapCreatorRestContext>(0);
   SetCreatorRestContext? setCreatorRest() => getRuleContext<SetCreatorRestContext>(0);
-  CreatorContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  CreatorContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_creator;
   @override
@@ -11192,7 +11172,7 @@ class CreatedNameContext extends ParserRuleContext {
   IdCreatedNamePairContext? idCreatedNamePair(int i) => getRuleContext<IdCreatedNamePairContext>(i);
   List<TerminalNode> DOTs() => getTokens(ApexParser.TOKEN_DOT);
   TerminalNode? DOT(int i) => getToken(ApexParser.TOKEN_DOT, i);
-  CreatedNameContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  CreatedNameContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_createdName;
   @override
@@ -11210,7 +11190,7 @@ class IdCreatedNamePairContext extends ParserRuleContext {
   TerminalNode? LT() => getToken(ApexParser.TOKEN_LT, 0);
   TypeListContext? typeList() => getRuleContext<TypeListContext>(0);
   TerminalNode? GT() => getToken(ApexParser.TOKEN_GT, 0);
-  IdCreatedNamePairContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  IdCreatedNamePairContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_idCreatedNamePair;
   @override
@@ -11226,7 +11206,7 @@ class IdCreatedNamePairContext extends ParserRuleContext {
 class NoRestContext extends ParserRuleContext {
   TerminalNode? LBRACE() => getToken(ApexParser.TOKEN_LBRACE, 0);
   TerminalNode? RBRACE() => getToken(ApexParser.TOKEN_RBRACE, 0);
-  NoRestContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  NoRestContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_noRest;
   @override
@@ -11241,7 +11221,7 @@ class NoRestContext extends ParserRuleContext {
 
 class ClassCreatorRestContext extends ParserRuleContext {
   ArgumentsContext? arguments() => getRuleContext<ArgumentsContext>(0);
-  ClassCreatorRestContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ClassCreatorRestContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_classCreatorRest;
   @override
@@ -11259,7 +11239,7 @@ class ArrayCreatorRestContext extends ParserRuleContext {
   ExpressionContext? expression() => getRuleContext<ExpressionContext>(0);
   TerminalNode? RBRACK() => getToken(ApexParser.TOKEN_RBRACK, 0);
   ArrayInitializerContext? arrayInitializer() => getRuleContext<ArrayInitializerContext>(0);
-  ArrayCreatorRestContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ArrayCreatorRestContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_arrayCreatorRest;
   @override
@@ -11279,7 +11259,7 @@ class MapCreatorRestContext extends ParserRuleContext {
   TerminalNode? RBRACE() => getToken(ApexParser.TOKEN_RBRACE, 0);
   List<TerminalNode> COMMAs() => getTokens(ApexParser.TOKEN_COMMA);
   TerminalNode? COMMA(int i) => getToken(ApexParser.TOKEN_COMMA, i);
-  MapCreatorRestContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  MapCreatorRestContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_mapCreatorRest;
   @override
@@ -11296,7 +11276,7 @@ class MapCreatorRestPairContext extends ParserRuleContext {
   List<ExpressionContext> expressions() => getRuleContexts<ExpressionContext>();
   ExpressionContext? expression(int i) => getRuleContext<ExpressionContext>(i);
   TerminalNode? MAPTO() => getToken(ApexParser.TOKEN_MAPTO, 0);
-  MapCreatorRestPairContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  MapCreatorRestPairContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_mapCreatorRestPair;
   @override
@@ -11316,7 +11296,7 @@ class SetCreatorRestContext extends ParserRuleContext {
   TerminalNode? RBRACE() => getToken(ApexParser.TOKEN_RBRACE, 0);
   List<TerminalNode> COMMAs() => getTokens(ApexParser.TOKEN_COMMA);
   TerminalNode? COMMA(int i) => getToken(ApexParser.TOKEN_COMMA, i);
-  SetCreatorRestContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  SetCreatorRestContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_setCreatorRest;
   @override
@@ -11333,7 +11313,7 @@ class ArgumentsContext extends ParserRuleContext {
   TerminalNode? LPAREN() => getToken(ApexParser.TOKEN_LPAREN, 0);
   TerminalNode? RPAREN() => getToken(ApexParser.TOKEN_RPAREN, 0);
   ExpressionListContext? expressionList() => getRuleContext<ExpressionListContext>(0);
-  ArgumentsContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ArgumentsContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_arguments;
   @override
@@ -11350,7 +11330,7 @@ class SoqlLiteralContext extends ParserRuleContext {
   TerminalNode? LBRACK() => getToken(ApexParser.TOKEN_LBRACK, 0);
   QueryContext? query() => getRuleContext<QueryContext>(0);
   TerminalNode? RBRACK() => getToken(ApexParser.TOKEN_RBRACK, 0);
-  SoqlLiteralContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  SoqlLiteralContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_soqlLiteral;
   @override
@@ -11379,7 +11359,7 @@ class QueryContext extends ParserRuleContext {
   AllRowsClauseContext? allRowsClause() => getRuleContext<AllRowsClauseContext>(0);
   TerminalNode? UPDATE() => getToken(ApexParser.TOKEN_UPDATE, 0);
   UpdateListContext? updateList() => getRuleContext<UpdateListContext>(0);
-  QueryContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  QueryContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_query;
   @override
@@ -11403,7 +11383,7 @@ class SubQueryContext extends ParserRuleContext {
   LimitClauseContext? limitClause() => getRuleContext<LimitClauseContext>(0);
   TerminalNode? UPDATE() => getToken(ApexParser.TOKEN_UPDATE, 0);
   UpdateListContext? updateList() => getRuleContext<UpdateListContext>(0);
-  SubQueryContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  SubQueryContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_subQuery;
   @override
@@ -11421,7 +11401,7 @@ class SelectListContext extends ParserRuleContext {
   SelectEntryContext? selectEntry(int i) => getRuleContext<SelectEntryContext>(i);
   List<TerminalNode> COMMAs() => getTokens(ApexParser.TOKEN_COMMA);
   TerminalNode? COMMA(int i) => getToken(ApexParser.TOKEN_COMMA, i);
-  SelectListContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  SelectListContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_selectList;
   @override
@@ -11442,7 +11422,7 @@ class SelectEntryContext extends ParserRuleContext {
   SubQueryContext? subQuery() => getRuleContext<SubQueryContext>(0);
   TerminalNode? RPAREN() => getToken(ApexParser.TOKEN_RPAREN, 0);
   TypeOfContext? typeOf() => getRuleContext<TypeOfContext>(0);
-  SelectEntryContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  SelectEntryContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_selectEntry;
   @override
@@ -11460,7 +11440,7 @@ class FieldNameContext extends ParserRuleContext {
   SoqlIdContext? soqlId(int i) => getRuleContext<SoqlIdContext>(i);
   List<TerminalNode> DOTs() => getTokens(ApexParser.TOKEN_DOT);
   TerminalNode? DOT(int i) => getToken(ApexParser.TOKEN_DOT, i);
-  FieldNameContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  FieldNameContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_fieldName;
   @override
@@ -11480,7 +11460,7 @@ class FromNameListContext extends ParserRuleContext {
   SoqlIdContext? soqlId(int i) => getRuleContext<SoqlIdContext>(i);
   List<TerminalNode> COMMAs() => getTokens(ApexParser.TOKEN_COMMA);
   TerminalNode? COMMA(int i) => getToken(ApexParser.TOKEN_COMMA, i);
-  FromNameListContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  FromNameListContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_fromNameList;
   @override
@@ -11498,7 +11478,7 @@ class SubFieldListContext extends ParserRuleContext {
   SubFieldEntryContext? subFieldEntry(int i) => getRuleContext<SubFieldEntryContext>(i);
   List<TerminalNode> COMMAs() => getTokens(ApexParser.TOKEN_COMMA);
   TerminalNode? COMMA(int i) => getToken(ApexParser.TOKEN_COMMA, i);
-  SubFieldListContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  SubFieldListContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_subFieldList;
   @override
@@ -11519,7 +11499,7 @@ class SubFieldEntryContext extends ParserRuleContext {
   SubQueryContext? subQuery() => getRuleContext<SubQueryContext>(0);
   TerminalNode? RPAREN() => getToken(ApexParser.TOKEN_RPAREN, 0);
   TypeOfContext? typeOf() => getRuleContext<TypeOfContext>(0);
-  SubFieldEntryContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  SubFieldEntryContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_subFieldEntry;
   @override
@@ -11536,7 +11516,7 @@ class SoqlFieldsParameterContext extends ParserRuleContext {
   TerminalNode? ALL() => getToken(ApexParser.TOKEN_ALL, 0);
   TerminalNode? CUSTOM() => getToken(ApexParser.TOKEN_CUSTOM, 0);
   TerminalNode? STANDARD() => getToken(ApexParser.TOKEN_STANDARD, 0);
-  SoqlFieldsParameterContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  SoqlFieldsParameterContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_soqlFieldsParameter;
   @override
@@ -11586,7 +11566,7 @@ class SoqlFunctionContext extends ParserRuleContext {
   TerminalNode? StringLiteral() => getToken(ApexParser.TOKEN_StringLiteral, 0);
   TerminalNode? GROUPING() => getToken(ApexParser.TOKEN_GROUPING, 0);
   TerminalNode? CONVERT_CURRENCY() => getToken(ApexParser.TOKEN_CONVERT_CURRENCY, 0);
-  SoqlFunctionContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  SoqlFunctionContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_soqlFunction;
   @override
@@ -11604,7 +11584,7 @@ class DateFieldNameContext extends ParserRuleContext {
   TerminalNode? LPAREN() => getToken(ApexParser.TOKEN_LPAREN, 0);
   FieldNameContext? fieldName() => getRuleContext<FieldNameContext>(0);
   TerminalNode? RPAREN() => getToken(ApexParser.TOKEN_RPAREN, 0);
-  DateFieldNameContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  DateFieldNameContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_dateFieldName;
   @override
@@ -11626,7 +11606,7 @@ class LocationValueContext extends ParserRuleContext {
   CoordinateValueContext? coordinateValue(int i) => getRuleContext<CoordinateValueContext>(i);
   TerminalNode? COMMA() => getToken(ApexParser.TOKEN_COMMA, 0);
   TerminalNode? RPAREN() => getToken(ApexParser.TOKEN_RPAREN, 0);
-  LocationValueContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  LocationValueContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_locationValue;
   @override
@@ -11642,7 +11622,7 @@ class LocationValueContext extends ParserRuleContext {
 class CoordinateValueContext extends ParserRuleContext {
   SignedNumberContext? signedNumber() => getRuleContext<SignedNumberContext>(0);
   BoundExpressionContext? boundExpression() => getRuleContext<BoundExpressionContext>(0);
-  CoordinateValueContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  CoordinateValueContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_coordinateValue;
   @override
@@ -11662,7 +11642,7 @@ class TypeOfContext extends ParserRuleContext {
   List<WhenClauseContext> whenClauses() => getRuleContexts<WhenClauseContext>();
   WhenClauseContext? whenClause(int i) => getRuleContext<WhenClauseContext>(i);
   ElseClauseContext? elseClause() => getRuleContext<ElseClauseContext>(0);
-  TypeOfContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  TypeOfContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_typeOf;
   @override
@@ -11680,7 +11660,7 @@ class WhenClauseContext extends ParserRuleContext {
   FieldNameContext? fieldName() => getRuleContext<FieldNameContext>(0);
   TerminalNode? THEN() => getToken(ApexParser.TOKEN_THEN, 0);
   FieldNameListContext? fieldNameList() => getRuleContext<FieldNameListContext>(0);
-  WhenClauseContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  WhenClauseContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_whenClause;
   @override
@@ -11696,7 +11676,7 @@ class WhenClauseContext extends ParserRuleContext {
 class ElseClauseContext extends ParserRuleContext {
   TerminalNode? ELSE() => getToken(ApexParser.TOKEN_ELSE, 0);
   FieldNameListContext? fieldNameList() => getRuleContext<FieldNameListContext>(0);
-  ElseClauseContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ElseClauseContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_elseClause;
   @override
@@ -11714,7 +11694,7 @@ class FieldNameListContext extends ParserRuleContext {
   FieldNameContext? fieldName(int i) => getRuleContext<FieldNameContext>(i);
   List<TerminalNode> COMMAs() => getTokens(ApexParser.TOKEN_COMMA);
   TerminalNode? COMMA(int i) => getToken(ApexParser.TOKEN_COMMA, i);
-  FieldNameListContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  FieldNameListContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_fieldNameList;
   @override
@@ -11731,7 +11711,7 @@ class UsingScopeContext extends ParserRuleContext {
   TerminalNode? USING() => getToken(ApexParser.TOKEN_USING, 0);
   TerminalNode? SCOPE() => getToken(ApexParser.TOKEN_SCOPE, 0);
   SoqlIdContext? soqlId() => getRuleContext<SoqlIdContext>(0);
-  UsingScopeContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  UsingScopeContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_usingScope;
   @override
@@ -11747,7 +11727,7 @@ class UsingScopeContext extends ParserRuleContext {
 class WhereClauseContext extends ParserRuleContext {
   TerminalNode? WHERE() => getToken(ApexParser.TOKEN_WHERE, 0);
   LogicalExpressionContext? logicalExpression() => getRuleContext<LogicalExpressionContext>(0);
-  WhereClauseContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  WhereClauseContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_whereClause;
   @override
@@ -11768,7 +11748,7 @@ class LogicalExpressionContext extends ParserRuleContext {
   List<TerminalNode> SOQLORs() => getTokens(ApexParser.TOKEN_SOQLOR);
   TerminalNode? SOQLOR(int i) => getToken(ApexParser.TOKEN_SOQLOR, i);
   TerminalNode? NOT() => getToken(ApexParser.TOKEN_NOT, 0);
-  LogicalExpressionContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  LogicalExpressionContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_logicalExpression;
   @override
@@ -11786,7 +11766,7 @@ class ConditionalExpressionContext extends ParserRuleContext {
   LogicalExpressionContext? logicalExpression() => getRuleContext<LogicalExpressionContext>(0);
   TerminalNode? RPAREN() => getToken(ApexParser.TOKEN_RPAREN, 0);
   FieldExpressionContext? fieldExpression() => getRuleContext<FieldExpressionContext>(0);
-  ConditionalExpressionContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ConditionalExpressionContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_conditionalExpression;
   @override
@@ -11804,7 +11784,7 @@ class FieldExpressionContext extends ParserRuleContext {
   ComparisonOperatorContext? comparisonOperator() => getRuleContext<ComparisonOperatorContext>(0);
   ValueContext? value() => getRuleContext<ValueContext>(0);
   SoqlFunctionContext? soqlFunction() => getRuleContext<SoqlFunctionContext>(0);
-  FieldExpressionContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  FieldExpressionContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_fieldExpression;
   @override
@@ -11828,7 +11808,7 @@ class ComparisonOperatorContext extends ParserRuleContext {
   TerminalNode? NOT() => getToken(ApexParser.TOKEN_NOT, 0);
   TerminalNode? INCLUDES() => getToken(ApexParser.TOKEN_INCLUDES, 0);
   TerminalNode? EXCLUDES() => getToken(ApexParser.TOKEN_EXCLUDES, 0);
-  ComparisonOperatorContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ComparisonOperatorContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_comparisonOperator;
   @override
@@ -11858,7 +11838,7 @@ class ValueContext extends ParserRuleContext {
   TerminalNode? RPAREN() => getToken(ApexParser.TOKEN_RPAREN, 0);
   ValueListContext? valueList() => getRuleContext<ValueListContext>(0);
   BoundExpressionContext? boundExpression() => getRuleContext<BoundExpressionContext>(0);
-  ValueContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ValueContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_value;
   @override
@@ -11878,7 +11858,7 @@ class ValueListContext extends ParserRuleContext {
   TerminalNode? RPAREN() => getToken(ApexParser.TOKEN_RPAREN, 0);
   List<TerminalNode> COMMAs() => getTokens(ApexParser.TOKEN_COMMA);
   TerminalNode? COMMA(int i) => getToken(ApexParser.TOKEN_COMMA, i);
-  ValueListContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ValueListContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_valueList;
   @override
@@ -11896,7 +11876,7 @@ class SignedNumberContext extends ParserRuleContext {
   TerminalNode? NumberLiteral() => getToken(ApexParser.TOKEN_NumberLiteral, 0);
   TerminalNode? ADD() => getToken(ApexParser.TOKEN_ADD, 0);
   TerminalNode? SUB() => getToken(ApexParser.TOKEN_SUB, 0);
-  SignedNumberContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  SignedNumberContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_signedNumber;
   @override
@@ -11918,7 +11898,7 @@ class WithClauseContext extends ParserRuleContext {
   TerminalNode? SYSTEM_MODE() => getToken(ApexParser.TOKEN_SYSTEM_MODE, 0);
   TerminalNode? USER_MODE() => getToken(ApexParser.TOKEN_USER_MODE, 0);
   LogicalExpressionContext? logicalExpression() => getRuleContext<LogicalExpressionContext>(0);
-  WithClauseContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  WithClauseContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_withClause;
   @override
@@ -11936,7 +11916,7 @@ class FilteringExpressionContext extends ParserRuleContext {
   DataCategorySelectionContext? dataCategorySelection(int i) => getRuleContext<DataCategorySelectionContext>(i);
   List<TerminalNode> ANDs() => getTokens(ApexParser.TOKEN_AND);
   TerminalNode? AND(int i) => getToken(ApexParser.TOKEN_AND, i);
-  FilteringExpressionContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  FilteringExpressionContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_filteringExpression;
   @override
@@ -11953,7 +11933,7 @@ class DataCategorySelectionContext extends ParserRuleContext {
   SoqlIdContext? soqlId() => getRuleContext<SoqlIdContext>(0);
   FilteringSelectorContext? filteringSelector() => getRuleContext<FilteringSelectorContext>(0);
   DataCategoryNameContext? dataCategoryName() => getRuleContext<DataCategoryNameContext>(0);
-  DataCategorySelectionContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  DataCategorySelectionContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_dataCategorySelection;
   @override
@@ -11973,7 +11953,7 @@ class DataCategoryNameContext extends ParserRuleContext {
   TerminalNode? LPAREN(int i) => getToken(ApexParser.TOKEN_LPAREN, i);
   List<TerminalNode> COMMAs() => getTokens(ApexParser.TOKEN_COMMA);
   TerminalNode? COMMA(int i) => getToken(ApexParser.TOKEN_COMMA, i);
-  DataCategoryNameContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  DataCategoryNameContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_dataCategoryName;
   @override
@@ -11991,7 +11971,7 @@ class FilteringSelectorContext extends ParserRuleContext {
   TerminalNode? ABOVE() => getToken(ApexParser.TOKEN_ABOVE, 0);
   TerminalNode? BELOW() => getToken(ApexParser.TOKEN_BELOW, 0);
   TerminalNode? ABOVE_OR_BELOW() => getToken(ApexParser.TOKEN_ABOVE_OR_BELOW, 0);
-  FilteringSelectorContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  FilteringSelectorContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_filteringSelector;
   @override
@@ -12018,7 +11998,7 @@ class GroupByClauseContext extends ParserRuleContext {
   List<TerminalNode> COMMAs() => getTokens(ApexParser.TOKEN_COMMA);
   TerminalNode? COMMA(int i) => getToken(ApexParser.TOKEN_COMMA, i);
   TerminalNode? CUBE() => getToken(ApexParser.TOKEN_CUBE, 0);
-  GroupByClauseContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  GroupByClauseContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_groupByClause;
   @override
@@ -12035,7 +12015,7 @@ class OrderByClauseContext extends ParserRuleContext {
   TerminalNode? ORDER() => getToken(ApexParser.TOKEN_ORDER, 0);
   TerminalNode? BY() => getToken(ApexParser.TOKEN_BY, 0);
   FieldOrderListContext? fieldOrderList() => getRuleContext<FieldOrderListContext>(0);
-  OrderByClauseContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  OrderByClauseContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_orderByClause;
   @override
@@ -12053,7 +12033,7 @@ class FieldOrderListContext extends ParserRuleContext {
   FieldOrderContext? fieldOrder(int i) => getRuleContext<FieldOrderContext>(i);
   List<TerminalNode> COMMAs() => getTokens(ApexParser.TOKEN_COMMA);
   TerminalNode? COMMA(int i) => getToken(ApexParser.TOKEN_COMMA, i);
-  FieldOrderListContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  FieldOrderListContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_fieldOrderList;
   @override
@@ -12074,7 +12054,7 @@ class FieldOrderContext extends ParserRuleContext {
   TerminalNode? FIRST() => getToken(ApexParser.TOKEN_FIRST, 0);
   TerminalNode? LAST() => getToken(ApexParser.TOKEN_LAST, 0);
   SoqlFunctionContext? soqlFunction() => getRuleContext<SoqlFunctionContext>(0);
-  FieldOrderContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  FieldOrderContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_fieldOrder;
   @override
@@ -12091,7 +12071,7 @@ class LimitClauseContext extends ParserRuleContext {
   TerminalNode? LIMIT() => getToken(ApexParser.TOKEN_LIMIT, 0);
   TerminalNode? IntegerLiteral() => getToken(ApexParser.TOKEN_IntegerLiteral, 0);
   BoundExpressionContext? boundExpression() => getRuleContext<BoundExpressionContext>(0);
-  LimitClauseContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  LimitClauseContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_limitClause;
   @override
@@ -12108,7 +12088,7 @@ class OffsetClauseContext extends ParserRuleContext {
   TerminalNode? OFFSET() => getToken(ApexParser.TOKEN_OFFSET, 0);
   TerminalNode? IntegerLiteral() => getToken(ApexParser.TOKEN_IntegerLiteral, 0);
   BoundExpressionContext? boundExpression() => getRuleContext<BoundExpressionContext>(0);
-  OffsetClauseContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  OffsetClauseContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_offsetClause;
   @override
@@ -12124,7 +12104,7 @@ class OffsetClauseContext extends ParserRuleContext {
 class AllRowsClauseContext extends ParserRuleContext {
   TerminalNode? ALL() => getToken(ApexParser.TOKEN_ALL, 0);
   TerminalNode? ROWS() => getToken(ApexParser.TOKEN_ROWS, 0);
-  AllRowsClauseContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  AllRowsClauseContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_allRowsClause;
   @override
@@ -12146,7 +12126,7 @@ class ForClausesContext extends ParserRuleContext {
   TerminalNode? UPDATE(int i) => getToken(ApexParser.TOKEN_UPDATE, i);
   List<TerminalNode> REFERENCEs() => getTokens(ApexParser.TOKEN_REFERENCE);
   TerminalNode? REFERENCE(int i) => getToken(ApexParser.TOKEN_REFERENCE, i);
-  ForClausesContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  ForClausesContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_forClauses;
   @override
@@ -12162,7 +12142,7 @@ class ForClausesContext extends ParserRuleContext {
 class BoundExpressionContext extends ParserRuleContext {
   TerminalNode? COLON() => getToken(ApexParser.TOKEN_COLON, 0);
   ExpressionContext? expression() => getRuleContext<ExpressionContext>(0);
-  BoundExpressionContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  BoundExpressionContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_boundExpression;
   @override
@@ -12222,7 +12202,7 @@ class DateFormulaContext extends ParserRuleContext {
   TerminalNode? NEXT_N_FISCAL_YEARS_N() => getToken(ApexParser.TOKEN_NEXT_N_FISCAL_YEARS_N, 0);
   TerminalNode? LAST_N_FISCAL_YEARS_N() => getToken(ApexParser.TOKEN_LAST_N_FISCAL_YEARS_N, 0);
   TerminalNode? N_FISCAL_YEARS_AGO_N() => getToken(ApexParser.TOKEN_N_FISCAL_YEARS_AGO_N, 0);
-  DateFormulaContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  DateFormulaContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_dateFormula;
   @override
@@ -12239,7 +12219,7 @@ class SignedIntegerContext extends ParserRuleContext {
   TerminalNode? IntegerLiteral() => getToken(ApexParser.TOKEN_IntegerLiteral, 0);
   TerminalNode? ADD() => getToken(ApexParser.TOKEN_ADD, 0);
   TerminalNode? SUB() => getToken(ApexParser.TOKEN_SUB, 0);
-  SignedIntegerContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  SignedIntegerContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_signedInteger;
   @override
@@ -12254,7 +12234,7 @@ class SignedIntegerContext extends ParserRuleContext {
 
 class SoqlIdContext extends ParserRuleContext {
   IdContext? id() => getRuleContext<IdContext>(0);
-  SoqlIdContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  SoqlIdContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_soqlId;
   @override
@@ -12274,7 +12254,7 @@ class SoslLiteralContext extends ParserRuleContext {
   TerminalNode? LBRACK() => getToken(ApexParser.TOKEN_LBRACK, 0);
   TerminalNode? FIND() => getToken(ApexParser.TOKEN_FIND, 0);
   BoundExpressionContext? boundExpression() => getRuleContext<BoundExpressionContext>(0);
-  SoslLiteralContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  SoslLiteralContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_soslLiteral;
   @override
@@ -12297,7 +12277,7 @@ class SoslClausesContext extends ParserRuleContext {
   LimitClauseContext? limitClause() => getRuleContext<LimitClauseContext>(0);
   TerminalNode? UPDATE() => getToken(ApexParser.TOKEN_UPDATE, 0);
   UpdateListContext? updateList() => getRuleContext<UpdateListContext>(0);
-  SoslClausesContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  SoslClausesContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_soslClauses;
   @override
@@ -12330,7 +12310,7 @@ class SoslWithClauseContext extends ParserRuleContext {
   TerminalNode? METADATA() => getToken(ApexParser.TOKEN_METADATA, 0);
   TerminalNode? USER_MODE() => getToken(ApexParser.TOKEN_USER_MODE, 0);
   TerminalNode? SYSTEM_MODE() => getToken(ApexParser.TOKEN_SYSTEM_MODE, 0);
-  SoslWithClauseContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  SoslWithClauseContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_soslWithClause;
   @override
@@ -12350,7 +12330,7 @@ class SearchGroupContext extends ParserRuleContext {
   TerminalNode? NAME() => getToken(ApexParser.TOKEN_NAME, 0);
   TerminalNode? PHONE() => getToken(ApexParser.TOKEN_PHONE, 0);
   TerminalNode? SIDEBAR() => getToken(ApexParser.TOKEN_SIDEBAR, 0);
-  SearchGroupContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  SearchGroupContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_searchGroup;
   @override
@@ -12369,7 +12349,7 @@ class FieldSpecListContext extends ParserRuleContext {
   TerminalNode? COMMA(int i) => getToken(ApexParser.TOKEN_COMMA, i);
   List<FieldSpecListContext> fieldSpecLists() => getRuleContexts<FieldSpecListContext>();
   FieldSpecListContext? fieldSpecList(int i) => getRuleContext<FieldSpecListContext>(i);
-  FieldSpecListContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  FieldSpecListContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_fieldSpecList;
   @override
@@ -12398,7 +12378,7 @@ class FieldSpecContext extends ParserRuleContext {
   FieldOrderListContext? fieldOrderList() => getRuleContext<FieldOrderListContext>(0);
   LimitClauseContext? limitClause() => getRuleContext<LimitClauseContext>(0);
   OffsetClauseContext? offsetClause() => getRuleContext<OffsetClauseContext>(0);
-  FieldSpecContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  FieldSpecContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_fieldSpec;
   @override
@@ -12424,7 +12404,7 @@ class FieldListContext extends ParserRuleContext {
   TerminalNode? CONVERT_CURRENCY() => getToken(ApexParser.TOKEN_CONVERT_CURRENCY, 0);
   TerminalNode? FORMAT() => getToken(ApexParser.TOKEN_FORMAT, 0);
   SoqlFunctionContext? soqlFunction() => getRuleContext<SoqlFunctionContext>(0);
-  FieldListContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  FieldListContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_fieldList;
   @override
@@ -12441,7 +12421,7 @@ class UpdateListContext extends ParserRuleContext {
   UpdateTypeContext? updateType() => getRuleContext<UpdateTypeContext>(0);
   TerminalNode? COMMA() => getToken(ApexParser.TOKEN_COMMA, 0);
   UpdateListContext? updateList() => getRuleContext<UpdateListContext>(0);
-  UpdateListContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  UpdateListContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_updateList;
   @override
@@ -12457,7 +12437,7 @@ class UpdateListContext extends ParserRuleContext {
 class UpdateTypeContext extends ParserRuleContext {
   TerminalNode? TRACKING() => getToken(ApexParser.TOKEN_TRACKING, 0);
   TerminalNode? VIEWSTAT() => getToken(ApexParser.TOKEN_VIEWSTAT, 0);
-  UpdateTypeContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  UpdateTypeContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_updateType;
   @override
@@ -12474,7 +12454,7 @@ class NetworkListContext extends ParserRuleContext {
   TerminalNode? StringLiteral() => getToken(ApexParser.TOKEN_StringLiteral, 0);
   TerminalNode? COMMA() => getToken(ApexParser.TOKEN_COMMA, 0);
   NetworkListContext? networkList() => getRuleContext<NetworkListContext>(0);
-  NetworkListContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  NetworkListContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_networkList;
   @override
@@ -12493,7 +12473,7 @@ class SoslIdContext extends ParserRuleContext {
   TerminalNode? DOT(int i) => getToken(ApexParser.TOKEN_DOT, i);
   List<SoslIdContext> soslIds() => getRuleContexts<SoslIdContext>();
   SoslIdContext? soslId(int i) => getRuleContext<SoslIdContext>(i);
-  SoslIdContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  SoslIdContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_soslId;
   @override
@@ -12655,7 +12635,7 @@ class IdContext extends ParserRuleContext {
   TerminalNode? DIVISION() => getToken(ApexParser.TOKEN_DIVISION, 0);
   TerminalNode? RETURNING() => getToken(ApexParser.TOKEN_RETURNING, 0);
   TerminalNode? LISTVIEW() => getToken(ApexParser.TOKEN_LISTVIEW, 0);
-  IdContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  IdContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_id;
   @override
@@ -12858,7 +12838,7 @@ class AnyIdContext extends ParserRuleContext {
   TerminalNode? DIVISION() => getToken(ApexParser.TOKEN_DIVISION, 0);
   TerminalNode? RETURNING() => getToken(ApexParser.TOKEN_RETURNING, 0);
   TerminalNode? LISTVIEW() => getToken(ApexParser.TOKEN_LISTVIEW, 0);
-  AnyIdContext([ParserRuleContext? parent, int? invokingState]) : super(parent, invokingState);
+  AnyIdContext([ParserRuleContext? super.parent, super.invokingState]);
   @override
   int get ruleIndex => RULE_anyId;
   @override

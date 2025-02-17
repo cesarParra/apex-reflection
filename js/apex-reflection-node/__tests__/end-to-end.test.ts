@@ -214,49 +214,77 @@ describe("Interface Reflection", () => {
 
 describe("Class reflection", () => {
   test("Single line class definition", () => {
-    const classBody = "class MyClass{}";
-    const result = reflect(classBody).typeMirror;
-    expect(result.type_name).toBe("class");
-    expect(result.name).toBe("MyClass");
+    async function testBody(strategy: ReflectionStrategy) {
+      const classBody = "class MyClass{}";
+      const result = (await strategy(classBody)).typeMirror;
+      expect(result.type_name).toBe("class");
+      expect(result.name).toBe("MyClass");
+    }
+
+    runAllStrategies(testBody);
   });
 
   test("When no access modifier is defined it is private", () => {
-    const classBody = "class MyClass{}";
-    const result = reflect(classBody).typeMirror;
-    expect(result.access_modifier).toBe("private");
+    async function testBody(strategy: ReflectionStrategy) {
+      const classBody = "class MyClass{}";
+      const result = (await strategy(classBody)).typeMirror;
+      expect(result.access_modifier).toBe("private");
+    }
+
+    runAllStrategies(testBody);
   });
 
   test("Can have access modifier", () => {
-    const interfaceBody = "public class MyClass{}";
-    const result = reflect(interfaceBody).typeMirror;
-    expect(result.access_modifier).toBe("public");
+    async function testBody(strategy: ReflectionStrategy) {
+      const interfaceBody = "public class MyClass{}";
+      const result = (await strategy(interfaceBody)).typeMirror;
+      expect(result.access_modifier).toBe("public");
+    }
+
+    runAllStrategies(testBody);
   });
 
   test("Can have a sharing modifier", () => {
-    const classBody = "public with sharing class MyClass{}";
-    const result = reflect(classBody).typeMirror as ClassMirror;
-    expect(result.sharingModifier).toBe("withSharing");
+    async function testBody(strategy: ReflectionStrategy) {
+      const classBody = "public with sharing class MyClass{}";
+      const result = (await strategy(classBody)).typeMirror as ClassMirror;
+      expect(result.sharingModifier).toBe("withSharing");
+    }
+
+    runAllStrategies(testBody);
   });
 
   test("Can have a class modifier", () => {
-    const classBody = "public with sharing abstract class MyClass{}";
-    const result = reflect(classBody).typeMirror as ClassMirror;
-    expect(result.classModifier).toBe("abstract");
+    async function testBody(strategy: ReflectionStrategy) {
+      const classBody = "public with sharing abstract class MyClass{}";
+      const result = (await strategy(classBody)).typeMirror as ClassMirror;
+      expect(result.classModifier).toBe("abstract");
+    }
+
+    runAllStrategies(testBody);
   });
 
   test("Can extend a class", () => {
-    const classBody = "public with sharing class MyClass extends Class2 {}";
-    const result = reflect(classBody).typeMirror as ClassMirror;
-    expect(result.extended_class).toBe("Class2");
+    async function testBody(strategy: ReflectionStrategy) {
+      const classBody = "public with sharing class MyClass extends Class2 {}";
+      const result = (await strategy(classBody)).typeMirror as ClassMirror;
+      expect(result.extended_class).toBe("Class2");
+    }
+
+    runAllStrategies(testBody);
   });
 
   test("Can implement interfaces", () => {
-    const classBody =
-      "public with sharing class MyClass implements Interface1, Interface2 {}";
-    const result = reflect(classBody).typeMirror as ClassMirror;
-    expect(result.implemented_interfaces.length).toBe(2);
-    expect(result.implemented_interfaces[0]).toBe("Interface1");
-    expect(result.implemented_interfaces[1]).toBe("Interface2");
+    async function testBody(strategy: ReflectionStrategy) {
+      const classBody =
+        "public with sharing class MyClass implements Interface1, Interface2 {}";
+      const result = (await strategy(classBody)).typeMirror as ClassMirror;
+      expect(result.implemented_interfaces.length).toBe(2);
+      expect(result.implemented_interfaces[0]).toBe("Interface1");
+      expect(result.implemented_interfaces[1]).toBe("Interface2");
+    }
+
+    runAllStrategies(testBody);
   });
 
   test("Can have properties", () => {

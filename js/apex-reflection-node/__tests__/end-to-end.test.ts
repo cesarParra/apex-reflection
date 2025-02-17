@@ -6,7 +6,6 @@ import {
   reflectAsync,
   ReflectionResult,
 } from "../index";
-import {run} from "jest";
 
 type ReflectionStrategy =
   | ((body: string) => Promise<ReflectionResult>)
@@ -307,81 +306,100 @@ describe("Class reflection", () => {
   });
 
   test("Can have fields", () => {
-    const classBody = `
+    async function testBody(strategy: ReflectionStrategy) {
+      const classBody = `
     public with sharing class MyClass {
       private String var1, var2;
     }
     `;
-    const result = reflect(classBody).typeMirror as ClassMirror;
-    expect(result.fields.length).toBe(2);
-    expect(result.fields[0].typeReference.type).toBe("String");
-    expect(result.fields[1].typeReference.type).toBe("String");
-    expect(result.fields[0].name).toBe("var1");
-    expect(result.fields[1].name).toBe("var2");
+      const result = (await strategy(classBody)).typeMirror as ClassMirror;
+      expect(result.fields.length).toBe(2);
+      expect(result.fields[0].typeReference.type).toBe("String");
+      expect(result.fields[1].typeReference.type).toBe("String");
+      expect(result.fields[0].name).toBe("var1");
+      expect(result.fields[1].name).toBe("var2");
+    }
+
+    runAllStrategies(testBody);
   });
 
   test("Can have transient fields", () => {
-    const classBody = `
+    async function testBody(strategy: ReflectionStrategy) {
+      const classBody = `
     public with sharing class MyClass {
       transient String var1;
     }
     `;
-    const result = reflect(classBody).typeMirror as ClassMirror;
-    expect(result.fields.length).toBe(1);
-    expect(result.fields[0].typeReference.type).toBe("String");
-    expect(result.fields[0].name).toBe("var1");
-    expect(result.fields[0].memberModifiers).toContain("transient");
+      const result = (await strategy(classBody)).typeMirror as ClassMirror;
+      expect(result.fields.length).toBe(1);
+      expect(result.fields[0].typeReference.type).toBe("String");
+      expect(result.fields[0].name).toBe("var1");
+      expect(result.fields[0].memberModifiers).toContain("transient");
+    }
+
+    runAllStrategies(testBody);
   });
 
   test("Can have annotations with parameters", () => {
-    const classBody = `
+    async function testBody(strategy: ReflectionStrategy) {
+      const classBody = `
     @IsTest(SeeAllData=true)
     /** Some docs */
     public with sharing class MyClass {}
     `;
-    const result = reflect(classBody).typeMirror as ClassMirror;
-    expect(result.annotations.length).toBe(1);
-    expect(result.annotations[0].elementValues.length).toBe(1);
-    expect(result.annotations[0].elementValues[0].key).toBe("SeeAllData");
-    expect(result.annotations[0].elementValues[0].value).toBe("true");
+      const result = (await strategy(classBody)).typeMirror as ClassMirror;
+      expect(result.annotations.length).toBe(1);
+      expect(result.annotations[0].elementValues.length).toBe(1);
+      expect(result.annotations[0].elementValues[0].key).toBe("SeeAllData");
+      expect(result.annotations[0].elementValues[0].value).toBe("true");
+    }
+
+    runAllStrategies(testBody);
   });
 
   test("Can have annotations with parameters after the docs", () => {
-    const classBody = `
+    async function testBody(strategy: ReflectionStrategy) {
+      const classBody = `
     /**
      * @description Account related operations.
      */
     @RestResource(urlMapping='/Account/*')
     global with sharing class SampleRestResource {}
     `;
-    const result = reflect(classBody).typeMirror as ClassMirror;
-    expect(result.annotations.length).toBe(1);
-    expect(result.annotations[0].elementValues.length).toBe(1);
-    expect(result.annotations[0].elementValues[0].key).toBe("urlMapping");
-    expect(result.annotations[0].elementValues[0].value).toBe("'/Account/*'");
+      const result = (await strategy(classBody)).typeMirror as ClassMirror;
+      expect(result.annotations.length).toBe(1);
+      expect(result.annotations[0].elementValues.length).toBe(1);
+      expect(result.annotations[0].elementValues[0].key).toBe("urlMapping");
+      expect(result.annotations[0].elementValues[0].value).toBe("'/Account/*'");
+    }
+
+    runAllStrategies(testBody);
   });
 
   test("Can have constructors", () => {
-    const classBody = `
+    async function testBody(strategy: ReflectionStrategy) {
+      const classBody = `
     public with sharing class MyClass {
       public MyClass() {}
       public MyClass(String var1) {}
     }
     `;
-    const result = reflect(classBody).typeMirror as ClassMirror;
-    expect(result.constructors.length).toBe(2);
-    expect(result.constructors[0].parameters.length).toBe(0);
-    expect(result.constructors[0].access_modifier).toBe("public");
-    expect(result.constructors[1].parameters.length).toBe(1);
-    expect(result.constructors[1].parameters[0].name).toBe("var1");
-    expect(result.constructors[1].parameters[0].typeReference.type).toBe(
-      "String",
-    );
-    expect(result.constructors[1].access_modifier).toBe("public");
+      const result = (await strategy(classBody)).typeMirror as ClassMirror;
+      expect(result.constructors.length).toBe(2);
+      expect(result.constructors[0].parameters.length).toBe(0);
+      expect(result.constructors[0].access_modifier).toBe("public");
+      expect(result.constructors[1].parameters.length).toBe(1);
+      expect(result.constructors[1].parameters[0].name).toBe("var1");
+      expect(result.constructors[1].parameters[0].typeReference.type).toBe("String");
+      expect(result.constructors[1].access_modifier).toBe("public");
+    }
+
+    runAllStrategies(testBody);
   });
 
   test("Can have methods", () => {
-    const classBody = `
+    async function testBody(strategy: ReflectionStrategy) {
+      const classBody = `
     public with sharing class MyClass {
       public static String method1() {
         return '';
@@ -390,42 +408,53 @@ describe("Class reflection", () => {
       private void method2(){}
     }
     `;
-    const result = reflect(classBody).typeMirror as ClassMirror;
-    expect(result.methods.length).toBe(2);
-    expect(result.methods[0].memberModifiers.length).toBe(1);
-    expect(result.methods[0].memberModifiers[0]).toBe("static");
-    expect(result.methods[0].access_modifier).toBe("public");
-    expect(result.methods[0].typeReference.type).toBe("String");
-    expect(result.methods[0].name).toBe("method1");
+      const result = (await strategy(classBody)).typeMirror as ClassMirror;
+      expect(result.methods.length).toBe(2);
+      expect(result.methods[0].memberModifiers.length).toBe(1);
+      expect(result.methods[0].memberModifiers[0]).toBe("static");
+      expect(result.methods[0].access_modifier).toBe("public");
+      expect(result.methods[0].typeReference.type).toBe("String");
+      expect(result.methods[0].name).toBe("method1");
 
-    expect(result.methods[1].memberModifiers.length).toBe(0);
-    expect(result.methods[1].access_modifier).toBe("private");
-    expect(result.methods[1].typeReference.type).toBe("void");
-    expect(result.methods[1].name).toBe("method2");
+      expect(result.methods[1].memberModifiers.length).toBe(0);
+      expect(result.methods[1].access_modifier).toBe("private");
+      expect(result.methods[1].typeReference.type).toBe("void");
+      expect(result.methods[1].name).toBe("method2");
+    }
+
+    runAllStrategies(testBody);
   });
 
   test("Can have virtual methods", () => {
-    const classBody = `
+    async function testBody(strategy: ReflectionStrategy) {
+      const classBody = `
     public with sharing class MyClass {
       public virtual String method1() {
         return null ?? '';
       }
     }
     `;
-    const result = reflect(classBody).typeMirror as ClassMirror;
-    expect(result.methods[0].memberModifiers[0]).toBe("virtual");
+      const result = (await strategy(classBody)).typeMirror as ClassMirror;
+      expect(result.methods[0].memberModifiers[0]).toBe("virtual");
+    }
+
+    runAllStrategies(testBody);
   });
 
   test("Can have abstract methods", () => {
-    const classBody = `
+    async function testBody(strategy: ReflectionStrategy) {
+      const classBody = `
     public with sharing abstract class MyClass {
       public abstract String method1() {
         return null ?? '';
       }
     }
     `;
-    const result = reflect(classBody).typeMirror as ClassMirror;
-    expect(result.methods[0].memberModifiers[0]).toBe("abstract");
+      const result = (await strategy(classBody)).typeMirror as ClassMirror;
+      expect(result.methods[0].memberModifiers[0]).toBe("abstract");
+    }
+
+    runAllStrategies(testBody);
   });
 
   test("Can have inner enums", () => {

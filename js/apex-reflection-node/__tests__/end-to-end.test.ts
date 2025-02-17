@@ -458,19 +458,24 @@ describe("Class reflection", () => {
   });
 
   test("Can have inner enums", () => {
-    const classBody = `
+    async function testBody(strategy: ReflectionStrategy) {
+      const classBody = `
     public with sharing class MyClass {
       public enum MyEnum {}
     }
     `;
-    const result = reflect(classBody).typeMirror as ClassMirror;
-    expect(result.enums.length).toBe(1);
-    expect(result.enums[0].access_modifier).toBe("public");
-    expect(result.enums[0].name).toBe("MyEnum");
+      const result = (await strategy(classBody)).typeMirror as ClassMirror;
+      expect(result.enums.length).toBe(1);
+      expect(result.enums[0].access_modifier).toBe("public");
+      expect(result.enums[0].name).toBe("MyEnum");
+    }
+
+    runAllStrategies(testBody);
   });
 
   test("Can have inner interfaces", () => {
-    const classBody = `
+    async function testBody(strategy: ReflectionStrategy) {
+      const classBody = `
     public with sharing class MyClass {
       public interface MyInterface {
         void method1();
@@ -478,14 +483,18 @@ describe("Class reflection", () => {
       }
     }
     `;
-    const result = reflect(classBody).typeMirror as ClassMirror;
-    expect(result.interfaces.length).toBe(1);
-    expect(result.interfaces[0].name).toBe("MyInterface");
-    expect(result.interfaces[0].methods.length).toBe(2);
+      const result = (await strategy(classBody)).typeMirror as ClassMirror;
+      expect(result.interfaces.length).toBe(1);
+      expect(result.interfaces[0].name).toBe("MyInterface");
+      expect(result.interfaces[0].methods.length).toBe(2);
+    }
+
+    runAllStrategies(testBody);
   });
 
   test("Can have inner classes", () => {
-    const classBody = `
+    async function testBody(strategy: ReflectionStrategy) {
+      const classBody = `
     public with sharing class MyClass {
       public class MyClass {
         public void method1();
@@ -493,14 +502,18 @@ describe("Class reflection", () => {
       }
     }
     `;
-    const result = reflect(classBody).typeMirror as ClassMirror;
-    expect(result.classes.length).toBe(1);
-    expect(result.classes[0].name).toBe("MyClass");
-    expect(result.classes[0].methods.length).toBe(2);
+      const result = (await strategy(classBody)).typeMirror as ClassMirror;
+      expect(result.classes.length).toBe(1);
+      expect(result.classes[0].name).toBe("MyClass");
+      expect(result.classes[0].methods.length).toBe(2);
+    }
+
+    runAllStrategies(testBody);
   });
 
   test("Can have members in groups", () => {
-    const classBody = `
+    async function testBody(strategy: ReflectionStrategy) {
+      const classBody = `
     public with sharing class MyClass {
       /**
        * @start-group Group Name
@@ -512,20 +525,24 @@ describe("Class reflection", () => {
     }
     `;
 
-    const result = reflect(classBody).typeMirror as ClassMirror;
-    expect(result.properties.length).toBe(2);
-    expect(result.properties[0].typeReference.type).toBe("String");
-    expect(result.properties[0].name).toBe("Prop1");
-    expect(result.properties[0].group).toBe("Group Name");
-    expect(result.properties[0].groupDescription).toBe("Group Description");
-    expect(result.properties[1].typeReference.type).toBe("Integer");
-    expect(result.properties[1].name).toBe("Prop2");
-    expect(result.properties[1].group).toBe("Group Name");
-    expect(result.properties[1].groupDescription).toBe("Group Description");
+      const result = (await strategy(classBody)).typeMirror as ClassMirror;
+      expect(result.properties.length).toBe(2);
+      expect(result.properties[0].typeReference.type).toBe("String");
+      expect(result.properties[0].name).toBe("Prop1");
+      expect(result.properties[0].group).toBe("Group Name");
+      expect(result.properties[0].groupDescription).toBe("Group Description");
+      expect(result.properties[1].typeReference.type).toBe("Integer");
+      expect(result.properties[1].name).toBe("Prop2");
+      expect(result.properties[1].group).toBe("Group Name");
+      expect(result.properties[1].groupDescription).toBe("Group Description");
+    }
+
+    runAllStrategies(testBody);
   });
 
   test("Supports block style apex docs", () => {
-    const classBody = `/**********************************************************
+    async function testBody(reflect: ReflectionStrategy) {
+      const classBody = `/**********************************************************
     @description Uses a block style apex doc
 @group           Main
 @test-class      {@link SampleClass}
@@ -535,15 +552,19 @@ describe("Class reflection", () => {
     }
     `;
 
-    const result = reflect(classBody);
-    expect(result.error).toBeNull();
+      const result = await reflect(classBody);
+      expect(result.error).toBeNull();
 
-    const typeResult = result.typeMirror as ClassMirror;
-    expect(typeResult.name).toBe("GroupedClass");
+      const typeResult = result.typeMirror as ClassMirror;
+      expect(typeResult.name).toBe("GroupedClass");
+    }
+
+    runAllStrategies(testBody);
   });
 
   test("supports grouping", () => {
-    const classBody = `
+    async function testBody(reflect: ReflectionStrategy) {
+      const classBody = `
           public class MyClass {
         public void myMethod() {
           List<Object> groupedResults =
@@ -556,7 +577,10 @@ describe("Class reflection", () => {
       }
     `;
 
-    const result = reflect(classBody);
-    expect(result.error).toBeNull();
+      const result = await reflect(classBody);
+      expect(result.error).toBeNull();
+    }
+
+    runAllStrategies(testBody);
   });
 });

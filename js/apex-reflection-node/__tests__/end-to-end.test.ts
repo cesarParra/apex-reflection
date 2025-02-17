@@ -6,6 +6,7 @@ import {
   reflectAsync,
   ReflectionResult,
 } from "../index";
+import {run} from "jest";
 
 type ReflectionStrategy =
   | ((body: string) => Promise<ReflectionResult>)
@@ -125,65 +126,89 @@ describe("Interface Reflection", () => {
   });
 
   test("Can have access modifier", () => {
-    const interfaceBody = "public interface MyInterface{}";
-    const result = reflect(interfaceBody).typeMirror;
-    expect(result.access_modifier).toBe("public");
+    async function testBody(reflect: ReflectionStrategy) {
+      const interfaceBody = "public interface MyInterface{}";
+      const result = (await reflect(interfaceBody)).typeMirror;
+      expect(result.access_modifier).toBe("public");
+    }
+
+    runAllStrategies(testBody);
   });
 
   test("Can have a sharing modifier", () => {
-    const interfaceBody = "public with sharing interface MyInterface{}";
-    const result = reflect(interfaceBody).typeMirror as InterfaceMirror;
-    expect(result.sharingModifier).toBe("withSharing");
+    async function testBody(reflect: ReflectionStrategy) {
+      const interfaceBody = "public with sharing interface MyInterface{}";
+      const result = (await reflect(interfaceBody)).typeMirror as InterfaceMirror;
+      expect(result.sharingModifier).toBe("withSharing");
+    }
+
+    runAllStrategies(testBody);
   });
 
   test("Can have methods", () => {
-    const interfaceBody = `
+    async function testBody(reflect: ReflectionStrategy) {
+      const interfaceBody = `
       public with sharing interface MyInterface{
         void method1();
       }
     `;
-    const result = reflect(interfaceBody).typeMirror as InterfaceMirror;
-    expect(result.methods.length).toBe(1);
-    expect(result.methods[0].name).toBe("method1");
+      const result = (await reflect(interfaceBody)).typeMirror as InterfaceMirror;
+      expect(result.methods.length).toBe(1);
+      expect(result.methods[0].name).toBe("method1");
+    }
+
+    runAllStrategies(testBody);
   });
 
   test("Can have extend other interfaces", () => {
-    const interfaceBody = `
+    async function testBody(reflect: ReflectionStrategy) {
+      const interfaceBody = `
       public with sharing interface MyInterface extends Interface2 {
         void method1();
       }
     `;
-    const result = reflect(interfaceBody).typeMirror as InterfaceMirror;
-    expect(result.extended_interfaces.length).toBe(1);
-    expect(result.extended_interfaces[0]).toBe("Interface2");
+      const result = (await reflect(interfaceBody)).typeMirror as InterfaceMirror;
+      expect(result.extended_interfaces.length).toBe(1);
+      expect(result.extended_interfaces[0]).toBe("Interface2");
+    }
+
+    runAllStrategies(testBody);
   });
 
   test("Can have annotations", () => {
-    const interfaceBody = `
+    async function testBody(reflect: ReflectionStrategy) {
+      const interfaceBody = `
       @NamespaceAccessible
       public with sharing interface MyInterface{
         void method1();
       }
     `;
-    const result = reflect(interfaceBody).typeMirror as InterfaceMirror;
-    expect(result.annotations.length).toBe(1);
-    expect(result.annotations[0].name).toBe("namespaceaccessible");
+      const result = (await reflect(interfaceBody)).typeMirror as InterfaceMirror;
+      expect(result.annotations.length).toBe(1);
+      expect(result.annotations[0].name).toBe("namespaceaccessible");
+    }
+
+    runAllStrategies(testBody);
   });
 
   test("Methods can have their own annotations", () => {
-    const interfaceBody = `
+    async function testBody(reflect: ReflectionStrategy) {
+      const interfaceBody = `
       @NamespaceAccessible
       public with sharing interface MyInterface{
         @Deprecated
         void method1();
       }
     `;
-    const result = reflect(interfaceBody).typeMirror as InterfaceMirror;
-    expect(result.methods[0].annotations.length).toBe(2);
+      const result = (await reflect(interfaceBody)).typeMirror as InterfaceMirror;
+      expect(result.methods[0].annotations.length).toBe(2);
 
-    const annotationNames = result.methods[0].annotations.map((a) => a.name);
-    expect(annotationNames).toContain("namespaceaccessible");
-    expect(annotationNames).toContain("deprecated");
+      const annotationNames = result.methods[0].annotations.map((a) => a.name);
+      expect(annotationNames).toContain("namespaceaccessible");
+      expect(annotationNames).toContain("deprecated");
+    }
+
+    runAllStrategies(testBody);
   });
 });
 

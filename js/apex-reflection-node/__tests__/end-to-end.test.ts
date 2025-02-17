@@ -288,18 +288,22 @@ describe("Class reflection", () => {
   });
 
   test("Can have properties", () => {
-    const classBody = `
+    async function testBody(strategy: ReflectionStrategy) {
+      const classBody = `
     public with sharing class MyClass {
       public String Prop1 { get; set; }
       public Integer Prop2 { get; set; }
     }
     `;
-    const result = reflect(classBody).typeMirror as ClassMirror;
-    expect(result.properties.length).toBe(2);
-    expect(result.properties[0].typeReference.type).toBe("String");
-    expect(result.properties[0].name).toBe("Prop1");
-    expect(result.properties[1].typeReference.type).toBe("Integer");
-    expect(result.properties[1].name).toBe("Prop2");
+      const result = (await strategy(classBody)).typeMirror as ClassMirror;
+      expect(result.properties.length).toBe(2);
+      expect(result.properties[0].typeReference.type).toBe("String");
+      expect(result.properties[0].name).toBe("Prop1");
+      expect(result.properties[1].typeReference.type).toBe("Integer");
+      expect(result.properties[1].name).toBe("Prop2");
+    }
+
+    runAllStrategies(testBody);
   });
 
   test("Can have fields", () => {

@@ -31,63 +31,75 @@ describe("Enum Reflection", () => {
     runAllStrategies(testBody);
   });
 
-  // test("Multi-line declaration with values", () => {
-  //   const testBody = async (strategy: ReflectionStrategy) => {
-  //     const enumBody = `
-  //   enum MyEnumName {
-  //     VALUE_1,
-  //     VALUE2
-  //   }
-  //   `;
-  //     const result = (await strategy(enumBody)).typeMirror;
-  //     expect(result.type_name).toBe("enum");
-  //     expect(result.name).toBe("MyEnumName");
-  //   };
+  test("Multi-line declaration with values", () => {
+    const testBody = async (strategy: ReflectionStrategy) => {
+      const enumBody = `
+    enum MyEnumName {
+      VALUE_1,
+      VALUE2
+    }
+    `;
+      const result = (await strategy(enumBody)).typeMirror;
+      expect(result.type_name).toBe("enum");
+      expect(result.name).toBe("MyEnumName");
+    };
 
-  //   runAllStrategies(testBody);
-  // });
+    runAllStrategies(testBody);
+  });
 
-  // test("With doc comments", () => {
-  //   const enumBody = `
-  //   /**
-  //    * My enum description
-  //    */
-  //   enum MyEnumName {
-  //     VALUE_1,
-  //     VALUE2
-  //   }
-  //   `;
-  //   const result = reflect(enumBody).typeMirror;
-  //   expect(result.docComment.description).toBe("My enum description");
-  // });
+  test("With doc comments", () => {
+    const testBody = async (strategy: ReflectionStrategy) => {
+      const enumBody = `
+    /**
+     * My enum description
+     */
+    enum MyEnumName {
+      VALUE_1,
+      VALUE2
+    }
+    `;
+      const result = (await strategy(enumBody)).typeMirror;
+      expect(result.docComment.description).toBe("My enum description");
+    };
 
-  // test("Enums can have values", () => {
-  //   const enumBody = `
-  //   enum MyEnumName {
-  //     VALUE_1,
-  //     VALUE2
-  //   }
-  //   `;
-  //   const result = reflect(enumBody).typeMirror as EnumMirror;
-  //   expect(result.values.length).toBe(2);
-  //   expect(result.values[0].name).toBe("VALUE_1");
-  //   expect(result.values[1].name).toBe("VALUE2");
-  // });
+    runAllStrategies(testBody);
+  });
 
-  // test("Enum values can have descriptions", () => {
-  //   const enumBody = `
-  //   enum MyEnumName {
-  //     /**
-  //      * Value 1 description
-  //      */
-  //     VALUE_1,
-  //     VALUE2
-  //   }
-  //   `;
-  //   const result = reflect(enumBody).typeMirror as EnumMirror;
-  //   expect(result.values.length).toBe(2);
-  //   expect(result.values[0].docComment.description).toBe("Value 1 description");
-  // });
+  test("Enums can have values", () => {
+    async function testBody(strategy: ReflectionStrategy) {
+      const enumBody = `
+    enum MyEnumName {
+      VALUE_1,
+      VALUE2
+    }
+    `;
+      const result = (await strategy(enumBody)).typeMirror as EnumMirror;
+      expect(result.values.length).toBe(2);
+      expect(result.values[0].name).toBe("VALUE_1");
+      expect(result.values[1].name).toBe("VALUE2");
+    }
+
+    runAllStrategies(testBody);
+  });
+
+  test("Enum values can have descriptions", () => {
+    async function testBody(strategy: ReflectionStrategy) {
+      const enumBody = `
+    enum MyEnumName {
+      /**
+       * Value 1 description
+       */
+      VALUE_1,
+      VALUE2
+    }
+    `;
+      const result = (await strategy(enumBody)).typeMirror as EnumMirror;
+      expect(result.values.length).toBe(2);
+      expect(result.values[0].docComment.description).toBe("Value 1 description");
+    }
+
+    runAllStrategies(testBody);
+  });
 });
 
 // describe("Interface Reflection", () => {

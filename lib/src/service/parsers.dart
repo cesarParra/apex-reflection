@@ -4,6 +4,8 @@ import 'package:apexdocs_dart/src/model/types.dart';
 import 'package:apexdocs_dart/src/service/case_insensitive_input_stream.dart';
 import 'package:apexdocs_dart/src/service/walker.dart';
 import 'package:json_annotation/json_annotation.dart';
+import '../antlr/grammars/apex/ApexParser.dart' as antlr_apex_parser;
+import '../antlr/grammars/Apexdoc/ApexdocParser.dart' as antlr_apexdoc_parser;
 
 part 'parsers.g.dart';
 
@@ -22,7 +24,6 @@ class ReflectionResponse {
   factory ReflectionResponse.fromJson(Map<String, dynamic> json) =>
       _$ReflectionResponseFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$ReflectionResponseToJson(this);
 
   static TypeMirror? typeFromJson(json) {
@@ -45,6 +46,32 @@ class ReflectionResponse {
 }
 
 @JsonSerializable()
+class TriggerReflectionResponse {
+  @JsonKey(fromJson: typeFromJson, toJson: typeToJson)
+  TriggerMirror? triggerMirror;
+  ParsingError? error;
+
+  TriggerReflectionResponse();
+
+  TriggerReflectionResponse.success(this.triggerMirror);
+
+  TriggerReflectionResponse.error(this.error);
+
+  factory TriggerReflectionResponse.fromJson(Map<String, dynamic> json) =>
+      _$TriggerReflectionResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TriggerReflectionResponseToJson(this);
+
+  static TriggerMirror? typeFromJson(json) {
+    return TriggerMirror.fromJson(json as Map<String, dynamic>);
+  }
+
+  static dynamic typeToJson(TriggerMirror? type) {
+    return type?.toJson();
+  }
+}
+
+@JsonSerializable()
 class ParsingError {
   String message;
 
@@ -53,7 +80,6 @@ class ParsingError {
   factory ParsingError.fromJson(Map<String, dynamic> json) =>
       _$ParsingErrorFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$ParsingErrorToJson(this);
 }
 
@@ -68,6 +94,17 @@ class Reflection {
       return ReflectionResponse.error(parsingError);
     }
   }
+
+  static TriggerReflectionResponse reflectTrigger(String body) {
+    try {
+      final triggerResponse = TriggerParser.parseFromBody(body);
+      return TriggerReflectionResponse.success(triggerResponse);
+    } catch (e) {
+      final errorMessage = e.toString();
+      final parsingError = ParsingError(errorMessage);
+      return TriggerReflectionResponse.error(parsingError);
+    }
+  }
 }
 
 class ApexParser {
@@ -78,8 +115,23 @@ class ApexParser {
 
   static TypeMirror _parse(InputStream input) {
     final walkerDefinition = ApexWalkerDefinition();
-    Walker.walk(input, walkerDefinition);
+    Walker.walk(input, walkerDefinition,
+        (antlr_apex_parser.ApexParser parser) => parser.compilationUnit());
     return walkerDefinition.getGeneratedApexType()!;
+  }
+}
+
+class TriggerParser {
+  static TriggerMirror parseFromBody(String body) {
+    final input = CaseInsensitiveInputStream.fromString(body);
+    return _parse(input);
+  }
+
+  static TriggerMirror _parse(InputStream input) {
+    final walkerDefinition = ApexWalkerDefinition();
+    Walker.walk(input, walkerDefinition,
+        (antlr_apex_parser.ApexParser parser) => parser.triggerUnit());
+    return walkerDefinition.getGeneratedTrigger()!;
   }
 }
 
@@ -88,7 +140,11 @@ class ApexdocParser {
     var sanitizedBody = body.trimLeft().trimRight();
     final walkerDefinition = ApexdocWalkerDefinition();
     try {
-      Walker.walk(InputStream.fromString(sanitizedBody), walkerDefinition);
+      Walker.walk(
+          InputStream.fromString(sanitizedBody),
+          walkerDefinition,
+          (antlr_apexdoc_parser.ApexdocParser parser) =>
+              parser.documentation());
     } catch (error) {
       return DocComment.error(error.toString());
     }

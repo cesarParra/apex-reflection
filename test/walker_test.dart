@@ -24,7 +24,7 @@ class TestListener extends ParseTreeListener {
   void visitTerminal(TerminalNode _) {}
 }
 
-class TestDefinition extends WalkerDefinition {
+class TestDefinition extends WalkerDefinition<ApexParser> {
   final ParseTreeListener listener;
 
   TestDefinition(this.listener);
@@ -35,8 +35,8 @@ class TestDefinition extends WalkerDefinition {
   }
 
   @override
-  ParserRuleContext initializeTree(TokenStream stream) {
-    return ApexParser(stream).compilationUnit();
+  ApexParser initializeParser(TokenStream stream) {
+    return ApexParser(stream);
   }
 
   @override
@@ -49,7 +49,9 @@ void main() {
   test('Walks through the input', () {
     var listener = TestListener();
     Walker.walk(
-        CaseInsensitiveInputStream.fromString('class MyClass{}'), TestDefinition(listener));
+        CaseInsensitiveInputStream.fromString('class MyClass{}'),
+        TestDefinition(listener),
+        (ApexParser parser) => parser.compilationUnit());
     expect(listener.enterEveryRuleCalled, greaterThan(0));
   });
 }

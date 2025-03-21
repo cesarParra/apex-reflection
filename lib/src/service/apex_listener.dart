@@ -48,12 +48,28 @@ class ApexClassListener extends ApexParserBaseListener {
   final Stack<TypeMirror> generatedTypes;
   final Stack<Group> groupStack;
   late TypeMirror generatedType;
+  late TriggerMirror generatedTrigger;
   final CommonTokenStream tokens;
 
   ApexClassListener(this.tokens)
       : generatedTypes = Stack<TypeMirror>(),
         _declaratorDescriptorStack = Stack<DeclarationDescriptor>(),
         groupStack = Stack<Group>();
+
+  @override
+  void enterTriggerUnit(TriggerUnitContext ctx) {
+    String? docComment = _extractDocComment(ctx);
+    final triggerName = ctx.ids().first.text;
+    final objectName = ctx.ids()[1].text;
+    final events = ctx.triggerCases().map((e) => e.text).toList();
+
+    generatedTrigger = TriggerMirror(
+      name: triggerName,
+      objectName: objectName,
+      events: events,
+      rawDocComment: docComment,
+    );
+  }
 
   @override
   void enterTypeClassDeclaration(TypeClassDeclarationContext ctx) {
@@ -81,9 +97,9 @@ class ApexClassListener extends ApexParserBaseListener {
     final enumValues = ctx
         .ids()
         .map((e) => EnumValue(
-              name: e.text,
-              rawDocComment: _extractDocComment(e),
-            ))
+      name: e.text,
+      rawDocComment: _extractDocComment(e),
+    ))
         .toList();
     enumMirror.values.addAll(enumValues);
   }
@@ -146,12 +162,12 @@ class ApexClassListener extends ApexParserBaseListener {
       // start of a group.
       String potentialDocComment = allDocComments.first;
       DocComment docCommentObject =
-          ApexdocParser.parseFromBody(potentialDocComment);
+      ApexdocParser.parseFromBody(potentialDocComment);
 
       if (docCommentObject.annotations
           .any((element) => element.name.toLowerCase() == 'start-group')) {
         final startGroupComment = docCommentObject.annotations.firstWhere(
-            (element) => element.name.toLowerCase() == 'start-group');
+                (element) => element.name.toLowerCase() == 'start-group');
         final groupName = startGroupComment.body;
 
         final groupDescription = docCommentObject.description;
@@ -262,7 +278,7 @@ class ApexClassListener extends ApexParserBaseListener {
     final startIndex = start.tokenIndex;
     final docChannelIndex = ApexLexer.DOCUMENTATION_CHANNEL;
     final docCommentTokens =
-        tokens.getHiddenTokensToLeft(startIndex, docChannelIndex);
+    tokens.getHiddenTokensToLeft(startIndex, docChannelIndex);
 
     for (final token in docCommentTokens ?? List<Token>.empty()) {
       yield token.text!;
@@ -270,7 +286,7 @@ class ApexClassListener extends ApexParserBaseListener {
 
     if (searchAfter != null) {
       final additionalCommentTokens =
-          tokens.getHiddenTokensToRight(searchAfter, docChannelIndex);
+      tokens.getHiddenTokensToRight(searchAfter, docChannelIndex);
       for (final token in additionalCommentTokens ?? List<Token>.empty()) {
         yield token.text!;
       }

@@ -1,6 +1,6 @@
 {
   "name": "@cparra/apex-reflection",
-  "version": "2.18.0",
+  "version": "2.19.0",
   "description": "Provides tools for reflecting Apex code, the language used in Salesforce development.",
   "main": "dist/index.js",
   "scripts": {

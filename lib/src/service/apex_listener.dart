@@ -58,15 +58,16 @@ class ApexClassListener extends ApexParserBaseListener {
 
   @override
   void enterTriggerUnit(TriggerUnitContext ctx) {
-    // TODO: Extract doc comment
+    String? docComment = _extractDocComment(ctx);
     final triggerName = ctx.ids().first.text;
     final objectName = ctx.ids()[1].text;
     final events = ctx.triggerCases().map((e) => e.text).toList();
 
-    generatedTrigger = TriggerMirror(
+    generatedTrigger = TrigerMirror(
       name: triggerName,
       objectName: objectName,
       events: events,
+      rawDocComment: docComment,
     );
   }
 

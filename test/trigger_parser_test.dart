@@ -45,4 +45,18 @@ main() {
 
     expect(trigger.events, ['beforeinsert', 'afterupdate']);
   });
+
+  test('Can parse doc comments out of triggers', () {
+    final triggerBody = '''
+    /**
+     * This is a trigger comment.
+     */
+    trigger AccountTrigger on Account (before insert) {
+    }
+    ''';
+
+    final trigger = TriggerParser.parseFromBody(triggerBody);
+
+    expect(trigger.docComment!.description, 'This is a trigger comment.');
+  });
 }

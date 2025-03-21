@@ -86,18 +86,19 @@ class ApexParser {
   }
 }
 
-// class TriggerParser {
-//   static TriggerMirror parseFromBody(String body) {
-//     final input = CaseInsensitiveInputStream.fromString(body);
-//     return _parse(input);
-//   }
-//
-//   static TriggerMirror _parse(InputStream input) {
-//     final walkerDefinition = TriggerWalkerDefinition();
-//     Walker.walk(input, walkerDefinition);
-//     return walkerDefinition.getGeneratedTrigger()!;
-//   }
-// }
+class TriggerParser {
+  static TriggerMirror parseFromBody(String body) {
+    final input = CaseInsensitiveInputStream.fromString(body);
+    return _parse(input);
+  }
+
+  static TriggerMirror _parse(InputStream input) {
+    final walkerDefinition = ApexWalkerDefinition();
+    Walker.walk(input, walkerDefinition,
+        (antlr_apex_parser.ApexParser parser) => parser.triggerUnit());
+    return walkerDefinition.getGeneratedTrigger()!;
+  }
+}
 
 class ApexdocParser {
   static DocComment parseFromBody(String body) {

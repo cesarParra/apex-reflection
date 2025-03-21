@@ -15,7 +15,7 @@ class Walker {
       ParserRuleContext Function(T) initializeTree) {
     final lexer = definition.getLexer(input);
     final tokens = CommonTokenStream(lexer);
-    final parser = definition.initializeTree(tokens);
+    final parser = definition.initializeParser(tokens);
     final tree = initializeTree(parser);
     ParseTreeWalker.DEFAULT.walk(definition.getListener(tokens), tree);
   }
@@ -24,7 +24,7 @@ class Walker {
 abstract class WalkerDefinition<T extends Parser> {
   Lexer getLexer(InputStream input);
 
-  T initializeTree(TokenStream stream);
+  T initializeParser(TokenStream stream);
 
   ParseTreeListener getListener(CommonTokenStream tokens);
 }
@@ -38,7 +38,7 @@ class ApexWalkerDefinition extends WalkerDefinition<ApexParser> {
   }
 
   @override
-  ApexParser initializeTree(TokenStream stream) {
+  ApexParser initializeParser(TokenStream stream) {
     final parser = ApexParser(stream);
     parser.buildParseTree = true;
     parser.removeErrorListeners();
@@ -55,6 +55,10 @@ class ApexWalkerDefinition extends WalkerDefinition<ApexParser> {
   TypeMirror? getGeneratedApexType() {
     return _listener.generatedType;
   }
+
+  TriggerMirror? getGeneratedTrigger() {
+    return _listener.generatedTrigger;
+  }
 }
 
 class ApexdocWalkerDefinition extends WalkerDefinition<ApexdocParser> {
@@ -68,7 +72,7 @@ class ApexdocWalkerDefinition extends WalkerDefinition<ApexdocParser> {
   }
 
   @override
-  ApexdocParser initializeTree(TokenStream stream) {
+  ApexdocParser initializeParser(TokenStream stream) {
     final parser = ApexdocParser(stream);
     parser.buildParseTree = true;
     parser.removeErrorListeners();

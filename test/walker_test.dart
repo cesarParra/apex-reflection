@@ -35,7 +35,7 @@ class TestDefinition extends WalkerDefinition<ApexParser> {
   }
 
   @override
-  ApexParser initializeTree(TokenStream stream) {
+  ApexParser initializeParser(TokenStream stream) {
     return ApexParser(stream);
   }
 

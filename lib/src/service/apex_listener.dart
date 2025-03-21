@@ -48,12 +48,27 @@ class ApexClassListener extends ApexParserBaseListener {
   final Stack<TypeMirror> generatedTypes;
   final Stack<Group> groupStack;
   late TypeMirror generatedType;
+  late TriggerMirror generatedTrigger;
   final CommonTokenStream tokens;
 
   ApexClassListener(this.tokens)
       : generatedTypes = Stack<TypeMirror>(),
         _declaratorDescriptorStack = Stack<DeclarationDescriptor>(),
         groupStack = Stack<Group>();
+
+  @override
+  void enterTriggerUnit(TriggerUnitContext ctx) {
+    // TODO: Extract doc comment
+    final triggerName = ctx.ids().first.text;
+    final objectName = ctx.ids()[1].text;
+    final events = ctx.triggerCases().map((e) => e.text).toList();
+
+    generatedTrigger = TriggerMirror(
+      name: triggerName,
+      objectName: objectName,
+      events: events,
+    );
+  }
 
   @override
   void enterTypeClassDeclaration(TypeClassDeclarationContext ctx) {

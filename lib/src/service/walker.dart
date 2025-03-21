@@ -11,23 +11,25 @@ import '../antlr/grammars/apex/ApexParser.dart';
 import 'apexdoc_listener.dart';
 
 class Walker {
-  static walk(InputStream input, WalkerDefinition definition) {
+  static walk<T extends Parser>(InputStream input, WalkerDefinition<T> definition,
+      ParserRuleContext Function(T) initializeTree) {
     final lexer = definition.getLexer(input);
     final tokens = CommonTokenStream(lexer);
-    final tree = definition.initializeTree(tokens);
+    final parser = definition.initializeTree(tokens);
+    final tree = initializeTree(parser);
     ParseTreeWalker.DEFAULT.walk(definition.getListener(tokens), tree);
   }
 }
 
-abstract class WalkerDefinition {
+abstract class WalkerDefinition<T extends Parser> {
   Lexer getLexer(InputStream input);
 
-  ParserRuleContext initializeTree(TokenStream stream);
+  T initializeTree(TokenStream stream);
 
   ParseTreeListener getListener(CommonTokenStream tokens);
 }
 
-class ApexWalkerDefinition extends WalkerDefinition {
+class ApexWalkerDefinition extends WalkerDefinition<ApexParser> {
   late ApexClassListener _listener;
 
   @override
@@ -36,12 +38,12 @@ class ApexWalkerDefinition extends WalkerDefinition {
   }
 
   @override
-  ParserRuleContext initializeTree(TokenStream stream) {
+  ApexParser initializeTree(TokenStream stream) {
     final parser = ApexParser(stream);
     parser.buildParseTree = true;
     parser.removeErrorListeners();
     parser.addErrorListener(ExceptionErrorListener('apex'));
-    return parser.compilationUnit();
+    return parser;
   }
 
   @override
@@ -55,7 +57,7 @@ class ApexWalkerDefinition extends WalkerDefinition {
   }
 }
 
-class ApexdocWalkerDefinition extends WalkerDefinition {
+class ApexdocWalkerDefinition extends WalkerDefinition<ApexdocParser> {
   final ApexdocListener _listener;
 
   ApexdocWalkerDefinition() : _listener = ApexdocListener();
@@ -66,12 +68,12 @@ class ApexdocWalkerDefinition extends WalkerDefinition {
   }
 
   @override
-  ParserRuleContext initializeTree(TokenStream stream) {
+  ApexdocParser initializeTree(TokenStream stream) {
     final parser = ApexdocParser(stream);
     parser.buildParseTree = true;
     parser.removeErrorListeners();
     parser.addErrorListener(ExceptionErrorListener('doc'));
-    return parser.documentation();
+    return parser;
   }
 
   @override

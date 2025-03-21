@@ -4,6 +4,8 @@ import 'package:apexdocs_dart/src/model/types.dart';
 import 'package:apexdocs_dart/src/service/case_insensitive_input_stream.dart';
 import 'package:apexdocs_dart/src/service/walker.dart';
 import 'package:json_annotation/json_annotation.dart';
+import '../antlr/grammars/apex/ApexParser.dart' as antlr_apex_parser;
+import '../antlr/grammars/Apexdoc/ApexdocParser.dart' as antlr_apexdoc_parser;
 
 part 'parsers.g.dart';
 
@@ -78,17 +80,35 @@ class ApexParser {
 
   static TypeMirror _parse(InputStream input) {
     final walkerDefinition = ApexWalkerDefinition();
-    Walker.walk(input, walkerDefinition);
+    Walker.walk(input, walkerDefinition,
+        (antlr_apex_parser.ApexParser parser) => parser.compilationUnit());
     return walkerDefinition.getGeneratedApexType()!;
   }
 }
+
+// class TriggerParser {
+//   static TriggerMirror parseFromBody(String body) {
+//     final input = CaseInsensitiveInputStream.fromString(body);
+//     return _parse(input);
+//   }
+//
+//   static TriggerMirror _parse(InputStream input) {
+//     final walkerDefinition = TriggerWalkerDefinition();
+//     Walker.walk(input, walkerDefinition);
+//     return walkerDefinition.getGeneratedTrigger()!;
+//   }
+// }
 
 class ApexdocParser {
   static DocComment parseFromBody(String body) {
     var sanitizedBody = body.trimLeft().trimRight();
     final walkerDefinition = ApexdocWalkerDefinition();
     try {
-      Walker.walk(InputStream.fromString(sanitizedBody), walkerDefinition);
+      Walker.walk(
+          InputStream.fromString(sanitizedBody),
+          walkerDefinition,
+          (antlr_apexdoc_parser.ApexdocParser parser) =>
+              parser.documentation());
     } catch (error) {
       return DocComment.error(error.toString());
     }

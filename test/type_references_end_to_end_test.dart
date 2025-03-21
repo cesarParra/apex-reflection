@@ -5,17 +5,22 @@ import 'package:apexdocs_dart/src/service/case_insensitive_input_stream.dart';
 import 'package:apexdocs_dart/src/service/walker.dart';
 import 'package:test/test.dart';
 
+ApexWalkerDefinition walkApex(String body) {
+  final apexWalkerDefinition = ApexWalkerDefinition();
+  Walker.walk(CaseInsensitiveInputStream.fromString(body), apexWalkerDefinition,
+          (parser) => parser.compilationUnit());
+  return apexWalkerDefinition;
+}
+
 main() {
   group('End-to-end ObjectTypeReference tests', () {
     test('Fields with primitive type', () {
-      final apexWalkerDefinition = ApexWalkerDefinition();
       var classBody = '''
       public class MyClass {
         private String myVar1;
       }
       ''';
-      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
-          apexWalkerDefinition);
+      final apexWalkerDefinition = walkApex(classBody);
       var generatedClass =
           apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
@@ -28,14 +33,12 @@ main() {
     });
 
     test('Fields with List type', () {
-      final apexWalkerDefinition = ApexWalkerDefinition();
       var classBody = '''
       public class MyClass {
         private List<String> myVar1;
       }
       ''';
-      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
-          apexWalkerDefinition);
+      final apexWalkerDefinition = walkApex(classBody);
       var generatedClass =
           apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
@@ -49,14 +52,12 @@ main() {
     });
 
     test('Fields with Set type', () {
-      final apexWalkerDefinition = ApexWalkerDefinition();
       var classBody = '''
       public class MyClass {
         private Set<String> myVar1;
       }
       ''';
-      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
-          apexWalkerDefinition);
+      final apexWalkerDefinition = walkApex(classBody);
       var generatedClass =
           apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
@@ -70,14 +71,12 @@ main() {
     });
 
     test('Fields with Map type', () {
-      final apexWalkerDefinition = ApexWalkerDefinition();
       var classBody = '''
       public class MyClass {
         private Map<Integer, String> myVar1;
       }
       ''';
-      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
-          apexWalkerDefinition);
+      final apexWalkerDefinition = walkApex(classBody);
       var generatedClass =
           apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
@@ -93,14 +92,12 @@ main() {
     });
 
     test('Fields with Generic type', () {
-      final apexWalkerDefinition = ApexWalkerDefinition();
       var classBody = '''
       public class MyClass {
         private Iterable<String> myVar1;
       }
       ''';
-      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
-          apexWalkerDefinition);
+      final apexWalkerDefinition = walkApex(classBody);
       var generatedClass =
           apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
@@ -114,14 +111,12 @@ main() {
     });
 
     test('Fields with List of List type', () {
-      final apexWalkerDefinition = ApexWalkerDefinition();
       var classBody = '''
       public class MyClass {
         private List<List<String>> myVar1;
       }
       ''';
-      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
-          apexWalkerDefinition);
+      final apexWalkerDefinition = walkApex(classBody);
       var generatedClass =
           apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
@@ -140,14 +135,12 @@ main() {
     });
 
     test('Fields with Iterable of List type', () {
-      final apexWalkerDefinition = ApexWalkerDefinition();
       var classBody = '''
       public class MyClass {
         private Iterable<List<String>> myVar1;
       }
       ''';
-      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
-          apexWalkerDefinition);
+      final apexWalkerDefinition = walkApex(classBody);
       var generatedClass =
           apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
@@ -166,14 +159,12 @@ main() {
     });
 
     test('Fields with Set of Set type', () {
-      final apexWalkerDefinition = ApexWalkerDefinition();
       var classBody = '''
       public class MyClass {
         private Set<Set<String>> myVar1;
       }
       ''';
-      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
-          apexWalkerDefinition);
+      final apexWalkerDefinition = walkApex(classBody);
       var generatedClass =
           apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
@@ -192,14 +183,12 @@ main() {
     });
 
     test('Fields with Map of Map type', () {
-      final apexWalkerDefinition = ApexWalkerDefinition();
       var classBody = '''
       public class MyClass {
         private Map<String, Map<Integer, String>> myVar1;
       }
       ''';
-      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
-          apexWalkerDefinition);
+      final apexWalkerDefinition = walkApex(classBody);
       var generatedClass =
           apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
@@ -226,14 +215,12 @@ main() {
 
     // single level array
     test('Array fields', () {
-      final apexWalkerDefinition = ApexWalkerDefinition();
       var classBody = '''
       public class MyClass {
         private String[] myVar1;
       }
       ''';
-      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
-          apexWalkerDefinition);
+      final apexWalkerDefinition = walkApex(classBody);
       var generatedClass =
           apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
@@ -247,14 +234,12 @@ main() {
     });
 
     test('Multi-level array fields', () {
-      final apexWalkerDefinition = ApexWalkerDefinition();
       var classBody = '''
       public class MyClass {
         private String[][] myVar1;
       }
       ''';
-      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
-          apexWalkerDefinition);
+      final apexWalkerDefinition = walkApex(classBody);
       var generatedClass =
           apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
@@ -273,14 +258,12 @@ main() {
     });
 
     test('Namespaced types', () {
-      final apexWalkerDefinition = ApexWalkerDefinition();
       var classBody = '''
       public class MyClass {
         public Iterable<String> start(Database.BatchableContext info) {}
       }
       ''';
-      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
-          apexWalkerDefinition);
+      final apexWalkerDefinition = walkApex(classBody);
       var generatedClass =
           apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
 
@@ -291,14 +274,12 @@ main() {
     });
 
     test('Void methods', () {
-      final apexWalkerDefinition = ApexWalkerDefinition();
       var classBody = '''
       public class MyClass {
         private static void myMethod() {}
       }
       ''';
-      Walker.walk(CaseInsensitiveInputStream.fromString(classBody),
-          apexWalkerDefinition);
+      final apexWalkerDefinition = walkApex(classBody);
       var generatedClass =
           apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
       expect(generatedClass.methods.length, equals(1));

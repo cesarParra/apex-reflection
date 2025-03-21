@@ -29,6 +29,20 @@ abstract class TypeMirror extends DeclarationMirror {
   Map<String, dynamic> toJson();
 }
 
+class TriggerMirror with DocsCommentAwareness {
+  final String name;
+  final String objectName;
+  final List<String> events;
+
+  TriggerMirror(
+      {required this.name,
+      required this.objectName,
+      required this.events,
+      String? rawDocComment}) {
+    this.rawDocComment = rawDocComment;
+  }
+}
+
 /// Allows for types to contain method declarations.
 mixin MethodsAwareness {
   List<MethodMirror> methods = [];

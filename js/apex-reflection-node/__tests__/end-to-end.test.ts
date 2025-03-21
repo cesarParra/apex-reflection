@@ -4,6 +4,7 @@ import {
   InterfaceMirror,
   reflect,
   reflectAsync,
+  reflectTrigger,
   ReflectionResult,
 } from "../index";
 
@@ -582,5 +583,36 @@ describe("Class reflection", () => {
     }
 
     runAllStrategies(testBody);
+  });
+});
+
+describe("Trigger reflection", () => {
+  test("Reflects a trigger", () => {
+    const triggerBody = `
+  trigger MyTrigger on Account (before insert) { }
+  `;
+    const result = reflectTrigger(triggerBody);
+    expect(result.triggerMirror?.name).toBe("MyTrigger");
+    expect(result.triggerMirror?.object_name).toBe("Account");
+    expect(result.triggerMirror?.events).toEqual(["beforeinsert"]);
+  });
+
+  test("Reflects a trigger with multiple events", () => {
+    const triggerBody = `
+  trigger MyTrigger on Account (before insert, after update) { }
+  `;
+    const result = reflectTrigger(triggerBody);
+    expect(result.triggerMirror?.events).toEqual(["beforeinsert", "afterupdate"]);
+  });
+
+  test("Reflects trigger with doc comments", () => {
+    const triggerBody = `
+  /**
+    * My trigger description
+    */
+  trigger MyTrigger on Account (before insert) { }
+  `;
+    const result = reflectTrigger(triggerBody);
+    expect(result.triggerMirror.docComment?.description).toBe("My trigger description");
   });
 });

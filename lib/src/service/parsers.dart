@@ -24,7 +24,6 @@ class ReflectionResponse {
   factory ReflectionResponse.fromJson(Map<String, dynamic> json) =>
       _$ReflectionResponseFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$ReflectionResponseToJson(this);
 
   static TypeMirror? typeFromJson(json) {
@@ -47,6 +46,32 @@ class ReflectionResponse {
 }
 
 @JsonSerializable()
+class TriggerReflectionResponse {
+  @JsonKey(fromJson: typeFromJson, toJson: typeToJson)
+  TriggerMirror? triggerMirror;
+  ParsingError? error;
+
+  TriggerReflectionResponse();
+
+  TriggerReflectionResponse.success(this.triggerMirror);
+
+  TriggerReflectionResponse.error(this.error);
+
+  factory TriggerReflectionResponse.fromJson(Map<String, dynamic> json) =>
+      _$TriggerReflectionResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TriggerReflectionResponseToJson(this);
+
+  static TriggerMirror? typeFromJson(json) {
+    return TriggerMirror.fromJson(json as Map<String, dynamic>);
+  }
+
+  static dynamic typeToJson(TriggerMirror? type) {
+    return type?.toJson();
+  }
+}
+
+@JsonSerializable()
 class ParsingError {
   String message;
 
@@ -55,7 +80,6 @@ class ParsingError {
   factory ParsingError.fromJson(Map<String, dynamic> json) =>
       _$ParsingErrorFromJson(json);
 
-  @override
   Map<String, dynamic> toJson() => _$ParsingErrorToJson(this);
 }
 
@@ -68,6 +92,17 @@ class Reflection {
       final errorMessage = e.toString();
       final parsingError = ParsingError(errorMessage);
       return ReflectionResponse.error(parsingError);
+    }
+  }
+
+  static TriggerReflectionResponse reflectTrigger(String body) {
+    try {
+      final triggerResponse = TriggerParser.parseFromBody(body);
+      return TriggerReflectionResponse.success(triggerResponse);
+    } catch (e) {
+      final errorMessage = e.toString();
+      final parsingError = ParsingError(errorMessage);
+      return TriggerReflectionResponse.error(parsingError);
     }
   }
 }

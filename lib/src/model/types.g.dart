@@ -6,6 +6,24 @@ part of 'types.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+TriggerMirror _$TriggerMirrorFromJson(Map<String, dynamic> json) =>
+    TriggerMirror(
+      name: json['name'] as String,
+      objectName: json['object_name'] as String,
+      events:
+          (json['events'] as List<dynamic>).map((e) => e as String).toList(),
+    )..docComment = json['docComment'] == null
+        ? null
+        : DocComment.fromJson(json['docComment'] as Map<String, dynamic>);
+
+Map<String, dynamic> _$TriggerMirrorToJson(TriggerMirror instance) =>
+    <String, dynamic>{
+      'docComment': instance.docComment,
+      'name': instance.name,
+      'object_name': instance.objectName,
+      'events': instance.events,
+    };
+
 ClassMirror _$ClassMirrorFromJson(Map<String, dynamic> json) => ClassMirror(
       name: json['name'] as String,
       extendedClass: json['extended_class'] as String?,

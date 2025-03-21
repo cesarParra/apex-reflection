@@ -11,6 +11,16 @@ export async function reflectAsync(declarationBody: string): Promise<ReflectionR
   return JSON.parse(result) as ReflectionResult;
 }
 
+export function reflectTrigger(declarationBody: string): TriggerReflectionResult {
+  // @ts-expect-error "reflectTrigger" is added to self by the "out" module
+  return JSON.parse(self.reflectTrigger(declarationBody)) as TriggerReflectionResult;
+}
+
+export function reflectTriggerAsync(declarationBody: string): Promise<TriggerReflectionResult> {
+  // @ts-expect-error "reflectTriggerAsync" is added to self by the "out" module
+  return self.reflectTriggerAsync(declarationBody).then((result: string) => JSON.parse(result) as TriggerReflectionResult);
+}
+
 export interface ParamAnnotation {
   bodyLines: string[];
   paramName: string;
@@ -143,6 +153,11 @@ export interface ReflectionResult {
   error?: ParsingError;
 }
 
+export interface TriggerReflectionResult {
+  triggerMirror?: TriggerMirror;
+  error?: ParsingError;
+}
+
 export interface ParsingError {
   message: string;
 }
@@ -151,6 +166,13 @@ export interface ParsingError {
 
 type TypeName = "class" | "interface" | "enum";
 export type Type = InterfaceMirror | ClassMirror | EnumMirror;
+
+export interface TriggerMirror {
+  docComment?: DocComment;
+  name: string;
+  object_name: string;
+  events: string[];
+}
 
 export interface EnumMirror {
   annotations: Annotation[];

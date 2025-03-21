@@ -29,8 +29,10 @@ abstract class TypeMirror extends DeclarationMirror {
   Map<String, dynamic> toJson();
 }
 
+@JsonSerializable()
 class TriggerMirror with DocsCommentAwareness {
   final String name;
+  @JsonKey(name: 'object_name')
   final String objectName;
   final List<String> events;
 
@@ -41,6 +43,11 @@ class TriggerMirror with DocsCommentAwareness {
       String? rawDocComment}) {
     this.rawDocComment = rawDocComment;
   }
+
+  factory TriggerMirror.fromJson(Map<String, dynamic> json) =>
+      _$TriggerMirrorFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TriggerMirrorToJson(this);
 }
 
 /// Allows for types to contain method declarations.

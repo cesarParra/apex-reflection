@@ -18,6 +18,18 @@ main() {
     expect(docComment.description, 'This is a description');
   });
 
+  test('Avoids parsing `{@hidden ...} content', () {
+    final docBody = '''
+    /**
+      * This is a description
+      * {@hidden This content should be hidden}
+      * This is more description
+      */
+    ''';
+    final docComment = ApexdocParser.parseFromBody(docBody);
+    expect(docComment.description, 'This is a description\n\nThis is more description');
+  });
+
   test('Can parse a multi line simple doc comment with multiple blank lines',
       () {
     final docBody = '''

@@ -104,6 +104,10 @@ JAVADOC_END
 	: SPACE? STAR* '*/'
 	;
 
+HIDDEN_TAG
+	: '{@' H I D D E N .*? '}' -> channel(HIDDEN)
+	;
+
 INLINE_TAG_START
 	: '{@'
 	;

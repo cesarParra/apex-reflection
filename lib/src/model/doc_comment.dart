@@ -134,7 +134,18 @@ class ThrowsDocCommentAnnotation extends DocCommentAnnotation {
 /// Param annotations follow the format @example body
 @JsonSerializable()
 class ExampleDocCommentAnnotation extends DocCommentAnnotation {
-  ExampleDocCommentAnnotation(bodyLines) : super('example', bodyLines);
+  ExampleDocCommentAnnotation(List<String> bodyLines) : super('example', bodyLines) {
+    // examples might come surrounded by `{@code ... }`. If so, we want to strip those out.
+    if (bodyLines.isNotEmpty) {
+      if (bodyLines.first.trim().startsWith('{@code')) {
+        // remove the first and last lines
+        bodyLines.removeAt(0);
+        if (bodyLines.isNotEmpty && bodyLines.last.trim().endsWith('}')) {
+          bodyLines.removeLast();
+        }
+      }
+    }
+  }
 
   factory ExampleDocCommentAnnotation.fromJson(Map<String, dynamic> json) =>
       _$ExampleDocCommentAnnotationFromJson(json);

@@ -8,6 +8,7 @@ class CaseInsensitiveInputStream extends InputStream {
   }
 
   @override
+  // ignore: non_constant_identifier_names
   int LA(int offset) {
     if (offset == 0) {
       return 0; // undefined

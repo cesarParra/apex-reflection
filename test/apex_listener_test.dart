@@ -1,4 +1,3 @@
-import 'package:apexdocs_dart/src/antlr/grammars/apex/ApexLexer.dart';
 import 'package:apexdocs_dart/src/extension_methods/list_extensions.dart';
 import 'package:apexdocs_dart/src/model/members.dart';
 import 'package:apexdocs_dart/src/model/modifiers.dart';

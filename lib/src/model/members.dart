@@ -92,7 +92,7 @@ class MethodMirror extends MemberMirror with ParameterAwareness {
 /// Represents a parameter declaration.
 @JsonSerializable()
 class ParameterMirror with MemberModifiersAwareness {
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   ParameterAwareness? parent;
 
   String name;

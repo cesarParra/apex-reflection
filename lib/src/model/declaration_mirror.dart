@@ -8,7 +8,7 @@ import 'modifiers.dart';
 /// Allows declarations to be aware of doc comments.
 mixin DocsCommentAwareness {
   DocComment? _docComment;
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   String? rawDocComment;
 
   @JsonKey()

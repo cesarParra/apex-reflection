@@ -143,10 +143,11 @@ class ExampleDocCommentAnnotation extends DocCommentAnnotation {
     // examples might come surrounded by `{@code ... }`. If so, we want to strip those out.
     if (bodyLines.isNotEmpty) {
       if (bodyLines.first.trim().startsWith('{@code')) {
-        // remove the first and last lines
-        bodyLines.removeAt(0);
+        // replace with ```
+        bodyLines[0] = bodyLines.first.replaceFirst('{@code', '```');
         if (bodyLines.isNotEmpty && bodyLines.last.trim().endsWith('}')) {
-          bodyLines.removeLast();
+          bodyLines[bodyLines.length - 1] =
+              bodyLines.last.replaceFirst('}', '```');
         }
       }
     }

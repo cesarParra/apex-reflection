@@ -237,9 +237,8 @@ main() {
     ''';
     final docComment = ApexdocParser.parseFromBody(docBody);
     expect(docComment.exampleAnnotation, isNotNull);
-    expect(docComment.exampleAnnotation!.bodyLines.length, equals(5));
     expect(docComment.exampleAnnotation!.body,
-        equals("String testString = 'MyString';\nSystem.debug(testString);\nprivate static void helperMethod() {\n  // do something\n}"));
+        equals("```\nString testString = 'MyString';\nSystem.debug(testString);\nprivate static void helperMethod() {\n  // do something\n}\n```"));
   });
 
   test('Can parse custom tags', () {

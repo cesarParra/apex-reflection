@@ -584,6 +584,41 @@ describe("Class reflection", () => {
 
     runAllStrategies(testBody);
   });
+
+  test("supports @example tags with code blocks", async () => {
+    async function testBody(reflect: ReflectionStrategy) {
+      const classBody = `
+      public class MyClass {
+        /**
+         * This method does something.
+         *
+         * @example
+         * {@code
+         * MyClass myClass = new MyClass();
+         * myClass.myMethod();
+         * }
+         */
+        public void myMethod() {
+          // method implementation
+        }
+      }
+    `;
+
+      const result = await reflect(classBody);
+      expect(result.error).toBeNull();
+
+      const typeResult = result.typeMirror as ClassMirror;
+      expect(typeResult.name).toBe("MyClass");
+      expect(typeResult.methods[0].docComment.exampleAnnotation).not.toBeNull();
+      expect(typeResult.methods[0].docComment.exampleAnnotation?.bodyLines).not.toContain("@{code");
+      expect(typeResult.methods[0].docComment.exampleAnnotation?.bodyLines).toContain("```");
+      expect(typeResult.methods[0].docComment.exampleAnnotation?.bodyLines).toContain(
+        "myClass.myMethod();"
+      );
+    }
+
+    runAllStrategies(testBody);
+  });
 });
 
 describe("Trigger reflection", () => {

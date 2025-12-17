@@ -81,7 +81,7 @@ main() {
 
   group('Example annotations', () {
     test('Has a body', () {
-      final exampleAnnotation = ExampleDocCommentAnnotation('Some description');
+      final exampleAnnotation = ExampleDocCommentAnnotation(['Some description']);
       expect(exampleAnnotation.name, equals('example'));
       expect(exampleAnnotation.body, equals('Some description'));
     });

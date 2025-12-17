@@ -18,6 +18,18 @@ main() {
     expect(docComment.description, 'This is a description');
   });
 
+  test('Avoids parsing `{@hidden ...} content', () {
+    final docBody = '''
+    /**
+      * This is a description
+      * {@hidden This content should be hidden}
+      * This is more description
+      */
+    ''';
+    final docComment = ApexdocParser.parseFromBody(docBody);
+    expect(docComment.description, 'This is a description\n\nThis is more description');
+  });
+
   test('Can parse a multi line simple doc comment with multiple blank lines',
       () {
     final docBody = '''
@@ -202,6 +214,31 @@ main() {
     expect(docComment.exampleAnnotation!.bodyLines.length, equals(1));
     expect(docComment.exampleAnnotation!.body,
         equals("String testString = 'MyString';"));
+  });
+
+  test('Can parse an example tag using the `@code` format', () {
+    final docBody = '''
+    /**
+      * @description This is a description.
+      * @param param1 description1
+      * @return Returns something
+      * @throws ExceptionName1 description1
+      * @throws ExceptionName2 description2
+      * @author John Doe
+      * @example
+      * {@code
+      * String testString = 'MyString';
+      * System.debug(testString);
+      * private static void helperMethod() {
+      *   // do something
+      * }
+      * }
+      */
+    ''';
+    final docComment = ApexdocParser.parseFromBody(docBody);
+    expect(docComment.exampleAnnotation, isNotNull);
+    expect(docComment.exampleAnnotation!.body,
+        equals("```\nString testString = 'MyString';\nSystem.debug(testString);\nprivate static void helperMethod() {\n  // do something\n}\n```"));
   });
 
   test('Can parse custom tags', () {

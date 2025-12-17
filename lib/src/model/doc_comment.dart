@@ -41,12 +41,16 @@ class DocComment {
       return _descriptionLines;
     }
 
-    final descriptionTag = annotations.firstWhereOrNull((element) => element.name == 'description');
+    final descriptionTag = annotations
+        .firstWhereOrNull((element) => element.name == 'description');
     return descriptionTag?.bodyLines ?? [];
   }
 
   set descriptionLines(List<String> descriptionLines) {
-    _descriptionLines = descriptionLines.map((e) => sanitizeDocContent(e)).expand((e) => e).toList();
+    _descriptionLines = descriptionLines
+        .map((e) => sanitizeDocContent(e))
+        .expand((e) => e)
+        .toList();
   }
 
   /// Gets the description as a single line.
@@ -134,7 +138,20 @@ class ThrowsDocCommentAnnotation extends DocCommentAnnotation {
 /// Param annotations follow the format @example body
 @JsonSerializable()
 class ExampleDocCommentAnnotation extends DocCommentAnnotation {
-  ExampleDocCommentAnnotation(bodyLines) : super('example', bodyLines);
+  ExampleDocCommentAnnotation(List<String> bodyLines)
+      : super('example', bodyLines) {
+    // examples might come surrounded by `{@code ... }`. If so, we want to strip those out.
+    if (bodyLines.isNotEmpty) {
+      if (bodyLines.first.trim().startsWith('{@code')) {
+        // replace with ```
+        bodyLines[0] = bodyLines.first.replaceFirst('{@code', '```');
+        if (bodyLines.isNotEmpty && bodyLines.last.trim().endsWith('}')) {
+          bodyLines[bodyLines.length - 1] =
+              bodyLines.last.replaceFirst('}', '```');
+        }
+      }
+    }
+  }
 
   factory ExampleDocCommentAnnotation.fromJson(Map<String, dynamic> json) =>
       _$ExampleDocCommentAnnotationFromJson(json);

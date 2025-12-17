@@ -27,8 +27,8 @@ class ApexdocListener extends ApexdocParserBaseListener {
   @override
   void enterDefaultBlockTag(DefaultBlockTagContext ctx) {
     final tagName = ctx.blockTagName()!.text;
-    generatedDocComment.annotations.add(DocCommentAnnotation(
-        tagName, ctx.blockTagContents().sanitize()));
+    generatedDocComment.annotations
+        .add(DocCommentAnnotation(tagName, ctx.blockTagContents().sanitize()));
   }
 
   @override

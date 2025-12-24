@@ -26,7 +26,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          VERSION=$(node -p "require('./package.json').version")
+          VERSION=$(node -p "require('./js/apex-reflection-node/package.json').version")
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
           if git rev-parse "v$VERSION" >/dev/null 2>&1; then
@@ -38,7 +38,7 @@ jobs:
           fi
 
   build-binaries:
-    needs: [ check-version ]
+    needs: [check-version]
     if: needs.check-version.outputs.should_release == 'true'
     runs-on: ${{ matrix.os }}
     strategy:
@@ -77,18 +77,18 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          
+
           ASSET_NAME="apex-reflection-${{ matrix.release_platform }}-${{ matrix.release_arch }}${{ matrix.asset_ext }}"
-          
+
           # Set architecture-specific flags for macOS
           if [[ "${{ matrix.release_platform }}" == "darwin" && "${{ matrix.release_arch }}" == "arm64" ]]; then
             export DART_COMPILE_EXE_OPTIONS="--target-os=macos-arm64"
           elif [[ "${{ matrix.release_platform }}" == "darwin" && "${{ matrix.release_arch }}" == "x64" ]]; then
             export DART_COMPILE_EXE_OPTIONS="--target-os=macos-x64"
           fi
-          
+
           dart compile exe bin/apex_reflection.dart -o "$ASSET_NAME"
-          
+
           if [ "${{ matrix.release_platform }}" != "windows" ]; then
             chmod +x "$ASSET_NAME"
           fi
@@ -100,7 +100,7 @@ jobs:
           path: apex-reflection-${{ matrix.release_platform }}-${{ matrix.release_arch }}${{ matrix.asset_ext }}
 
   create-release:
-    needs: [ check-version, build-binaries ]
+    needs: [check-version, build-binaries]
     if: needs.check-version.outputs.should_release == 'true'
     runs-on: ubuntu-latest
     steps:
@@ -148,7 +148,7 @@ jobs:
           done
 
   publish-npm:
-    needs: [ check-version, create-release ]
+    needs: [check-version, create-release]
     if: needs.check-version.outputs.should_release == 'true'
     runs-on: ubuntu-latest
     steps:
@@ -174,4 +174,5 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         shell: bash
-        run: npm publish --access public
+        # Publish while ignoring postinstall scripts
+        run: npm publish --access public --ignore-scripts

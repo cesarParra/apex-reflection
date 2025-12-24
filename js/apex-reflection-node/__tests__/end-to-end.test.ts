@@ -96,7 +96,9 @@ describe("Enum Reflection", () => {
     `;
       const result = (await strategy(enumBody)).typeMirror as EnumMirror;
       expect(result.values.length).toBe(2);
-      expect(result.values[0].docComment.description).toBe("Value 1 description");
+      expect(result.values[0].docComment.description).toBe(
+        "Value 1 description",
+      );
     }
 
     runAllStrategies(testBody);
@@ -138,7 +140,8 @@ describe("Interface Reflection", () => {
   test("Can have a sharing modifier", () => {
     async function testBody(reflect: ReflectionStrategy) {
       const interfaceBody = "public with sharing interface MyInterface{}";
-      const result = (await reflect(interfaceBody)).typeMirror as InterfaceMirror;
+      const result = (await reflect(interfaceBody))
+        .typeMirror as InterfaceMirror;
       expect(result.sharingModifier).toBe("withSharing");
     }
 
@@ -152,7 +155,8 @@ describe("Interface Reflection", () => {
         void method1();
       }
     `;
-      const result = (await reflect(interfaceBody)).typeMirror as InterfaceMirror;
+      const result = (await reflect(interfaceBody))
+        .typeMirror as InterfaceMirror;
       expect(result.methods.length).toBe(1);
       expect(result.methods[0].name).toBe("method1");
     }
@@ -167,7 +171,8 @@ describe("Interface Reflection", () => {
         void method1();
       }
     `;
-      const result = (await reflect(interfaceBody)).typeMirror as InterfaceMirror;
+      const result = (await reflect(interfaceBody))
+        .typeMirror as InterfaceMirror;
       expect(result.extended_interfaces.length).toBe(1);
       expect(result.extended_interfaces[0]).toBe("Interface2");
     }
@@ -183,7 +188,8 @@ describe("Interface Reflection", () => {
         void method1();
       }
     `;
-      const result = (await reflect(interfaceBody)).typeMirror as InterfaceMirror;
+      const result = (await reflect(interfaceBody))
+        .typeMirror as InterfaceMirror;
       expect(result.annotations.length).toBe(1);
       expect(result.annotations[0].name).toBe("namespaceaccessible");
     }
@@ -200,7 +206,8 @@ describe("Interface Reflection", () => {
         void method1();
       }
     `;
-      const result = (await reflect(interfaceBody)).typeMirror as InterfaceMirror;
+      const result = (await reflect(interfaceBody))
+        .typeMirror as InterfaceMirror;
       expect(result.methods[0].annotations.length).toBe(2);
 
       const annotationNames = result.methods[0].annotations.map((a) => a.name);
@@ -391,7 +398,9 @@ describe("Class reflection", () => {
       expect(result.constructors[0].access_modifier).toBe("public");
       expect(result.constructors[1].parameters.length).toBe(1);
       expect(result.constructors[1].parameters[0].name).toBe("var1");
-      expect(result.constructors[1].parameters[0].typeReference.type).toBe("String");
+      expect(result.constructors[1].parameters[0].typeReference.type).toBe(
+        "String",
+      );
       expect(result.constructors[1].access_modifier).toBe("public");
     }
 
@@ -610,11 +619,15 @@ describe("Class reflection", () => {
       const typeResult = result.typeMirror as ClassMirror;
       expect(typeResult.name).toBe("MyClass");
       expect(typeResult.methods[0].docComment.exampleAnnotation).not.toBeNull();
-      expect(typeResult.methods[0].docComment.exampleAnnotation?.bodyLines).not.toContain("@{code");
-      expect(typeResult.methods[0].docComment.exampleAnnotation?.bodyLines).toContain("```");
-      expect(typeResult.methods[0].docComment.exampleAnnotation?.bodyLines).toContain(
-        "myClass.myMethod();"
-      );
+      expect(
+        typeResult.methods[0].docComment.exampleAnnotation?.bodyLines,
+      ).not.toContain("@{code");
+      expect(
+        typeResult.methods[0].docComment.exampleAnnotation?.bodyLines,
+      ).toContain("```");
+      expect(
+        typeResult.methods[0].docComment.exampleAnnotation?.bodyLines,
+      ).toContain("myClass.myMethod();");
     }
 
     runAllStrategies(testBody);
@@ -637,7 +650,10 @@ describe("Trigger reflection", () => {
   trigger MyTrigger on Account (before insert, after update) { }
   `;
     const result = reflectTrigger(triggerBody);
-    expect(result.triggerMirror?.events).toEqual(["beforeinsert", "afterupdate"]);
+    expect(result.triggerMirror?.events).toEqual([
+      "beforeinsert",
+      "afterupdate",
+    ]);
   });
 
   test("Reflects trigger with doc comments", () => {
@@ -648,6 +664,49 @@ describe("Trigger reflection", () => {
   trigger MyTrigger on Account (before insert) { }
   `;
     const result = reflectTrigger(triggerBody);
-    expect(result.triggerMirror.docComment?.description).toBe("My trigger description");
+    expect(result.triggerMirror.docComment?.description).toBe(
+      "My trigger description",
+    );
+  });
+
+  test("Reflects trigger with bulk keyword", () => {
+    const triggerBody = `
+  trigger MyTrigger on Account bulk (before insert) { }
+  `;
+    const result = reflectTrigger(triggerBody);
+    expect(result.triggerMirror?.name).toBe("MyTrigger");
+    expect(result.triggerMirror?.object_name).toBe("Account");
+    expect(result.triggerMirror?.events).toEqual(["beforeinsert"]);
+  });
+
+  test("Reflects trigger with bulk keyword and multiple events", () => {
+    const triggerBody = `
+  trigger Account_trigger_vod on Account bulk (before delete, after delete) { }
+  `;
+    const result = reflectTrigger(triggerBody);
+    expect(result.triggerMirror?.name).toBe("Account_trigger_vod");
+    expect(result.triggerMirror?.object_name).toBe("Account");
+    expect(result.triggerMirror?.events).toEqual([
+      "beforedelete",
+      "afterdelete",
+    ]);
+  });
+
+  test("Reflects trigger with bulk keyword and doc comments", () => {
+    const triggerBody = `
+  /**
+    * This is a bulk trigger
+    */
+  trigger MyTrigger on Account bulk (before insert, after update) { }
+  `;
+    const result = reflectTrigger(triggerBody);
+    expect(result.triggerMirror?.name).toBe("MyTrigger");
+    expect(result.triggerMirror?.events).toEqual([
+      "beforeinsert",
+      "afterupdate",
+    ]);
+    expect(result.triggerMirror.docComment?.description).toBe(
+      "This is a bulk trigger",
+    );
   });
 });

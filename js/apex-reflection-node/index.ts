@@ -1,24 +1,103 @@
-require("./out.js");
+import path from "path";
+import fs from "fs";
+import { spawnSync } from "child_process";
+
+function resolveNativeBinaryPath(): string {
+  const platform = process.platform;
+  const arch = process.arch;
+
+  let folderName: string;
+  if (platform === "darwin" && arch === "arm64") {
+    folderName = "darwin-arm64";
+  } else if (platform === "darwin" && arch === "x64") {
+    folderName = "darwin-x64";
+  } else if (platform === "linux" && arch === "x64") {
+    folderName = "linux-x64";
+  } else if (platform === "win32" && arch === "x64") {
+    folderName = "windows-x64";
+  } else {
+    throw new Error(
+      `Unsupported platform/arch combination: ${platform}/${arch}`,
+    );
+  }
+
+  const fileName =
+    platform === "win32" ? "apex-reflection.exe" : "apex-reflection";
+
+  // At runtime, this file is `dist/index.js`, so `__dirname` points to `dist/`.
+  // postinstall installs to: dist/native/<platform-arch>/<fileName>
+  const downloadedPath = path.join(__dirname, "native", folderName, fileName);
+
+  // dev flow builds to: dist/native/<platform-arch>/<fileName>
+  // (same place), but keep this explicit so we can evolve paths later.
+  const devBuiltPath = downloadedPath;
+
+  if (fs.existsSync(downloadedPath)) {
+    return downloadedPath;
+  }
+  if (fs.existsSync(devBuiltPath)) {
+    return devBuiltPath;
+  }
+
+  throw new Error(
+    `Native binary not found. Expected one of:\n- ${downloadedPath}\n- ${devBuiltPath}\n\nIf you just installed this package, ensure postinstall succeeded.\nIf you're developing locally, run the dev build to create the host binary.`,
+  );
+}
+
+function reflectFor(type: "reflectType" | "reflectTrigger", declarationBody: string) {
+  const binaryPath = resolveNativeBinaryPath();
+
+  const result = spawnSync(binaryPath, [`--type=${type}`], {
+    input: declarationBody,
+    encoding: "utf8",
+    maxBuffer: 1024 * 1024 * 50,
+  });
+
+  if (result.error) {
+    throw new Error(
+      `apex-reflection native binary failed to start. error:\n${ String(result.error) }`,
+    );
+  }
+
+  if (result.status !== 0) {
+    throw new Error(
+      `apex-reflection native binary failed (code=${ result.status }). stderr:\n${ result.stderr ?? "" }`,
+    );
+  }
+
+  const stdout = (result.stdout ?? "").toString().trim();
+  if (!stdout) {
+    throw new Error(
+      "apex-reflection native binary produced no output on stdout.",
+    );
+  }
+  return stdout;
+}
 
 export function reflect(declarationBody: string): ReflectionResult {
-  // @ts-expect-error "reflect" is added to self by the "out" module
-  return JSON.parse(self.reflect(declarationBody)) as ReflectionResult;
+  const stdout = reflectFor("reflectType", declarationBody);
+
+  try {
+    return JSON.parse(stdout) as ReflectionResult;
+  } catch (e) {
+    throw new Error(
+      `apex-reflection native binary output was not valid JSON.\nstdout:\n${stdout}\nerror: ${String(e)}`,
+    );
+  }
 }
 
-export async function reflectAsync(declarationBody: string): Promise<ReflectionResult> {
-  // @ts-expect-error "reflectAsync" is added to self by the "out" module
-  const result = await self.reflectAsync(declarationBody) as string;
-  return JSON.parse(result) as ReflectionResult;
-}
+export function reflectTrigger(
+  declarationBody: string,
+): TriggerReflectionResult {
+  const stdout = reflectFor("reflectTrigger", declarationBody);
 
-export function reflectTrigger(declarationBody: string): TriggerReflectionResult {
-  // @ts-expect-error "reflectTrigger" is added to self by the "out" module
-  return JSON.parse(self.reflectTrigger(declarationBody)) as TriggerReflectionResult;
-}
-
-export function reflectTriggerAsync(declarationBody: string): Promise<TriggerReflectionResult> {
-  // @ts-expect-error "reflectTriggerAsync" is added to self by the "out" module
-  return self.reflectTriggerAsync(declarationBody).then((result: string) => JSON.parse(result) as TriggerReflectionResult);
+  try {
+    return JSON.parse(stdout) as TriggerReflectionResult;
+  } catch (e) {
+    throw new Error(
+      `apex-reflection native binary output was not valid JSON.\nstdout:\n${stdout}\nerror: ${String(e)}`,
+    );
+  }
 }
 
 export interface ParamAnnotation {
@@ -69,7 +148,12 @@ export interface Annotation {
   elementValues?: AnnotationElementValue[];
 }
 
-export type ReferencedType = ReferenceObjectType | ListObjectType | SetObjectType | MapObjectType | GenericObjectType;
+export type ReferencedType =
+  | ReferenceObjectType
+  | ListObjectType
+  | SetObjectType
+  | MapObjectType
+  | GenericObjectType;
 
 export interface ReferenceObjectType {
   type: string;

@@ -1,0 +1,181 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  check-version:
+    runs-on: ubuntu-latest
+    outputs:
+      should_release: ${{ steps.check.outputs.should_release }}
+      version: ${{ steps.check.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check if version changed
+        id: check
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+          if git rev-parse "v$VERSION" >/dev/null 2>&1; then
+            echo "Version v$VERSION already exists"
+            echo "should_release=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "New version v$VERSION detected"
+            echo "should_release=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  build-binaries:
+    needs: [check-version]
+    if: needs.check-version.outputs.should_release == 'true'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            release_platform: linux
+            release_arch: x64
+            asset_ext: ""
+          - os: macos-latest
+            release_platform: darwin
+            release_arch: arm64
+            asset_ext: ""
+          - os: macos-latest
+            release_platform: darwin
+            release_arch: x64
+            asset_ext: ""
+          - os: windows-latest
+            release_platform: windows
+            release_arch: x64
+            asset_ext: ".exe"
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+
+      - name: Install Dart dependencies
+        shell: bash
+        run: dart pub get
+
+      - name: Build native binary
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          ASSET_NAME="apex-reflection-${{ matrix.release_platform }}-${{ matrix.release_arch }}${{ matrix.asset_ext }}"
+
+          # Map our release labels to Dart compile flags
+          TARGET_OS="${{ matrix.release_platform }}"
+          if [ "$TARGET_OS" = "darwin" ]; then
+            TARGET_OS="macos"
+          fi
+
+          TARGET_ARCH="${{ matrix.release_arch }}"
+
+          dart compile exe bin/apex_reflection.dart \
+            -o "$ASSET_NAME" \
+            --target-os "$TARGET_OS" \
+            --target-arch "$TARGET_ARCH"
+
+          if [ "${{ matrix.release_platform }}" != "windows" ]; then
+            chmod +x "$ASSET_NAME"
+          fi
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: apex-reflection-${{ matrix.release_platform }}-${{ matrix.release_arch }}
+          path: apex-reflection-${{ matrix.release_platform }}-${{ matrix.release_arch }}${{ matrix.asset_ext }}
+
+  create-release:
+    needs: [check-version, build-binaries]
+    if: needs.check-version.outputs.should_release == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION="${{ needs.check-version.outputs.version }}"
+
+          cat > release-notes.md << EOF
+          apex-reflection v${VERSION}
+
+          This release contains platform-specific native binaries used by the npm package.
+          EOF
+
+          gh release create "v${VERSION}" \
+            --title "v${VERSION}" \
+            --notes-file release-notes.md \
+            --target main
+
+      - name: Upload Release Assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION="${{ needs.check-version.outputs.version }}"
+
+          for artifactDir in artifacts/*; do
+            if [ -d "$artifactDir" ]; then
+              for file in "$artifactDir"/*; do
+                echo "Uploading $file"
+                gh release upload "v${VERSION}" "$file" --clobber
+              done
+            fi
+          done
+
+  publish-npm:
+    needs: [check-version, create-release]
+    if: needs.check-version.outputs.should_release == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install subpackage dependencies
+        working-directory: js/apex-reflection-node
+        shell: bash
+        run: npm ci
+
+      - name: Build JS package
+        working-directory: js/apex-reflection-node
+        shell: bash
+        run: npm run build
+
+      - name: Publish to npm
+        working-directory: js/apex-reflection-node
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        shell: bash
+        run: npm publish --access public

@@ -3,16 +3,15 @@ import {
   EnumMirror,
   InterfaceMirror,
   reflect,
-  reflectAsync,
   reflectTrigger,
   ReflectionResult,
-} from "../index";
+} from "../dist/index";
 
 type ReflectionStrategy =
   | ((body: string) => Promise<ReflectionResult>)
   | ((body: string) => ReflectionResult);
 
-const reflectionStrategies: ReflectionStrategy[] = [reflect, reflectAsync];
+const reflectionStrategies: ReflectionStrategy[] = [reflect];
 
 function runAllStrategies(testBody: (strategy: ReflectionStrategy) => void) {
   for (const strategy of reflectionStrategies) {
@@ -213,6 +212,38 @@ describe("Interface Reflection", () => {
       const annotationNames = result.methods[0].annotations.map((a) => a.name);
       expect(annotationNames).toContain("namespaceaccessible");
       expect(annotationNames).toContain("deprecated");
+    }
+
+    runAllStrategies(testBody);
+  });
+
+  test("Can contain mermaid diagrams", () => {
+    async function testBody(reflect: ReflectionStrategy) {
+      const interfaceBody = `
+        public interface MyInterface {
+          /**
+            * @mermaid
+            * \`\`\`mermaid
+            * graph TD
+            *   A[Square Rect] -- Link text --> B((Circle))
+            *   A --> C(Round Rect)
+            *   B --> D{Rhombus}
+            *   C --> D
+            * \`\`\`
+            */
+          void myMethod();
+        }
+    `;
+      const fullResult = await reflect(interfaceBody);
+      const result = fullResult.typeMirror as InterfaceMirror;
+
+      expect(result.methods[0].docComment.annotations).toBeDefined();
+      const mermaidAnnotation = result.methods[0].docComment.annotations?.find(
+        (a) => a.name === "mermaid",
+      );
+      expect(mermaidAnnotation).toBeDefined();
+      expect(mermaidAnnotation?.bodyLines).toContain("```mermaid");
+      expect(mermaidAnnotation?.bodyLines).toContain("graph TD");
     }
 
     runAllStrategies(testBody);

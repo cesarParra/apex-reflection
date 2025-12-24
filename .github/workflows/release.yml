@@ -38,7 +38,7 @@ jobs:
           fi
 
   build-binaries:
-    needs: [check-version]
+    needs: [ check-version ]
     if: needs.check-version.outputs.should_release == 'true'
     runs-on: ${{ matrix.os }}
     strategy:
@@ -77,22 +77,18 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-
+          
           ASSET_NAME="apex-reflection-${{ matrix.release_platform }}-${{ matrix.release_arch }}${{ matrix.asset_ext }}"
-
-          # Map our release labels to Dart compile flags
-          TARGET_OS="${{ matrix.release_platform }}"
-          if [ "$TARGET_OS" = "darwin" ]; then
-            TARGET_OS="macos"
+          
+          # Set architecture-specific flags for macOS
+          if [[ "${{ matrix.release_platform }}" == "darwin" && "${{ matrix.release_arch }}" == "arm64" ]]; then
+            export DART_COMPILE_EXE_OPTIONS="--target-os=macos-arm64"
+          elif [[ "${{ matrix.release_platform }}" == "darwin" && "${{ matrix.release_arch }}" == "x64" ]]; then
+            export DART_COMPILE_EXE_OPTIONS="--target-os=macos-x64"
           fi
-
-          TARGET_ARCH="${{ matrix.release_arch }}"
-
-          dart compile exe bin/apex_reflection.dart \
-            -o "$ASSET_NAME" \
-            --target-os "$TARGET_OS" \
-            --target-arch "$TARGET_ARCH"
-
+          
+          dart compile exe bin/apex_reflection.dart -o "$ASSET_NAME"
+          
           if [ "${{ matrix.release_platform }}" != "windows" ]; then
             chmod +x "$ASSET_NAME"
           fi
@@ -104,7 +100,7 @@ jobs:
           path: apex-reflection-${{ matrix.release_platform }}-${{ matrix.release_arch }}${{ matrix.asset_ext }}
 
   create-release:
-    needs: [check-version, build-binaries]
+    needs: [ check-version, build-binaries ]
     if: needs.check-version.outputs.should_release == 'true'
     runs-on: ubuntu-latest
     steps:
@@ -152,7 +148,7 @@ jobs:
           done
 
   publish-npm:
-    needs: [check-version, create-release]
+    needs: [ check-version, create-release ]
     if: needs.check-version.outputs.should_release == 'true'
     runs-on: ubuntu-latest
     steps:

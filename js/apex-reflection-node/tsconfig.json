@@ -7,8 +7,5 @@
     "module": "CommonJS",
     "target": "ES2020",
   },
-  "include": [
-    "index.ts",
-    "out.js"
-  ]
+  "include": ["index.ts"],
 }

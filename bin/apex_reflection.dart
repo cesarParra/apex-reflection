@@ -15,7 +15,7 @@ Future<void> main(List<String> arguments) async {
   final results = parser.parse(arguments);
   final type = results['type'] as String;
 
-  // Read entire stdin (supports multiline content including backticks).
+  // Read entire stdin.
   final source = await stdin.transform(utf8.decoder).join();
   if (source.trim().isEmpty) {
     throw ArgumentError(
@@ -26,9 +26,7 @@ Future<void> main(List<String> arguments) async {
   switch (type) {
     case 'reflectType':
       final reflected = Reflection.reflect(source);
-      final asJson = reflected.toJson();
-      asJson['raw_source'] = source;
-      print(jsonEncode(asJson));
+      print(jsonEncode(reflected.toJson()));
       break;
     case 'reflectTrigger':
       final reflected = Reflection.reflectTrigger(source);

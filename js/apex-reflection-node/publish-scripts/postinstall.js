@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Postinstall script (publishable):
+ * Postinstall script.
  * - Downloads the correct native binary for the current platform/arch from GitHub Releases
  * - Stores it inside this package at: dist/native/<platform-arch>/<binaryName>
  * - Ensures executable permissions on Unix-like systems
@@ -16,10 +16,7 @@
  * The GitHub release tag is expected to be:
  *   v<version>   (version taken from this package's package.json)
  *
- * This keeps the npm package small by downloading only the needed binary at install time.
- *
  * Note:
- * - Some GitHub UI surfaces show a simplified download URL even when the asset name includes the arch.
  * - To make installs resilient (especially for dev releases), we try multiple possible asset names.
  */
 
@@ -113,7 +110,6 @@ function resolveTarget(nodePlatform, nodeArch) {
     throw new Error(`Unsupported architecture: ${nodeArch}`);
   }
 
-  // Current intended support
   if (releasePlatform === "linux" && nodeArch !== "x64") {
     throw new Error(`Unsupported architecture for linux: ${nodeArch}`);
   }
@@ -140,8 +136,6 @@ function buildCandidateAssetNames(target) {
   const primary = `apex-reflection-${target.releasePlatform}-${target.releaseArch}${target.exeExt}`;
 
   // Fallbacks (mainly for dev flows / edge cases):
-  // - Some dev releases might end up with an unsuffixed asset name.
-  // - Additionally, for non-windows platforms, try without extension explicitly.
   const fallbacks = [];
 
   // Unsuffixed name (no arch/platform)
@@ -155,13 +149,11 @@ function buildCandidateAssetNames(target) {
 
   // De-dup while preserving order
   const seen = new Set();
-  const all = [primary, ...fallbacks].filter((name) => {
+  return [primary, ...fallbacks].filter((name) => {
     if (seen.has(name)) return false;
     seen.add(name);
     return true;
   });
-
-  return all;
 }
 
 function downloadFirstAvailableAsset(tag, assetNames, destPath) {

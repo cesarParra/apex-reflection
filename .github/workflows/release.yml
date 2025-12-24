@@ -168,7 +168,7 @@ jobs:
         shell: bash
         run: npm ci
 
-      - name: Build JS package (small; binaries downloaded on install)
+      - name: Build JS package
         working-directory: js/apex-reflection-node
         shell: bash
         run: npm run build

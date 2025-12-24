@@ -6,13 +6,15 @@
  * - builds JS (`npm run build`)
  * - builds host native binary (`npm run dev:build:native:host`)
  * - chmods host native binary (best-effort)
+ * - creates/updates a GitHub Release for v<version> and uploads the host binary asset
  * - publishes to npm with dist-tag `dev`
  *
  * Notes:
  * - This script is for local development and assumes you run it from:
  *     js/apex-reflection-node/
- * - Publishing a `dev` version may fail for consumers unless you also upload matching
- *   GitHub Release assets for that dev version (because postinstall downloads from releases).
+ * - The npm package `postinstall` downloads binaries from a GitHub Release tag named `v<version>`.
+ *   Therefore, for dev publishes to work for consumers, we must upload a matching release asset.
+ * - Requires GitHub CLI (`gh`) to be installed and authenticated (`gh auth login`).
  *
  * Usage:
  *   node scripts/dev-publish.js
@@ -20,7 +22,8 @@
  * Optional env vars:
  *   NPM_TAG      default: dev
  *   NPM_ACCESS   default: public
- *   DRY_RUN      if "1", runs builds but does not publish
+ *   DRY_RUN      if "1", runs builds but does not publish (also skips GitHub release upload)
+ *   GITHUB_REPO  default: cesarParra/apex-reflection
  */
 
 const { spawnSync } = require("child_process");
@@ -34,7 +37,10 @@ function main() {
   const npmAccess = process.env.NPM_ACCESS || "public";
   const dryRun = process.env.DRY_RUN === "1";
 
-  const bumpedVersion = runNodeScript("scripts/dev-bump-version-prerelease.js", []);
+  const bumpedVersion = runNodeScript(
+    "scripts/dev-bump-version-prerelease.js",
+    [],
+  );
   console.log(`[dev-publish] version -> ${bumpedVersion}`);
 
   runCmd("npm", ["run", "build"]);
@@ -48,13 +54,21 @@ function main() {
   }
 
   if (dryRun) {
-    console.log("[dev-publish] DRY_RUN=1 set; skipping npm publish.");
+    console.log(
+      "[dev-publish] DRY_RUN=1 set; skipping GitHub release upload and npm publish.",
+    );
     return;
   }
 
+  // Upload a matching GitHub Release asset so consumers can install the dev build
+  // (postinstall downloads from GitHub Releases at tag v<version>).
+  runCmd(process.execPath, ["scripts/dev-github-release.js"]);
+
   runCmd("npm", ["publish", "--tag", npmTag, "--access", npmAccess]);
 
-  console.log(`[dev-publish] published ${bumpedVersion} with dist-tag "${npmTag}".`);
+  console.log(
+    `[dev-publish] published ${bumpedVersion} with dist-tag "${npmTag}".`,
+  );
 }
 
 function ensureCwdLooksRight() {
@@ -66,7 +80,11 @@ function ensureCwdLooksRight() {
     );
   }
   const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf8"));
-  if (!pkg || typeof pkg.name !== "string" || !pkg.name.includes("apex-reflection")) {
+  if (
+    !pkg ||
+    typeof pkg.name !== "string" ||
+    !pkg.name.includes("apex-reflection")
+  ) {
     console.warn(
       `[dev-publish] Warning: package name doesn't look like apex-reflection: ${pkg && pkg.name}`,
     );
@@ -87,7 +105,9 @@ function runNodeScript(relativePath, args) {
 
   if (result.error) throw result.error;
   if (result.status !== 0) {
-    throw new Error(`Script failed: node ${relativePath} (exit ${result.status})`);
+    throw new Error(
+      `Script failed: node ${relativePath} (exit ${result.status})`,
+    );
   }
 
   const out = (result.stdout || Buffer.from("")).toString("utf8").trim();
@@ -102,7 +122,9 @@ function runCmd(cmd, args) {
 
   if (result.error) throw result.error;
   if (result.status !== 0) {
-    throw new Error(`Command failed: ${cmd} ${args.join(" ")} (exit ${result.status})`);
+    throw new Error(
+      `Command failed: ${cmd} ${args.join(" ")} (exit ${result.status})`,
+    );
   }
 }
 
@@ -120,7 +142,13 @@ function chmodHostBinaryIfPresent() {
     throw new Error(`Unsupported platform/arch for chmod: ${platform}/${arch}`);
   }
 
-  const binaryPath = path.join(process.cwd(), "dist", "native", folder, "apex-reflection");
+  const binaryPath = path.join(
+    process.cwd(),
+    "dist",
+    "native",
+    folder,
+    "apex-reflection",
+  );
   if (!fs.existsSync(binaryPath)) {
     console.warn(`[dev-publish] host binary not found to chmod: ${binaryPath}`);
     return;

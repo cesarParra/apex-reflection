@@ -17,6 +17,10 @@
  *   v<version>   (version taken from this package's package.json)
  *
  * This keeps the npm package small by downloading only the needed binary at install time.
+ *
+ * Note:
+ * - Some GitHub UI surfaces show a simplified download URL even when the asset name includes the arch.
+ * - To make installs resilient (especially for dev releases), we try multiple possible asset names.
  */
 
 const https = require("https");
@@ -40,35 +44,48 @@ function main() {
   }
 
   const target = resolveTarget(process.platform, process.arch);
-  const assetName = `apex-reflection-${target.releasePlatform}-${target.releaseArch}${target.exeExt}`;
   const tag = `v${version}`;
 
-  const downloadUrl = `https://github.com/${REPO_OWNER}/${REPO_NAME}/releases/download/${tag}/${assetName}`;
-
-  const outDir = path.join(__dirname, "..", "dist", "native", target.folderName);
+  const outDir = path.join(
+    __dirname,
+    "..",
+    "dist",
+    "native",
+    target.folderName,
+  );
   const outPath = path.join(outDir, target.binaryFileName);
 
   fs.mkdirSync(outDir, { recursive: true });
 
-  return downloadFile(downloadUrl, outPath)
-    .then(() => {
+  const candidateAssetNames = buildCandidateAssetNames(target);
+
+  return downloadFirstAvailableAsset(tag, candidateAssetNames, outPath)
+    .then(({ assetName }) => {
       if (process.platform !== "win32") {
         try {
           fs.chmodSync(outPath, 0o755);
         } catch (e) {
           console.warn(
-            `[apex-reflection] postinstall: could not chmod +x ${outPath}: ${stringifyErr(e)}`
+            `[apex-reflection] postinstall: could not chmod +x ${outPath}: ${stringifyErr(e)}`,
           );
         }
       }
 
-      console.log(`[apex-reflection] postinstall: native binary installed at: ${outPath}`);
+      console.log(
+        `[apex-reflection] postinstall: native binary installed at: ${outPath} (asset: ${assetName})`,
+      );
     })
     .catch((err) => {
-      console.error("[apex-reflection] postinstall: failed to install native binary.");
+      console.error(
+        "[apex-reflection] postinstall: failed to install native binary.",
+      );
       console.error(`[apex-reflection] postinstall: ${stringifyErr(err)}`);
-      console.error("[apex-reflection] postinstall: Verify the release assets here:");
-      console.error(`https://github.com/${REPO_OWNER}/${REPO_NAME}/releases/tag/${tag}`);
+      console.error(
+        "[apex-reflection] postinstall: Verify the release assets here:",
+      );
+      console.error(
+        `https://github.com/${REPO_OWNER}/${REPO_NAME}/releases/tag/${tag}`,
+      );
       process.exit(1);
     });
 }
@@ -117,6 +134,66 @@ function resolveTarget(nodePlatform, nodeArch) {
   };
 }
 
+function buildCandidateAssetNames(target) {
+  // Primary convention (expected):
+  //   apex-reflection-<platform>-<arch>[.exe]
+  const primary = `apex-reflection-${target.releasePlatform}-${target.releaseArch}${target.exeExt}`;
+
+  // Fallbacks (mainly for dev flows / edge cases):
+  // - Some dev releases might end up with an unsuffixed asset name.
+  // - Additionally, for non-windows platforms, try without extension explicitly.
+  const fallbacks = [];
+
+  // Unsuffixed name (no arch/platform)
+  // - For windows, prefer .exe and then without extension (just in case).
+  if (target.releasePlatform === "windows") {
+    fallbacks.push("apex-reflection.exe");
+    fallbacks.push("apex-reflection");
+  } else {
+    fallbacks.push("apex-reflection");
+  }
+
+  // De-dup while preserving order
+  const seen = new Set();
+  const all = [primary, ...fallbacks].filter((name) => {
+    if (seen.has(name)) return false;
+    seen.add(name);
+    return true;
+  });
+
+  return all;
+}
+
+function downloadFirstAvailableAsset(tag, assetNames, destPath) {
+  const base = `https://github.com/${REPO_OWNER}/${REPO_NAME}/releases/download/${tag}/`;
+
+  let lastErr = null;
+
+  // Try sequentially until one downloads successfully
+  return assetNames
+    .reduce(
+      (p, assetName) => {
+        return p.catch((_) => {
+          const url = `${base}${assetName}`;
+          process.stdout.write(
+            `[apex-reflection] postinstall: trying ${url}\n`,
+          );
+          return downloadFile(url, destPath).then(() => ({ assetName }));
+        });
+      },
+      Promise.reject(new Error("No candidate asset attempted yet.")),
+    )
+    .catch((err) => {
+      lastErr = err;
+      const tried = assetNames.map((n) => `${base}${n}`).join("\n");
+      const msg =
+        `Unable to download any matching binary asset for ${process.platform}/${process.arch}.\n` +
+        `Tried:\n${tried}\n` +
+        `Last error: ${stringifyErr(lastErr)}`;
+      throw new Error(msg);
+    });
+}
+
 function downloadFile(url, destPath) {
   return new Promise((resolve, reject) => {
     const tmpPath = `${destPath}.tmp`;
@@ -131,13 +208,16 @@ function downloadFile(url, destPath) {
       if (response.statusCode === 301 || response.statusCode === 302) {
         const next = response.headers.location;
         response.resume();
-        if (!next) return reject(new Error(`Redirect with no location for ${url}`));
+        if (!next)
+          return reject(new Error(`Redirect with no location for ${url}`));
         return downloadFile(next, destPath).then(resolve, reject);
       }
 
       if (response.statusCode !== 200) {
         response.resume();
-        return reject(new Error(`HTTP ${response.statusCode} while downloading ${url}`));
+        return reject(
+          new Error(`HTTP ${response.statusCode} while downloading ${url}`),
+        );
       }
 
       const totalSize = Number(response.headers["content-length"] || 0);
@@ -147,7 +227,9 @@ function downloadFile(url, destPath) {
         downloaded += chunk.length;
         if (totalSize > 0) {
           const pct = Math.floor((downloaded / totalSize) * 100);
-          process.stdout.write(`\r[apex-reflection] postinstall: downloading... ${pct}%`);
+          process.stdout.write(
+            `\r[apex-reflection] postinstall: downloading... ${pct}%`,
+          );
         }
       });
 

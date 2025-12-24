@@ -1,6 +1,6 @@
-import shell from "shelljs";
 import path from "path";
 import fs from "fs";
+import { spawnSync } from "child_process";
 
 function resolveNativeBinaryPath(): string {
   const platform = process.platform;
@@ -44,19 +44,28 @@ function resolveNativeBinaryPath(): string {
   );
 }
 
-export function reflect(declarationBody: string) {
-  // NOTE: `declarationBody` is unused for now (prototype phase).
+export function reflect(declarationBody: string): ReflectionResult {
   const binaryPath = resolveNativeBinaryPath();
 
-  const execResult = shell.exec(`"${binaryPath}" --type=reflectType --source "${declarationBody}"`, { silent: true });
+  const result = spawnSync(binaryPath, ["--type=reflectType"], {
+    input: declarationBody,
+    encoding: "utf8",
+    maxBuffer: 1024 * 1024 * 50,
+  });
 
-  if (execResult.code !== 0) {
+  if (result.error) {
     throw new Error(
-      `apex-reflection native binary failed (code=${execResult.code}). stderr:\n${execResult.stderr}`,
+      `apex-reflection native binary failed to start. error:\n${String(result.error)}`,
     );
   }
 
-  const stdout = (execResult.stdout ?? "").toString().trim();
+  if (result.status !== 0) {
+    throw new Error(
+      `apex-reflection native binary failed (code=${result.status}). stderr:\n${result.stderr ?? ""}`,
+    );
+  }
+
+  const stdout = (result.stdout ?? "").toString().trim();
   if (!stdout) {
     throw new Error(
       "apex-reflection native binary produced no output on stdout.",
@@ -64,7 +73,46 @@ export function reflect(declarationBody: string) {
   }
 
   try {
-    return JSON.parse(stdout);
+    return JSON.parse(stdout) as ReflectionResult;
+  } catch (e) {
+    throw new Error(
+      `apex-reflection native binary output was not valid JSON.\nstdout:\n${stdout}\nerror: ${String(e)}`,
+    );
+  }
+}
+
+export function reflectTrigger(
+  declarationBody: string,
+): TriggerReflectionResult {
+  const binaryPath = resolveNativeBinaryPath();
+
+  const result = spawnSync(binaryPath, ["--type=reflectTrigger"], {
+    input: declarationBody,
+    encoding: "utf8",
+    maxBuffer: 1024 * 1024 * 50,
+  });
+
+  if (result.error) {
+    throw new Error(
+      `apex-reflection native binary failed to start. error:\n${String(result.error)}`,
+    );
+  }
+
+  if (result.status !== 0) {
+    throw new Error(
+      `apex-reflection native binary failed (code=${result.status}). stderr:\n${result.stderr ?? ""}`,
+    );
+  }
+
+  const stdout = (result.stdout ?? "").toString().trim();
+  if (!stdout) {
+    throw new Error(
+      "apex-reflection native binary produced no output on stdout.",
+    );
+  }
+
+  try {
+    return JSON.parse(stdout) as TriggerReflectionResult;
   } catch (e) {
     throw new Error(
       `apex-reflection native binary output was not valid JSON.\nstdout:\n${stdout}\nerror: ${String(e)}`,

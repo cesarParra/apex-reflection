@@ -48,7 +48,7 @@ export function reflect(declarationBody: string) {
   // NOTE: `declarationBody` is unused for now (prototype phase).
   const binaryPath = resolveNativeBinaryPath();
 
-  const execResult = shell.exec(`"${binaryPath}"`, { silent: true });
+  const execResult = shell.exec(`"${binaryPath}" --type=reflectType --source "${declarationBody}"`, { silent: true });
 
   if (execResult.code !== 0) {
     throw new Error(

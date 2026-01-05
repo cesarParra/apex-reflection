@@ -85,4 +85,28 @@ main() {
     expect(trigger.objectName, 'Account');
     expect(trigger.events, ['beforeinsert', 'afterupdate']);
   });
+
+  test('triggers can have members', () {
+    final triggerBody = '''
+    
+trigger AnotherTrigger on Contact (before insert) {
+    /**
+     * This is a test
+     * @param interaction
+     *
+     * @return
+     */
+    private Boolean isLive (){
+        System.debug('This is a test');
+        return true;
+    }
+}
+    ''';
+
+    final trigger = TriggerParser.parseFromBody(triggerBody);
+
+    expect(trigger.name, 'AnotherTrigger');
+    expect(trigger.objectName, 'Contact');
+    expect(trigger.events, ['beforeinsert']);
+  });
 }

@@ -55,7 +55,7 @@ triggerBlock
     ;
 
 triggerBlockMember
-    : modifier* triggerMemberDeclaration
+    : modifier* memberDeclaration
     | statement
     ;
 
@@ -140,15 +140,6 @@ memberDeclaration
     | classDeclaration                    # ClassMemberDeclaration
     | enumDeclaration                     # EnumMemberDeclaration
     | propertyDeclaration                 # PropertyMemberDeclaration
-    ;
-
-triggerMemberDeclaration
-    : methodDeclaration
-    | interfaceDeclaration
-    | classDeclaration
-    | enumDeclaration
-    | propertyDeclaration
-    | fieldDeclaration
     ;
 
 /* We use rule this even for void methods which cannot have [] after parameters.

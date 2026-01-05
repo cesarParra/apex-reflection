@@ -57,7 +57,7 @@ class ApexWalkerDefinition extends WalkerDefinition<ApexParser> {
   }
 
   TriggerMirror? getGeneratedTrigger() {
-    return _listener.generatedTrigger;
+    return _listener.generatedType as TriggerMirror?;
   }
 }
 

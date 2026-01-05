@@ -48,7 +48,6 @@ class ApexClassListener extends ApexParserBaseListener {
   final Stack<TypeMirror> generatedTypes;
   final Stack<Group> groupStack;
   late TypeMirror generatedType;
-  late TriggerMirror generatedTrigger;
   final CommonTokenStream tokens;
 
   ApexClassListener(this.tokens)
@@ -63,12 +62,14 @@ class ApexClassListener extends ApexParserBaseListener {
     final objectName = ctx.ids()[1].text;
     final events = ctx.triggerCases().map((e) => e.text).toList();
 
-    generatedTrigger = TriggerMirror(
+    final generatedTrigger = TriggerMirror(
       name: triggerName,
       objectName: objectName,
       events: events,
       rawDocComment: docComment,
     );
+
+    generatedTypes.push(generatedTrigger);
   }
 
   @override
@@ -88,6 +89,11 @@ class ApexClassListener extends ApexParserBaseListener {
     final accessModifiers = getAccessModifiers(ctx);
     _declaratorDescriptorStack.push(DeclarationDescriptor(
         accessModifiers: accessModifiers, docComment: docComment));
+  }
+
+  @override void enterTriggerBlock(TriggerBlockContext ctx) {
+    _declaratorDescriptorStack.push(DeclarationDescriptor(
+        accessModifiers: [], docComment: null));
   }
 
   @override
@@ -257,6 +263,11 @@ class ApexClassListener extends ApexParserBaseListener {
 
   @override
   void exitInterfaceDeclaration(InterfaceDeclarationContext ctx) {
+    _onExitDeclaration();
+  }
+
+  @override
+  void exitTriggerBlock(TriggerBlockContext ctx) {
     _onExitDeclaration();
   }
 

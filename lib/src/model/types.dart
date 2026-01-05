@@ -30,14 +30,13 @@ abstract class TypeMirror extends DeclarationMirror {
 }
 
 @JsonSerializable()
-class TriggerMirror with DocsCommentAwareness {
-  final String name;
+class TriggerMirror extends TypeMirror with MethodsAwareness {
   @JsonKey(name: 'object_name')
   final String objectName;
   final List<String> events;
 
   TriggerMirror(
-      {required this.name,
+      {required super.name,
       required this.objectName,
       required this.events,
       String? rawDocComment}) {
@@ -47,6 +46,7 @@ class TriggerMirror with DocsCommentAwareness {
   factory TriggerMirror.fromJson(Map<String, dynamic> json) =>
       _$TriggerMirrorFromJson(json);
 
+  @override
   Map<String, dynamic> toJson() => _$TriggerMirrorToJson(this);
 }
 

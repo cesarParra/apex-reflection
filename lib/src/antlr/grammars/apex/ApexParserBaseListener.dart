@@ -228,14 +228,6 @@ class ApexParserBaseListener implements ApexParserListener {
 
   /// The default implementation does nothing.
   @override
-  void enterTriggerMemberDeclaration(TriggerMemberDeclarationContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
-  void exitTriggerMemberDeclaration(TriggerMemberDeclarationContext ctx) {}
-
-  /// The default implementation does nothing.
-  @override
   void enterMethodDeclaration(MethodDeclarationContext ctx) {}
 
   /// The default implementation does nothing.

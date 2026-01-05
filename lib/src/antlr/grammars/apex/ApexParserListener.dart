@@ -222,13 +222,6 @@ abstract class ApexParserListener extends ParseTreeListener {
   /// [ctx] the parse tree
   void exitPropertyMemberDeclaration(PropertyMemberDeclarationContext ctx);
 
-  /// Enter a parse tree produced by [ApexParser.triggerMemberDeclaration].
-  /// [ctx] the parse tree
-  void enterTriggerMemberDeclaration(TriggerMemberDeclarationContext ctx);
-  /// Exit a parse tree produced by [ApexParser.triggerMemberDeclaration].
-  /// [ctx] the parse tree
-  void exitTriggerMemberDeclaration(TriggerMemberDeclarationContext ctx);
-
   /// Enter a parse tree produced by [ApexParser.methodDeclaration].
   /// [ctx] the parse tree
   void enterMethodDeclaration(MethodDeclarationContext ctx);

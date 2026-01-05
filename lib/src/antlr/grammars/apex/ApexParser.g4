@@ -43,11 +43,20 @@ options {tokenVocab=ApexLexer;}
 
 // entry point for Apex trigger files
 triggerUnit
-    : TRIGGER id ON id BULK? LPAREN triggerCase (COMMA triggerCase)* RPAREN block EOF
+    : TRIGGER id ON id BULK? LPAREN triggerCase (COMMA triggerCase)* RPAREN triggerBlock EOF
     ;
 
 triggerCase
     : (BEFORE|AFTER) (INSERT|UPDATE|DELETE|UNDELETE)
+    ;
+
+triggerBlock
+    : LBRACE triggerBlockMember* RBRACE
+    ;
+
+triggerBlockMember
+    : modifier* triggerMemberDeclaration
+    | statement
     ;
 
 // entry point for Apex class files
@@ -131,6 +140,15 @@ memberDeclaration
     | classDeclaration                    # ClassMemberDeclaration
     | enumDeclaration                     # EnumMemberDeclaration
     | propertyDeclaration                 # PropertyMemberDeclaration
+    ;
+
+triggerMemberDeclaration
+    : methodDeclaration
+    | interfaceDeclaration
+    | classDeclaration
+    | enumDeclaration
+    | propertyDeclaration
+    | fieldDeclaration
     ;
 
 /* We use rule this even for void methods which cannot have [] after parameters.

@@ -28,6 +28,22 @@ class ApexParserBaseListener implements ApexParserListener {
 
   /// The default implementation does nothing.
   @override
+  void enterTriggerBlock(TriggerBlockContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitTriggerBlock(TriggerBlockContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterTriggerBlockMember(TriggerBlockMemberContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitTriggerBlockMember(TriggerBlockMemberContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
   void enterCompilationUnit(CompilationUnitContext ctx) {}
 
   /// The default implementation does nothing.
@@ -209,6 +225,14 @@ class ApexParserBaseListener implements ApexParserListener {
   /// The default implementation does nothing.
   @override
   void exitPropertyMemberDeclaration(PropertyMemberDeclarationContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterTriggerMemberDeclaration(TriggerMemberDeclarationContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitTriggerMemberDeclaration(TriggerMemberDeclarationContext ctx) {}
 
   /// The default implementation does nothing.
   @override

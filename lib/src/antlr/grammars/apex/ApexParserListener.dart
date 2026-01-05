@@ -21,6 +21,20 @@ abstract class ApexParserListener extends ParseTreeListener {
   /// [ctx] the parse tree
   void exitTriggerCase(TriggerCaseContext ctx);
 
+  /// Enter a parse tree produced by [ApexParser.triggerBlock].
+  /// [ctx] the parse tree
+  void enterTriggerBlock(TriggerBlockContext ctx);
+  /// Exit a parse tree produced by [ApexParser.triggerBlock].
+  /// [ctx] the parse tree
+  void exitTriggerBlock(TriggerBlockContext ctx);
+
+  /// Enter a parse tree produced by [ApexParser.triggerBlockMember].
+  /// [ctx] the parse tree
+  void enterTriggerBlockMember(TriggerBlockMemberContext ctx);
+  /// Exit a parse tree produced by [ApexParser.triggerBlockMember].
+  /// [ctx] the parse tree
+  void exitTriggerBlockMember(TriggerBlockMemberContext ctx);
+
   /// Enter a parse tree produced by [ApexParser.compilationUnit].
   /// [ctx] the parse tree
   void enterCompilationUnit(CompilationUnitContext ctx);
@@ -207,6 +221,13 @@ abstract class ApexParserListener extends ParseTreeListener {
   /// labeled alternative in [ApexParser.memberDeclaration].
   /// [ctx] the parse tree
   void exitPropertyMemberDeclaration(PropertyMemberDeclarationContext ctx);
+
+  /// Enter a parse tree produced by [ApexParser.triggerMemberDeclaration].
+  /// [ctx] the parse tree
+  void enterTriggerMemberDeclaration(TriggerMemberDeclarationContext ctx);
+  /// Exit a parse tree produced by [ApexParser.triggerMemberDeclaration].
+  /// [ctx] the parse tree
+  void exitTriggerMemberDeclaration(TriggerMemberDeclarationContext ctx);
 
   /// Enter a parse tree produced by [ApexParser.methodDeclaration].
   /// [ctx] the parse tree

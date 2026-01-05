@@ -51,6 +51,7 @@ ABSTRACT      : 'abstract';
 AFTER         : 'after';
 BEFORE        : 'before';
 BREAK         : 'break';
+BULK          : 'bulk';
 CATCH         : 'catch';
 CLASS         : 'class';
 CONTINUE      : 'continue';

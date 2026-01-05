@@ -59,4 +59,30 @@ main() {
 
     expect(trigger.docComment!.description, 'This is a trigger comment.');
   });
+
+  test('Can parse trigger with bulk keyword', () {
+    final triggerBody = '''
+    trigger MyTrigger on Account bulk (before insert) {
+    }
+    ''';
+
+    final trigger = TriggerParser.parseFromBody(triggerBody);
+
+    expect(trigger.name, 'MyTrigger');
+    expect(trigger.objectName, 'Account');
+    expect(trigger.events, ['beforeinsert']);
+  });
+
+  test('Can parse trigger with bulk keyword and multiple events', () {
+    final triggerBody = '''
+    trigger MyTrigger on Account bulk (before insert, after update) {
+    }
+    ''';
+
+    final trigger = TriggerParser.parseFromBody(triggerBody);
+
+    expect(trigger.name, 'MyTrigger');
+    expect(trigger.objectName, 'Account');
+    expect(trigger.events, ['beforeinsert', 'afterupdate']);
+  });
 }

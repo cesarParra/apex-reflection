@@ -31,14 +31,14 @@ jobs:
           node-version: '20'
 
       - name: Install Node.js dependencies
-        working-directory: js/apex-reflection-node
+        working-directory: js
         run: npm install --ignore-scripts
 
       - name: Build native host
-        working-directory: js/apex-reflection-node
+        working-directory: js
         run: npm run dev:build
 
       - name: Run end-to-end tests
-        working-directory: js/apex-reflection-node
+        working-directory: js
         run: npm test
 

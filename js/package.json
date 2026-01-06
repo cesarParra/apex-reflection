@@ -1,0 +1,42 @@
+{
+  "name": "@cparra/apex-reflection",
+  "version": "2.23.7",
+  "description": "Provides tools for reflecting Apex code, the language used in Salesforce development.",
+  "main": "dist/index.js",
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "npm run clean && tsc",
+    "postinstall": "node publish-scripts/postinstall.js",
+    "dev:build": "npm run build && npm run dev:build:native:host && npm run dev:chmod:native:host",
+    "dev:build:native:host": "node scripts/build-natives.js --host",
+    "dev:chmod:native:host": "node scripts/dev-chmod-native-host.js",
+    "dev:version:prerelease": "node scripts/dev-bump-version-prerelease.js",
+    "dev:github:release": "node scripts/dev-github-release.js",
+    "dev:publish": "node scripts/dev-publish.js",
+    "test": "jest"
+  },
+  "keywords": [
+    "apex",
+    "salesforce",
+    "reflection",
+    "ANTLR4",
+    "apex-docs"
+  ],
+  "author": "Cesar Parra",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^27.0.2",
+    "@types/node": "^16.18.98",
+    "@types/typescript": "^2.0.0",
+    "jest": "^27.2.4",
+    "rimraf": "^6.0.1",
+    "ts-jest": "^27.0.5",
+    "typescript": "^4.7.4"
+  },
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/index.js",
+    "dist/index.d.ts",
+    "publish-scripts/postinstall.js"
+  ]
+}

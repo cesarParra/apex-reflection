@@ -91,7 +91,7 @@ function ensureCwdLooksRight() {
   if (!fs.existsSync(pkgPath)) {
     fail(
       `package.json not found in cwd:\n  ${pwd}\n` +
-        "Run this script from `js/apex-reflection-node/`.",
+        "Run this script from `./js`.",
     );
   }
 }

@@ -76,7 +76,7 @@ function ensureCwdLooksRight() {
   if (!fs.existsSync(pkgPath)) {
     throw new Error(
       `package.json not found in cwd: ${process.cwd()}\n` +
-        "Run this from `js/apex-reflection-node/`.",
+        "Run this from `./js`.",
     );
   }
   const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf8"));

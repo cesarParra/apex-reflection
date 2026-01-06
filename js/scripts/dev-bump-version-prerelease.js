@@ -7,7 +7,7 @@
  *   2.22.0   -> 2.22.0-dev.20251224153045
  *   2.22.0-foo.1 -> 2.22.0-dev.20251224153045   (drops existing prerelease/build metadata)
  *
- * This edits ./package.json in-place (run from `js/apex-reflection-node/`).
+ * This edits ./package.json in-place (run from `./js`).
  *
  * Usage:
  *   node scripts/dev-bump-version-prerelease.js
@@ -51,7 +51,7 @@ function main() {
   if (!fs.existsSync(pkgPath)) {
     console.error(
       `[dev-bump-version-prerelease] package.json not found at: ${pkgPath}\n` +
-        "Run this script from `js/apex-reflection-node/`.",
+        "Run this script from `./js`.",
     );
     process.exit(2);
   }

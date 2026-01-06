@@ -8,7 +8,7 @@
  *   node scripts/build-natives.js --all
  *
  * Notes:
- * - This script is intended to be run from `js/apex-reflection-node/`.
+ * - This script is intended to be run from `./js`.
  * - `--host` builds only the current platform/arch (for local dev).
  * - `--all` builds the set of targets that are buildable on the current host
  *   (primarily for CI where the workflow matrix runs on each OS).
@@ -28,13 +28,13 @@ function main() {
     process.exit(2);
   }
 
-  const rootDir = process.cwd(); // expected: js/apex-reflection-node
-  const dartEntry = path.resolve(rootDir, "..", "..", "bin", "apex_reflection.dart");
+  const rootDir = process.cwd(); // expected: ./js
+  const dartEntry = path.resolve(rootDir, "..", "bin", "apex_reflection.dart");
 
   if (!fs.existsSync(dartEntry)) {
     console.error(`Dart entrypoint not found at: ${dartEntry}`);
     console.error(
-      "Run this script from `js/apex-reflection-node/` so the relative path resolution works.",
+      "Run this script from `./js` so the relative path resolution works.",
     );
     process.exit(2);
   }

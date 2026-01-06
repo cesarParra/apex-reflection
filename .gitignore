@@ -9,10 +9,9 @@ build/
 # https://dart.dev/guides/libraries/private-files#pubspeclock.
 pubspec.lock
 gen/
-/js/node_modules/
 /node_modules/
 /example/node_example_ts/node_modules/
 /js/dart2jsout.js.deps
-/js/apex-reflection-node/node_modules/
-/js/apex-reflection-node/coverage/
-/js/apex-reflection-node/dist/
+/js/node_modules/
+/js/coverage/
+/js/dist/

@@ -109,4 +109,20 @@ trigger AnotherTrigger on Contact (before insert) {
     expect(trigger.objectName, 'Contact');
     expect(trigger.events, ['beforeinsert']);
   });
+
+  test('another', () {
+    final triggerBody = '''
+    trigger AttachmenTrigger on Attachment (before insert,before update, before delete) {
+
+    ITriggerHandlerImplementation handler = new AttachmentTriggerHandler();
+    handler.execute();
+}
+    ''';
+
+    final trigger = TriggerParser.parseFromBody(triggerBody);
+
+    expect(trigger.name, 'AttachmenTrigger');
+    expect(trigger.objectName, 'Attachment');
+    expect(trigger.events, ['beforeinsert', 'beforeupdate', 'beforedelete']);
+  });
 }

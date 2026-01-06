@@ -7,8 +7,17 @@ import 'declaration_mirror.dart';
 
 part 'types.g.dart';
 
+/// Allows for types to contain method declarations.
+mixin MethodsAwareness {
+  List<MethodMirror> methods = [];
+
+  void addMethod(MethodMirror method) {
+    methods.add(method);
+  }
+}
+
 /// Represents a type declaration (class, interface, or enum).
-abstract class TypeMirror extends DeclarationMirror {
+sealed class TypeMirror extends DeclarationMirror {
   @JsonKey(name: 'type_name')
   String typeName = '';
 
@@ -48,15 +57,6 @@ class TriggerMirror extends TypeMirror with MethodsAwareness {
 
   @override
   Map<String, dynamic> toJson() => _$TriggerMirrorToJson(this);
-}
-
-/// Allows for types to contain method declarations.
-mixin MethodsAwareness {
-  List<MethodMirror> methods = [];
-
-  void addMethod(MethodMirror method) {
-    methods.add(method);
-  }
 }
 
 /// Represents a class declaration.

@@ -203,10 +203,10 @@ class ApexClassListener extends ApexParserBaseListener {
 
   @override
   void enterPropertyDeclaration(PropertyDeclarationContext ctx) {
-    final declarationDescriptor = _declaratorDescriptorStack.pop();
-    final property = buildProperty(declarationDescriptor, ctx);
     final currentType = generatedTypes.peak();
     if (currentType is ClassMirror) {
+      final declarationDescriptor = _declaratorDescriptorStack.pop();
+      final property = buildProperty(declarationDescriptor, ctx);
       currentType.addProperty(property);
       _setGroupOnDeclaration(property);
     }
@@ -214,10 +214,10 @@ class ApexClassListener extends ApexParserBaseListener {
 
   @override
   void enterFieldDeclaration(FieldDeclarationContext ctx) {
-    final declarationDescriptor = _declaratorDescriptorStack.pop();
-    List<FieldMirror> fields = buildFields(declarationDescriptor, ctx);
     final currentType = generatedTypes.peak();
     if (currentType is ClassMirror) {
+      final declarationDescriptor = _declaratorDescriptorStack.pop();
+      List<FieldMirror> fields = buildFields(declarationDescriptor, ctx);
       currentType.fields.addAll(fields);
       for (var element in fields) {
         _setGroupOnDeclaration(element);
@@ -235,13 +235,16 @@ class ApexClassListener extends ApexParserBaseListener {
 
   @override
   void enterInterfaceMethodDeclaration(InterfaceMethodDeclarationContext ctx) {
+    if (generatedTypes.peak() == null) {
+      return;
+    }
     final annotations = ctx.annotations().map((e) => Annotation.fromAnnotationContext(e)).toList();
 
     final method = buildInterfaceMethod(
       ctx,
       _extractDocComment(ctx),
-      generatedTypes.peak().accessModifier,
-      [...generatedTypes.peak().annotations, if (annotations.isNotEmpty) ...annotations],
+      generatedTypes.peak()!.accessModifier,
+      [...generatedTypes.peak()!.annotations, if (annotations.isNotEmpty) ...annotations],
     );
 
     (generatedTypes.peak() as MethodsAwareness).methods.add(method);
@@ -337,9 +340,12 @@ class ApexClassListener extends ApexParserBaseListener {
   }
 
   void _setGroupOnDeclaration(DeclarationMirror declarationMirror) {
+    if (groupStack.peak() == null) {
+      return;
+    }
     if (groupStack.length > 0) {
       final group = groupStack.peak();
-      declarationMirror.setGroup(group.name, group.description);
+      declarationMirror.setGroup(group!.name, group.description);
     }
   }
 }
@@ -367,5 +373,5 @@ class Stack<T> {
     return lastElement;
   }
 
-  T peak() => _stack.last;
+  T? peak() => _stack.isNotEmpty ? _stack.last : null;
 }

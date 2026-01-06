@@ -110,7 +110,7 @@ trigger AnotherTrigger on Contact (before insert) {
     expect(trigger.events, ['beforeinsert']);
   });
 
-  test('another', () {
+  test('trigger with fields', () {
     final triggerBody = '''
     trigger AttachmenTrigger on Attachment (before insert,before update, before delete) {
 
@@ -124,5 +124,30 @@ trigger AnotherTrigger on Contact (before insert) {
     expect(trigger.name, 'AttachmenTrigger');
     expect(trigger.objectName, 'Attachment');
     expect(trigger.events, ['beforeinsert', 'beforeupdate', 'beforedelete']);
+  });
+
+  test('trigger with queries', (){
+    final triggerBody = '''
+    trigger Account_trigger_vxx on Account bulk (before delete, after delete) {
+    Set<Id> accountIds = new Set<Id>();
+
+    for (Call2_vxx__c c : Trigger.new) {
+        accountIds.add(c.Account_vxx__c);
+    }
+
+    Map<Id, Account> accountsMap = new Map<Id, Account>([
+        SELECT  Id
+        FROM    Account
+        WHERE   Id IN :accountIds]);
+
+    update accountsMap.values();
+    }
+    ''';
+
+    final trigger = TriggerParser.parseFromBody(triggerBody);
+
+    expect(trigger.name, 'Account_trigger_vxx');
+    expect(trigger.objectName, 'Account');
+    expect(trigger.events, ['beforedelete', 'afterdelete']);
   });
 }

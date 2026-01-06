@@ -18,9 +18,27 @@ jobs:
 
       - name: Install dependencies
         run: dart pub get
-        
+
       - name: Analyze project source
         run: dart analyze
 
       - name: Run tests
         run: dart test
+
+      # Node.js package tests
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Node.js dependencies
+        working-directory: js/apex-reflection-node
+        run: npm install
+
+      - name: Build native host
+        working-directory: js/apex-reflection-node
+        run: npm run dev:build
+
+      - name: Run end-to-end tests
+        working-directory: js/apex-reflection-node
+        run: npm test
+

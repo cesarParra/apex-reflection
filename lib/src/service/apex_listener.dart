@@ -123,23 +123,29 @@ class ApexClassListener extends ApexParserBaseListener {
   @override
   void enterClassDeclaration(ClassDeclarationContext ctx) {
     final declarationDescriptor = _declaratorDescriptorStack.pop();
-    var builtClass = buildClass(declarationDescriptor, ctx);
-    generatedTypes.push(builtClass);
-    _setGroupOnDeclaration(builtClass);
+    if (declarationDescriptor case Success(:final value)) {
+      var builtClass = buildClass(value, ctx);
+      generatedTypes.push(builtClass);
+      _setGroupOnDeclaration(builtClass);
+    }
   }
 
   @override
   void enterInterfaceDeclaration(InterfaceDeclarationContext ctx) {
     final declarationDescriptor = _declaratorDescriptorStack.pop();
-    generatedTypes.push(buildInterface(declarationDescriptor, ctx));
+    if (declarationDescriptor case Success(:final value)) {
+      generatedTypes.push(buildInterface(value, ctx));
+    }
   }
 
   @override
   void enterEnumDeclaration(EnumDeclarationContext ctx) {
     final declarationDescriptor = _declaratorDescriptorStack.pop();
-    final enumMirror = buildEnum(declarationDescriptor, ctx);
-    generatedTypes.push(enumMirror);
-    _setGroupOnDeclaration(enumMirror);
+    if (declarationDescriptor case Success(:final value)) {
+      final enumMirror = buildEnum(value, ctx);
+      generatedTypes.push(enumMirror);
+      _setGroupOnDeclaration(enumMirror);
+    }
   }
 
   @override
@@ -206,9 +212,11 @@ class ApexClassListener extends ApexParserBaseListener {
     final currentType = generatedTypes.peak();
     if (currentType is ClassMirror) {
       final declarationDescriptor = _declaratorDescriptorStack.pop();
-      final property = buildProperty(declarationDescriptor, ctx);
-      currentType.addProperty(property);
-      _setGroupOnDeclaration(property);
+      if (declarationDescriptor case Success(:final value)) {
+        final property = buildProperty(value, ctx);
+        currentType.addProperty(property);
+        _setGroupOnDeclaration(property);
+      }
     }
   }
 
@@ -217,10 +225,12 @@ class ApexClassListener extends ApexParserBaseListener {
     final currentType = generatedTypes.peak();
     if (currentType is ClassMirror) {
       final declarationDescriptor = _declaratorDescriptorStack.pop();
-      List<FieldMirror> fields = buildFields(declarationDescriptor, ctx);
-      currentType.fields.addAll(fields);
-      for (var element in fields) {
-        _setGroupOnDeclaration(element);
+      if (declarationDescriptor case Success(:final value)) {
+        List<FieldMirror> fields = buildFields(value, ctx);
+        currentType.fields.addAll(fields);
+        for (var element in fields) {
+          _setGroupOnDeclaration(element);
+        }
       }
     }
   }
@@ -228,9 +238,11 @@ class ApexClassListener extends ApexParserBaseListener {
   @override
   void enterMethodDeclaration(MethodDeclarationContext ctx) {
     final declarationDescriptor = _declaratorDescriptorStack.pop();
-    final method = buildMethod(declarationDescriptor, ctx);
-    (generatedTypes.peak() as MethodsAwareness).methods.add(method);
-    _setGroupOnDeclaration(method);
+    if (declarationDescriptor case Success(:final value)) {
+      final method = buildMethod(value, ctx);
+      (generatedTypes.peak() as MethodsAwareness).methods.add(method);
+      _setGroupOnDeclaration(method);
+    }
   }
 
   @override
@@ -253,12 +265,14 @@ class ApexClassListener extends ApexParserBaseListener {
   @override
   void enterConstructorDeclaration(ConstructorDeclarationContext ctx) {
     final declaratorDescriptor = _declaratorDescriptorStack.pop();
-    final constructorGenerated = buildConstructor(declaratorDescriptor, ctx);
+    if (declaratorDescriptor case Success(:final value)) {
+      final constructorGenerated = buildConstructor(value, ctx);
 
-    (generatedTypes.peak() as ClassMirror)
-        .constructors
-        .add(constructorGenerated);
-    _setGroupOnDeclaration(constructorGenerated);
+      (generatedTypes.peak() as ClassMirror)
+          .constructors
+          .add(constructorGenerated);
+      _setGroupOnDeclaration(constructorGenerated);
+    }
   }
 
   @override
@@ -319,19 +333,27 @@ class ApexClassListener extends ApexParserBaseListener {
       // If we are at the top level of the class, then parsing has finalized,
       // so we want to pop the last item of the stack and set that as the
       // generated type.
-      generatedType = generatedTypes.pop();
+      final possibleGeneratedType = generatedTypes.pop();
+      if (possibleGeneratedType case Success(:final value)) {
+        generatedType = value;
+      }
       return;
     }
 
     // Otherwise then we want to add this as an inner class to whoever is on top.
     final currentGeneratedType = generatedTypes.pop();
-    var topLevelClass = generatedTypes.peak() as ClassMirror;
-    if (currentGeneratedType.isClass()) {
-      topLevelClass.addClass(currentGeneratedType as ClassMirror);
-    } else if (currentGeneratedType.isEnum()) {
-      topLevelClass.addEnum(currentGeneratedType as EnumMirror);
-    } else {
-      topLevelClass.addInterface(currentGeneratedType as InterfaceMirror);
+    switch(currentGeneratedType) {
+      case Failure():
+        return;
+      case Success(:final value):
+        var topLevelClass = generatedTypes.peak() as ClassMirror;
+        if (value.isClass()) {
+          topLevelClass.addClass(value as ClassMirror);
+        } else if (value.isEnum()) {
+          topLevelClass.addEnum(value as EnumMirror);
+        } else {
+          topLevelClass.addInterface(value as InterfaceMirror);
+        }
     }
   }
 
@@ -367,11 +389,28 @@ class Stack<T> {
     _stack.addLast(element);
   }
 
-  T pop() {
+  Result<T> pop() {
+    if (_stack.isEmpty) {
+      return Failure('Stack is empty');
+    }
     T lastElement = _stack.last;
     _stack.removeLast();
-    return lastElement;
+    return Success(lastElement);
   }
 
   T? peak() => _stack.isNotEmpty ? _stack.last : null;
+}
+
+sealed class Result<T> {}
+
+class Success<T> extends Result<T> {
+  final T value;
+
+  Success(this.value);
+}
+
+class Failure<T> extends Result<T> {
+  final String errorMessage;
+
+  Failure(this.errorMessage);
 }

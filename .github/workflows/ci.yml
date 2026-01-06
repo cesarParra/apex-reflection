@@ -32,7 +32,7 @@ jobs:
 
       - name: Install Node.js dependencies
         working-directory: js/apex-reflection-node
-        run: npm install
+        run: npm install --ignore-scripts
 
       - name: Build native host
         working-directory: js/apex-reflection-node

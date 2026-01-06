@@ -26,7 +26,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          VERSION=$(node -p "require('./js/apex-reflection-node/package.json').version")
+          VERSION=$(node -p "require('./js/package.json').version")
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
 
           if git rev-parse "v$VERSION" >/dev/null 2>&1; then
@@ -160,17 +160,17 @@ jobs:
           registry-url: "https://registry.npmjs.org"
 
       - name: Install subpackage dependencies
-        working-directory: js/apex-reflection-node
+        working-directory: js
         shell: bash
         run: npm ci
 
       - name: Build JS package
-        working-directory: js/apex-reflection-node
+        working-directory: js
         shell: bash
         run: npm run build
 
       - name: Publish to npm
-        working-directory: js/apex-reflection-node
+        working-directory: js
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         shell: bash

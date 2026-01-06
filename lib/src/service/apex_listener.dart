@@ -98,16 +98,17 @@ class ApexClassListener extends ApexParserBaseListener {
 
   @override
   void enterEnumConstants(EnumConstantsContext ctx) {
-    // grab enum from the stack
-    final enumMirror = generatedTypes.peak() as EnumMirror;
-    final enumValues = ctx
-        .ids()
-        .map((e) => EnumValue(
-      name: e.text,
-      rawDocComment: _extractDocComment(e),
-    ))
-        .toList();
-    enumMirror.values.addAll(enumValues);
+    final peakedType = generatedTypes.peak();
+    if (peakedType is EnumMirror) {
+      final enumValues = ctx
+          .ids()
+          .map((e) => EnumValue(
+        name: e.text,
+        rawDocComment: _extractDocComment(e),
+      ))
+          .toList();
+      peakedType.values.addAll(enumValues);
+    }
   }
 
   @override
@@ -204,17 +205,23 @@ class ApexClassListener extends ApexParserBaseListener {
   void enterPropertyDeclaration(PropertyDeclarationContext ctx) {
     final declarationDescriptor = _declaratorDescriptorStack.pop();
     final property = buildProperty(declarationDescriptor, ctx);
-    (generatedTypes.peak() as ClassMirror).addProperty(property);
-    _setGroupOnDeclaration(property);
+    final currentType = generatedTypes.peak();
+    if (currentType is ClassMirror) {
+      currentType.addProperty(property);
+      _setGroupOnDeclaration(property);
+    }
   }
 
   @override
   void enterFieldDeclaration(FieldDeclarationContext ctx) {
     final declarationDescriptor = _declaratorDescriptorStack.pop();
     List<FieldMirror> fields = buildFields(declarationDescriptor, ctx);
-    (generatedTypes.peak() as ClassMirror).fields.addAll(fields);
-    for (var element in fields) {
-      _setGroupOnDeclaration(element);
+    final currentType = generatedTypes.peak();
+    if (currentType is ClassMirror) {
+      currentType.fields.addAll(fields);
+      for (var element in fields) {
+        _setGroupOnDeclaration(element);
+      }
     }
   }
 

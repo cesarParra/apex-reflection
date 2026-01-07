@@ -433,7 +433,7 @@ JavaLetterOrDigit
 //
 
 START_GROUP_COMMENT
-	  :   '//' WS* ATSIGN  S T A R T SUB G R O U P WS* .*? ~[\r\n]*
+	  :   '//' WS* ATSIGN  S T A R T SUB G R O U P WS* ~[\r\n]*
 	  ;
 
 END_GROUP_COMMENT
@@ -442,7 +442,7 @@ END_GROUP_COMMENT
 	  ;
 
 DOC_COMMENT
-    :   '/**' MUL* WS* ([\r\n])* .*? '*/' -> channel(DOCUMENTATION_CHANNEL)
+    :   '/**' .*? '*/' -> channel(DOCUMENTATION_CHANNEL)
     ;
 
 WS  :  [ \t\r\n\u000C]+ -> channel(WHITESPACE_CHANNEL)

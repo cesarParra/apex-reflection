@@ -51,12 +51,7 @@ triggerCase
     ;
 
 triggerBlock
-    : LBRACE triggerBlockMember* RBRACE
-    ;
-
-triggerBlockMember
-    : modifier* memberDeclaration
-    | statement
+    : ignoredBlock
     ;
 
 // entry point for Apex class files
@@ -108,7 +103,7 @@ interfaceBody
 
 classBodyDeclaration
     : SEMI                                                                                    # EmptyClassBodyDeclaration
-    | STATIC? block                                                                           # StaticBlockClassBodyDeclaration
+    | STATIC? ignoredBlock                                                                    # StaticBlockClassBodyDeclaration
     | annotation* modifier* memberDeclaration END_GROUP_COMMENT?                              # MemberClassBodyDeclaration
     ;
 
@@ -151,13 +146,13 @@ memberDeclaration
 
 methodDeclaration
     : (typeRef|VOID) id formalParameters
-      (   block
+      (   ignoredBlock
       |   SEMI
       )
     ;
 
 constructorDeclaration
-    : qualifiedName formalParameters block
+    : qualifiedName formalParameters ignoredBlock
     ;
 
 fieldDeclaration
@@ -165,7 +160,7 @@ fieldDeclaration
     ;
 
 propertyDeclaration
-    : typeRef id LBRACE propertyBlock* RBRACE
+    : typeRef id ignoredBlock
     ;
 
 interfaceMethodDeclaration
@@ -254,181 +249,22 @@ elementValueArrayInitializer
 
 // STATEMENTS / BLOCKS
 
-block
-    : LBRACE statement* RBRACE
+ignoredBlock
+    : LBRACE ignoredBlockItem* RBRACE
     ;
 
-localVariableDeclarationStatement
-    : localVariableDeclaration SEMI
-    ;
-
-localVariableDeclaration
-    : modifier* typeRef variableDeclarators
-    ;
-
-statement
-    : block
-    | ifStatement
-    | switchStatement
-    | forStatement
-    | whileStatement
-    | doWhileStatement
-    | tryStatement
-    | returnStatement
-    | throwStatement
-    | breakStatement
-    | continueStatement
-    | insertStatement
-    | updateStatement
-    | deleteStatement
-    | undeleteStatement
-    | upsertStatement
-    | mergeStatement
-    | runAsStatement
-    | localVariableDeclarationStatement
-    | expressionStatement
-    ;
-
-ifStatement
-    : IF parExpression statement (ELSE statement)?
-    ;
-
-switchStatement
-    : SWITCH ON expression LBRACE whenControl+ RBRACE
-    ;
-
-whenControl
-    : WHEN whenValue block
-    ;
-
-whenValue
-    : ELSE
-    | whenLiteral (COMMA whenLiteral)*
-    | typeRef id
-    ;
-
-whenLiteral
-    : (SUB)? IntegerLiteral
-    | LongLiteral
-    | StringLiteral
-    | NULL
-    | id
-    // Salesforce tolerates paren pairs around each literal,
-    // although this is not explicitly documented.
-    | LPAREN whenLiteral RPAREN
-    ;
-
-forStatement
-    : FOR LPAREN forControl RPAREN (statement | SEMI)
-    ;
-
-whileStatement
-    : WHILE parExpression (statement | SEMI)
-    ;
-
-doWhileStatement
-    : DO statement WHILE parExpression SEMI
-    ;
-
-tryStatement
-    : TRY block (catchClause+ finallyBlock? | finallyBlock)
-    ;
-
-returnStatement
-    : RETURN expression? SEMI
-    ;
-
-throwStatement
-    : THROW expression SEMI
-    ;
-
-breakStatement
-    : BREAK SEMI
-    ;
-
-continueStatement
-    : CONTINUE SEMI
-    ;
-
-accessLevel
-    : AS (SYSTEM | USER)
-    ;
-
-insertStatement
-    : INSERT accessLevel? expression SEMI
-    ;
-
-updateStatement
-    : UPDATE accessLevel? expression SEMI
-    ;
-
-deleteStatement
-    : DELETE accessLevel? expression SEMI
-    ;
-
-undeleteStatement
-    : UNDELETE accessLevel? expression SEMI
-    ;
-
-upsertStatement
-    : UPSERT accessLevel? expression qualifiedName? SEMI
-    ;
-
-mergeStatement
-    : MERGE accessLevel? expression expression SEMI
-    ;
-
-runAsStatement
-    : SYSTEMRUNAS LPAREN expressionList? RPAREN block
-    ;
-
-expressionStatement
-    : expression SEMI
-    ;
-
-propertyBlock
-    : modifier* (getter | setter)
-    ;
-
-getter
-    : GET (SEMI | block)
-    ;
-
-setter
-    : SET (SEMI | block)
-    ;
-
-catchClause
-    : CATCH LPAREN modifier* qualifiedName id RPAREN block
-    ;
-
-finallyBlock
-    : FINALLY block
-    ;
-
-forControl
-    : enhancedForControl
-    | forInit? SEMI expression? SEMI forUpdate?
-    ;
-
-forInit
-    : localVariableDeclaration
-    | expressionList
-    ;
-
-enhancedForControl
-    : typeRef id COLON expression
-    ;
-
-forUpdate
-    : expressionList
+ignoredBlockItem
+    // Nested block
+    : ignoredBlock
+    | DOC_COMMENT
+    | LINE_COMMENT
+    | WS
+    | START_GROUP_COMMENT
+    | END_GROUP_COMMENT
+    | ~ (LBRACE | RBRACE)
     ;
 
 // EXPRESSIONS
-
-parExpression
-    : LPAREN expression RPAREN
-    ;
 
 expressionList
     : expression (COMMA expression)*

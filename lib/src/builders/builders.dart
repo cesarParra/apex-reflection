@@ -1,8 +1,8 @@
-import 'package:apexdocs_dart/src/model/members.dart';
-import 'package:apexdocs_dart/src/model/modifiers.dart';
-import 'package:apexdocs_dart/src/model/types.dart';
-import 'package:apexdocs_dart/src/service/apex_listener.dart';
-import 'package:apexdocs_dart/src/service/utils/parsing/parsing_utils.dart';
+import 'package:apex_reflection/src/model/members.dart';
+import 'package:apex_reflection/src/model/modifiers.dart';
+import 'package:apex_reflection/src/model/types.dart';
+import 'package:apex_reflection/src/service/apex_listener.dart';
+import 'package:apex_reflection/src/service/utils/parsing/parsing_utils.dart';
 
 import '../antlr/grammars/apex/ApexParser.dart';
 import '../model/type_references.dart';
@@ -98,9 +98,11 @@ MethodMirror buildMethod(
     ..memberModifiers = descriptor.memberModifiers;
 }
 
-MethodMirror buildInterfaceMethod(InterfaceMethodDeclarationContext ctx,
+MethodMirror buildInterfaceMethod(
+    InterfaceMethodDeclarationContext ctx,
     String? docComment,
-    AccessModifier? parentAccessModifier, List<Annotation> parentAnnotations) {
+    AccessModifier? parentAccessModifier,
+    List<Annotation> parentAnnotations) {
   final methodName = ctx.id()!.text;
 
   List<ParameterMirror>? parameters = parseParameters(ctx);

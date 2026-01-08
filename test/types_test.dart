@@ -1,9 +1,9 @@
-import 'package:apexdocs_dart/src/model/members.dart';
-import 'package:apexdocs_dart/src/model/modifiers.dart';
-import 'package:apexdocs_dart/src/model/type_references.dart';
+import 'package:apex_reflection/src/model/members.dart';
+import 'package:apex_reflection/src/model/modifiers.dart';
+import 'package:apex_reflection/src/model/type_references.dart';
 import 'package:test/test.dart';
 
-import 'package:apexdocs_dart/src/model/types.dart';
+import 'package:apex_reflection/src/model/types.dart';
 
 void main() {
   group('Class Model Tests', () {
@@ -313,7 +313,7 @@ void main() {
     });
   });
 
-  group('Enum Model Tests', (){
+  group('Enum Model Tests', () {
     test('Has a name', () {
       final expectedEnumName = 'EnumName';
       final enumModel = EnumMirror(name: expectedEnumName);
@@ -346,8 +346,10 @@ void main() {
 
     test('enum values can have descriptions', () {
       var enumModel = EnumMirror(name: 'AnyName');
-      var value1 = EnumValue(name: 'Value1', rawDocComment: '@description Some description');
-      var value2 = EnumValue(name: 'Value2', rawDocComment: '@description Some description');
+      var value1 = EnumValue(
+          name: 'Value1', rawDocComment: '@description Some description');
+      var value2 = EnumValue(
+          name: 'Value2', rawDocComment: '@description Some description');
 
       enumModel.addValue(value1);
       enumModel.addValue(value2);

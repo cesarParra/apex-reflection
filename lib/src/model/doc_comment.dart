@@ -1,5 +1,5 @@
-import 'package:apexdocs_dart/src/extension_methods/list_extensions.dart';
-import 'package:apexdocs_dart/src/model/multi_line_apex_doc_annotation.dart';
+import 'package:apex_reflection/src/extension_methods/list_extensions.dart';
+import 'package:apex_reflection/src/model/multi_line_apex_doc_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'doc_comment.g.dart';

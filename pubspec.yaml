@@ -1,18 +1,18 @@
-name: apexdocs_dart
-description: A starting point for Dart libraries or applications.
+name: apex_reflection
+description: Offers reflection for Apex code.
 version: 1.0.0
 publish_to: none
 
 environment:
-    sdk: '>=3.0.0 <4.0.0'
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
-    antlr4: 4.9.3
-    json_annotation: ^4.8.1
-    args: ^2.7.0
+  antlr4: 4.9.3
+  json_annotation: ^4.8.1
+  args: ^2.7.0
 dev_dependencies:
-    lints: ^4.0.0
-    test: ^1.24.4
-    build_runner: ^2.4.6
-    json_serializable: ^6.7.1
-    mocktail: ^0.3.0
+  lints: ^4.0.0
+  test: ^1.24.4
+  build_runner: ^2.4.6
+  json_serializable: ^6.7.1
+  mocktail: ^0.3.0

@@ -1,12 +1,12 @@
-import 'package:apexdocs_dart/src/extension_methods/list_extensions.dart';
-import 'package:apexdocs_dart/src/model/members.dart';
-import 'package:apexdocs_dart/src/model/modifiers.dart';
-import 'package:apexdocs_dart/src/model/type_references.dart';
-import 'package:apexdocs_dart/src/model/types.dart';
-import 'package:apexdocs_dart/src/service/case_insensitive_input_stream.dart';
+import 'package:apex_reflection/src/extension_methods/list_extensions.dart';
+import 'package:apex_reflection/src/model/members.dart';
+import 'package:apex_reflection/src/model/modifiers.dart';
+import 'package:apex_reflection/src/model/type_references.dart';
+import 'package:apex_reflection/src/model/types.dart';
+import 'package:apex_reflection/src/service/case_insensitive_input_stream.dart';
 import 'package:test/test.dart';
 
-import 'package:apexdocs_dart/src/service/walker.dart';
+import 'package:apex_reflection/src/service/walker.dart';
 
 ApexWalkerDefinition walkApex(String body) {
   final apexWalkerDefinition = ApexWalkerDefinition();
@@ -57,6 +57,25 @@ void main() {
               .firstWhere((element) => element.name == 'group')
               .body,
           equals('Group Name'));
+    });
+
+    test('Classes can have docs-like comments anywhere', () {
+      const classBody = '''
+      public  class class_with_comments {
+          private static void m0() {
+              m1();
+              /************************/
+          }
+
+          /***************************/
+          private static void m1() {
+          }
+      }
+      ''';
+
+      final apexWalkerDefinition = walkApex(classBody);
+      expect(apexWalkerDefinition.getGeneratedApexType()!.name,
+          equals('class_with_comments'));
     });
 
     test('Can have annotations before the docs', () {
@@ -1315,8 +1334,8 @@ void main() {
     });
 
     test('Supports enums with access modifiers', () {
-      final apexWalkerDefinition = walkApex(
-              '@NamespaceAccessible public enum MyEnum{}');
+      final apexWalkerDefinition =
+          walkApex('@NamespaceAccessible public enum MyEnum{}');
       expect(apexWalkerDefinition.getGeneratedApexType(), isNotNull);
       expect(apexWalkerDefinition.getGeneratedApexType()!.isPublic, isTrue);
       expect(apexWalkerDefinition.getGeneratedApexType()!.isNamespaceAccessible,
@@ -1324,13 +1343,14 @@ void main() {
       expect(apexWalkerDefinition.getGeneratedApexType()!.isPrivate, isFalse);
     });
 
-    test('Enums can have values', () {var enumBody = '''
+    test('Enums can have values', () {
+      var enumBody = '''
       enum MyEnum {
         VALUE1, VALUE2, VALUE3
       }
       ''';
 
-    final apexWalkerDefinition = walkApex(enumBody);
+      final apexWalkerDefinition = walkApex(enumBody);
       var generatedEnum =
           apexWalkerDefinition.getGeneratedApexType() as EnumMirror;
       expect(generatedEnum.values.length, equals(3));
@@ -1396,9 +1416,7 @@ void main() {
       }
       ''';
 
-      expect(
-          () => walkApex(classBody),
-          returnsNormally);
+      expect(() => walkApex(classBody), returnsNormally);
     });
 
     test('Parses SOQL with the GROUPING keyword', () {
@@ -1415,9 +1433,7 @@ void main() {
       }
       ''';
 
-      expect(
-          () => walkApex(classBody),
-          returnsNormally);
+      expect(() => walkApex(classBody), returnsNormally);
     });
 
     test('Parses SOQL with the convertCurrency function', () {
@@ -1429,9 +1445,7 @@ void main() {
       }
       ''';
 
-      expect(
-          () => walkApex(classBody),
-          returnsNormally);
+      expect(() => walkApex(classBody), returnsNormally);
     });
 
     test('Parses SOQL with the convertCurrency and formatting', () {
@@ -1447,9 +1461,7 @@ void main() {
       }
       ''';
 
-      expect(
-          () => walkApex(classBody),
-          returnsNormally);
+      expect(() => walkApex(classBody), returnsNormally);
     });
 
     test('Parses SOQL with the format function with aggregate', () {
@@ -1461,9 +1473,7 @@ void main() {
       }
       ''';
 
-      expect(
-          () => walkApex(classBody),
-          returnsNormally);
+      expect(() => walkApex(classBody), returnsNormally);
     });
 
     test('Parses SOQL with time literals', () {
@@ -1475,9 +1485,7 @@ void main() {
       }
       ''';
 
-      expect(
-          () => walkApex(classBody),
-          returnsNormally);
+      expect(() => walkApex(classBody), returnsNormally);
     });
   });
 
@@ -1493,9 +1501,7 @@ void main() {
       }
       ''';
 
-      expect(
-          () => walkApex(classBody),
-          returnsNormally);
+      expect(() => walkApex(classBody), returnsNormally);
     });
 
     test('Parses SOSL with the toLabel keyword using an alias', () {
@@ -1508,9 +1514,7 @@ void main() {
       }
       ''';
 
-      expect(
-          () => walkApex(classBody),
-          returnsNormally);
+      expect(() => walkApex(classBody), returnsNormally);
     });
 
     test('Parses SOSL that converts currency', () {
@@ -1522,9 +1526,7 @@ void main() {
       }
       ''';
 
-      expect(
-          () => walkApex(classBody),
-          returnsNormally);
+      expect(() => walkApex(classBody), returnsNormally);
     });
 
     test('Parses SOSL that converts and formats currency', () {
@@ -1536,9 +1538,7 @@ void main() {
       }
       ''';
 
-      expect(
-          () => walkApex(classBody),
-          returnsNormally);
+      expect(() => walkApex(classBody), returnsNormally);
     });
 
     test('Parses SOSL that formats with aggregate', () {
@@ -1550,9 +1550,7 @@ void main() {
       }
       ''';
 
-      expect(
-          () => walkApex(classBody),
-          returnsNormally);
+      expect(() => walkApex(classBody), returnsNormally);
     });
   });
 }

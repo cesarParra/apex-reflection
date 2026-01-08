@@ -1,14 +1,14 @@
-import 'package:apexdocs_dart/src/model/members.dart';
-import 'package:apexdocs_dart/src/model/type_references.dart';
-import 'package:apexdocs_dart/src/model/types.dart';
-import 'package:apexdocs_dart/src/service/case_insensitive_input_stream.dart';
-import 'package:apexdocs_dart/src/service/walker.dart';
+import 'package:apex_reflection/src/model/members.dart';
+import 'package:apex_reflection/src/model/type_references.dart';
+import 'package:apex_reflection/src/model/types.dart';
+import 'package:apex_reflection/src/service/case_insensitive_input_stream.dart';
+import 'package:apex_reflection/src/service/walker.dart';
 import 'package:test/test.dart';
 
 ApexWalkerDefinition walkApex(String body) {
   final apexWalkerDefinition = ApexWalkerDefinition();
   Walker.walk(CaseInsensitiveInputStream.fromString(body), apexWalkerDefinition,
-          (parser) => parser.compilationUnit());
+      (parser) => parser.compilationUnit());
   return apexWalkerDefinition;
 }
 
@@ -270,7 +270,8 @@ main() {
       MethodMirror method = generatedClass.methods
           .firstWhere((element) => element.name == 'start');
       expect(method.parameters.length, equals(1));
-      expect(method.parameters.first.typeReference.type, equals('Database.BatchableContext'));
+      expect(method.parameters.first.typeReference.type,
+          equals('Database.BatchableContext'));
     });
 
     test('Void methods', () {

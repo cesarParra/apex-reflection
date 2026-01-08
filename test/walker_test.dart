@@ -1,10 +1,10 @@
 import 'package:antlr4/antlr4.dart';
-import 'package:apexdocs_dart/src/antlr/grammars/apex/ApexLexer.dart';
-import 'package:apexdocs_dart/src/antlr/grammars/apex/ApexParser.dart';
-import 'package:apexdocs_dart/src/service/case_insensitive_input_stream.dart';
+import 'package:apex_reflection/src/antlr/grammars/apex/ApexLexer.dart';
+import 'package:apex_reflection/src/antlr/grammars/apex/ApexParser.dart';
+import 'package:apex_reflection/src/service/case_insensitive_input_stream.dart';
 import 'package:test/test.dart';
 
-import 'package:apexdocs_dart/src/service/walker.dart';
+import 'package:apex_reflection/src/service/walker.dart';
 
 class TestListener extends ParseTreeListener {
   int enterEveryRuleCalled = 0;

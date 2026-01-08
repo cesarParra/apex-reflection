@@ -1,6 +1,6 @@
-import 'package:apexdocs_dart/src/extension_methods/list_extensions.dart';
-import 'package:apexdocs_dart/src/model/doc_comment.dart';
-import 'package:apexdocs_dart/src/service/parsers.dart';
+import 'package:apex_reflection/src/extension_methods/list_extensions.dart';
+import 'package:apex_reflection/src/model/doc_comment.dart';
+import 'package:apex_reflection/src/service/parsers.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'modifiers.dart';

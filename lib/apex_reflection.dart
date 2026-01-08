@@ -1,3 +1,3 @@
 library apex_reflection;
 
-export "package:apexdocs_dart/src/service/parsers.dart" show ApexParser;
+export "package:apex_reflection/src/service/parsers.dart" show ApexParser;

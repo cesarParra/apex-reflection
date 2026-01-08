@@ -1,4 +1,4 @@
-import 'package:apexdocs_dart/src/service/parsers.dart';
+import 'package:apex_reflection/src/service/parsers.dart';
 import 'package:test/test.dart';
 
 main() {
@@ -27,7 +27,8 @@ main() {
       */
     ''';
     final docComment = ApexdocParser.parseFromBody(docBody);
-    expect(docComment.description, 'This is a description\n\nThis is more description');
+    expect(docComment.description,
+        'This is a description\n\nThis is more description');
   });
 
   test('Can parse a multi line simple doc comment with multiple blank lines',
@@ -92,10 +93,12 @@ main() {
         equals('This is a description `@second` with another tag'));
   });
 
-  test('Ticks can be placed wherever in description blocks without @description tags', () {
+  test(
+      'Ticks can be placed wherever in description blocks without @description tags',
+      () {
     final docBody = '''
     /**
-     * This class features a 'circuit breaker' variable. 
+     * This class features a 'circuit breaker' variable.
      * For instance, `@future` methods must be
      * static void methods...
      */
@@ -237,8 +240,10 @@ main() {
     ''';
     final docComment = ApexdocParser.parseFromBody(docBody);
     expect(docComment.exampleAnnotation, isNotNull);
-    expect(docComment.exampleAnnotation!.body,
-        equals("```\nString testString = 'MyString';\nSystem.debug(testString);\nprivate static void helperMethod() {\n  // do something\n}\n```"));
+    expect(
+        docComment.exampleAnnotation!.body,
+        equals(
+            "```\nString testString = 'MyString';\nSystem.debug(testString);\nprivate static void helperMethod() {\n  // do something\n}\n```"));
   });
 
   test('Can parse custom tags', () {
@@ -273,7 +278,8 @@ main() {
     ''';
     final docComment = ApexdocParser.parseFromBody(docBody);
     expect(docComment.annotationsByName('group').length, equals(1));
-    expect(docComment.annotationsByName('group').first.body, equals('Sample Enums'));
+    expect(docComment.annotationsByName('group').first.body,
+        equals('Sample Enums'));
   });
 
   test('Doc contents can have @links', () {
@@ -296,6 +302,9 @@ main() {
     ''';
     final docComment = ApexdocParser.parseFromBody(docBody);
     expect(docComment.descriptionLines.length, equals(3));
-    expect(docComment.descriptionLines.first, equals('This is a sample enum. This references {@link ReferencedEnum}.'));
+    expect(
+        docComment.descriptionLines.first,
+        equals(
+            'This is a sample enum. This references {@link ReferencedEnum}.'));
   });
 }

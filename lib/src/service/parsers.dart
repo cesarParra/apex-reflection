@@ -1,8 +1,8 @@
 import 'package:antlr4/antlr4.dart';
-import 'package:apexdocs_dart/src/model/doc_comment.dart';
-import 'package:apexdocs_dart/src/model/types.dart';
-import 'package:apexdocs_dart/src/service/case_insensitive_input_stream.dart';
-import 'package:apexdocs_dart/src/service/walker.dart';
+import 'package:apex_reflection/src/model/doc_comment.dart';
+import 'package:apex_reflection/src/model/types.dart';
+import 'package:apex_reflection/src/service/case_insensitive_input_stream.dart';
+import 'package:apex_reflection/src/service/walker.dart';
 import 'package:json_annotation/json_annotation.dart';
 import '../antlr/grammars/apex/ApexParser.dart' as antlr_apex_parser;
 import '../antlr/grammars/Apexdoc/ApexdocParser.dart' as antlr_apexdoc_parser;

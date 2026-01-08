@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:apexdocs_dart/src/service/parsers.dart';
+import 'package:apex_reflection/src/service/parsers.dart';
 import 'package:test/test.dart';
 
 main() {

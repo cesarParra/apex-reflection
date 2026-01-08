@@ -1,4 +1,4 @@
-import 'package:apexdocs_dart/src/service/parsers.dart';
+import 'package:apex_reflection/src/service/parsers.dart';
 import 'package:test/test.dart';
 
 main() {
@@ -88,7 +88,7 @@ main() {
 
   test('triggers can have members', () {
     final triggerBody = '''
-    
+
 trigger AnotherTrigger on Contact (before insert) {
     /**
      * This is a test
@@ -126,7 +126,7 @@ trigger AnotherTrigger on Contact (before insert) {
     expect(trigger.events, ['beforeinsert', 'beforeupdate', 'beforedelete']);
   });
 
-  test('trigger with queries', (){
+  test('trigger with queries', () {
     final triggerBody = '''
     trigger Account_trigger_vxx on Account bulk (before delete, after delete) {
     Set<Id> accountIds = new Set<Id>();

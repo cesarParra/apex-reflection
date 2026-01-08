@@ -1,6 +1,6 @@
 import 'package:antlr4/antlr4.dart';
-import 'package:apexdocs_dart/src/antlr/grammars/apex/ApexParser.dart';
-import 'package:apexdocs_dart/src/model/type_references.dart';
+import 'package:apex_reflection/src/antlr/grammars/apex/ApexParser.dart';
+import 'package:apex_reflection/src/model/type_references.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 

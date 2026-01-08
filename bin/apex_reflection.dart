@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:apexdocs_dart/src/service/parsers.dart';
+import 'package:apex_reflection/src/service/parsers.dart';
 import 'package:args/args.dart';
 
 Future<void> main(List<String> arguments) async {

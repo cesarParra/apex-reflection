@@ -1,6 +1,6 @@
 import 'dart:js_interop';
 import 'dart:convert';
-import 'package:apexdocs_dart/src/service/parsers.dart';
+import 'package:apex_reflection/src/service/parsers.dart';
 
 @JS()
 external set reflect(JSFunction value);
@@ -23,11 +23,14 @@ String _parseTriggerFromDeclarationBody(String declarationBody) {
 }
 
 JSPromise<JSString> _parseFromDeclarationBodyAsync(String declarationBody) {
-  return Future(() => jsonEncode(Reflection.reflect(declarationBody)).toJS).toJS;
+  return Future(() => jsonEncode(Reflection.reflect(declarationBody)).toJS)
+      .toJS;
 }
 
-JSPromise<JSString> _parseTriggerFromDeclarationBodyAsync(String declarationBody) {
-  return Future(() => jsonEncode(Reflection.reflectTrigger(declarationBody)).toJS).toJS;
+JSPromise<JSString> _parseTriggerFromDeclarationBodyAsync(
+    String declarationBody) {
+  return Future(
+      () => jsonEncode(Reflection.reflectTrigger(declarationBody)).toJS).toJS;
 }
 
 void main() {

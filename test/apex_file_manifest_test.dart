@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:apexdocs_dart/src/model/apex_file_manifest.dart';
-import 'package:apexdocs_dart/src/model/types.dart';
+import 'package:apex_reflection/src/model/apex_file_manifest.dart';
+import 'package:apex_reflection/src/model/types.dart';
 import 'package:test/test.dart';
 
 main() {

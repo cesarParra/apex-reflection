@@ -1,4 +1,4 @@
-import 'package:apexdocs_dart/src/model/doc_comment.dart';
+import 'package:apex_reflection/src/model/doc_comment.dart';
 import 'package:test/test.dart';
 
 main() {
@@ -81,7 +81,8 @@ main() {
 
   group('Example annotations', () {
     test('Has a body', () {
-      final exampleAnnotation = ExampleDocCommentAnnotation(['Some description']);
+      final exampleAnnotation =
+          ExampleDocCommentAnnotation(['Some description']);
       expect(exampleAnnotation.name, equals('example'));
       expect(exampleAnnotation.body, equals('Some description'));
     });

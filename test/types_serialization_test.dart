@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:apexdocs_dart/src/model/members.dart';
-import 'package:apexdocs_dart/src/model/modifiers.dart';
-import 'package:apexdocs_dart/src/model/type_references.dart';
-import 'package:apexdocs_dart/src/model/types.dart';
+import 'package:apex_reflection/src/model/members.dart';
+import 'package:apex_reflection/src/model/modifiers.dart';
+import 'package:apex_reflection/src/model/type_references.dart';
+import 'package:apex_reflection/src/model/types.dart';
 import 'package:test/test.dart';
 
 void main() {

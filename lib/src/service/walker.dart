@@ -1,8 +1,8 @@
 import 'package:antlr4/antlr4.dart';
 
-import 'package:apexdocs_dart/src/model/doc_comment.dart';
-import 'package:apexdocs_dart/src/service/apex_listener.dart';
-import 'package:apexdocs_dart/src/model/types.dart';
+import 'package:apex_reflection/src/model/doc_comment.dart';
+import 'package:apex_reflection/src/service/apex_listener.dart';
+import 'package:apex_reflection/src/model/types.dart';
 
 import '../antlr/grammars/Apexdoc/ApexdocLexer.dart';
 import '../antlr/grammars/Apexdoc/ApexdocParser.dart';
@@ -11,7 +11,9 @@ import '../antlr/grammars/apex/ApexParser.dart';
 import 'apexdoc_listener.dart';
 
 class Walker {
-  static walk<T extends Parser>(InputStream input, WalkerDefinition<T> definition,
+  static walk<T extends Parser>(
+      InputStream input,
+      WalkerDefinition<T> definition,
       ParserRuleContext Function(T) initializeTree) {
     final lexer = definition.getLexer(input);
     final tokens = CommonTokenStream(lexer);

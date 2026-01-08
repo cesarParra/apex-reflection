@@ -1,12 +1,12 @@
 import 'package:test/test.dart';
-import 'package:apexdocs_dart/src/service/case_insensitive_input_stream.dart';
+import 'package:apex_reflection/src/service/case_insensitive_input_stream.dart';
 
-import 'package:apexdocs_dart/src/service/walker.dart';
+import 'package:apex_reflection/src/service/walker.dart';
 
 ApexWalkerDefinition walkApex(String body) {
   final apexWalkerDefinition = ApexWalkerDefinition();
   Walker.walk(CaseInsensitiveInputStream.fromString(body), apexWalkerDefinition,
-          (parser) => parser.compilationUnit());
+      (parser) => parser.compilationUnit());
   return apexWalkerDefinition;
 }
 
@@ -91,8 +91,8 @@ void main() {
   group('Multi-line doc', () {
     test('Doc can be a multi-lined description without tag', () {
       const classBody = '''
-      /** 
-       * MyClass description 
+      /**
+       * MyClass description
        */
       class MyClass{}
       ''';
@@ -103,10 +103,10 @@ void main() {
 
     test('Doc can be a multi-lined description with a lot of whitespace', () {
       const classBody = '''
-      /** 
+      /**
        *
        *
-       * MyClass description 
+       * MyClass description
        *
        *
        */
@@ -119,8 +119,8 @@ void main() {
 
     test('Doc can be a multi-lined description with description tag', () {
       const classBody = '''
-      /** 
-       * @description MyClass description 
+      /**
+       * @description MyClass description
        */
       class MyClass{}
       ''';
@@ -131,8 +131,8 @@ void main() {
 
     test('Doc can be a multi-lined description with inline links', () {
       const classBody = '''
-      /** 
-       * MyClass description {@link https://www.example.com} 
+      /**
+       * MyClass description {@link https://www.example.com}
        */
       class MyClass{}
       ''';
@@ -143,8 +143,8 @@ void main() {
 
     test('Doc can be a multi-lined description with inline emails', () {
       const classBody = '''
-      /** 
-       * MyClass description {@contact example+test@email.com} 
+      /**
+       * MyClass description {@contact example+test@email.com}
        */
       class MyClass{}
       ''';
@@ -155,9 +155,9 @@ void main() {
 
     test('Doc can be multi-line with a tag', () {
       const classBody = '''
-      /** 
+      /**
        * MyClass description
-       * @group MyGroup 
+       * @group MyGroup
        */
       class MyClass{}
       ''';
@@ -173,9 +173,9 @@ void main() {
 
     test('Doc can be multi-lined with multiple tags', () {
       const classBody = '''
-      /** 
-       * MyClass description 
-       * @author John Smith 
+      /**
+       * MyClass description
+       * @author John Smith
        * @group MyGroup
        */
       class MyClass{}
@@ -199,8 +199,8 @@ void main() {
   group("Block styled docs", () {
     test('Doc blocked styled without tag', () {
       const classBody = '''
-      /********************* 
-       * MyClass description 
+      /*********************
+       * MyClass description
        *********************/
       class MyClass{}
       ''';
@@ -209,7 +209,9 @@ void main() {
           equals('MyClass description'));
     });
 
-    test('Doc blocked style with description without a tag with a lot of whitespace', () {
+    test(
+        'Doc blocked style with description without a tag with a lot of whitespace',
+        () {
       const classBody = '''
       /**********************
        **********************

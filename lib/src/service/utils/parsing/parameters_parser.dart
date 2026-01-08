@@ -1,5 +1,5 @@
-import 'package:apexdocs_dart/src/model/members.dart';
-import 'package:apexdocs_dart/src/model/type_references.dart';
+import 'package:apex_reflection/src/model/members.dart';
+import 'package:apex_reflection/src/model/type_references.dart';
 
 List<ParameterMirror>? parseParameters(dynamic ctx) {
   final parameters = ctx

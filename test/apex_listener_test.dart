@@ -1,12 +1,12 @@
-import 'package:apexdocs_dart/src/extension_methods/list_extensions.dart';
-import 'package:apexdocs_dart/src/model/members.dart';
-import 'package:apexdocs_dart/src/model/modifiers.dart';
-import 'package:apexdocs_dart/src/model/type_references.dart';
-import 'package:apexdocs_dart/src/model/types.dart';
-import 'package:apexdocs_dart/src/service/case_insensitive_input_stream.dart';
+import 'package:apex_reflection/src/extension_methods/list_extensions.dart';
+import 'package:apex_reflection/src/model/members.dart';
+import 'package:apex_reflection/src/model/modifiers.dart';
+import 'package:apex_reflection/src/model/type_references.dart';
+import 'package:apex_reflection/src/model/types.dart';
+import 'package:apex_reflection/src/service/case_insensitive_input_stream.dart';
 import 'package:test/test.dart';
 
-import 'package:apexdocs_dart/src/service/walker.dart';
+import 'package:apex_reflection/src/service/walker.dart';
 
 ApexWalkerDefinition walkApex(String body) {
   final apexWalkerDefinition = ApexWalkerDefinition();

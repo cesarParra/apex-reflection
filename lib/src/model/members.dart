@@ -1,6 +1,6 @@
-import 'package:apexdocs_dart/src/model/declaration_mirror.dart';
-import 'package:apexdocs_dart/src/model/doc_comment.dart';
-import 'package:apexdocs_dart/src/model/modifiers.dart';
+import 'package:apex_reflection/src/model/declaration_mirror.dart';
+import 'package:apex_reflection/src/model/doc_comment.dart';
+import 'package:apex_reflection/src/model/modifiers.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'type_references.dart';

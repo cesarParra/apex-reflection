@@ -1,14 +1,14 @@
 import 'dart:collection';
 
 import 'package:antlr4/antlr4.dart';
-import 'package:apexdocs_dart/src/builders/builders.dart';
-import 'package:apexdocs_dart/src/model/declaration_mirror.dart';
-import 'package:apexdocs_dart/src/model/members.dart';
-import 'package:apexdocs_dart/src/model/modifiers.dart';
-import 'package:apexdocs_dart/src/model/types.dart';
-import 'package:apexdocs_dart/src/service/parsers.dart';
-import 'package:apexdocs_dart/src/service/utils/parsing/parsing_utils.dart';
-import 'package:apexdocs_dart/src/extension_methods/list_extensions.dart';
+import 'package:apex_reflection/src/builders/builders.dart';
+import 'package:apex_reflection/src/model/declaration_mirror.dart';
+import 'package:apex_reflection/src/model/members.dart';
+import 'package:apex_reflection/src/model/modifiers.dart';
+import 'package:apex_reflection/src/model/types.dart';
+import 'package:apex_reflection/src/service/parsers.dart';
+import 'package:apex_reflection/src/service/utils/parsing/parsing_utils.dart';
+import 'package:apex_reflection/src/extension_methods/list_extensions.dart';
 
 import '../antlr/grammars/apex/ApexLexer.dart';
 import '../antlr/grammars/apex/ApexParser.dart';
@@ -91,9 +91,10 @@ class ApexClassListener extends ApexParserBaseListener {
         accessModifiers: accessModifiers, docComment: docComment));
   }
 
-  @override void enterTriggerBlock(TriggerBlockContext ctx) {
-    _declaratorDescriptorStack.push(DeclarationDescriptor(
-        accessModifiers: [], docComment: null));
+  @override
+  void enterTriggerBlock(TriggerBlockContext ctx) {
+    _declaratorDescriptorStack
+        .push(DeclarationDescriptor(accessModifiers: [], docComment: null));
   }
 
   @override
@@ -103,9 +104,9 @@ class ApexClassListener extends ApexParserBaseListener {
       final enumValues = ctx
           .ids()
           .map((e) => EnumValue(
-        name: e.text,
-        rawDocComment: _extractDocComment(e),
-      ))
+                name: e.text,
+                rawDocComment: _extractDocComment(e),
+              ))
           .toList();
       peakedType.values.addAll(enumValues);
     }
@@ -175,12 +176,12 @@ class ApexClassListener extends ApexParserBaseListener {
       // start of a group.
       String potentialDocComment = allDocComments.first;
       DocComment docCommentObject =
-      ApexdocParser.parseFromBody(potentialDocComment);
+          ApexdocParser.parseFromBody(potentialDocComment);
 
       if (docCommentObject.annotations
           .any((element) => element.name.toLowerCase() == 'start-group')) {
         final startGroupComment = docCommentObject.annotations.firstWhere(
-                (element) => element.name.toLowerCase() == 'start-group');
+            (element) => element.name.toLowerCase() == 'start-group');
         final groupName = startGroupComment.body;
 
         final groupDescription = docCommentObject.description;
@@ -250,13 +251,19 @@ class ApexClassListener extends ApexParserBaseListener {
     if (generatedTypes.peak() == null) {
       return;
     }
-    final annotations = ctx.annotations().map((e) => Annotation.fromAnnotationContext(e)).toList();
+    final annotations = ctx
+        .annotations()
+        .map((e) => Annotation.fromAnnotationContext(e))
+        .toList();
 
     final method = buildInterfaceMethod(
       ctx,
       _extractDocComment(ctx),
       generatedTypes.peak()!.accessModifier,
-      [...generatedTypes.peak()!.annotations, if (annotations.isNotEmpty) ...annotations],
+      [
+        ...generatedTypes.peak()!.annotations,
+        if (annotations.isNotEmpty) ...annotations
+      ],
     );
 
     (generatedTypes.peak() as MethodsAwareness).methods.add(method);
@@ -313,7 +320,7 @@ class ApexClassListener extends ApexParserBaseListener {
     final startIndex = start.tokenIndex;
     final docChannelIndex = ApexLexer.DOCUMENTATION_CHANNEL;
     final docCommentTokens =
-    tokens.getHiddenTokensToLeft(startIndex, docChannelIndex);
+        tokens.getHiddenTokensToLeft(startIndex, docChannelIndex);
 
     for (final token in docCommentTokens ?? List<Token>.empty()) {
       yield token.text!;
@@ -321,7 +328,7 @@ class ApexClassListener extends ApexParserBaseListener {
 
     if (searchAfter != null) {
       final additionalCommentTokens =
-      tokens.getHiddenTokensToRight(searchAfter, docChannelIndex);
+          tokens.getHiddenTokensToRight(searchAfter, docChannelIndex);
       for (final token in additionalCommentTokens ?? List<Token>.empty()) {
         yield token.text!;
       }
@@ -342,7 +349,7 @@ class ApexClassListener extends ApexParserBaseListener {
 
     // Otherwise then we want to add this as an inner class to whoever is on top.
     final currentGeneratedType = generatedTypes.pop();
-    switch(currentGeneratedType) {
+    switch (currentGeneratedType) {
       case Failure():
         return;
       case Success(:final value):

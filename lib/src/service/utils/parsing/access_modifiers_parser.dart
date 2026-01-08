@@ -1,4 +1,4 @@
-import 'package:apexdocs_dart/src/model/modifiers.dart';
+import 'package:apex_reflection/src/model/modifiers.dart';
 
 List<dynamic> getAccessModifiers(dynamic ctx, {isMember = false}) {
   final List<dynamic> modifiersAndAnnotations = [

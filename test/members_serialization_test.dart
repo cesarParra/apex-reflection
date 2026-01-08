@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:apexdocs_dart/src/model/modifiers.dart';
-import 'package:apexdocs_dart/src/model/type_references.dart';
+import 'package:apex_reflection/src/model/modifiers.dart';
+import 'package:apex_reflection/src/model/type_references.dart';
 import 'package:test/test.dart';
-import 'package:apexdocs_dart/src/model/members.dart';
+import 'package:apex_reflection/src/model/members.dart';
 
 void main() {
   group('Property serialization', () {
@@ -17,7 +17,7 @@ void main() {
       String encodedProperty = jsonEncode(property);
       expect(encodedProperty, isNotNull);
       final decodedProperty =
-      PropertyMirror.fromJson(jsonDecode(encodedProperty));
+          PropertyMirror.fromJson(jsonDecode(encodedProperty));
       expect(property.name, equals(decodedProperty.name));
     });
 
@@ -143,7 +143,7 @@ void main() {
       String encodedParameter = jsonEncode(parameter);
       expect(encodedParameter, isNotNull);
       final decodedParameter =
-      ParameterMirror.fromJson(jsonDecode(encodedParameter));
+          ParameterMirror.fromJson(jsonDecode(encodedParameter));
       expect(parameter.name, equals(decodedParameter.name));
     });
 
@@ -174,7 +174,7 @@ void main() {
       String encodedConstructor = jsonEncode(constructor);
       expect(encodedConstructor, isNotNull);
       final decodedConstructor =
-      ConstructorMirror.fromJson(jsonDecode(encodedConstructor));
+          ConstructorMirror.fromJson(jsonDecode(encodedConstructor));
       expect(decodedConstructor.isPublic, equals(true));
       expect(decodedConstructor.isNamespaceAccessible, equals(true));
     });
@@ -202,7 +202,7 @@ void main() {
       ''';
 
       final constructor =
-      ConstructorMirror.fromJson(jsonDecode(constructorAsJson));
+          ConstructorMirror.fromJson(jsonDecode(constructorAsJson));
       expect(constructor.isPublic, equals(true));
       expect(constructor.isNamespaceAccessible, equals(true));
       expect(constructor.parameters.length, equals(1));

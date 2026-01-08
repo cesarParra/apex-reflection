@@ -1,4 +1,4 @@
-import 'package:apexdocs_dart/src/model/multi_line_apex_doc_annotation.dart';
+import 'package:apex_reflection/src/model/multi_line_apex_doc_annotation.dart';
 import 'package:test/test.dart';
 
 main() {
@@ -8,7 +8,6 @@ main() {
       final result = sanitizeLineStart(input);
       expect(result, equals('line 1'));
     });
-
 
     test('removes all leading *', () {
       const input = '*** line 1';
@@ -30,7 +29,8 @@ main() {
       expect(result, equals(['line 1', 'line 2', 'line 3']));
     });
 
-    test('sanitization of line starts keeps extra white spaces after the *', () {
+    test('sanitization of line starts keeps extra white spaces after the *',
+        () {
       const input = 'line 1\n *  line 2\nline 3';
       final result = sanitizeDocContent(input);
       expect(result, equals(['line 1', ' line 2', 'line 3']));
@@ -69,9 +69,17 @@ main() {
     });
 
     test('sanitizes a multi-line code block', () {
-      const input = '```\nprint(\'Hello, World!\');\nprint(\'Goodbye, World!\');\n```';
+      const input =
+          '```\nprint(\'Hello, World!\');\nprint(\'Goodbye, World!\');\n```';
       final result = sanitizeDocContent(input);
-      expect(result, equals(['```', 'print(\'Hello, World!\');', 'print(\'Goodbye, World!\');', '```']));
+      expect(
+          result,
+          equals([
+            '```',
+            'print(\'Hello, World!\');',
+            'print(\'Goodbye, World!\');',
+            '```'
+          ]));
     });
   });
 }

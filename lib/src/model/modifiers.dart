@@ -1,5 +1,5 @@
-import 'package:apexdocs_dart/src/extension_methods/list_extensions.dart';
-import 'package:apexdocs_dart/src/service/utils/parsing/parsing_utils.dart';
+import 'package:apex_reflection/src/extension_methods/list_extensions.dart';
+import 'package:apex_reflection/src/service/utils/parsing/parsing_utils.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import '../antlr/grammars/apex/ApexParser.dart';
@@ -88,8 +88,8 @@ dynamic getModifierFromStringDeclaration(dynamic modifierDeclarationContext,
     return enumValue;
   }
 
-  enumValue = MemberModifier.values.firstWhereOrNull((element) =>
-      element.value == modifierDeclaration.toLowerCase());
+  enumValue = MemberModifier.values.firstWhereOrNull(
+      (element) => element.value == modifierDeclaration.toLowerCase());
 
   return enumValue;
 }

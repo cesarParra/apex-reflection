@@ -1,4 +1,4 @@
-import 'package:apexdocs_dart/src/model/types.dart';
+import 'package:apex_reflection/src/model/types.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'apex_file_manifest.g.dart';

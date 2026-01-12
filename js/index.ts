@@ -14,17 +14,10 @@ let _outJs: OutJsModule | null = null;
 function getOutJs(): OutJsModule {
   if (_outJs) return _outJs;
 
-  // Runtime fallback only (CommonJS-friendly). This expects `out.js` to be
-  // distributed alongside `dist/index.js` in the published package.
-  //
-  // `out.js` does not export functions; it attaches them to a Dart-style global
-  // `self` (and/or to the global object). Requiring it is enough to "register"
-  // the functions.
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
   require("./out.js");
 
-  const g: any = globalThis as any;
-  const selfObj: any = g?.self ?? g;
+  const g = globalThis;
+  const selfObj = g?.self ?? g;
 
   _outJs = {
     reflect: selfObj?.reflect,

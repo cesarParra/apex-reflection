@@ -15,4 +15,5 @@ dev_dependencies:
   test: ^1.24.4
   build_runner: ^2.4.6
   json_serializable: ^6.7.1
+  grinder: ^0.9.5
   mocktail: ^0.3.0

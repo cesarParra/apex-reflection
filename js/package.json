@@ -1,11 +1,11 @@
 {
   "name": "@cparra/apex-reflection",
-  "version": "2.23.11",
+  "version": "2.23.12",
   "description": "Provides tools for reflecting Apex code, the language used in Salesforce development.",
   "main": "dist/index.js",
   "scripts": {
     "clean": "rimraf dist",
-    "build": "npm run clean && tsc",
+    "build": "npm run clean && tsc && node scripts/copy-out-js-to-dist.js",
     "postinstall": "node publish-scripts/postinstall.js",
     "dev:build": "npm run build && npm run dev:build:native:host && npm run dev:chmod:native:host",
     "dev:build:native:host": "node scripts/build-natives.js --host",
@@ -25,7 +25,7 @@
   "author": "Cesar Parra",
   "license": "ISC",
   "devDependencies": {
-    "@types/jest": "^27.0.2",
+    "@types/jest": "^27.5.2",
     "@types/node": "^16.18.98",
     "@types/typescript": "^2.0.0",
     "jest": "^27.2.4",
@@ -37,6 +37,8 @@
   "files": [
     "dist/index.js",
     "dist/index.d.ts",
-    "publish-scripts/postinstall.js"
+    "dist/out.js",
+    "publish-scripts/postinstall.js",
+    "out.js"
   ]
 }

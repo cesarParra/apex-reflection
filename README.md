@@ -42,6 +42,10 @@ body was not parsed successfully, with a message indicating where the error occu
 Even though this library is exposed as a Node.js library, the project's source code is written in Dart. The source can
 be found in the `lib/src` directory.
 
+The Dart source code is transpiled to JS by `dart2js` through the default [grinder](https://pub.dev/packages/grinder) workflow within `tool/grind.dart`.
+
+To generate the JS files first set up `grinder` locally by following that package's instructions through its pub.dev listing, and then you can simply run `grind`. That build takes care of combining the output with `preamble/preamble.js` to achieve compatibility with Node.js. The resulting file is `js/apex-reflection-node/out.js`.
+
 ### Tests
 
 Both the Dart source code and the JS output must be tested.

@@ -2,6 +2,40 @@ import path from "path";
 import fs from "fs";
 import { spawnSync } from "child_process";
 
+type OutJsModule = {
+  reflect?: (declarationBody: string) => string;
+  reflectAsync?: (declarationBody: string) => Promise<string>;
+  reflectTrigger?: (declarationBody: string) => string;
+  reflectTriggerAsync?: (declarationBody: string) => Promise<string>;
+};
+
+let _outJs: OutJsModule | null = null;
+
+function getOutJs(): OutJsModule {
+  if (_outJs) return _outJs;
+
+  // Runtime fallback only (CommonJS-friendly). This expects `out.js` to be
+  // distributed alongside `dist/index.js` in the published package.
+  //
+  // `out.js` does not export functions; it attaches them to a Dart-style global
+  // `self` (and/or to the global object). Requiring it is enough to "register"
+  // the functions.
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  require("./out.js");
+
+  const g: any = globalThis as any;
+  const selfObj: any = g?.self ?? g;
+
+  _outJs = {
+    reflect: selfObj?.reflect,
+    reflectAsync: selfObj?.reflectAsync,
+    reflectTrigger: selfObj?.reflectTrigger,
+    reflectTriggerAsync: selfObj?.reflectTriggerAsync,
+  };
+
+  return _outJs;
+}
+
 function resolveNativeBinaryPath(): string {
   const platform = process.platform;
   const arch = process.arch;
@@ -32,19 +66,27 @@ function resolveNativeBinaryPath(): string {
   // (same place), but keep this explicit so we can evolve paths later.
   const devBuiltPath = downloadedPath;
 
-  if (fs.existsSync(downloadedPath)) {
-    return downloadedPath;
-  }
-  if (fs.existsSync(devBuiltPath)) {
-    return devBuiltPath;
-  }
+  if (fs.existsSync(downloadedPath)) return downloadedPath;
+  if (fs.existsSync(devBuiltPath)) return devBuiltPath;
 
   throw new Error(
     `Native binary not found. Expected one of:\n- ${downloadedPath}\n- ${devBuiltPath}\n\nIf you just installed this package, ensure postinstall succeeded.\nIf you're developing locally, run the dev build to create the host binary.`,
   );
 }
 
-function reflectFor(type: "reflectType" | "reflectTrigger", declarationBody: string) {
+function hasNativeBinary(): boolean {
+  try {
+    resolveNativeBinaryPath();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function reflectFor(
+  type: "reflectType" | "reflectTrigger",
+  declarationBody: string,
+): string {
   const binaryPath = resolveNativeBinaryPath();
 
   const result = spawnSync(binaryPath, [`--type=${type}`], {
@@ -55,13 +97,13 @@ function reflectFor(type: "reflectType" | "reflectTrigger", declarationBody: str
 
   if (result.error) {
     throw new Error(
-      `apex-reflection native binary failed to start. error:\n${ String(result.error) }`,
+      `apex-reflection native binary failed to start. error:\n${String(result.error)}`,
     );
   }
 
   if (result.status !== 0) {
     throw new Error(
-      `apex-reflection native binary failed (code=${ result.status }). stderr:\n${ result.stderr ?? "" }`,
+      `apex-reflection native binary failed (code=${result.status}). stderr:\n${result.stderr ?? ""}`,
     );
   }
 
@@ -75,6 +117,16 @@ function reflectFor(type: "reflectType" | "reflectTrigger", declarationBody: str
 }
 
 export function reflect(declarationBody: string): ReflectionResult {
+  if (!hasNativeBinary()) {
+    const self = getOutJs();
+    if (!self.reflect) {
+      throw new Error(
+        "Native binary not found and out.js fallback does not export `reflect`.",
+      );
+    }
+    return JSON.parse(self.reflect(declarationBody)) as ReflectionResult;
+  }
+
   const stdout = reflectFor("reflectType", declarationBody);
 
   try {
@@ -89,6 +141,18 @@ export function reflect(declarationBody: string): ReflectionResult {
 export function reflectTrigger(
   declarationBody: string,
 ): TriggerReflectionResult {
+  if (!hasNativeBinary()) {
+    const self = getOutJs();
+    if (!self.reflectTrigger) {
+      throw new Error(
+        "Native binary not found and out.js fallback does not export `reflectTrigger`.",
+      );
+    }
+    return JSON.parse(
+      self.reflectTrigger(declarationBody),
+    ) as TriggerReflectionResult;
+  }
+
   const stdout = reflectFor("reflectTrigger", declarationBody);
 
   try {
@@ -98,6 +162,44 @@ export function reflectTrigger(
       `apex-reflection native binary output was not valid JSON.\nstdout:\n${stdout}\nerror: ${String(e)}`,
     );
   }
+}
+
+export async function reflectAsync(
+  declarationBody: string,
+): Promise<ReflectionResult> {
+  if (!hasNativeBinary()) {
+    const self = getOutJs();
+    if (!self.reflectAsync) {
+      throw new Error(
+        "Native binary not found and out.js fallback does not export `reflectAsync`.",
+      );
+    }
+    return JSON.parse(
+      await self.reflectAsync(declarationBody),
+    ) as ReflectionResult;
+  }
+
+  // Native binary path is sync (spawnSync). Keep API available by resolving immediately.
+  return reflect(declarationBody);
+}
+
+export async function reflectTriggerAsync(
+  declarationBody: string,
+): Promise<TriggerReflectionResult> {
+  if (!hasNativeBinary()) {
+    const self = getOutJs();
+    if (!self.reflectTriggerAsync) {
+      throw new Error(
+        "Native binary not found and out.js fallback does not export `reflectTriggerAsync`.",
+      );
+    }
+    return JSON.parse(
+      await self.reflectTriggerAsync(declarationBody),
+    ) as TriggerReflectionResult;
+  }
+
+  // Native binary path is sync (spawnSync). Keep API available by resolving immediately.
+  return reflectTrigger(declarationBody);
 }
 
 export interface ParamAnnotation {

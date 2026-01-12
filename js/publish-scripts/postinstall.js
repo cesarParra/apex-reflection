@@ -73,17 +73,23 @@ function main() {
       );
     })
     .catch((err) => {
-      console.error(
-        "[apex-reflection] postinstall: failed to install native binary.",
+      // Non-fatal: do not fail installation for downstream dependents.
+      // At runtime, the tool will surface a clear error if the binary is missing.
+      console.warn(
+        "[apex-reflection] postinstall: warning: failed to install native binary (install will continue).",
       );
-      console.error(`[apex-reflection] postinstall: ${stringifyErr(err)}`);
-      console.error(
+      console.warn(`[apex-reflection] postinstall: ${stringifyErr(err)}`);
+      console.warn(
+        "[apex-reflection] postinstall: If you intend to use apex-reflection, ensure the native binary is available.",
+      );
+      console.warn(
         "[apex-reflection] postinstall: Verify the release assets here:",
       );
-      console.error(
+      console.warn(
         `https://github.com/${REPO_OWNER}/${REPO_NAME}/releases/tag/${tag}`,
       );
-      process.exit(1);
+      // Exit successfully and defer the failure to runtime.
+      process.exit(0);
     });
 }
 

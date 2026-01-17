@@ -7,3 +7,5 @@ export 'package:apex_reflection/src/service/parsers.dart'
         ReflectionResponse,
         TriggerReflectionResponse,
         ParsingError;
+
+export 'package:apex_reflection/src/model/types.dart' show ClassMirror;

@@ -73,12 +73,12 @@ class DocCommentAnnotation {
 
   String get body => bodyLines.asSingleLine();
 
-  DocCommentAnnotation(this.name, body) {
+  DocCommentAnnotation(this.name, dynamic body) {
     if (body is String) {
       bodyLines = [body];
       return;
     }
-    bodyLines = body;
+    bodyLines = List<String>.from(body);
   }
 
   factory DocCommentAnnotation.fromJson(Map<String, dynamic> json) =>
@@ -138,16 +138,16 @@ class ThrowsDocCommentAnnotation extends DocCommentAnnotation {
 /// Param annotations follow the format @example body
 @JsonSerializable()
 class ExampleDocCommentAnnotation extends DocCommentAnnotation {
-  ExampleDocCommentAnnotation(List<String> bodyLines)
-      : super('example', bodyLines) {
+  ExampleDocCommentAnnotation(dynamic bodyLines) : super('example', bodyLines) {
     // examples might come surrounded by `{@code ... }`. If so, we want to strip those out.
-    if (bodyLines.isNotEmpty) {
-      if (bodyLines.first.trim().startsWith('{@code')) {
+    if (this.bodyLines.isNotEmpty) {
+      if (this.bodyLines.first.trim().startsWith('{@code')) {
         // replace with ```
-        bodyLines[0] = bodyLines.first.replaceFirst('{@code', '```');
-        if (bodyLines.isNotEmpty && bodyLines.last.trim().endsWith('}')) {
-          bodyLines[bodyLines.length - 1] =
-              bodyLines.last.replaceFirst('}', '```');
+        this.bodyLines[0] = this.bodyLines.first.replaceFirst('{@code', '```');
+        if (this.bodyLines.isNotEmpty &&
+            this.bodyLines.last.trim().endsWith('}')) {
+          this.bodyLines[this.bodyLines.length - 1] =
+              this.bodyLines.last.replaceFirst('}', '```');
         }
       }
     }

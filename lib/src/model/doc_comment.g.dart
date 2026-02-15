@@ -67,7 +67,7 @@ ParamDocCommentAnnotation _$ParamDocCommentAnnotationFromJson(
         Map<String, dynamic> json) =>
     ParamDocCommentAnnotation(
       json['paramName'] as String,
-      json['bodyLines'],
+      (json['bodyLines'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$ParamDocCommentAnnotationToJson(
@@ -80,7 +80,7 @@ Map<String, dynamic> _$ParamDocCommentAnnotationToJson(
 ReturnDocCommentAnnotation _$ReturnDocCommentAnnotationFromJson(
         Map<String, dynamic> json) =>
     ReturnDocCommentAnnotation(
-      json['bodyLines'],
+      (json['bodyLines'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$ReturnDocCommentAnnotationToJson(
@@ -93,7 +93,7 @@ ThrowsDocCommentAnnotation _$ThrowsDocCommentAnnotationFromJson(
         Map<String, dynamic> json) =>
     ThrowsDocCommentAnnotation(
       json['exceptionName'] as String,
-      json['bodyLines'],
+      (json['bodyLines'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$ThrowsDocCommentAnnotationToJson(
@@ -106,7 +106,7 @@ Map<String, dynamic> _$ThrowsDocCommentAnnotationToJson(
 ExampleDocCommentAnnotation _$ExampleDocCommentAnnotationFromJson(
         Map<String, dynamic> json) =>
     ExampleDocCommentAnnotation(
-      json['bodyLines'],
+      (json['bodyLines'] as List<dynamic>).map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$ExampleDocCommentAnnotationToJson(

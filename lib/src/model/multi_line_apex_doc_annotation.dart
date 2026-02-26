@@ -14,13 +14,13 @@ List<String> _split(String line) {
 String sanitizeLineStart(String line) {
   var sanitizedLine = line.trimLeft();
 
-  // Remove all leading starts
-  while (sanitizedLine.startsWith('*')) {
-    sanitizedLine = sanitizedLine.replaceFirst('*', '');
-  }
+  // Remove all leading stars with a single substring call
+  var i = 0;
+  while (i < sanitizedLine.length && sanitizedLine[i] == '*') i++;
+  if (i > 0) sanitizedLine = sanitizedLine.substring(i);
 
   if (sanitizedLine.startsWith(' ')) {
-    sanitizedLine = sanitizedLine.replaceFirst(' ', '');
+    sanitizedLine = sanitizedLine.substring(1);
   }
   return sanitizedLine.trimRight();
 }

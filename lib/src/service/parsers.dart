@@ -137,7 +137,7 @@ class TriggerParser {
 
 class ApexdocParser {
   static DocComment parseFromBody(String body) {
-    var sanitizedBody = body.trimLeft().trimRight();
+    var sanitizedBody = body.trim();
     final walkerDefinition = ApexdocWalkerDefinition();
     try {
       Walker.walk(

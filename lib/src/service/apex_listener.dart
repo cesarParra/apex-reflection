@@ -180,10 +180,9 @@ class ApexClassListener extends ApexParserBaseListener {
       DocComment docCommentObject =
           ApexdocParser.parseFromBody(potentialDocComment);
 
-      if (docCommentObject.annotations
-          .any((element) => element.name.toLowerCase() == 'start-group')) {
-        final startGroupComment = docCommentObject.annotations.firstWhere(
-            (element) => element.name.toLowerCase() == 'start-group');
+      final startGroupComment = docCommentObject.annotations.firstWhereOrNull(
+          (element) => element.name.toLowerCase() == 'start-group');
+      if (startGroupComment != null) {
         final groupName = startGroupComment.body;
 
         final groupDescription = docCommentObject.description;

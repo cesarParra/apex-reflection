@@ -31,7 +31,10 @@ extension on Iterable<String> {
   }
 
   Iterable<String> withoutTrailingEmptyLines() {
-    return reversed.skipWhile((line) => line.isEmpty).reversed;
+    final list = this is List<String> ? this as List<String> : toList();
+    var end = list.length;
+    while (end > 0 && list[end - 1].isEmpty) end--;
+    return list.take(end);
   }
 
   Iterable<String> withoutConsecutiveEmptyLines() sync* {

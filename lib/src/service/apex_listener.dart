@@ -29,9 +29,11 @@ class DeclarationDescriptor {
   get classModifier =>
       accessModifiers.firstWhereOrNull((element) => element is ClassModifier);
 
-  get annotations => accessModifiers.whereType<Annotation>().toList();
+  late final List<Annotation> annotations =
+      accessModifiers.whereType<Annotation>().toList();
 
-  get memberModifiers => accessModifiers.whereType<MemberModifier>().toList();
+  late final List<MemberModifier> memberModifiers =
+      accessModifiers.whereType<MemberModifier>().toList();
 
   DeclarationDescriptor({required this.accessModifiers, this.docComment});
 }
@@ -178,10 +180,9 @@ class ApexClassListener extends ApexParserBaseListener {
       DocComment docCommentObject =
           ApexdocParser.parseFromBody(potentialDocComment);
 
-      if (docCommentObject.annotations
-          .any((element) => element.name.toLowerCase() == 'start-group')) {
-        final startGroupComment = docCommentObject.annotations.firstWhere(
-            (element) => element.name.toLowerCase() == 'start-group');
+      final startGroupComment = docCommentObject.annotations.firstWhereOrNull(
+          (element) => element.name.toLowerCase() == 'start-group');
+      if (startGroupComment != null) {
         final groupName = startGroupComment.body;
 
         final groupDescription = docCommentObject.description;
@@ -248,7 +249,8 @@ class ApexClassListener extends ApexParserBaseListener {
 
   @override
   void enterInterfaceMethodDeclaration(InterfaceMethodDeclarationContext ctx) {
-    if (generatedTypes.peak() == null) {
+    final current = generatedTypes.peak();
+    if (current == null) {
       return;
     }
     final annotations = ctx
@@ -259,14 +261,11 @@ class ApexClassListener extends ApexParserBaseListener {
     final method = buildInterfaceMethod(
       ctx,
       _extractDocComment(ctx),
-      generatedTypes.peak()!.accessModifier,
-      [
-        ...generatedTypes.peak()!.annotations,
-        if (annotations.isNotEmpty) ...annotations
-      ],
+      current.accessModifier,
+      [...current.annotations, if (annotations.isNotEmpty) ...annotations],
     );
 
-    (generatedTypes.peak() as MethodsAwareness).methods.add(method);
+    (current as MethodsAwareness).methods.add(method);
   }
 
   @override
@@ -369,13 +368,11 @@ class ApexClassListener extends ApexParserBaseListener {
   }
 
   void _setGroupOnDeclaration(DeclarationMirror declarationMirror) {
-    if (groupStack.peak() == null) {
+    final group = groupStack.peak();
+    if (group == null) {
       return;
     }
-    if (groupStack.length > 0) {
-      final group = groupStack.peak();
-      declarationMirror.setGroup(group!.name, group.description);
-    }
+    declarationMirror.setGroup(group.name, group.description);
   }
 }
 

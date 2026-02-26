@@ -14,13 +14,13 @@ List<String> _split(String line) {
 String sanitizeLineStart(String line) {
   var sanitizedLine = line.trimLeft();
 
-  // Remove all leading starts
-  while (sanitizedLine.startsWith('*')) {
-    sanitizedLine = sanitizedLine.replaceFirst('*', '');
-  }
+  // Remove all leading stars with a single substring call
+  var i = 0;
+  while (i < sanitizedLine.length && sanitizedLine[i] == '*') i++;
+  if (i > 0) sanitizedLine = sanitizedLine.substring(i);
 
   if (sanitizedLine.startsWith(' ')) {
-    sanitizedLine = sanitizedLine.replaceFirst(' ', '');
+    sanitizedLine = sanitizedLine.substring(1);
   }
   return sanitizedLine.trimRight();
 }
@@ -31,16 +31,19 @@ extension on Iterable<String> {
   }
 
   Iterable<String> withoutTrailingEmptyLines() {
-    return reversed.skipWhile((line) => line.isEmpty).reversed;
+    final list = this is List<String> ? this as List<String> : toList();
+    var end = list.length;
+    while (end > 0 && list[end - 1].isEmpty) end--;
+    return list.take(end);
   }
 
-  Iterable<String> withoutConsecutiveEmptyLines() {
-    return fold(<String>[], (List<String> acc, String line) {
-      if (acc.isNotEmpty && acc.last.isEmpty && line.isEmpty) {
-        return acc;
-      }
-      return [...acc, line];
-    }).cast();
+  Iterable<String> withoutConsecutiveEmptyLines() sync* {
+    bool lastWasEmpty = false;
+    for (final line in this) {
+      if (line.isEmpty && lastWasEmpty) continue;
+      lastWasEmpty = line.isEmpty;
+      yield line;
+    }
   }
 }
 

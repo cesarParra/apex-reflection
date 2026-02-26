@@ -1,8 +1,9 @@
 extension ContainsIgnoringCase<E> on Iterable<E> {
   bool containsIgnoreCase(String target) {
+    final lowerTarget = target.toLowerCase();
     for (final currentElement in this) {
       if (currentElement is String) {
-        if (currentElement.toLowerCase() == target.toLowerCase()) {
+        if (currentElement.toLowerCase() == lowerTarget) {
           return true;
         }
       }

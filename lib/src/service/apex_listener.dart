@@ -29,9 +29,11 @@ class DeclarationDescriptor {
   get classModifier =>
       accessModifiers.firstWhereOrNull((element) => element is ClassModifier);
 
-  get annotations => accessModifiers.whereType<Annotation>().toList();
+  late final List<Annotation> annotations =
+      accessModifiers.whereType<Annotation>().toList();
 
-  get memberModifiers => accessModifiers.whereType<MemberModifier>().toList();
+  late final List<MemberModifier> memberModifiers =
+      accessModifiers.whereType<MemberModifier>().toList();
 
   DeclarationDescriptor({required this.accessModifiers, this.docComment});
 }

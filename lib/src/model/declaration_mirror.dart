@@ -47,9 +47,9 @@ abstract class DeclarationMirror
   }
 
   String? getAnnotationBody(String annotationName) {
+    final lowerName = annotationName.toLowerCase();
     return docComment?.annotations
-        .firstWhereOrNull((element) =>
-            element.name.toLowerCase() == annotationName.toLowerCase())
+        .firstWhereOrNull((element) => element.name == lowerName)
         ?.body;
   }
 }

@@ -4,7 +4,9 @@ class CaseInsensitiveInputStream extends InputStream {
   late List<int> lookaheadData;
 
   CaseInsensitiveInputStream.fromString(String data) : super.fromString(data) {
-    lookaheadData = data.toLowerCase().runes.toList(growable: false);
+    lookaheadData = data.runes
+        .map((r) => (r >= 65 && r <= 90) ? r + 32 : r)
+        .toList(growable: false);
   }
 
   @override

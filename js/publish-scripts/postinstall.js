@@ -119,7 +119,7 @@ function resolveTarget(nodePlatform, nodeArch) {
   if (releasePlatform === "linux" && nodeArch !== "x64") {
     throw new Error(`Unsupported architecture for linux: ${nodeArch}`);
   }
-  if (releasePlatform === "windows" && nodeArch !== "x64") {
+  if (releasePlatform === "windows" && nodeArch !== "x64" && nodeArch !== "arm64") {
     throw new Error(`Unsupported architecture for windows: ${nodeArch}`);
   }
 

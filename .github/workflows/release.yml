@@ -61,6 +61,10 @@ jobs:
             release_platform: windows
             release_arch: x64
             asset_ext: ".exe"
+          - os: windows-11-arm64
+            release_platform: windows
+            release_arch: arm64
+            asset_ext: ".exe"
 
     steps:
       - uses: actions/checkout@v4

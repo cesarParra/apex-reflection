@@ -42,6 +42,8 @@ function resolveNativeBinaryPath(): string {
     folderName = "linux-x64";
   } else if (platform === "win32" && arch === "x64") {
     folderName = "windows-x64";
+  } else if (platform === "win32" && arch === "arm64") {
+    folderName = "windows-arm64";
   } else {
     throw new Error(
       `Unsupported platform/arch combination: ${platform}/${arch}`,

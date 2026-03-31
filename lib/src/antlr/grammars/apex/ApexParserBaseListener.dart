@@ -52,6 +52,54 @@ class ApexParserBaseListener implements ApexParserListener {
 
   /// The default implementation does nothing.
   @override
+  void enterAnonymousUnit(AnonymousUnitContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitAnonymousUnit(AnonymousUnitContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterAnonymousClassDeclaration(AnonymousClassDeclarationContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitAnonymousClassDeclaration(AnonymousClassDeclarationContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterAnonymousEnumDeclaration(AnonymousEnumDeclarationContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitAnonymousEnumDeclaration(AnonymousEnumDeclarationContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterAnonymousInterfaceDeclaration(AnonymousInterfaceDeclarationContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitAnonymousInterfaceDeclaration(AnonymousInterfaceDeclarationContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterAnonymousMethodDeclaration(AnonymousMethodDeclarationContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitAnonymousMethodDeclaration(AnonymousMethodDeclarationContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void enterAnonymousStatement(AnonymousStatementContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
+  void exitAnonymousStatement(AnonymousStatementContext ctx) {}
+
+  /// The default implementation does nothing.
+  @override
   void enterTypeClassDeclaration(TypeClassDeclarationContext ctx) {}
 
   /// The default implementation does nothing.

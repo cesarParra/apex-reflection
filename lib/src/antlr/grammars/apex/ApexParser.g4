@@ -64,6 +64,19 @@ compilationUnit
     : typeDeclaration EOF
     ;
 
+// entry point for Anonymous Apex (free-floating statements, declarations)
+anonymousUnit
+    : anonymousUnitMember* EOF
+    ;
+
+anonymousUnitMember
+    : annotation* modifier* classDeclaration          # AnonymousClassDeclaration
+    | annotation* modifier* enumDeclaration           # AnonymousEnumDeclaration
+    | annotation* modifier* interfaceDeclaration      # AnonymousInterfaceDeclaration
+    | annotation* modifier* methodDeclaration         # AnonymousMethodDeclaration
+    | statement                                        # AnonymousStatement
+    ;
+
 typeDeclaration
     : annotation* modifier* classDeclaration             # TypeClassDeclaration
     | annotation* modifier* enumDeclaration              # TypeEnumDeclaration

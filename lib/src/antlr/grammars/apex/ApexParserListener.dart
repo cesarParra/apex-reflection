@@ -42,6 +42,58 @@ abstract class ApexParserListener extends ParseTreeListener {
   /// [ctx] the parse tree
   void exitCompilationUnit(CompilationUnitContext ctx);
 
+  /// Enter a parse tree produced by [ApexParser.anonymousUnit].
+  /// [ctx] the parse tree
+  void enterAnonymousUnit(AnonymousUnitContext ctx);
+  /// Exit a parse tree produced by [ApexParser.anonymousUnit].
+  /// [ctx] the parse tree
+  void exitAnonymousUnit(AnonymousUnitContext ctx);
+
+  /// Enter a parse tree produced by the [AnonymousClassDeclaration]
+  /// labeled alternative in [file.parserName>.anonymousUnitMember].
+  /// [ctx] the parse tree
+  void enterAnonymousClassDeclaration(AnonymousClassDeclarationContext ctx);
+  /// Exit a parse tree produced by the [AnonymousClassDeclaration]
+  /// labeled alternative in [ApexParser.anonymousUnitMember].
+  /// [ctx] the parse tree
+  void exitAnonymousClassDeclaration(AnonymousClassDeclarationContext ctx);
+
+  /// Enter a parse tree produced by the [AnonymousEnumDeclaration]
+  /// labeled alternative in [file.parserName>.anonymousUnitMember].
+  /// [ctx] the parse tree
+  void enterAnonymousEnumDeclaration(AnonymousEnumDeclarationContext ctx);
+  /// Exit a parse tree produced by the [AnonymousEnumDeclaration]
+  /// labeled alternative in [ApexParser.anonymousUnitMember].
+  /// [ctx] the parse tree
+  void exitAnonymousEnumDeclaration(AnonymousEnumDeclarationContext ctx);
+
+  /// Enter a parse tree produced by the [AnonymousInterfaceDeclaration]
+  /// labeled alternative in [file.parserName>.anonymousUnitMember].
+  /// [ctx] the parse tree
+  void enterAnonymousInterfaceDeclaration(AnonymousInterfaceDeclarationContext ctx);
+  /// Exit a parse tree produced by the [AnonymousInterfaceDeclaration]
+  /// labeled alternative in [ApexParser.anonymousUnitMember].
+  /// [ctx] the parse tree
+  void exitAnonymousInterfaceDeclaration(AnonymousInterfaceDeclarationContext ctx);
+
+  /// Enter a parse tree produced by the [AnonymousMethodDeclaration]
+  /// labeled alternative in [file.parserName>.anonymousUnitMember].
+  /// [ctx] the parse tree
+  void enterAnonymousMethodDeclaration(AnonymousMethodDeclarationContext ctx);
+  /// Exit a parse tree produced by the [AnonymousMethodDeclaration]
+  /// labeled alternative in [ApexParser.anonymousUnitMember].
+  /// [ctx] the parse tree
+  void exitAnonymousMethodDeclaration(AnonymousMethodDeclarationContext ctx);
+
+  /// Enter a parse tree produced by the [AnonymousStatement]
+  /// labeled alternative in [file.parserName>.anonymousUnitMember].
+  /// [ctx] the parse tree
+  void enterAnonymousStatement(AnonymousStatementContext ctx);
+  /// Exit a parse tree produced by the [AnonymousStatement]
+  /// labeled alternative in [ApexParser.anonymousUnitMember].
+  /// [ctx] the parse tree
+  void exitAnonymousStatement(AnonymousStatementContext ctx);
+
   /// Enter a parse tree produced by the [TypeClassDeclaration]
   /// labeled alternative in [file.parserName>.typeDeclaration].
   /// [ctx] the parse tree

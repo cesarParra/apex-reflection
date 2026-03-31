@@ -1085,6 +1085,34 @@ void main() {
       expect(innerClass.methods.first.parameters.length, equals(2));
     });
 
+    test('Inner abstract class has isAbstract true and classModifier set', () {
+      final apexWalkerDefinition = walkApex('''
+        public class OuterModule {
+          private abstract class Color {
+            public abstract Type getType();
+          }
+        }
+      ''');
+      final outer = apexWalkerDefinition.getGeneratedApexType()! as ClassMirror;
+      final color = outer.classes.first;
+      expect(color.isAbstract, isTrue);
+      expect(color.classModifier, equals(ClassModifier.abstract));
+    });
+
+    test('Inner virtual class has isVirtual true and classModifier set', () {
+      final apexWalkerDefinition = walkApex('''
+        public class OuterModule {
+          public virtual class Base {
+            public virtual void doWork() {}
+          }
+        }
+      ''');
+      final outer = apexWalkerDefinition.getGeneratedApexType()! as ClassMirror;
+      final base = outer.classes.first;
+      expect(base.isVirtual, isTrue);
+      expect(base.classModifier, equals(ClassModifier.virtual));
+    });
+
     test('Classes can have inner classes with doc comments', () {
       var classBody = '''
       public class MyClass {

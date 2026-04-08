@@ -16,7 +16,9 @@ String sanitizeLineStart(String line) {
 
   // Remove all leading stars with a single substring call
   var i = 0;
-  while (i < sanitizedLine.length && sanitizedLine[i] == '*') i++;
+  while (i < sanitizedLine.length && sanitizedLine[i] == '*') {
+    i++;
+  }
   if (i > 0) sanitizedLine = sanitizedLine.substring(i);
 
   if (sanitizedLine.startsWith(' ')) {
@@ -33,7 +35,9 @@ extension on Iterable<String> {
   Iterable<String> withoutTrailingEmptyLines() {
     final list = this is List<String> ? this as List<String> : toList();
     var end = list.length;
-    while (end > 0 && list[end - 1].isEmpty) end--;
+    while (end > 0 && list[end - 1].isEmpty) {
+      end--;
+    }
     return list.take(end);
   }
 

@@ -1,5 +1,6 @@
 import 'package:antlr4/antlr4.dart';
 
+import 'package:apex_reflection/src/model/anonymous_block_mirror.dart';
 import 'package:apex_reflection/src/model/doc_comment.dart';
 import 'package:apex_reflection/src/service/apex_listener.dart';
 import 'package:apex_reflection/src/model/types.dart';
@@ -60,6 +61,34 @@ class ApexWalkerDefinition extends WalkerDefinition<ApexParser> {
 
   TriggerMirror? getGeneratedTrigger() {
     return _listener.generatedType as TriggerMirror?;
+  }
+}
+
+class AnonymousWalkerDefinition extends WalkerDefinition<ApexParser> {
+  late AnonymousApexListener _listener;
+
+  @override
+  Lexer getLexer(InputStream input) {
+    return ApexLexer(input);
+  }
+
+  @override
+  ApexParser initializeParser(TokenStream stream) {
+    final parser = ApexParser(stream);
+    parser.buildParseTree = true;
+    parser.removeErrorListeners();
+    parser.addErrorListener(ExceptionErrorListener('apex'));
+    return parser;
+  }
+
+  @override
+  ParseTreeListener getListener(CommonTokenStream tokens) {
+    _listener = AnonymousApexListener(tokens);
+    return _listener;
+  }
+
+  AnonymousBlockMirror getGeneratedBlock() {
+    return _listener.generatedBlock;
   }
 }
 

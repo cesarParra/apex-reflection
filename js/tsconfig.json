@@ -4,8 +4,9 @@
     "declaration": true,
     "esModuleInterop": true,
     "outDir": "./dist",
-    "module": "CommonJS",
+    "module": "NodeNext",
     "target": "ES2020",
+    "types": ["node"],
   },
-  "include": ["index.ts"],
+  "include": ["index.mts"],
 }

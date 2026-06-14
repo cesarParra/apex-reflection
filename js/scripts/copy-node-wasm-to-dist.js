@@ -5,15 +5,17 @@ const fs = require("fs");
 const path = require("path");
 
 function fail(message) {
-  process.stderr.write(`[apex-reflection] copy-out-js-to-dist: ${message}\n`);
+  process.stderr.write(
+    `[apex-reflection] copy-node-wasm-to-dist: ${message}\n`,
+  );
   process.exit(1);
 }
 
 function main() {
   const projectRoot = path.resolve(__dirname, "..");
-  const src = path.join(projectRoot, "out.js");
+  const src = path.join(projectRoot, "node.wasm");
   const distDir = path.join(projectRoot, "dist");
-  const dst = path.join(distDir, "out.js");
+  const dst = path.join(distDir, "node.wasm");
 
   if (!fs.existsSync(src)) {
     fail(`source file not found: ${src}`);
@@ -31,12 +33,12 @@ function main() {
     fs.copyFileSync(src, dst);
   } catch (e) {
     fail(
-      `failed to copy out.js to dist: ${e && e.message ? e.message : String(e)}`,
+      `failed to copy node.wasm to dist: ${e && e.message ? e.message : String(e)}`,
     );
   }
 
   process.stdout.write(
-    `[apex-reflection] copy-out-js-to-dist: copied ${src} -> ${dst}\n`,
+    `[apex-reflection] copy-node-wasm-to-dist: copied ${src} -> ${dst}\n`,
   );
 }
 

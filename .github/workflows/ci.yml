@@ -25,20 +25,19 @@ jobs:
       - name: Run tests
         run: dart test
 
-      # Node.js package tests
+      # Node.js package tests.
+      # Node 24 is required: the wasm module needs WasmGC (Node >= 22) and the
+      # test runner strips types from .mts files by default (Node >= 23.6).
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
 
       - name: Install Node.js dependencies
         working-directory: js
-        run: npm install --ignore-scripts
+        run: npm ci
 
-      - name: Build native host
-        working-directory: js
-        run: npm run dev:build
-
+      # `npm test` builds the package (compiles the TS wrapper and copies the
+      # committed node.wasm into dist/) and then runs the end-to-end tests.
       - name: Run end-to-end tests
         working-directory: js
         run: npm test
-

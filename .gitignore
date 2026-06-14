@@ -15,3 +15,4 @@ gen/
 /js/node_modules/
 /js/coverage/
 /js/dist/
+.DS_Store

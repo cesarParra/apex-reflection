@@ -2,13 +2,12 @@
   "name": "@cparra/apex-reflection",
   "version": "2.25.0",
   "description": "Provides tools for reflecting Apex code, the language used in Salesforce development.",
-  "main": "dist/index.js",
+  "main": "dist/index.mjs",
   "scripts": {
     "clean": "rimraf dist",
     "build": "npm run clean && tsc && node scripts/copy-node-wasm-to-dist.js",
     "dev:build": "npm run build",
     "dev:version:prerelease": "node scripts/dev-bump-version-prerelease.js",
-    "dev:github:release": "node scripts/dev-github-release.js",
     "dev:publish": "node scripts/dev-publish.js",
     "test": "npm run build && node --test \"__tests__/**/*.test.mts\""
   },
@@ -22,11 +21,11 @@
   "author": "Cesar Parra",
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^16.18.126",
+    "@types/node": "^25.9.3",
     "rimraf": "^6.0.1",
     "typescript": "^6.0.3"
   },
-  "types": "dist/index.d.ts",
+  "types": "dist/index.d.mts",
   "files": [
     "dist/index.mjs",
     "dist/index.d.mts",

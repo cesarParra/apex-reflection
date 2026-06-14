@@ -7,7 +7,6 @@ on:
 
 permissions:
   contents: write
-  packages: write
 
 jobs:
   check-version:
@@ -37,76 +36,14 @@ jobs:
             echo "should_release=true" >> "$GITHUB_OUTPUT"
           fi
 
-  build-binaries:
-    needs: [check-version]
-    if: needs.check-version.outputs.should_release == 'true'
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - os: ubuntu-latest
-            release_platform: linux
-            release_arch: x64
-            asset_ext: ""
-          - os: macos-latest
-            release_platform: darwin
-            release_arch: arm64
-            asset_ext: ""
-          - os: macos-15-intel
-            release_platform: darwin
-            release_arch: x64
-            asset_ext: ""
-          - os: windows-latest
-            release_platform: windows
-            release_arch: x64
-            asset_ext: ".exe"
-          - os: windows-11-arm
-            release_platform: windows
-            release_arch: arm64
-            asset_ext: ".exe"
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: dart-lang/setup-dart@v1
-        with:
-          sdk: stable
-
-      - name: Install Dart dependencies
-        shell: bash
-        run: dart pub get
-
-      - name: Build native binary
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          ASSET_NAME="apex-reflection-${{ matrix.release_platform }}-${{ matrix.release_arch }}${{ matrix.asset_ext }}"
-
-          dart compile exe bin/apex_reflection.dart -o "$ASSET_NAME"
-
-          if [ "${{ matrix.release_platform }}" != "windows" ]; then
-            chmod +x "$ASSET_NAME"
-          fi
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: apex-reflection-${{ matrix.release_platform }}-${{ matrix.release_arch }}
-          path: apex-reflection-${{ matrix.release_platform }}-${{ matrix.release_arch }}${{ matrix.asset_ext }}
-
   create-release:
-    needs: [check-version, build-binaries]
+    needs: [check-version]
     if: needs.check-version.outputs.should_release == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
         with:
-          path: artifacts
+          fetch-depth: 0
 
       - name: Create GitHub Release
         env:
@@ -116,33 +53,12 @@ jobs:
           set -euo pipefail
           VERSION="${{ needs.check-version.outputs.version }}"
 
-          cat > release-notes.md << EOF
-          apex-reflection v${VERSION}
-
-          This release contains platform-specific native binaries used by the npm package.
-          EOF
-
+          # The package is distributed purely as a WebAssembly module bundled
+          # inside the npm tarball.
           gh release create "v${VERSION}" \
             --title "v${VERSION}" \
-            --notes-file release-notes.md \
+            --generate-notes \
             --target main
-
-      - name: Upload Release Assets
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          VERSION="${{ needs.check-version.outputs.version }}"
-
-          for artifactDir in artifacts/*; do
-            if [ -d "$artifactDir" ]; then
-              for file in "$artifactDir"/*; do
-                echo "Uploading $file"
-                gh release upload "v${VERSION}" "$file" --clobber
-              done
-            fi
-          done
 
   publish-npm:
     needs: [check-version, create-release]
@@ -153,23 +69,19 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "22"
           registry-url: "https://registry.npmjs.org"
 
-      - name: Install subpackage dependencies
+      - name: Install dependencies
         working-directory: js
-        shell: bash
         run: npm ci
 
-      - name: Build JS package
+      - name: Build package
         working-directory: js
-        shell: bash
         run: npm run build
 
       - name: Publish to npm
         working-directory: js
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        shell: bash
-        # Publish while ignoring postinstall scripts
-        run: npm publish --access public --ignore-scripts
+        run: npm publish --access public

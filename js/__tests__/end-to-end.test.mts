@@ -1,11 +1,13 @@
-import {
+import { describe, test } from "node:test";
+import assert from "node:assert/strict";
+
+import { reflect, reflectTrigger } from "../dist/index.mjs";
+import type {
   ClassMirror,
   EnumMirror,
   InterfaceMirror,
-  reflect,
-  reflectTrigger,
   ReflectionResult,
-} from "../dist/index";
+} from "../dist/index.mjs";
 
 type ReflectionStrategy =
   | ((body: string) => Promise<ReflectionResult>)
@@ -13,25 +15,27 @@ type ReflectionStrategy =
 
 const reflectionStrategies: ReflectionStrategy[] = [reflect];
 
-function runAllStrategies(testBody: (strategy: ReflectionStrategy) => void) {
+async function runAllStrategies(
+  testBody: (strategy: ReflectionStrategy) => Promise<void>,
+) {
   for (const strategy of reflectionStrategies) {
-    testBody(strategy);
+    await testBody(strategy);
   }
 }
 
 describe("Enum Reflection", () => {
-  test("Simple, single line declaration", () => {
+  test("Simple, single line declaration", async () => {
     const testBody = async (strategy: ReflectionStrategy) => {
       const enumBody = "enum MyEnumName {}";
       const result = (await strategy(enumBody)).typeMirror;
-      expect(result?.type_name).toBe("enum");
-      expect(result?.name).toBe("MyEnumName");
+      assert.equal(result?.type_name, "enum");
+      assert.equal(result?.name, "MyEnumName");
     };
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("Multi-line declaration with values", () => {
+  test("Multi-line declaration with values", async () => {
     const testBody = async (strategy: ReflectionStrategy) => {
       const enumBody = `
     enum MyEnumName {
@@ -40,14 +44,14 @@ describe("Enum Reflection", () => {
     }
     `;
       const result = (await strategy(enumBody)).typeMirror;
-      expect(result.type_name).toBe("enum");
-      expect(result.name).toBe("MyEnumName");
+      assert.equal(result.type_name, "enum");
+      assert.equal(result.name, "MyEnumName");
     };
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("With doc comments", () => {
+  test("With doc comments", async () => {
     const testBody = async (strategy: ReflectionStrategy) => {
       const enumBody = `
     /**
@@ -59,13 +63,13 @@ describe("Enum Reflection", () => {
     }
     `;
       const result = (await strategy(enumBody)).typeMirror;
-      expect(result.docComment.description).toBe("My enum description");
+      assert.equal(result.docComment.description, "My enum description");
     };
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("Enums can have values", () => {
+  test("Enums can have values", async () => {
     async function testBody(strategy: ReflectionStrategy) {
       const enumBody = `
     enum MyEnumName {
@@ -74,15 +78,15 @@ describe("Enum Reflection", () => {
     }
     `;
       const result = (await strategy(enumBody)).typeMirror as EnumMirror;
-      expect(result.values.length).toBe(2);
-      expect(result.values[0].name).toBe("VALUE_1");
-      expect(result.values[1].name).toBe("VALUE2");
+      assert.equal(result.values.length, 2);
+      assert.equal(result.values[0].name, "VALUE_1");
+      assert.equal(result.values[1].name, "VALUE2");
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("Enum values can have descriptions", () => {
+  test("Enum values can have descriptions", async () => {
     async function testBody(strategy: ReflectionStrategy) {
       const enumBody = `
     enum MyEnumName {
@@ -94,60 +98,61 @@ describe("Enum Reflection", () => {
     }
     `;
       const result = (await strategy(enumBody)).typeMirror as EnumMirror;
-      expect(result.values.length).toBe(2);
-      expect(result.values[0].docComment.description).toBe(
+      assert.equal(result.values.length, 2);
+      assert.equal(
+        result.values[0].docComment.description,
         "Value 1 description",
       );
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 });
 
 describe("Interface Reflection", () => {
-  test("Single line interface definition", () => {
+  test("Single line interface definition", async () => {
     async function testBody(strategy: ReflectionStrategy) {
       const interfaceBody = "interface MyInterface{}";
       const result = (await strategy(interfaceBody)).typeMirror;
-      expect(result.type_name).toBe("interface");
-      expect(result.name).toBe("MyInterface");
+      assert.equal(result.type_name, "interface");
+      assert.equal(result.name, "MyInterface");
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("When no access modifier is defined it is private", () => {
+  test("When no access modifier is defined it is private", async () => {
     async function testBody(reflect: ReflectionStrategy) {
       const interfaceBody = "interface MyInterface{}";
       const result = (await reflect(interfaceBody)).typeMirror;
-      expect(result.access_modifier).toBe("private");
+      assert.equal(result.access_modifier, "private");
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("Can have access modifier", () => {
+  test("Can have access modifier", async () => {
     async function testBody(reflect: ReflectionStrategy) {
       const interfaceBody = "public interface MyInterface{}";
       const result = (await reflect(interfaceBody)).typeMirror;
-      expect(result.access_modifier).toBe("public");
+      assert.equal(result.access_modifier, "public");
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("Can have a sharing modifier", () => {
+  test("Can have a sharing modifier", async () => {
     async function testBody(reflect: ReflectionStrategy) {
       const interfaceBody = "public with sharing interface MyInterface{}";
       const result = (await reflect(interfaceBody))
         .typeMirror as InterfaceMirror;
-      expect(result.sharingModifier).toBe("withSharing");
+      assert.equal(result.sharingModifier, "withSharing");
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("Can have methods", () => {
+  test("Can have methods", async () => {
     async function testBody(reflect: ReflectionStrategy) {
       const interfaceBody = `
       public with sharing interface MyInterface{
@@ -156,14 +161,14 @@ describe("Interface Reflection", () => {
     `;
       const result = (await reflect(interfaceBody))
         .typeMirror as InterfaceMirror;
-      expect(result.methods.length).toBe(1);
-      expect(result.methods[0].name).toBe("method1");
+      assert.equal(result.methods.length, 1);
+      assert.equal(result.methods[0].name, "method1");
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("Can have extend other interfaces", () => {
+  test("Can have extend other interfaces", async () => {
     async function testBody(reflect: ReflectionStrategy) {
       const interfaceBody = `
       public with sharing interface MyInterface extends Interface2 {
@@ -172,14 +177,14 @@ describe("Interface Reflection", () => {
     `;
       const result = (await reflect(interfaceBody))
         .typeMirror as InterfaceMirror;
-      expect(result.extended_interfaces.length).toBe(1);
-      expect(result.extended_interfaces[0]).toBe("Interface2");
+      assert.equal(result.extended_interfaces.length, 1);
+      assert.equal(result.extended_interfaces[0], "Interface2");
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("Can have annotations", () => {
+  test("Can have annotations", async () => {
     async function testBody(reflect: ReflectionStrategy) {
       const interfaceBody = `
       @NamespaceAccessible
@@ -189,14 +194,14 @@ describe("Interface Reflection", () => {
     `;
       const result = (await reflect(interfaceBody))
         .typeMirror as InterfaceMirror;
-      expect(result.annotations.length).toBe(1);
-      expect(result.annotations[0].name).toBe("namespaceaccessible");
+      assert.equal(result.annotations.length, 1);
+      assert.equal(result.annotations[0].name, "namespaceaccessible");
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("Methods can have their own annotations", () => {
+  test("Methods can have their own annotations", async () => {
     async function testBody(reflect: ReflectionStrategy) {
       const interfaceBody = `
       @NamespaceAccessible
@@ -207,17 +212,17 @@ describe("Interface Reflection", () => {
     `;
       const result = (await reflect(interfaceBody))
         .typeMirror as InterfaceMirror;
-      expect(result.methods[0].annotations.length).toBe(2);
+      assert.equal(result.methods[0].annotations.length, 2);
 
       const annotationNames = result.methods[0].annotations.map((a) => a.name);
-      expect(annotationNames).toContain("namespaceaccessible");
-      expect(annotationNames).toContain("deprecated");
+      assert.ok(annotationNames.includes("namespaceaccessible"));
+      assert.ok(annotationNames.includes("deprecated"));
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("Can contain mermaid diagrams", () => {
+  test("Can contain mermaid diagrams", async () => {
     async function testBody(reflect: ReflectionStrategy) {
       const interfaceBody = `
         public interface MyInterface {
@@ -237,95 +242,95 @@ describe("Interface Reflection", () => {
       const fullResult = await reflect(interfaceBody);
       const result = fullResult.typeMirror as InterfaceMirror;
 
-      expect(result.methods[0].docComment.annotations).toBeDefined();
+      assert.notEqual(result.methods[0].docComment.annotations, undefined);
       const mermaidAnnotation = result.methods[0].docComment.annotations?.find(
         (a) => a.name === "mermaid",
       );
-      expect(mermaidAnnotation).toBeDefined();
-      expect(mermaidAnnotation?.bodyLines).toContain("```mermaid");
-      expect(mermaidAnnotation?.bodyLines).toContain("graph TD");
+      assert.notEqual(mermaidAnnotation, undefined);
+      assert.ok(mermaidAnnotation?.bodyLines.includes("```mermaid"));
+      assert.ok(mermaidAnnotation?.bodyLines.includes("graph TD"));
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 });
 
 describe("Class reflection", () => {
-  test("Single line class definition", () => {
+  test("Single line class definition", async () => {
     async function testBody(strategy: ReflectionStrategy) {
       const classBody = "class MyClass{}";
       const result = (await strategy(classBody)).typeMirror;
-      expect(result.type_name).toBe("class");
-      expect(result.name).toBe("MyClass");
+      assert.equal(result.type_name, "class");
+      assert.equal(result.name, "MyClass");
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("When no access modifier is defined it is private", () => {
+  test("When no access modifier is defined it is private", async () => {
     async function testBody(strategy: ReflectionStrategy) {
       const classBody = "class MyClass{}";
       const result = (await strategy(classBody)).typeMirror;
-      expect(result.access_modifier).toBe("private");
+      assert.equal(result.access_modifier, "private");
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("Can have access modifier", () => {
+  test("Can have access modifier", async () => {
     async function testBody(strategy: ReflectionStrategy) {
       const interfaceBody = "public class MyClass{}";
       const result = (await strategy(interfaceBody)).typeMirror;
-      expect(result.access_modifier).toBe("public");
+      assert.equal(result.access_modifier, "public");
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("Can have a sharing modifier", () => {
+  test("Can have a sharing modifier", async () => {
     async function testBody(strategy: ReflectionStrategy) {
       const classBody = "public with sharing class MyClass{}";
       const result = (await strategy(classBody)).typeMirror as ClassMirror;
-      expect(result.sharingModifier).toBe("withSharing");
+      assert.equal(result.sharingModifier, "withSharing");
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("Can have a class modifier", () => {
+  test("Can have a class modifier", async () => {
     async function testBody(strategy: ReflectionStrategy) {
       const classBody = "public with sharing abstract class MyClass{}";
       const result = (await strategy(classBody)).typeMirror as ClassMirror;
-      expect(result.classModifier).toBe("abstract");
+      assert.equal(result.classModifier, "abstract");
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("Can extend a class", () => {
+  test("Can extend a class", async () => {
     async function testBody(strategy: ReflectionStrategy) {
       const classBody = "public with sharing class MyClass extends Class2 {}";
       const result = (await strategy(classBody)).typeMirror as ClassMirror;
-      expect(result.extended_class).toBe("Class2");
+      assert.equal(result.extended_class, "Class2");
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("Can implement interfaces", () => {
+  test("Can implement interfaces", async () => {
     async function testBody(strategy: ReflectionStrategy) {
       const classBody =
         "public with sharing class MyClass implements Interface1, Interface2 {}";
       const result = (await strategy(classBody)).typeMirror as ClassMirror;
-      expect(result.implemented_interfaces.length).toBe(2);
-      expect(result.implemented_interfaces[0]).toBe("Interface1");
-      expect(result.implemented_interfaces[1]).toBe("Interface2");
+      assert.equal(result.implemented_interfaces.length, 2);
+      assert.equal(result.implemented_interfaces[0], "Interface1");
+      assert.equal(result.implemented_interfaces[1], "Interface2");
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("Can have properties", () => {
+  test("Can have properties", async () => {
     async function testBody(strategy: ReflectionStrategy) {
       const classBody = `
     public with sharing class MyClass {
@@ -334,17 +339,17 @@ describe("Class reflection", () => {
     }
     `;
       const result = (await strategy(classBody)).typeMirror as ClassMirror;
-      expect(result.properties.length).toBe(2);
-      expect(result.properties[0].typeReference.type).toBe("String");
-      expect(result.properties[0].name).toBe("Prop1");
-      expect(result.properties[1].typeReference.type).toBe("Integer");
-      expect(result.properties[1].name).toBe("Prop2");
+      assert.equal(result.properties.length, 2);
+      assert.equal(result.properties[0].typeReference.type, "String");
+      assert.equal(result.properties[0].name, "Prop1");
+      assert.equal(result.properties[1].typeReference.type, "Integer");
+      assert.equal(result.properties[1].name, "Prop2");
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("Can have fields", () => {
+  test("Can have fields", async () => {
     async function testBody(strategy: ReflectionStrategy) {
       const classBody = `
     public with sharing class MyClass {
@@ -352,17 +357,17 @@ describe("Class reflection", () => {
     }
     `;
       const result = (await strategy(classBody)).typeMirror as ClassMirror;
-      expect(result.fields.length).toBe(2);
-      expect(result.fields[0].typeReference.type).toBe("String");
-      expect(result.fields[1].typeReference.type).toBe("String");
-      expect(result.fields[0].name).toBe("var1");
-      expect(result.fields[1].name).toBe("var2");
+      assert.equal(result.fields.length, 2);
+      assert.equal(result.fields[0].typeReference.type, "String");
+      assert.equal(result.fields[1].typeReference.type, "String");
+      assert.equal(result.fields[0].name, "var1");
+      assert.equal(result.fields[1].name, "var2");
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("Can have transient fields", () => {
+  test("Can have transient fields", async () => {
     async function testBody(strategy: ReflectionStrategy) {
       const classBody = `
     public with sharing class MyClass {
@@ -370,16 +375,16 @@ describe("Class reflection", () => {
     }
     `;
       const result = (await strategy(classBody)).typeMirror as ClassMirror;
-      expect(result.fields.length).toBe(1);
-      expect(result.fields[0].typeReference.type).toBe("String");
-      expect(result.fields[0].name).toBe("var1");
-      expect(result.fields[0].memberModifiers).toContain("transient");
+      assert.equal(result.fields.length, 1);
+      assert.equal(result.fields[0].typeReference.type, "String");
+      assert.equal(result.fields[0].name, "var1");
+      assert.ok(result.fields[0].memberModifiers.includes("transient"));
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("Can have annotations with parameters", () => {
+  test("Can have annotations with parameters", async () => {
     async function testBody(strategy: ReflectionStrategy) {
       const classBody = `
     @IsTest(SeeAllData=true)
@@ -387,16 +392,16 @@ describe("Class reflection", () => {
     public with sharing class MyClass {}
     `;
       const result = (await strategy(classBody)).typeMirror as ClassMirror;
-      expect(result.annotations.length).toBe(1);
-      expect(result.annotations[0].elementValues.length).toBe(1);
-      expect(result.annotations[0].elementValues[0].key).toBe("SeeAllData");
-      expect(result.annotations[0].elementValues[0].value).toBe("true");
+      assert.equal(result.annotations.length, 1);
+      assert.equal(result.annotations[0].elementValues.length, 1);
+      assert.equal(result.annotations[0].elementValues[0].key, "SeeAllData");
+      assert.equal(result.annotations[0].elementValues[0].value, "true");
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("Can have annotations with parameters after the docs", () => {
+  test("Can have annotations with parameters after the docs", async () => {
     async function testBody(strategy: ReflectionStrategy) {
       const classBody = `
     /**
@@ -406,16 +411,19 @@ describe("Class reflection", () => {
     global with sharing class SampleRestResource {}
     `;
       const result = (await strategy(classBody)).typeMirror as ClassMirror;
-      expect(result.annotations.length).toBe(1);
-      expect(result.annotations[0].elementValues.length).toBe(1);
-      expect(result.annotations[0].elementValues[0].key).toBe("urlMapping");
-      expect(result.annotations[0].elementValues[0].value).toBe("'/Account/*'");
+      assert.equal(result.annotations.length, 1);
+      assert.equal(result.annotations[0].elementValues.length, 1);
+      assert.equal(result.annotations[0].elementValues[0].key, "urlMapping");
+      assert.equal(
+        result.annotations[0].elementValues[0].value,
+        "'/Account/*'",
+      );
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("Can have constructors", () => {
+  test("Can have constructors", async () => {
     async function testBody(strategy: ReflectionStrategy) {
       const classBody = `
     public with sharing class MyClass {
@@ -424,21 +432,22 @@ describe("Class reflection", () => {
     }
     `;
       const result = (await strategy(classBody)).typeMirror as ClassMirror;
-      expect(result.constructors.length).toBe(2);
-      expect(result.constructors[0].parameters.length).toBe(0);
-      expect(result.constructors[0].access_modifier).toBe("public");
-      expect(result.constructors[1].parameters.length).toBe(1);
-      expect(result.constructors[1].parameters[0].name).toBe("var1");
-      expect(result.constructors[1].parameters[0].typeReference.type).toBe(
+      assert.equal(result.constructors.length, 2);
+      assert.equal(result.constructors[0].parameters.length, 0);
+      assert.equal(result.constructors[0].access_modifier, "public");
+      assert.equal(result.constructors[1].parameters.length, 1);
+      assert.equal(result.constructors[1].parameters[0].name, "var1");
+      assert.equal(
+        result.constructors[1].parameters[0].typeReference.type,
         "String",
       );
-      expect(result.constructors[1].access_modifier).toBe("public");
+      assert.equal(result.constructors[1].access_modifier, "public");
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("Can have methods", () => {
+  test("Can have methods", async () => {
     async function testBody(strategy: ReflectionStrategy) {
       const classBody = `
     public with sharing class MyClass {
@@ -450,23 +459,23 @@ describe("Class reflection", () => {
     }
     `;
       const result = (await strategy(classBody)).typeMirror as ClassMirror;
-      expect(result.methods.length).toBe(2);
-      expect(result.methods[0].memberModifiers.length).toBe(1);
-      expect(result.methods[0].memberModifiers[0]).toBe("static");
-      expect(result.methods[0].access_modifier).toBe("public");
-      expect(result.methods[0].typeReference.type).toBe("String");
-      expect(result.methods[0].name).toBe("method1");
+      assert.equal(result.methods.length, 2);
+      assert.equal(result.methods[0].memberModifiers.length, 1);
+      assert.equal(result.methods[0].memberModifiers[0], "static");
+      assert.equal(result.methods[0].access_modifier, "public");
+      assert.equal(result.methods[0].typeReference.type, "String");
+      assert.equal(result.methods[0].name, "method1");
 
-      expect(result.methods[1].memberModifiers.length).toBe(0);
-      expect(result.methods[1].access_modifier).toBe("private");
-      expect(result.methods[1].typeReference.type).toBe("void");
-      expect(result.methods[1].name).toBe("method2");
+      assert.equal(result.methods[1].memberModifiers.length, 0);
+      assert.equal(result.methods[1].access_modifier, "private");
+      assert.equal(result.methods[1].typeReference.type, "void");
+      assert.equal(result.methods[1].name, "method2");
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("Can have virtual methods", () => {
+  test("Can have virtual methods", async () => {
     async function testBody(strategy: ReflectionStrategy) {
       const classBody = `
     public with sharing class MyClass {
@@ -476,13 +485,13 @@ describe("Class reflection", () => {
     }
     `;
       const result = (await strategy(classBody)).typeMirror as ClassMirror;
-      expect(result.methods[0].memberModifiers[0]).toBe("virtual");
+      assert.equal(result.methods[0].memberModifiers[0], "virtual");
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("Can have abstract methods", () => {
+  test("Can have abstract methods", async () => {
     async function testBody(strategy: ReflectionStrategy) {
       const classBody = `
     public with sharing abstract class MyClass {
@@ -492,13 +501,13 @@ describe("Class reflection", () => {
     }
     `;
       const result = (await strategy(classBody)).typeMirror as ClassMirror;
-      expect(result.methods[0].memberModifiers[0]).toBe("abstract");
+      assert.equal(result.methods[0].memberModifiers[0], "abstract");
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("Can have inner enums", () => {
+  test("Can have inner enums", async () => {
     async function testBody(strategy: ReflectionStrategy) {
       const classBody = `
     public with sharing class MyClass {
@@ -506,15 +515,15 @@ describe("Class reflection", () => {
     }
     `;
       const result = (await strategy(classBody)).typeMirror as ClassMirror;
-      expect(result.enums.length).toBe(1);
-      expect(result.enums[0].access_modifier).toBe("public");
-      expect(result.enums[0].name).toBe("MyEnum");
+      assert.equal(result.enums.length, 1);
+      assert.equal(result.enums[0].access_modifier, "public");
+      assert.equal(result.enums[0].name, "MyEnum");
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("Can have inner interfaces", () => {
+  test("Can have inner interfaces", async () => {
     async function testBody(strategy: ReflectionStrategy) {
       const classBody = `
     public with sharing class MyClass {
@@ -525,15 +534,15 @@ describe("Class reflection", () => {
     }
     `;
       const result = (await strategy(classBody)).typeMirror as ClassMirror;
-      expect(result.interfaces.length).toBe(1);
-      expect(result.interfaces[0].name).toBe("MyInterface");
-      expect(result.interfaces[0].methods.length).toBe(2);
+      assert.equal(result.interfaces.length, 1);
+      assert.equal(result.interfaces[0].name, "MyInterface");
+      assert.equal(result.interfaces[0].methods.length, 2);
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("Can have inner classes", () => {
+  test("Can have inner classes", async () => {
     async function testBody(strategy: ReflectionStrategy) {
       const classBody = `
     public with sharing class MyClass {
@@ -544,15 +553,15 @@ describe("Class reflection", () => {
     }
     `;
       const result = (await strategy(classBody)).typeMirror as ClassMirror;
-      expect(result.classes.length).toBe(1);
-      expect(result.classes[0].name).toBe("MyClass");
-      expect(result.classes[0].methods.length).toBe(2);
+      assert.equal(result.classes.length, 1);
+      assert.equal(result.classes[0].name, "MyClass");
+      assert.equal(result.classes[0].methods.length, 2);
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("Can have members in groups", () => {
+  test("Can have members in groups", async () => {
     async function testBody(strategy: ReflectionStrategy) {
       const classBody = `
     public with sharing class MyClass {
@@ -567,21 +576,21 @@ describe("Class reflection", () => {
     `;
 
       const result = (await strategy(classBody)).typeMirror as ClassMirror;
-      expect(result.properties.length).toBe(2);
-      expect(result.properties[0].typeReference.type).toBe("String");
-      expect(result.properties[0].name).toBe("Prop1");
-      expect(result.properties[0].group).toBe("Group Name");
-      expect(result.properties[0].groupDescription).toBe("Group Description");
-      expect(result.properties[1].typeReference.type).toBe("Integer");
-      expect(result.properties[1].name).toBe("Prop2");
-      expect(result.properties[1].group).toBe("Group Name");
-      expect(result.properties[1].groupDescription).toBe("Group Description");
+      assert.equal(result.properties.length, 2);
+      assert.equal(result.properties[0].typeReference.type, "String");
+      assert.equal(result.properties[0].name, "Prop1");
+      assert.equal(result.properties[0].group, "Group Name");
+      assert.equal(result.properties[0].groupDescription, "Group Description");
+      assert.equal(result.properties[1].typeReference.type, "Integer");
+      assert.equal(result.properties[1].name, "Prop2");
+      assert.equal(result.properties[1].group, "Group Name");
+      assert.equal(result.properties[1].groupDescription, "Group Description");
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("Supports block style apex docs", () => {
+  test("Supports block style apex docs", async () => {
     async function testBody(reflect: ReflectionStrategy) {
       const classBody = `/**********************************************************
     @description Uses a block style apex doc
@@ -594,16 +603,16 @@ describe("Class reflection", () => {
     `;
 
       const result = await reflect(classBody);
-      expect(result.error).toBeNull();
+      assert.equal(result.error, null);
 
       const typeResult = result.typeMirror as ClassMirror;
-      expect(typeResult.name).toBe("GroupedClass");
+      assert.equal(typeResult.name, "GroupedClass");
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
-  test("supports grouping", () => {
+  test("supports grouping", async () => {
     async function testBody(reflect: ReflectionStrategy) {
       const classBody = `
           public class MyClass {
@@ -619,10 +628,10 @@ describe("Class reflection", () => {
     `;
 
       const result = await reflect(classBody);
-      expect(result.error).toBeNull();
+      assert.equal(result.error, null);
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 
   test("supports @example tags with code blocks", async () => {
@@ -645,98 +654,106 @@ describe("Class reflection", () => {
     `;
 
       const result = await reflect(classBody);
-      expect(result.error).toBeNull();
+      assert.equal(result.error, null);
 
       const typeResult = result.typeMirror as ClassMirror;
-      expect(typeResult.name).toBe("MyClass");
-      expect(typeResult.methods[0].docComment.exampleAnnotation).not.toBeNull();
-      expect(
-        typeResult.methods[0].docComment.exampleAnnotation?.bodyLines,
-      ).not.toContain("@{code");
-      expect(
-        typeResult.methods[0].docComment.exampleAnnotation?.bodyLines,
-      ).toContain("```");
-      expect(
-        typeResult.methods[0].docComment.exampleAnnotation?.bodyLines,
-      ).toContain("myClass.myMethod();");
+      assert.equal(typeResult.name, "MyClass");
+      assert.notEqual(typeResult.methods[0].docComment.exampleAnnotation, null);
+      assert.ok(
+        !typeResult.methods[0].docComment.exampleAnnotation?.bodyLines.includes(
+          "@{code",
+        ),
+      );
+      assert.ok(
+        typeResult.methods[0].docComment.exampleAnnotation?.bodyLines.includes(
+          "```",
+        ),
+      );
+      assert.ok(
+        typeResult.methods[0].docComment.exampleAnnotation?.bodyLines.includes(
+          "myClass.myMethod();",
+        ),
+      );
     }
 
-    runAllStrategies(testBody);
+    await runAllStrategies(testBody);
   });
 });
 
 describe("Trigger reflection", () => {
-  test("Reflects a trigger", () => {
+  test("Reflects a trigger", async () => {
     const triggerBody = `
   trigger MyTrigger on Account (before insert) { }
   `;
-    const result = reflectTrigger(triggerBody);
-    expect(result.triggerMirror?.name).toBe("MyTrigger");
-    expect(result.triggerMirror?.object_name).toBe("Account");
-    expect(result.triggerMirror?.events).toEqual(["beforeinsert"]);
+    const result = await reflectTrigger(triggerBody);
+    assert.equal(result.triggerMirror?.name, "MyTrigger");
+    assert.equal(result.triggerMirror?.object_name, "Account");
+    assert.deepEqual(result.triggerMirror?.events, ["beforeinsert"]);
   });
 
-  test("Reflects a trigger with multiple events", () => {
+  test("Reflects a trigger with multiple events", async () => {
     const triggerBody = `
   trigger MyTrigger on Account (before insert, after update) { }
   `;
-    const result = reflectTrigger(triggerBody);
-    expect(result.triggerMirror?.events).toEqual([
+    const result = await reflectTrigger(triggerBody);
+    assert.deepEqual(result.triggerMirror?.events, [
       "beforeinsert",
       "afterupdate",
     ]);
   });
 
-  test("Reflects trigger with doc comments", () => {
+  test("Reflects trigger with doc comments", async () => {
     const triggerBody = `
   /**
     * My trigger description
     */
   trigger MyTrigger on Account (before insert) { }
   `;
-    const result = reflectTrigger(triggerBody);
-    expect(result.triggerMirror.docComment?.description).toBe(
+    const result = await reflectTrigger(triggerBody);
+    assert.equal(
+      result.triggerMirror?.docComment?.description,
       "My trigger description",
     );
   });
 
-  test("Reflects trigger with bulk keyword", () => {
+  test("Reflects trigger with bulk keyword", async () => {
     const triggerBody = `
   trigger MyTrigger on Account bulk (before insert) { }
   `;
-    const result = reflectTrigger(triggerBody);
-    expect(result.triggerMirror?.name).toBe("MyTrigger");
-    expect(result.triggerMirror?.object_name).toBe("Account");
-    expect(result.triggerMirror?.events).toEqual(["beforeinsert"]);
+    const result = await reflectTrigger(triggerBody);
+    assert.equal(result.triggerMirror?.name, "MyTrigger");
+    assert.equal(result.triggerMirror?.object_name, "Account");
+    assert.deepEqual(result.triggerMirror?.events, ["beforeinsert"]);
   });
 
-  test("Reflects trigger with bulk keyword and multiple events", () => {
+  test("Reflects trigger with bulk keyword and multiple events", async () => {
     const triggerBody = `
   trigger Account_trigger_vod on Account bulk (before delete, after delete) { }
   `;
-    const result = reflectTrigger(triggerBody);
-    expect(result.triggerMirror?.name).toBe("Account_trigger_vod");
-    expect(result.triggerMirror?.object_name).toBe("Account");
-    expect(result.triggerMirror?.events).toEqual([
+    const result = await reflectTrigger(triggerBody);
+    assert.equal(result.triggerMirror?.name, "Account_trigger_vod");
+    assert.equal(result.triggerMirror?.object_name, "Account");
+    assert.deepEqual(result.triggerMirror?.events, [
       "beforedelete",
       "afterdelete",
     ]);
   });
 
-  test("Reflects trigger with bulk keyword and doc comments", () => {
+  test("Reflects trigger with bulk keyword and doc comments", async () => {
     const triggerBody = `
   /**
     * This is a bulk trigger
     */
   trigger MyTrigger on Account bulk (before insert, after update) { }
   `;
-    const result = reflectTrigger(triggerBody);
-    expect(result.triggerMirror?.name).toBe("MyTrigger");
-    expect(result.triggerMirror?.events).toEqual([
+    const result = await reflectTrigger(triggerBody);
+    assert.equal(result.triggerMirror?.name, "MyTrigger");
+    assert.deepEqual(result.triggerMirror?.events, [
       "beforeinsert",
       "afterupdate",
     ]);
-    expect(result.triggerMirror.docComment?.description).toBe(
+    assert.equal(
+      result.triggerMirror?.docComment?.description,
       "This is a bulk trigger",
     );
   });

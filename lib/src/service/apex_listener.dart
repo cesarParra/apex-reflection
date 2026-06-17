@@ -2,7 +2,9 @@ import 'dart:collection';
 
 import 'package:antlr4/antlr4.dart';
 import 'package:apex_reflection/src/builders/builders.dart';
+import 'package:apex_reflection/src/model/anonymous_block_mirror.dart';
 import 'package:apex_reflection/src/model/declaration_mirror.dart';
+import 'package:apex_reflection/src/model/type_references.dart';
 import 'package:apex_reflection/src/model/members.dart';
 import 'package:apex_reflection/src/model/modifiers.dart';
 import 'package:apex_reflection/src/model/types.dart';
@@ -45,21 +47,57 @@ class Group {
   Group({this.name, this.description});
 }
 
+/// Extracts ApexDoc comment tokens from the hidden channel for a given
+/// parser rule context. Both [ApexClassListener] and [AnonymousApexListener]
+/// delegate all doc-comment work to this helper.
+class _DocCommentParser {
+  final CommonTokenStream _tokens;
+
+  _DocCommentParser(this._tokens);
+
+  int? annotationStopIndex(List<AnnotationContext> annotations) {
+    if (annotations.isNotEmpty) return annotations.last.stop!.tokenIndex;
+    return null;
+  }
+
+  String? extract(ParserRuleContext ctx, {int? searchAfter}) {
+    final comments = getAll(ctx, searchAfter: searchAfter);
+    return comments.isEmpty ? null : comments.last;
+  }
+
+  Iterable<String> getAll(ParserRuleContext ctx, {int? searchAfter}) sync* {
+    final startIndex = ctx.start!.tokenIndex;
+    final channel = ApexLexer.DOCUMENTATION_CHANNEL;
+    for (final t in _tokens.getHiddenTokensToLeft(startIndex, channel) ?? []) {
+      yield t.text!;
+    }
+    if (searchAfter != null) {
+      for (final t
+          in _tokens.getHiddenTokensToRight(searchAfter, channel) ?? []) {
+        yield t.text!;
+      }
+    }
+  }
+}
+
 class ApexClassListener extends ApexParserBaseListener {
   final Stack<DeclarationDescriptor> _declaratorDescriptorStack;
   final Stack<TypeMirror> generatedTypes;
   final Stack<Group> groupStack;
   late TypeMirror generatedType;
   final CommonTokenStream tokens;
+  late final _DocCommentParser _docComments;
 
   ApexClassListener(this.tokens)
       : generatedTypes = Stack<TypeMirror>(),
         _declaratorDescriptorStack = Stack<DeclarationDescriptor>(),
-        groupStack = Stack<Group>();
+        groupStack = Stack<Group>() {
+    _docComments = _DocCommentParser(tokens);
+  }
 
   @override
   void enterTriggerUnit(TriggerUnitContext ctx) {
-    String? docComment = _extractDocComment(ctx);
+    String? docComment = _docComments.extract(ctx);
     final triggerName = ctx.ids().first.text;
     final objectName = ctx.ids()[1].text;
     final events = ctx.triggerCases().map((e) => e.text).toList();
@@ -76,8 +114,8 @@ class ApexClassListener extends ApexParserBaseListener {
 
   @override
   void enterTypeClassDeclaration(TypeClassDeclarationContext ctx) {
-    String? docComment = _extractDocComment(ctx,
-        searchAfter: _getAnnotationStopIndex(ctx.annotations()));
+    String? docComment = _docComments.extract(ctx,
+        searchAfter: _docComments.annotationStopIndex(ctx.annotations()));
 
     final accessModifiers = getAccessModifiers(ctx);
     _declaratorDescriptorStack.push(DeclarationDescriptor(
@@ -86,8 +124,8 @@ class ApexClassListener extends ApexParserBaseListener {
 
   @override
   void enterTypeEnumDeclaration(TypeEnumDeclarationContext ctx) {
-    String? docComment = _extractDocComment(ctx,
-        searchAfter: _getAnnotationStopIndex(ctx.annotations()));
+    String? docComment = _docComments.extract(ctx,
+        searchAfter: _docComments.annotationStopIndex(ctx.annotations()));
     final accessModifiers = getAccessModifiers(ctx);
     _declaratorDescriptorStack.push(DeclarationDescriptor(
         accessModifiers: accessModifiers, docComment: docComment));
@@ -107,7 +145,7 @@ class ApexClassListener extends ApexParserBaseListener {
           .ids()
           .map((e) => EnumValue(
                 name: e.text,
-                rawDocComment: _extractDocComment(e),
+                rawDocComment: _docComments.extract(e),
               ))
           .toList();
       peakedType.values.addAll(enumValues);
@@ -116,8 +154,8 @@ class ApexClassListener extends ApexParserBaseListener {
 
   @override
   void enterTypeInterfaceDeclaration(TypeInterfaceDeclarationContext ctx) {
-    String? docComment = _extractDocComment(ctx,
-        searchAfter: _getAnnotationStopIndex(ctx.annotations()));
+    String? docComment = _docComments.extract(ctx,
+        searchAfter: _docComments.annotationStopIndex(ctx.annotations()));
     final accessModifiers = getAccessModifiers(ctx);
     _declaratorDescriptorStack.push(DeclarationDescriptor(
         accessModifiers: accessModifiers, docComment: docComment));
@@ -171,8 +209,8 @@ class ApexClassListener extends ApexParserBaseListener {
     final accessModifiers = getAccessModifiers(ctx, isMember: true);
     String? docComment;
 
-    final allDocComments = _getAllDocComments(ctx,
-        searchAfter: _getAnnotationStopIndex(ctx.annotations()));
+    final allDocComments = _docComments.getAll(ctx,
+        searchAfter: _docComments.annotationStopIndex(ctx.annotations()));
     if (allDocComments.isNotEmpty) {
       // We take and parse the first doc comment, in case it is the
       // start of a group.
@@ -260,7 +298,7 @@ class ApexClassListener extends ApexParserBaseListener {
 
     final method = buildInterfaceMethod(
       ctx,
-      _extractDocComment(ctx),
+      _docComments.extract(ctx),
       current.accessModifier,
       [...current.annotations, if (annotations.isNotEmpty) ...annotations],
     );
@@ -299,39 +337,6 @@ class ApexClassListener extends ApexParserBaseListener {
   @override
   void exitTriggerBlock(TriggerBlockContext ctx) {
     _onExitDeclaration();
-  }
-
-  int? _getAnnotationStopIndex(List<AnnotationContext> annotations) {
-    if (annotations.isNotEmpty) {
-      return annotations.last.stop!.tokenIndex;
-    }
-    return null;
-  }
-
-  String? _extractDocComment(ParserRuleContext ctx, {int? searchAfter}) {
-    final docComments = _getAllDocComments(ctx, searchAfter: searchAfter);
-    return docComments.isEmpty ? null : docComments.last;
-  }
-
-  Iterable<String> _getAllDocComments(ParserRuleContext ctx,
-      {int? searchAfter}) sync* {
-    final start = ctx.start!;
-    final startIndex = start.tokenIndex;
-    final docChannelIndex = ApexLexer.DOCUMENTATION_CHANNEL;
-    final docCommentTokens =
-        tokens.getHiddenTokensToLeft(startIndex, docChannelIndex);
-
-    for (final token in docCommentTokens ?? List<Token>.empty()) {
-      yield token.text!;
-    }
-
-    if (searchAfter != null) {
-      final additionalCommentTokens =
-          tokens.getHiddenTokensToRight(searchAfter, docChannelIndex);
-      for (final token in additionalCommentTokens ?? List<Token>.empty()) {
-        yield token.text!;
-      }
-    }
   }
 
   void _onExitDeclaration() {
@@ -403,6 +408,289 @@ class Stack<T> {
   }
 
   T? peak() => _stack.isNotEmpty ? _stack.last : null;
+}
+
+class AnonymousApexListener extends ApexParserBaseListener {
+  final Stack<DeclarationDescriptor> _declaratorDescriptorStack;
+  final Stack<TypeMirror> _typeStack;
+  final Stack<Group> _groupStack;
+  final _DocCommentParser _docComments;
+
+  final List<ClassMirror> _classes = [];
+  final List<InterfaceMirror> _interfaces = [];
+  final List<EnumMirror> _enums = [];
+  final List<MethodMirror> _methods = [];
+  final List<LocalVariableMirror> _variables = [];
+
+  AnonymousApexListener(CommonTokenStream tokens)
+      : _declaratorDescriptorStack = Stack<DeclarationDescriptor>(),
+        _typeStack = Stack<TypeMirror>(),
+        _groupStack = Stack<Group>(),
+        _docComments = _DocCommentParser(tokens);
+
+  // ── Anonymous-level entries (provide modifiers/annotations context) ─────────
+
+  @override
+  void enterAnonymousClassDeclaration(AnonymousClassDeclarationContext ctx) {
+    final docComment = _docComments.extract(ctx,
+        searchAfter: _docComments.annotationStopIndex(ctx.annotations()));
+    _declaratorDescriptorStack.push(DeclarationDescriptor(
+        accessModifiers: getAccessModifiers(ctx), docComment: docComment));
+  }
+
+  @override
+  void enterAnonymousEnumDeclaration(AnonymousEnumDeclarationContext ctx) {
+    final docComment = _docComments.extract(ctx,
+        searchAfter: _docComments.annotationStopIndex(ctx.annotations()));
+    _declaratorDescriptorStack.push(DeclarationDescriptor(
+        accessModifiers: getAccessModifiers(ctx), docComment: docComment));
+  }
+
+  @override
+  void enterAnonymousInterfaceDeclaration(
+      AnonymousInterfaceDeclarationContext ctx) {
+    final docComment = _docComments.extract(ctx,
+        searchAfter: _docComments.annotationStopIndex(ctx.annotations()));
+    _declaratorDescriptorStack.push(DeclarationDescriptor(
+        accessModifiers: getAccessModifiers(ctx), docComment: docComment));
+  }
+
+  @override
+  void enterAnonymousMethodDeclaration(AnonymousMethodDeclarationContext ctx) {
+    _declaratorDescriptorStack.push(
+        DeclarationDescriptor(accessModifiers: getAccessModifiers(ctx)));
+  }
+
+  // ── Type construction (mirrors ApexClassListener) ────────────────────────────
+
+  @override
+  void enterClassDeclaration(ClassDeclarationContext ctx) {
+    final descriptor = _declaratorDescriptorStack.pop();
+    if (descriptor case Success(:final value)) {
+      final builtClass = buildClass(value, ctx);
+      _typeStack.push(builtClass);
+      _setGroupOnDeclaration(builtClass);
+    }
+  }
+
+  @override
+  void exitClassDeclaration(ClassDeclarationContext ctx) => _onExitDeclaration();
+
+  @override
+  void enterEnumDeclaration(EnumDeclarationContext ctx) {
+    final descriptor = _declaratorDescriptorStack.pop();
+    if (descriptor case Success(:final value)) {
+      final enumMirror = buildEnum(value, ctx);
+      _typeStack.push(enumMirror);
+      _setGroupOnDeclaration(enumMirror);
+    }
+  }
+
+  @override
+  void enterEnumConstants(EnumConstantsContext ctx) {
+    final peaked = _typeStack.peak();
+    if (peaked is EnumMirror) {
+      final values = ctx
+          .ids()
+          .map((e) => EnumValue(
+                name: e.text,
+                rawDocComment: _docComments.extract(e),
+              ))
+          .toList();
+      peaked.values.addAll(values);
+    }
+  }
+
+  @override
+  void exitEnumDeclaration(EnumDeclarationContext ctx) => _onExitDeclaration();
+
+  @override
+  void enterInterfaceDeclaration(InterfaceDeclarationContext ctx) {
+    final descriptor = _declaratorDescriptorStack.pop();
+    if (descriptor case Success(:final value)) {
+      _typeStack.push(buildInterface(value, ctx));
+    }
+  }
+
+  @override
+  void exitInterfaceDeclaration(InterfaceDeclarationContext ctx) =>
+      _onExitDeclaration();
+
+  // ── Class member construction ────────────────────────────────────────────────
+
+  @override
+  void enterMemberClassBodyDeclaration(MemberClassBodyDeclarationContext ctx) {
+    final modifiers = getAccessModifiers(ctx, isMember: true);
+    String? docComment;
+
+    final allDocComments = _docComments.getAll(ctx,
+        searchAfter: _docComments.annotationStopIndex(ctx.annotations()));
+    if (allDocComments.isNotEmpty) {
+      final first = allDocComments.first;
+      final parsed = ApexdocParser.parseFromBody(first);
+      final startGroup = parsed.annotations.firstWhereOrNull(
+          (a) => a.name.toLowerCase() == 'start-group');
+      if (startGroup != null) {
+        _groupStack.push(
+            Group(name: startGroup.body, description: parsed.description));
+        if (allDocComments.length > 1) docComment = allDocComments.last;
+      } else {
+        docComment = first;
+      }
+    }
+
+    _declaratorDescriptorStack.push(DeclarationDescriptor(
+        accessModifiers: modifiers, docComment: docComment));
+  }
+
+  @override
+  void exitMemberClassBodyDeclaration(MemberClassBodyDeclarationContext ctx) {
+    if (ctx.END_GROUP_COMMENT()?.text != null) _groupStack.pop();
+  }
+
+  @override
+  void enterGroupedDeclarations(GroupedDeclarationsContext ctx) {
+    final text = ctx.START_GROUP_COMMENT()!.text!;
+    final start = text.indexOf('@start-group') + 12;
+    _groupStack.push(Group(name: text.substring(start).trim()));
+  }
+
+  @override
+  void exitGroupedDeclarations(GroupedDeclarationsContext ctx) =>
+      _groupStack.pop();
+
+  @override
+  void enterFieldDeclaration(FieldDeclarationContext ctx) {
+    final current = _typeStack.peak();
+    if (current is ClassMirror) {
+      final descriptor = _declaratorDescriptorStack.pop();
+      if (descriptor case Success(:final value)) {
+        final fields = buildFields(value, ctx);
+        current.fields.addAll(fields);
+        for (final f in fields) {
+          _setGroupOnDeclaration(f);
+        }
+      }
+    }
+  }
+
+  @override
+  void enterPropertyDeclaration(PropertyDeclarationContext ctx) {
+    final current = _typeStack.peak();
+    if (current is ClassMirror) {
+      final descriptor = _declaratorDescriptorStack.pop();
+      if (descriptor case Success(:final value)) {
+        final property = buildProperty(value, ctx);
+        current.addProperty(property);
+        _setGroupOnDeclaration(property);
+      }
+    }
+  }
+
+  @override
+  void enterConstructorDeclaration(ConstructorDeclarationContext ctx) {
+    final descriptor = _declaratorDescriptorStack.pop();
+    if (descriptor case Success(:final value)) {
+      final constructor = buildConstructor(value, ctx);
+      (_typeStack.peak() as ClassMirror).constructors.add(constructor);
+      _setGroupOnDeclaration(constructor);
+    }
+  }
+
+  @override
+  void enterMethodDeclaration(MethodDeclarationContext ctx) {
+    final descriptor = _declaratorDescriptorStack.pop();
+    if (descriptor case Success(:final value)) {
+      final method = buildMethod(value, ctx);
+      final current = _typeStack.peak();
+      if (current != null) {
+        (current as MethodsAwareness).methods.add(method);
+      } else {
+        _methods.add(method);
+      }
+      _setGroupOnDeclaration(method);
+    }
+  }
+
+  @override
+  void enterInterfaceMethodDeclaration(InterfaceMethodDeclarationContext ctx) {
+    final current = _typeStack.peak();
+    if (current == null) return;
+    final annotations = ctx
+        .annotations()
+        .map((e) => Annotation.fromAnnotationContext(e))
+        .toList();
+    final method = buildInterfaceMethod(
+      ctx,
+      _docComments.extract(ctx),
+      current.accessModifier,
+      [...current.annotations, if (annotations.isNotEmpty) ...annotations],
+    );
+    (current as MethodsAwareness).methods.add(method);
+  }
+
+  // ── Variable declarations (top-level only) ───────────────────────────────────
+
+  @override
+  void enterLocalVariableDeclaration(LocalVariableDeclarationContext ctx) {
+    if (_typeStack.peak() != null) return; // inside a class — not top-level
+    final typeRef = ctx.typeRef()!;
+    for (final v in ctx.variableDeclarators()!.variableDeclarators()) {
+      _variables.add(LocalVariableMirror(
+        name: v.id()!.text,
+        typeReference: ObjectTypeReference(typeRef),
+      ));
+    }
+  }
+
+  // ── Result ────────────────────────────────────────────────────────────────────
+
+  AnonymousBlockMirror get generatedBlock => AnonymousBlockMirror(
+        variables: List.unmodifiable(_variables),
+        classes: List.unmodifiable(_classes),
+        interfaces: List.unmodifiable(_interfaces),
+        enums: List.unmodifiable(_enums),
+        methods: List.unmodifiable(_methods),
+      );
+
+  // ── Private helpers ───────────────────────────────────────────────────────────
+
+  void _onExitDeclaration() {
+    if (_typeStack.length == 1) {
+      final result = _typeStack.pop();
+      if (result case Success(:final value)) {
+        if (value.isClass()) {
+          _classes.add(value as ClassMirror);
+        } else if (value.isEnum()) {
+          _enums.add(value as EnumMirror);
+        } else {
+          _interfaces.add(value as InterfaceMirror);
+        }
+      }
+      return;
+    }
+    // inner type — add to parent class
+    final current = _typeStack.pop();
+    switch (current) {
+      case Failure():
+        return;
+      case Success(:final value):
+        final parent = _typeStack.peak() as ClassMirror;
+        if (value.isClass()) {
+          parent.addClass(value as ClassMirror);
+        } else if (value.isEnum()) {
+          parent.addEnum(value as EnumMirror);
+        } else {
+          parent.addInterface(value as InterfaceMirror);
+        }
+    }
+  }
+
+  void _setGroupOnDeclaration(DeclarationMirror declaration) {
+    final group = _groupStack.peak();
+    if (group == null) return;
+    declaration.setGroup(group.name, group.description);
+  }
 }
 
 sealed class Result<T> {}

@@ -1,4 +1,5 @@
 import 'package:antlr4/antlr4.dart';
+import 'package:apex_reflection/src/model/anonymous_block_mirror.dart';
 import 'package:apex_reflection/src/model/doc_comment.dart';
 import 'package:apex_reflection/src/model/types.dart';
 import 'package:apex_reflection/src/service/case_insensitive_input_stream.dart';
@@ -83,6 +84,17 @@ class ParsingError {
   Map<String, dynamic> toJson() => _$ParsingErrorToJson(this);
 }
 
+class AnonymousReflectionResponse {
+  AnonymousBlockMirror? anonymousBlock;
+  ParsingError? error;
+
+  AnonymousReflectionResponse();
+
+  AnonymousReflectionResponse.success(this.anonymousBlock);
+
+  AnonymousReflectionResponse.error(this.error);
+}
+
 class Reflection {
   static ReflectionResponse reflect(String body) {
     try {
@@ -103,6 +115,17 @@ class Reflection {
       final errorMessage = e.toString();
       final parsingError = ParsingError(errorMessage);
       return TriggerReflectionResponse.error(parsingError);
+    }
+  }
+
+  static AnonymousReflectionResponse reflectAnonymous(String body) {
+    try {
+      final block = AnonymousApexParser.parseFromBody(body);
+      return AnonymousReflectionResponse.success(block);
+    } catch (e) {
+      final errorMessage = e.toString();
+      final parsingError = ParsingError(errorMessage);
+      return AnonymousReflectionResponse.error(parsingError);
     }
   }
 }
@@ -132,6 +155,16 @@ class TriggerParser {
     Walker.walk(input, walkerDefinition,
         (antlr_apex_parser.ApexParser parser) => parser.triggerUnit());
     return walkerDefinition.getGeneratedTrigger()!;
+  }
+}
+
+class AnonymousApexParser {
+  static AnonymousBlockMirror parseFromBody(String body) {
+    final input = CaseInsensitiveInputStream.fromString(body);
+    final walkerDefinition = AnonymousWalkerDefinition();
+    Walker.walk(input, walkerDefinition,
+        (antlr_apex_parser.ApexParser parser) => parser.anonymousUnit());
+    return walkerDefinition.getGeneratedBlock();
   }
 }
 

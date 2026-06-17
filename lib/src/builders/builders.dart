@@ -24,7 +24,12 @@ ClassMirror buildClass(
       implementedInterfaces: implementedInterfaces)
     ..accessModifier = descriptor.accessModifier
     ..sharingModifier = descriptor.sharingModifier
-    ..classModifier = descriptor.classModifier
+    ..classModifier = descriptor.classModifier ??
+        (descriptor.memberModifiers.contains(MemberModifier.abstract)
+            ? ClassModifier.abstract
+            : descriptor.memberModifiers.contains(MemberModifier.virtual)
+                ? ClassModifier.virtual
+                : null)
     ..annotations = descriptor.annotations;
 }
 

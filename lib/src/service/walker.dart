@@ -65,8 +65,10 @@ class ApexWalkerDefinition extends WalkerDefinition<ApexParser> {
 
 class ApexdocWalkerDefinition extends WalkerDefinition<ApexdocParser> {
   final ApexdocListener _listener;
+  final PredictionMode predictionMode;
 
-  ApexdocWalkerDefinition() : _listener = ApexdocListener();
+  ApexdocWalkerDefinition({this.predictionMode = PredictionMode.LL})
+      : _listener = ApexdocListener();
 
   @override
   Lexer getLexer(InputStream input) {
@@ -77,6 +79,7 @@ class ApexdocWalkerDefinition extends WalkerDefinition<ApexdocParser> {
   ApexdocParser initializeParser(TokenStream stream) {
     final parser = ApexdocParser(stream);
     parser.buildParseTree = true;
+    parser.interpreter!.predictionMode = predictionMode;
     parser.removeErrorListeners();
     parser.addErrorListener(ExceptionErrorListener('doc'));
     return parser;

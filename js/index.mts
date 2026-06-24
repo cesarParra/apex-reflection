@@ -1,24 +1,48 @@
 import fs from "node:fs";
 import { compile } from "./node.mjs";
 
+type ReflectExports = {
+  reflect: (declarationBody: string) => string;
+  reflectTrigger: (declarationBody: string) => string;
+};
+
+// The wasm module is compiled and instantiated once and reused for every
+// reflection. Without this, each call recompiled the ~380 KB module and reran
+// `invokeMain`, which dominated throughput when reflecting many files (e.g. a
+// whole project). Concurrent first-callers share a single instantiation by
+// caching the promise rather than the resolved value; a failed load is not
+// cached so a later call can retry.
+let instancePromise: Promise<ReflectExports> | undefined;
+
+function loadInstance(): Promise<ReflectExports> {
+  if (!instancePromise) {
+    instancePromise = (async () => {
+      const bytes = fs.readFileSync(new URL("./node.wasm", import.meta.url));
+      const compiledApp = await compile(bytes);
+      const instantiatedApp = await compiledApp.instantiate();
+      instantiatedApp.invokeMain();
+      return {
+        reflect: (globalThis as any).reflect as (s: string) => string,
+        reflectTrigger: (globalThis as any).reflectTrigger as (
+          s: string,
+        ) => string,
+      };
+    })().catch((error) => {
+      instancePromise = undefined;
+      throw error;
+    });
+  }
+  return instancePromise;
+}
+
 async function reflectFor(
   type: "reflectType" | "reflectTrigger",
   declarationBody: string,
 ): Promise<string> {
-  const bytes = fs.readFileSync(new URL("./node.wasm", import.meta.url));
-  const compiledApp = await compile(bytes);
-  const instantiatedApp = await compiledApp.instantiate();
-  instantiatedApp.invokeMain();
-
-  if (type === "reflectType") {
-    const reflect = (globalThis as any).reflect as (s: string) => string;
-    return reflect(declarationBody);
-  } else {
-    const reflectTrigger = (globalThis as any).reflectTrigger as (
-      s: string,
-    ) => string;
-    return reflectTrigger(declarationBody);
-  }
+  const instance = await loadInstance();
+  return type === "reflectType"
+    ? instance.reflect(declarationBody)
+    : instance.reflectTrigger(declarationBody);
 }
 
 export async function reflect(

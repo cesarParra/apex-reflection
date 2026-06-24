@@ -138,16 +138,27 @@ class TriggerParser {
 class ApexdocParser {
   static DocComment parseFromBody(String body) {
     var sanitizedBody = body.trim();
-    final walkerDefinition = ApexdocWalkerDefinition();
+    // Two-stage parsing: attempt the fast SLL prediction mode first, which
+    // handles the vast majority of doc comments. SLL can report a syntax error
+    // on a small number of inputs that full LL prediction accepts (e.g. inline
+    // emails in descriptions); when that happens, fall back to LL.
     try {
-      Walker.walk(
-          InputStream.fromString(sanitizedBody),
-          walkerDefinition,
-          (antlr_apexdoc_parser.ApexdocParser parser) =>
-              parser.documentation());
-    } catch (error) {
-      return DocComment.error(error.toString());
+      return _walk(sanitizedBody, PredictionMode.SLL);
+    } catch (_) {
+      try {
+        return _walk(sanitizedBody, PredictionMode.LL);
+      } catch (error) {
+        return DocComment.error(error.toString());
+      }
     }
+  }
+
+  static DocComment _walk(String sanitizedBody, PredictionMode mode) {
+    final walkerDefinition = ApexdocWalkerDefinition(predictionMode: mode);
+    Walker.walk(
+        InputStream.fromString(sanitizedBody),
+        walkerDefinition,
+        (antlr_apexdoc_parser.ApexdocParser parser) => parser.documentation());
     return walkerDefinition.getGeneratedDocComment();
   }
 }

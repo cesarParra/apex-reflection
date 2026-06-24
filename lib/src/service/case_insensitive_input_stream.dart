@@ -3,10 +3,13 @@ import 'package:antlr4/antlr4.dart';
 class CaseInsensitiveInputStream extends InputStream {
   late List<int> lookaheadData;
 
-  CaseInsensitiveInputStream.fromString(String data) : super.fromString(data) {
-    lookaheadData = data.runes
-        .map((r) => (r >= 65 && r <= 90) ? r + 32 : r)
-        .toList(growable: false);
+  CaseInsensitiveInputStream.fromString(super.data) : super.fromString() {
+    // Reuse the base class's already-decoded code points (`data`) instead of
+    // decoding the source string's runes a second time.
+    final base = data;
+    lookaheadData = List<int>.generate(base.length,
+        (i) => (base[i] >= 65 && base[i] <= 90) ? base[i] + 32 : base[i],
+        growable: false);
   }
 
   @override

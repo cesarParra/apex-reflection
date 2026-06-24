@@ -1,24 +1,42 @@
 import fs from "node:fs";
 import { compile } from "./node.mjs";
 
+type ReflectExports = {
+  reflect: (declarationBody: string) => string;
+  reflectTrigger: (declarationBody: string) => string;
+};
+
+let instancePromise: Promise<ReflectExports> | undefined;
+
+function loadInstance(): Promise<ReflectExports> {
+  if (!instancePromise) {
+    instancePromise = (async () => {
+      const bytes = fs.readFileSync(new URL("./node.wasm", import.meta.url));
+      const compiledApp = await compile(bytes);
+      const instantiatedApp = await compiledApp.instantiate();
+      instantiatedApp.invokeMain();
+      return {
+        reflect: (globalThis as any).reflect as (s: string) => string,
+        reflectTrigger: (globalThis as any).reflectTrigger as (
+          s: string,
+        ) => string,
+      };
+    })().catch((error) => {
+      instancePromise = undefined;
+      throw error;
+    });
+  }
+  return instancePromise;
+}
+
 async function reflectFor(
   type: "reflectType" | "reflectTrigger",
   declarationBody: string,
 ): Promise<string> {
-  const bytes = fs.readFileSync(new URL("./node.wasm", import.meta.url));
-  const compiledApp = await compile(bytes);
-  const instantiatedApp = await compiledApp.instantiate();
-  instantiatedApp.invokeMain();
-
-  if (type === "reflectType") {
-    const reflect = (globalThis as any).reflect as (s: string) => string;
-    return reflect(declarationBody);
-  } else {
-    const reflectTrigger = (globalThis as any).reflectTrigger as (
-      s: string,
-    ) => string;
-    return reflectTrigger(declarationBody);
-  }
+  const instance = await loadInstance();
+  return type === "reflectType"
+    ? instance.reflect(declarationBody)
+    : instance.reflectTrigger(declarationBody);
 }
 
 export async function reflect(

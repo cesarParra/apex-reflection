@@ -6,12 +6,6 @@ type ReflectExports = {
   reflectTrigger: (declarationBody: string) => string;
 };
 
-// The wasm module is compiled and instantiated once and reused for every
-// reflection. Without this, each call recompiled the ~380 KB module and reran
-// `invokeMain`, which dominated throughput when reflecting many files (e.g. a
-// whole project). Concurrent first-callers share a single instantiation by
-// caching the promise rather than the resolved value; a failed load is not
-// cached so a later call can retry.
 let instancePromise: Promise<ReflectExports> | undefined;
 
 function loadInstance(): Promise<ReflectExports> {

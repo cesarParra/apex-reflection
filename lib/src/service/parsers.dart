@@ -1,6 +1,7 @@
 import 'package:antlr4/antlr4.dart';
 import 'package:apex_reflection/src/model/doc_comment.dart';
 import 'package:apex_reflection/src/model/types.dart';
+import 'package:apex_reflection/src/service/apex_pp/apex_pp_parser.dart';
 import 'package:apex_reflection/src/service/apexdoc/apexdoc_pp_parser.dart';
 import 'package:apex_reflection/src/service/case_insensitive_input_stream.dart';
 import 'package:apex_reflection/src/service/walker.dart';
@@ -109,30 +110,16 @@ class Reflection {
 }
 
 class ApexParser {
+  // petitparser prototype path.
   static TypeMirror parseFromBody(String body) {
-    final input = CaseInsensitiveInputStream.fromString(body);
-    return _parse(input);
-  }
-
-  static TypeMirror _parse(InputStream input) {
-    final walkerDefinition = ApexWalkerDefinition();
-    Walker.walk(input, walkerDefinition,
-        (antlr_apex_parser.ApexParser parser) => parser.compilationUnit());
-    return walkerDefinition.getGeneratedApexType()!;
+    return ApexPpParser.parseType(body);
   }
 }
 
 class TriggerParser {
+  // petitparser prototype path.
   static TriggerMirror parseFromBody(String body) {
-    final input = CaseInsensitiveInputStream.fromString(body);
-    return _parse(input);
-  }
-
-  static TriggerMirror _parse(InputStream input) {
-    final walkerDefinition = ApexWalkerDefinition();
-    Walker.walk(input, walkerDefinition,
-        (antlr_apex_parser.ApexParser parser) => parser.triggerUnit());
-    return walkerDefinition.getGeneratedTrigger()!;
+    return ApexPpParser.parseTrigger(body);
   }
 }
 

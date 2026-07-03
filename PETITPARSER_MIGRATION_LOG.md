@@ -2,6 +2,18 @@
 
 Branch: `petitparser`. Prototype/experiment code — not intended to merge as-is.
 
+## Benchmark markers (before/after the single-grammar refactor)
+
+- **BEFORE (two composed-but-separate parsers, doc parsed via
+  `ApexdocPpParser.parse(substring)`):** commit
+  `6fa019c8b25bafa41f2b5b1f8045ed117e4f9f2d`
+  ("Parse doc comments inline during the Apex parse (single-pass)").
+- **AFTER (one unified grammar — the doc-comment `Parser<DocComment>` is a rule
+  inside the Apex parser graph, consuming the source stream directly):** see the
+  commit that follows this marker.
+
+Both are on this branch; diff them to measure the paradigm change.
+
 ## Result summary
 
 - **All 279 unit tests pass, unchanged.** No test assertion or test setup was
@@ -102,7 +114,7 @@ ANTLR listener supports that the prototype does not.
    `apexdoc_listener.dart`, `case_insensitive_input_stream.dart`, and the
    `antlr4` dependency.
 
-## Inline (single-pass) doc-comment parsing
+## Single-grammar (one-pass) doc-comment parsing
 
 The ANTLR design was structurally two-pass: the Apex lexer and the Apexdoc lexer
 have **separate token vocabularies**, so a doc comment could only be captured as
@@ -110,23 +122,37 @@ one opaque hidden-channel token and then re-parsed by a second lexer+parser
 instance (lazily, on `.docComment` access).
 
 petitparser removes that constraint — both grammars are composable parsers over
-the same character stream. The Apex parser now parses each doc comment **inline,
-during the Apex parse**, and attaches the resulting `DocComment` directly to the
-model. There is no lazy re-parse step.
+the same character stream. The paradigm is now fully changed: **there is one
+grammar.** The Apexdoc doc-comment parser is exposed as a composable
+`Parser<DocComment>` (`ApexdocPpParser.wrapped`) that matches the `/** ... */`
+wrapper *in-grammar* (no string preprocessing) and is embedded directly in the
+Apex grammar's `_prefix` rule. A doc comment is parsed from the source stream in
+the **same parse** that reads the Apex declarations. The Apex parser makes **zero
+calls** to a standalone doc-parse-on-a-substring.
 
-Details:
-- Parsing happens in the per-declaration builders (which run once, on the
-  winning parse alternative), **not** in the shared `_prefix` rule — `_prefix`
-  re-runs on every backtracked member alternative, so parsing there would parse
-  the same doc several times. `_prefix` still only captures the raw string
-  (cheap `flatten`).
-- **Error isolation:** `_parseDoc` wraps the sub-parse; a malformed doc yields an
-  error `DocComment` and never fails the enclosing Apex parse.
-- Output is byte-identical (still 279/279 and 49/49) — the change is eager vs.
-  lazy, not a change in results.
-- Laziness was dropped deliberately: this library's real output is JSON, which
-  serialises every declaration's `docComment`, so all docs are parsed anyway —
-  lazy parsing bought nothing.
+Key pieces:
+- `ApexdocPpParser.wrapped`: `open('/**') & content & close('*/')`, content run
+  halts at `*/`; `.token()` captures the exact span for `rawDeclaration`.
+- The Apex grammar's `_prefix` was **factored out** of the member/type
+  backtracking alternations so it runs **once** per declaration — the composed
+  doc parser therefore parses each doc exactly once (no re-parse on backtracked
+  alternatives). `_prefix` is also isMember-agnostic (keeps raw modifier
+  keywords), which is what lets one parsed prefix serve both a member and an
+  inner type; classification happens later in `_Prefix.descriptor(isMember)`.
+- A cheap O(1) `_docStart` discriminator (`/**` not followed by `/`) keeps the
+  block-comment rule from swallowing docs, replacing the old full-scan
+  `_docComment.not()` guard — so the doc text is traversed once.
+- **Error isolation:** `_content` wraps `_build` in try/catch, so a malformed
+  doc yields an error `DocComment` and never fails the enclosing Apex parse.
+- Output is byte-identical (still 279/279 and 49/49) — a pure architecture
+  change.
+- Laziness was dropped deliberately: this library ships as WASM and its real
+  output is JSON, which serialises every declaration's `docComment`, so all docs
+  are parsed regardless — lazy parsing bought nothing.
+
+The standalone `ApexdocParser.parseFromBody` entry point still exists (same
+`wrapped`/bare parser) for the direct doc-comment unit tests and the legacy
+ANTLR path; it is no longer on the petitparser Apex critical path.
 
 ## Feasibility conclusion
 

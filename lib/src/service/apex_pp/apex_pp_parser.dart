@@ -15,6 +15,11 @@ import 'package:apex_reflection/src/service/apexdoc/apexdoc_pp_parser.dart';
 /// constructor / property / trigger bodies are skipped as balanced blocks
 /// (their contents are irrelevant to the produced model).
 ///
+/// **Single grammar.** The Apexdoc doc-comment parser
+/// ([ApexdocPpParser.wrapped]) is composed directly into this grammar, so a
+/// doc comment is parsed from the source stream in the *same* parse that reads
+/// the Apex declarations — there is no separate doc-parsing pass.
+///
 /// Model objects are constructed directly via their plain constructors, so the
 /// ANTLR-coupled `ObjectTypeReference(TypeRefContext)` factory and
 /// `Annotation.fromAnnotationContext` are left untouched for the legacy path.
@@ -88,65 +93,71 @@ class _PType {
   }
 }
 
-/// A collected declaration prefix: leading doc comment + modifiers/annotations.
+/// A collected declaration prefix: leading doc comment (already parsed inline),
+/// annotations, and raw modifier keywords.
+///
+/// The prefix is deliberately **isMember-agnostic** — modifier keywords are
+/// kept as raw strings and only classified into access/sharing/class/member
+/// modifiers by [descriptor] once we know whether the following declaration is
+/// a member or a type. That is what lets the *same* parsed prefix serve both a
+/// class member and an inner type.
 class _Prefix {
-  final String? doc;
-  final List<dynamic> modifiers; // Annotation | enum-modifier | null
-  _Prefix(this.doc, this.modifiers);
+  final DocComment? doc;
+  final List<Annotation> annotations;
+  final List<String> modifierKeywords;
+  _Prefix(this.doc, this.annotations, this.modifierKeywords);
 
-  DeclarationDescriptor descriptor({bool isMember = false}) =>
-      DeclarationDescriptor(accessModifiers: modifiers, docComment: doc);
+  String? get rawDoc => doc?.rawDeclaration;
+
+  DeclarationDescriptor descriptor({bool isMember = false}) {
+    final accessModifiers = <dynamic>[
+      ...annotations,
+      ...modifierKeywords
+          .map((kw) => getModifierFromStringDeclaration(_Kw(kw), isMember: isMember)),
+    ];
+    return DeclarationDescriptor(accessModifiers: accessModifiers);
+  }
 }
 
 class _Grammar {
   late final Parser<TypeMirror> compilationUnit;
   late final Parser<TriggerMirror> triggerUnit;
+  late final Parser<_Prefix> _prefix;
 
-  // Recursive references.
+  // Recursive references (built once, resolved in _build).
   final SettableParser _typeRef = undefined();
   final SettableParser _typeDeclaration = undefined();
+  final SettableParser _typeDeclarationRest = undefined();
+  final SettableParser _classMember = undefined();
 
   _Grammar() {
     _build();
-  }
-
-  /// Parses a captured raw doc comment inline (eagerly, during the Apex parse)
-  /// into a [DocComment], with error isolation: a malformed doc never fails the
-  /// enclosing Apex parse — it becomes an error [DocComment] instead.
-  ///
-  /// This is called from the per-declaration builders (which run once, on the
-  /// winning parse alternative) rather than from [_prefix] — [_prefix] re-runs
-  /// on every backtracked member alternative, so parsing there would parse the
-  /// same doc several times.
-  DocComment? _parseDoc(String? raw) {
-    if (raw == null) return null;
-    try {
-      return ApexdocPpParser.parse(raw)..rawDeclaration = raw;
-    } catch (e) {
-      return DocComment.error(e.toString())..rawDeclaration = raw;
-    }
   }
 
   // ---- Lexical building blocks -------------------------------------------
 
   Parser get _wordChar => pattern('a-zA-Z0-9_\$');
 
-  Parser get _lineComment =>
-      (string('//') & pattern('^\n\r').star());
+  Parser get _lineComment => (string('//') & pattern('^\n\r').star());
 
+  // Full doc-comment matcher (used only to *skip* docs inside method bodies).
   Parser get _docComment =>
       (string('/**') & (string('*/').not() & any()).star() & string('*/'))
           .flatten();
 
+  // Cheap O(1) discriminator: `/**` not immediately followed by `/` (which
+  // would make it the empty block comment `/**/`). Used to keep the block-comment
+  // rule from swallowing a real doc comment, without a full scan to `*/`.
+  Parser get _docStart => (string('/**') & char('/').not());
+
   // Block comment that is NOT a doc comment.
-  Parser get _blockComment => (_docComment.not() &
+  Parser get _blockComment => (_docStart.not() &
       string('/*') &
       (string('*/').not() & any()).star() &
       string('*/'));
 
   // Hidden whitespace: whitespace + non-doc comments (never a doc comment).
-  Parser get _hws =>
-      (whitespace() | _lineComment | _blockComment).star();
+  Parser get _hws => (whitespace() | _lineComment | _blockComment).star();
 
   /// Match [p], then consume trailing hidden whitespace; return p's value.
   Parser<T> _t<T>(Parser<T> p) => (p & _hws).map((v) => v[0] as T);
@@ -154,18 +165,15 @@ class _Grammar {
   Parser<String> _kw(String word) =>
       _t((string(word, ignoreCase: true) & _wordChar.not()).map((_) => word));
 
-  Parser<String> get _identifier => _t((pattern('a-zA-Z_\$') & _wordChar.star())
-      .flatten()
-      .map((s) => s));
+  Parser<String> get _identifier =>
+      _t((pattern('a-zA-Z_\$') & _wordChar.star()).flatten());
 
   Parser<String> _sym(String s) => _t(string(s).map((_) => s));
 
   // ---- Type references ---------------------------------------------------
 
   void _buildTypeRef() {
-    // typeName: id ('.' id)*  with optional <args>
-    final typeArgs =
-        (_sym('<') & _typeList() & _sym('>'));
+    final typeArgs = (_sym('<') & _typeList() & _sym('>'));
 
     final qualified = _t((pattern('a-zA-Z_\$') &
             _wordChar.star() &
@@ -200,7 +208,6 @@ class _Grammar {
   // ---- Annotations & modifiers -------------------------------------------
 
   Parser<Annotation> get _annotation {
-    // @Name  or  @Name( ... )
     final balancedParens = _balanced('(', ')');
     return _t((char('@') &
             (pattern('a-zA-Z_\$') & _wordChar.star()).flatten() &
@@ -245,9 +252,6 @@ class _Grammar {
     final inner = rawArgs.substring(1, rawArgs.length - 1);
     if (!inner.contains('=')) return [];
     final result = <AnnotationElementValue>[];
-    // rawArgs already whitespace-stripped: pairs are key=value separated by
-    // nothing meaningful except the next identifier. Split conservatively on
-    // patterns like key='value' / key=value.
     final matches =
         RegExp(r"([A-Za-z0-9_\$]+)=('[^']*'|[^\s']+?)(?=[A-Za-z0-9_\$]+=|$)")
             .allMatches(inner);
@@ -269,42 +273,39 @@ class _Grammar {
   ];
 
   /// A single modifier keyword (including two-word sharing modifiers),
-  /// normalised to the ANTLR space-stripped form and resolved to an enum.
-  Parser _modifierKeyword({required bool isMember}) {
+  /// normalised to the ANTLR space-stripped form. Classification into an enum
+  /// happens later in [_Prefix.descriptor], once isMember is known.
+  Parser<String> get _modifierKeyword {
     final sharing = (_kw('with') & _kw('sharing')).map((_) => 'withsharing') |
         (_kw('without') & _kw('sharing')).map((_) => 'withoutsharing') |
         (_kw('inherited') & _kw('sharing')).map((_) => 'inheritedsharing');
-
-    final singles = [
-      ..._accessKw,
-      ..._classKw,
-      ..._memberKw,
-    ].map(_kw).toList().toChoiceParser();
-
-    return (sharing | singles).map(
-        (word) => getModifierFromStringDeclaration(_Kw(word as String),
-            isMember: isMember));
+    final singles =
+        [..._accessKw, ..._classKw, ..._memberKw].map(_kw).toList().toChoiceParser();
+    return (sharing | singles).map((w) => w as String);
   }
 
-  /// Collect the declaration prefix: doc comments, annotations, modifiers in
-  /// any order. The last doc comment wins (matches the ANTLR hidden-channel
-  /// behaviour of taking the closest doc comment).
-  Parser<_Prefix> _prefix({required bool isMember}) {
-    final item = _t(_docComment).map((d) => _PrefixItem.doc(d)) |
-        _annotation.map((a) => _PrefixItem.mod(a)) |
-        _modifierKeyword(isMember: isMember).map((m) => _PrefixItem.mod(m));
+  /// The shared declaration prefix, parsed **once** per declaration: doc comment
+  /// (composed inline via [ApexdocPpParser.wrapped]), annotations, and modifier
+  /// keywords, in any order. The last doc comment wins.
+  Parser<_Prefix> _buildPrefix() {
+    final docItem = _t(ApexdocPpParser.wrapped).map((d) => _Item.doc(d));
+    final annoItem = _annotation.map((a) => _Item.anno(a));
+    final modItem = _modifierKeyword.map((kw) => _Item.mod(kw));
+    final item = docItem | annoItem | modItem;
     return (_hws & item.star()).map((v) {
-      final items = (v[1] as List).cast<_PrefixItem>();
-      String? doc;
-      final mods = <dynamic>[];
-      for (final it in items) {
-        if (it.isDoc) {
-          doc = it.value as String;
-        } else if (it.value != null) {
-          mods.add(it.value);
+      DocComment? doc;
+      final annos = <Annotation>[];
+      final mods = <String>[];
+      for (final it in (v[1] as List).cast<_Item>()) {
+        if (it.doc != null) {
+          doc = it.doc;
+        } else if (it.anno != null) {
+          annos.add(it.anno!);
+        } else if (it.mod != null) {
+          mods.add(it.mod!);
         }
       }
-      return _Prefix(doc, mods);
+      return _Prefix(doc, annos, mods);
     });
   }
 
@@ -314,13 +315,12 @@ class _Grammar {
   /// string literals and comments, returning the raw matched text.
   Parser<String> _balanced(String open, String close) {
     final inner = undefined();
-    final stringLiteral =
-        (char("'") & (string("\\").seq(any()) | pattern("^'\\\\")).star() & char("'"));
+    final stringLiteral = (char("'") &
+        (string("\\").seq(any()) | pattern("^'\\\\")).star() &
+        char("'"));
     final other = (char(open) | char(close)).not() &
         (_lineComment | _blockComment | _docComment | stringLiteral | any());
-    inner.set((char(open) &
-            (inner | other).star() &
-            char(close)));
+    inner.set((char(open) & (inner | other).star() & char(close)));
     return inner.flatten();
   }
 
@@ -345,93 +345,21 @@ class _Grammar {
         .map((v) => (v[1] as List<ParameterMirror>?) ?? <ParameterMirror>[]);
   }
 
-  Parser get _paramModifiers =>
-      (_kw('final') | _annotation).star();
+  Parser get _paramModifiers => (_kw('final') | _annotation).star();
 
   // ---- Members -----------------------------------------------------------
 
-  Parser<void Function(ClassMirror)> get _classMember {
-    final voidOrType = _kw('void').map((_) => null) | _typeRef.map((t) => t);
+  /// A `void` / type return marker. Returns null for `void`, a [_PType] else.
+  Parser get _voidOrType => _kw('void').map((_) => null) | _typeRef;
 
-    // method: (void|type) id ( params ) (block | ;)
-    final method = (_prefix(isMember: true) &
-            voidOrType &
-            _identifier &
-            _formalParameters &
-            (_block | _sym(';')))
-        .map<void Function(ClassMirror)>((v) {
-      final prefix = v[0] as _Prefix;
-      final desc = prefix.descriptor(isMember: true);
-      final ret = v[1] == null
-          ? ReferenceObjectType('void')
-          : (v[1] as _PType).toReference();
-      final method = MethodMirror(
-          name: v[2] as String, rawDocComment: prefix.doc, typeReference: ret)
-        ..docComment = _parseDoc(prefix.doc)
-        ..parameters = v[3] as List<ParameterMirror>
-        ..accessModifier = desc.accessModifier
-        ..annotations = desc.annotations
-        ..memberModifiers = desc.memberModifiers;
-      return (ClassMirror c) => c.addMethod(method);
-    });
-
-    // constructor: id ( params ) block   (no return type)
-    final constructor = (_prefix(isMember: true) &
-            _identifier &
-            _formalParameters &
-            _block)
-        .map<void Function(ClassMirror)>((v) {
-      final prefix = v[0] as _Prefix;
-      final desc = prefix.descriptor(isMember: true);
-      final ctor = ConstructorMirror(rawDocComment: prefix.doc)
-        ..docComment = _parseDoc(prefix.doc)
-        ..parameters = v[2] as List<ParameterMirror>
-        ..accessModifier = desc.accessModifier
-        ..annotations = desc.annotations;
-      return (ClassMirror c) => c.addConstructor(ctor);
-    });
-
-    // property: type id { ... }
-    final property = (_prefix(isMember: true) & _typeRef & _identifier & _block)
-        .map<void Function(ClassMirror)>((v) {
-      final prefix = v[0] as _Prefix;
-      final desc = prefix.descriptor(isMember: true);
-      final prop = PropertyMirror(
-          name: v[2] as String,
-          rawDocComment: prefix.doc,
-          typeReference: (v[1] as _PType).toReference())
-        ..docComment = _parseDoc(prefix.doc)
-        ..accessModifier = desc.accessModifier
-        ..annotations = desc.annotations
-        ..memberModifiers = desc.memberModifiers;
-      return (ClassMirror c) {
-        c.addProperty(prop);
-      };
-    });
-
-    // field: type declarators ;
-    final field =
-        (_prefix(isMember: true) & _typeRef & _variableDeclarators & _sym(';'))
-            .map<void Function(ClassMirror)>((v) {
-      final prefix = v[0] as _Prefix;
-      final desc = prefix.descriptor(isMember: true);
-      final type = (v[1] as _PType).toReference();
-      final names = v[2] as List<String>;
-      final fields = names
-          .map((name) => FieldMirror(
-              name: name, rawDocComment: prefix.doc, typeReference: type)
-            ..docComment = _parseDoc(prefix.doc)
-            ..accessModifier = desc.accessModifier
-            ..annotations = desc.annotations
-            ..memberModifiers = desc.memberModifiers)
-          .toList();
-      return (ClassMirror c) => c.fields.addAll(fields);
-    });
-
+  /// Class-body member *without* its prefix. Returns a builder that receives the
+  /// already-parsed prefix and the enclosing class.
+  Parser<void Function(ClassMirror, _Prefix)> get _classMemberRest {
     // inner type: class / interface / enum
     final innerType =
-        _typeDeclaration.map<void Function(ClassMirror)>((type) {
-      return (ClassMirror c) {
+        _typeDeclarationRest.map<void Function(ClassMirror, _Prefix)>((build) {
+      return (ClassMirror c, _Prefix prefix) {
+        final type = (build as TypeMirror Function(_Prefix))(prefix);
         switch (type) {
           case ClassMirror():
             c.addClass(type);
@@ -444,18 +372,86 @@ class _Grammar {
       };
     });
 
+    // method: (void|type) id ( params ) (block | ;)
+    final method =
+        (_voidOrType & _identifier & _formalParameters & (_block | _sym(';')))
+            .map<void Function(ClassMirror, _Prefix)>((v) {
+      final ret = v[0] == null
+          ? ReferenceObjectType('void')
+          : (v[0] as _PType).toReference();
+      final name = v[1] as String;
+      final params = v[2] as List<ParameterMirror>;
+      return (ClassMirror c, _Prefix prefix) {
+        final desc = prefix.descriptor(isMember: true);
+        c.addMethod(MethodMirror(
+            name: name, rawDocComment: prefix.rawDoc, typeReference: ret)
+          ..docComment = prefix.doc
+          ..parameters = params
+          ..accessModifier = desc.accessModifier
+          ..annotations = desc.annotations
+          ..memberModifiers = desc.memberModifiers);
+      };
+    });
+
+    // constructor: id ( params ) block   (no return type)
+    final constructor = (_identifier & _formalParameters & _block)
+        .map<void Function(ClassMirror, _Prefix)>((v) {
+      final params = v[1] as List<ParameterMirror>;
+      return (ClassMirror c, _Prefix prefix) {
+        final desc = prefix.descriptor(isMember: true);
+        c.addConstructor(ConstructorMirror(rawDocComment: prefix.rawDoc)
+          ..docComment = prefix.doc
+          ..parameters = params
+          ..accessModifier = desc.accessModifier
+          ..annotations = desc.annotations);
+      };
+    });
+
+    // property: type id { ... }
+    final property = (_typeRef & _identifier & _block)
+        .map<void Function(ClassMirror, _Prefix)>((v) {
+      final type = (v[0] as _PType).toReference();
+      final name = v[1] as String;
+      return (ClassMirror c, _Prefix prefix) {
+        final desc = prefix.descriptor(isMember: true);
+        c.addProperty(PropertyMirror(
+            name: name, rawDocComment: prefix.rawDoc, typeReference: type)
+          ..docComment = prefix.doc
+          ..accessModifier = desc.accessModifier
+          ..annotations = desc.annotations
+          ..memberModifiers = desc.memberModifiers);
+      };
+    });
+
+    // field: type declarators ;
+    final field = (_typeRef & _variableDeclarators & _sym(';'))
+        .map<void Function(ClassMirror, _Prefix)>((v) {
+      final type = (v[0] as _PType).toReference();
+      final names = v[1] as List<String>;
+      return (ClassMirror c, _Prefix prefix) {
+        final desc = prefix.descriptor(isMember: true);
+        for (final name in names) {
+          c.fields.add(FieldMirror(
+              name: name, rawDocComment: prefix.rawDoc, typeReference: type)
+            ..docComment = prefix.doc
+            ..accessModifier = desc.accessModifier
+            ..annotations = desc.annotations
+            ..memberModifiers = desc.memberModifiers);
+        }
+      };
+    });
+
     // static / instance initializer block, or stray semicolon.
     final initializer =
-        (_prefix(isMember: true) & _block).map<void Function(ClassMirror)>(
-            (_) => (ClassMirror c) {});
-    final semi = _sym(';').map<void Function(ClassMirror)>((_) => (c) {});
+        _block.map<void Function(ClassMirror, _Prefix)>((_) => (c, p) {});
+    final semi =
+        _sym(';').map<void Function(ClassMirror, _Prefix)>((_) => (c, p) {});
 
     return [innerType, method, constructor, property, field, initializer, semi]
         .toChoiceParser();
   }
 
   Parser<List<String>> get _variableDeclarators {
-    // id ('=' value)?  (',' id ('=' value)?)*
     final value = _balancedValue();
     final declarator = (_identifier & (_sym('=') & value).optional())
         .map((v) => v[0] as String);
@@ -471,128 +467,153 @@ class _Grammar {
   /// A field initializer value: everything up to a top-level `,` or `;`,
   /// honouring nested (), {}, [] and string literals.
   Parser _balancedValue() {
-    final stringLiteral =
-        (char("'") & (string("\\").seq(any()) | pattern("^'\\\\")).star() & char("'"));
-    final nested = _balanced('(', ')') | _balanced('{', '}') | _balanced('[', ']');
+    final stringLiteral = (char("'") &
+        (string("\\").seq(any()) | pattern("^'\\\\")).star() &
+        char("'"));
+    final nested =
+        _balanced('(', ')') | _balanced('{', '}') | _balanced('[', ']');
     final chunk = (pattern('^,;()\\[\\]{}\'')).plus() |
         stringLiteral.flatten() |
         nested;
     return _t((nested | stringLiteral | chunk).plus().flatten());
   }
 
+  /// Class-body member = shared prefix (parsed once) + one member body.
+  Parser<void Function(ClassMirror)> _buildClassMember() {
+    return (_prefix & _classMemberRest).map((v) {
+      final prefix = v[0] as _Prefix;
+      final apply = v[1] as void Function(ClassMirror, _Prefix);
+      return (ClassMirror c) => apply(c, prefix);
+    });
+  }
+
   // ---- Type declarations -------------------------------------------------
 
   void _buildTypeDeclaration() {
-    final classDecl = (_prefix(isMember: false) &
-            _kw('class') &
+    final classRest = (_kw('class') &
             _identifier &
             (_kw('extends') & _typeRef).optional() &
             (_kw('implements') & _typeList()).optional() &
             _sym('{') &
             _classMember.star() &
             _sym('}'))
-        .map<TypeMirror>((v) {
-      final prefix = v[0] as _Prefix;
-      final desc = prefix.descriptor();
-      final name = v[2] as String;
-      final ext = v[3] == null ? null : (v[3][1] as _PType).canonicalText;
-      final impls = v[4] == null
+        .map<TypeMirror Function(_Prefix)>((v) {
+      final name = v[1] as String;
+      final ext = v[2] == null ? null : (v[2][1] as _PType).canonicalText;
+      final impls = v[3] == null
           ? <String>[]
-          : (v[4][1] as List<_PType>).map((t) => t.canonicalText).toList();
-      final cls = ClassMirror(
-          name: name,
-          rawDocComment: prefix.doc,
-          extendedClass: ext,
-          implementedInterfaces: impls)
-        ..docComment = _parseDoc(prefix.doc)
-        ..accessModifier = desc.accessModifier
-        ..sharingModifier = desc.sharingModifier
-        ..classModifier = desc.classModifier
-        ..annotations = desc.annotations;
-      for (final apply in (v[6] as List).cast<void Function(ClassMirror)>()) {
-        apply(cls);
-      }
-      return cls;
+          : (v[3][1] as List<_PType>).map((t) => t.canonicalText).toList();
+      final members = (v[5] as List).cast<void Function(ClassMirror)>();
+      return (_Prefix prefix) {
+        final desc = prefix.descriptor();
+        final cls = ClassMirror(
+            name: name,
+            rawDocComment: prefix.rawDoc,
+            extendedClass: ext,
+            implementedInterfaces: impls)
+          ..docComment = prefix.doc
+          ..accessModifier = desc.accessModifier
+          ..sharingModifier = desc.sharingModifier
+          ..classModifier = desc.classModifier
+          ..annotations = desc.annotations;
+        for (final apply in members) {
+          apply(cls);
+        }
+        return cls;
+      };
     });
 
-    final interfaceDecl = (_prefix(isMember: false) &
-            _kw('interface') &
+    final interfaceRest = (_kw('interface') &
             _identifier &
             (_kw('extends') & _typeList()).optional() &
             _sym('{') &
             _interfaceMethod.star() &
             _sym('}'))
-        .map<TypeMirror>((v) {
-      final prefix = v[0] as _Prefix;
-      final desc = prefix.descriptor();
-      final ext = v[3] == null
+        .map<TypeMirror Function(_Prefix)>((v) {
+      final name = v[1] as String;
+      final ext = v[2] == null
           ? <String>[]
-          : (v[3][1] as List<_PType>).map((t) => t.canonicalText).toList();
-      final iface = InterfaceMirror(
-          name: v[2] as String,
-          rawDocComment: prefix.doc,
-          extendedInterfaces: ext)
-        ..docComment = _parseDoc(prefix.doc)
-        ..accessModifier = desc.accessModifier
-        ..sharingModifier = desc.sharingModifier
-        ..annotations = desc.annotations;
-      for (final build in (v[5] as List).cast<MethodMirror Function(InterfaceMirror)>()) {
-        iface.methods.add(build(iface));
-      }
-      return iface;
+          : (v[2][1] as List<_PType>).map((t) => t.canonicalText).toList();
+      final methods =
+          (v[4] as List).cast<MethodMirror Function(InterfaceMirror)>();
+      return (_Prefix prefix) {
+        final desc = prefix.descriptor();
+        final iface = InterfaceMirror(
+            name: name, rawDocComment: prefix.rawDoc, extendedInterfaces: ext)
+          ..docComment = prefix.doc
+          ..accessModifier = desc.accessModifier
+          ..sharingModifier = desc.sharingModifier
+          ..annotations = desc.annotations;
+        for (final build in methods) {
+          iface.methods.add(build(iface));
+        }
+        return iface;
+      };
     });
 
-    final enumConstant = (_prefix(isMember: true) & _identifier).map((v) {
+    final enumConstant = (_prefix & _identifier).map((v) {
       final prefix = v[0] as _Prefix;
-      return EnumValue(name: v[1] as String, rawDocComment: prefix.doc)
-        ..docComment = _parseDoc(prefix.doc);
+      return EnumValue(name: v[1] as String, rawDocComment: prefix.rawDoc)
+        ..docComment = prefix.doc;
     });
-    final enumDecl = (_prefix(isMember: false) &
-            _kw('enum') &
+    final enumRest = (_kw('enum') &
             _identifier &
             _sym('{') &
             (enumConstant & (_sym(',') & enumConstant).star()).optional() &
             _sym('}'))
-        .map<TypeMirror>((v) {
-      final prefix = v[0] as _Prefix;
-      final desc = prefix.descriptor();
-      final e = EnumMirror(name: v[2] as String, rawDocComment: prefix.doc)
-        ..docComment = _parseDoc(prefix.doc)
-        ..accessModifier = desc.accessModifier
-        ..annotations = desc.annotations;
-      if (v[4] != null) {
-        e.addValue(v[4][0] as EnumValue);
-        for (final rest in v[4][1] as List) {
-          e.addValue(rest[1] as EnumValue);
+        .map<TypeMirror Function(_Prefix)>((v) {
+      final name = v[1] as String;
+      final consts = <EnumValue>[];
+      if (v[3] != null) {
+        consts.add(v[3][0] as EnumValue);
+        for (final rest in v[3][1] as List) {
+          consts.add(rest[1] as EnumValue);
         }
       }
-      return e;
+      return (_Prefix prefix) {
+        final desc = prefix.descriptor();
+        final e = EnumMirror(name: name, rawDocComment: prefix.rawDoc)
+          ..docComment = prefix.doc
+          ..accessModifier = desc.accessModifier
+          ..annotations = desc.annotations;
+        for (final c in consts) {
+          e.addValue(c);
+        }
+        return e;
+      };
     });
 
-    _typeDeclaration.set([classDecl, interfaceDecl, enumDecl].toChoiceParser());
+    _typeDeclarationRest
+        .set([classRest, interfaceRest, enumRest].toChoiceParser());
+    _typeDeclaration.set((_prefix & _typeDeclarationRest).map((v) {
+      final prefix = v[0] as _Prefix;
+      final build = v[1] as TypeMirror Function(_Prefix);
+      return build(prefix);
+    }));
   }
 
   Parser<MethodMirror Function(InterfaceMirror)> get _interfaceMethod {
-    final voidOrType = _kw('void').map((_) => null) | _typeRef.map((t) => t);
-    return (_prefix(isMember: true) &
-            voidOrType &
-            _identifier &
-            _formalParameters &
-            _sym(';'))
+    final rest = (_voidOrType & _identifier & _formalParameters & _sym(';'))
         .map((v) {
-      final prefix = v[0] as _Prefix;
-      final own = prefix.descriptor(isMember: true).annotations;
-      final ret = v[1] == null
+      final ret = v[0] == null
           ? ReferenceObjectType('void')
-          : (v[1] as _PType).toReference();
-      return (InterfaceMirror iface) => MethodMirror(
-          name: v[2] as String,
-          rawDocComment: prefix.doc,
-          typeReference: ret)
-        ..docComment = _parseDoc(prefix.doc)
-        ..parameters = v[3] as List<ParameterMirror>
-        ..accessModifier = iface.accessModifier
-        ..annotations = [...iface.annotations, ...own];
+          : (v[0] as _PType).toReference();
+      final name = v[1] as String;
+      final params = v[2] as List<ParameterMirror>;
+      return (InterfaceMirror iface, _Prefix prefix) {
+        final own = prefix.descriptor(isMember: true).annotations;
+        return MethodMirror(
+            name: name, rawDocComment: prefix.rawDoc, typeReference: ret)
+          ..docComment = prefix.doc
+          ..parameters = params
+          ..accessModifier = iface.accessModifier
+          ..annotations = [...iface.annotations, ...own];
+      };
+    });
+    return (_prefix & rest).map((v) {
+      final prefix = v[0] as _Prefix;
+      final build = v[1] as MethodMirror Function(InterfaceMirror, _Prefix);
+      return (InterfaceMirror iface) => build(iface, prefix);
     });
   }
 
@@ -612,7 +633,7 @@ class _Grammar {
       return out;
     });
 
-    triggerUnit = (_prefix(isMember: false) &
+    triggerUnit = (_prefix &
             _kw('trigger') &
             _identifier &
             _kw('on') &
@@ -627,8 +648,8 @@ class _Grammar {
         name: v[2] as String,
         objectName: v[4] as String,
         events: v[6] as List<String>,
-        rawDocComment: prefix.doc,
-      )..docComment = _parseDoc(prefix.doc);
+        rawDocComment: prefix.rawDoc,
+      )..docComment = prefix.doc;
     });
   }
 
@@ -636,16 +657,22 @@ class _Grammar {
 
   void _build() {
     _buildTypeRef();
+    _prefix = _buildPrefix();
+    _classMember.set(_buildClassMember());
     _buildTypeDeclaration();
     _buildTrigger();
-    compilationUnit = (_typeDeclaration & _hws).end().map((v) => v[0] as TypeMirror);
+    compilationUnit =
+        (_typeDeclaration & _hws).end().map((v) => v[0] as TypeMirror);
   }
 }
 
-class _PrefixItem {
-  final bool isDoc;
-  final dynamic value;
-  _PrefixItem._(this.isDoc, this.value);
-  factory _PrefixItem.doc(String d) => _PrefixItem._(true, d);
-  factory _PrefixItem.mod(dynamic m) => _PrefixItem._(false, m);
+/// One item collected by the declaration prefix (exactly one field is set).
+class _Item {
+  final DocComment? doc;
+  final Annotation? anno;
+  final String? mod;
+  _Item._(this.doc, this.anno, this.mod);
+  factory _Item.doc(DocComment d) => _Item._(d, null, null);
+  factory _Item.anno(Annotation a) => _Item._(null, a, null);
+  factory _Item.mod(String m) => _Item._(null, null, m);
 }

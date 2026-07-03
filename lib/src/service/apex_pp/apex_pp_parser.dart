@@ -52,42 +52,51 @@ class _Kw {
   _Kw(this.text);
 }
 
-/// Intermediate parsed type: `name<args>[]…`.
-class _PType {
-  final String name;
+/// One `id<args>` segment of a (possibly dotted) type name.
+class _Seg {
+  final String id;
   final List<_PType> args;
-  final int arrayDims;
-  _PType(this.name, this.args, this.arrayDims);
+  _Seg(this.id, this.args);
+  String get text =>
+      args.isEmpty ? id : '$id<${args.map((a) => a.canonicalText).join(',')}>';
+}
 
-  String get canonicalText {
-    final base = args.isEmpty
-        ? name
-        : '$name<${args.map((a) => a.canonicalText).join(',')}>';
-    return base + ('[]' * arrayDims);
-  }
+/// Intermediate parsed type: `seg(.seg)*[]…`.
+class _PType {
+  final List<_Seg> segments;
+  final int arrayDims;
+  _PType(this.segments, this.arrayDims);
+
+  String get canonicalText =>
+      segments.map((s) => s.text).join('.') + ('[]' * arrayDims);
 
   ObjectTypeReference toReference() {
     if (arrayDims > 0) {
-      final inner = _PType(name, args, arrayDims - 1);
+      final inner = _PType(segments, arrayDims - 1);
       // Reproduce the ANTLR quirk: the mutable parse tree has its `[]` children
       // stripped during recursion, so every array level's rawDeclaration ends
       // up as the bracket-less base text.
-      final rawWithoutBrackets = _PType(name, args, 0).canonicalText;
+      final rawWithoutBrackets = _PType(segments, 0).canonicalText;
       return ListObjectType(inner.toReference(), rawWithoutBrackets);
     }
-    final lower = name.toLowerCase();
-    if (lower == 'list' && args.isNotEmpty) {
-      return ListObjectType(args[0].toReference(), canonicalText);
+    // Like ANTLR, collection/generic classification only inspects the *first*
+    // segment. A dotted generic such as `Database.Batchable<Object>` has a plain
+    // first segment, so it becomes a ReferenceObjectType of the full text.
+    final first = segments.first;
+    final lower = first.id.toLowerCase();
+    if (lower == 'list' && first.args.isNotEmpty) {
+      return ListObjectType(first.args[0].toReference(), canonicalText);
     }
-    if (lower == 'set' && args.isNotEmpty) {
-      return SetObjectType(args[0].toReference(), canonicalText);
+    if (lower == 'set' && first.args.isNotEmpty) {
+      return SetObjectType(first.args[0].toReference(), canonicalText);
     }
-    if (lower == 'map' && args.length >= 2) {
+    if (lower == 'map' && first.args.length >= 2) {
       return MapObjectType(
-          args[0].toReference(), args[1].toReference(), canonicalText);
+          first.args[0].toReference(), first.args[1].toReference(), canonicalText);
     }
-    if (args.isNotEmpty) {
-      return GenericObjectType(name, args[0].toReference(), canonicalText);
+    if (first.args.isNotEmpty) {
+      return GenericObjectType(
+          first.id, first.args[0].toReference(), canonicalText);
     }
     return ReferenceObjectType(canonicalText);
   }
@@ -174,27 +183,30 @@ class _Grammar {
 
   void _buildTypeRef() {
     final typeArgs = (_sym('<') & _typeList() & _sym('>'));
+    final idRaw = (pattern('a-zA-Z_\$') & _wordChar.star()).flatten();
 
-    final qualified = _t((pattern('a-zA-Z_\$') &
-            _wordChar.star() &
-            (char('.') & pattern('a-zA-Z_\$') & _wordChar.star()).star())
-        .flatten());
-
-    final typeName = (qualified & typeArgs.optional()).map((v) {
-      final name = (v[0] as String).trim();
+    // seg: `id` optionally followed by `<args>`. `_t` lets whitespace sit
+    // between the id and `<` (Apex allows `List <String>`).
+    final seg = (_t(idRaw) & typeArgs.optional()).map((v) {
       final args = v[1] == null
           ? <_PType>[]
           : ((v[1] as List)[1] as List).cast<_PType>();
-      return _PType(name, args, 0);
+      return _Seg(v[0] as String, args);
+    });
+
+    // dotted: seg ('.' seg)*
+    final dotted = (seg & (char('.') & seg).star()).map((v) {
+      final segs = <_Seg>[v[0] as _Seg];
+      for (final rest in v[1] as List) {
+        segs.add(rest[1] as _Seg);
+      }
+      return segs;
     });
 
     final arrayDims = (_sym('[') & _sym(']')).star();
 
-    _typeRef.set((typeName & arrayDims).map((v) {
-      final base = v[0] as _PType;
-      final dims = (v[1] as List).length;
-      return _PType(base.name, base.args, dims);
-    }));
+    _typeRef.set((dotted & _hws & arrayDims).map(
+        (v) => _PType(v[0] as List<_Seg>, (v[2] as List).length)));
   }
 
   Parser _typeList() => (_typeRef & (_sym(',') & _typeRef).star()).map((v) {
@@ -215,9 +227,11 @@ class _Grammar {
             balancedParens.optional())
         .map((v) {
       final name = v[1] as String;
-      final rawArgs = v[3] == null ? '' : _stripWsOutsideStrings(v[3] as String);
+      final rawParens = v[3] == null ? '' : v[3] as String;
+      final rawArgs =
+          rawParens.isEmpty ? '' : _stripWsOutsideStrings(rawParens);
       final annotation = Annotation('@$name$rawArgs');
-      annotation.elementValues = _parseElementValues(rawArgs);
+      annotation.elementValues = _parseElementValues(rawParens);
       return annotation;
     }));
   }
@@ -247,13 +261,17 @@ class _Grammar {
     return sb.toString();
   }
 
-  List<AnnotationElementValue> _parseElementValues(String rawArgs) {
-    if (rawArgs.length < 2) return [];
-    final inner = rawArgs.substring(1, rawArgs.length - 1);
+  /// Parses `key = value` element pairs from the *original* (un-stripped) parens
+  /// text — pairs may be space- or comma-separated, and values may be quoted
+  /// strings or bare tokens (`Required=false Label='x'`). Working on the spaced
+  /// text keeps the boundary between a bare value and the next key.
+  List<AnnotationElementValue> _parseElementValues(String rawParens) {
+    if (rawParens.length < 2) return [];
+    final inner = rawParens.substring(1, rawParens.length - 1);
     if (!inner.contains('=')) return [];
     final result = <AnnotationElementValue>[];
     final matches =
-        RegExp(r"([A-Za-z0-9_\$]+)=('[^']*'|[^\s']+?)(?=[A-Za-z0-9_\$]+=|$)")
+        RegExp(r"([A-Za-z0-9_\$]+)\s*=\s*('(?:[^'\\]|\\.)*'|[^\s,)]+)")
             .allMatches(inner);
     for (final m in matches) {
       result.add(AnnotationElementValue(m.group(1)!, m.group(2)!));
@@ -355,11 +373,15 @@ class _Grammar {
   /// Class-body member *without* its prefix. Returns a builder that receives the
   /// already-parsed prefix and the enclosing class.
   Parser<void Function(ClassMirror, _Prefix)> get _classMemberRest {
-    // inner type: class / interface / enum
+    // inner type: class / interface / enum. Inner types flow through
+    // `memberClassBodyDeclaration` in ANTLR, which classifies their modifiers
+    // with isMember=true (so e.g. `virtual` on an inner class becomes a dropped
+    // MemberModifier, not a ClassModifier). Pass isMember=true to match.
     final innerType =
         _typeDeclarationRest.map<void Function(ClassMirror, _Prefix)>((build) {
       return (ClassMirror c, _Prefix prefix) {
-        final type = (build as TypeMirror Function(_Prefix))(prefix);
+        final type =
+            (build as TypeMirror Function(_Prefix, bool))(prefix, true);
         switch (type) {
           case ClassMirror():
             c.addClass(type);
@@ -465,17 +487,23 @@ class _Grammar {
   }
 
   /// A field initializer value: everything up to a top-level `,` or `;`,
-  /// honouring nested (), {}, [] and string literals.
+  /// honouring nested (), {}, [], `<…>` generic literals and string literals.
+  ///
+  /// `<…>` is tried as a balanced group first (so the comma in
+  /// `new Map<String,Integer>{…}` is protected), but falls back to a single
+  /// char when there is no matching `>` (so a bare comparison `a < b` still
+  /// parses).
   Parser _balancedValue() {
     final stringLiteral = (char("'") &
         (string("\\").seq(any()) | pattern("^'\\\\")).star() &
         char("'"));
-    final nested =
-        _balanced('(', ')') | _balanced('{', '}') | _balanced('[', ']');
-    final chunk = (pattern('^,;()\\[\\]{}\'')).plus() |
-        stringLiteral.flatten() |
-        nested;
-    return _t((nested | stringLiteral | chunk).plus().flatten());
+    final nested = _balanced('(', ')') |
+        _balanced('{', '}') |
+        _balanced('[', ']') |
+        _balanced('<', '>');
+    final chunk = pattern('^,;()<>\\[\\]{}\'').plus();
+    final piece = nested | stringLiteral | chunk | pattern('<>');
+    return _t(piece.plus().flatten());
   }
 
   /// Class-body member = shared prefix (parsed once) + one member body.
@@ -497,15 +525,15 @@ class _Grammar {
             _sym('{') &
             _classMember.star() &
             _sym('}'))
-        .map<TypeMirror Function(_Prefix)>((v) {
+        .map<TypeMirror Function(_Prefix, bool)>((v) {
       final name = v[1] as String;
       final ext = v[2] == null ? null : (v[2][1] as _PType).canonicalText;
       final impls = v[3] == null
           ? <String>[]
           : (v[3][1] as List<_PType>).map((t) => t.canonicalText).toList();
       final members = (v[5] as List).cast<void Function(ClassMirror)>();
-      return (_Prefix prefix) {
-        final desc = prefix.descriptor();
+      return (_Prefix prefix, bool isMember) {
+        final desc = prefix.descriptor(isMember: isMember);
         final cls = ClassMirror(
             name: name,
             rawDocComment: prefix.rawDoc,
@@ -529,15 +557,15 @@ class _Grammar {
             _sym('{') &
             _interfaceMethod.star() &
             _sym('}'))
-        .map<TypeMirror Function(_Prefix)>((v) {
+        .map<TypeMirror Function(_Prefix, bool)>((v) {
       final name = v[1] as String;
       final ext = v[2] == null
           ? <String>[]
           : (v[2][1] as List<_PType>).map((t) => t.canonicalText).toList();
       final methods =
           (v[4] as List).cast<MethodMirror Function(InterfaceMirror)>();
-      return (_Prefix prefix) {
-        final desc = prefix.descriptor();
+      return (_Prefix prefix, bool isMember) {
+        final desc = prefix.descriptor(isMember: isMember);
         final iface = InterfaceMirror(
             name: name, rawDocComment: prefix.rawDoc, extendedInterfaces: ext)
           ..docComment = prefix.doc
@@ -561,7 +589,7 @@ class _Grammar {
             _sym('{') &
             (enumConstant & (_sym(',') & enumConstant).star()).optional() &
             _sym('}'))
-        .map<TypeMirror Function(_Prefix)>((v) {
+        .map<TypeMirror Function(_Prefix, bool)>((v) {
       final name = v[1] as String;
       final consts = <EnumValue>[];
       if (v[3] != null) {
@@ -570,8 +598,8 @@ class _Grammar {
           consts.add(rest[1] as EnumValue);
         }
       }
-      return (_Prefix prefix) {
-        final desc = prefix.descriptor();
+      return (_Prefix prefix, bool isMember) {
+        final desc = prefix.descriptor(isMember: isMember);
         final e = EnumMirror(name: name, rawDocComment: prefix.rawDoc)
           ..docComment = prefix.doc
           ..accessModifier = desc.accessModifier
@@ -585,10 +613,11 @@ class _Grammar {
 
     _typeDeclarationRest
         .set([classRest, interfaceRest, enumRest].toChoiceParser());
+    // Top-level types classify modifiers with isMember=false.
     _typeDeclaration.set((_prefix & _typeDeclarationRest).map((v) {
       final prefix = v[0] as _Prefix;
-      final build = v[1] as TypeMirror Function(_Prefix);
-      return build(prefix);
+      final build = v[1] as TypeMirror Function(_Prefix, bool);
+      return build(prefix, false);
     }));
   }
 

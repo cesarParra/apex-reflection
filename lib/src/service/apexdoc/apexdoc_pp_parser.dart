@@ -88,45 +88,63 @@ class ApexdocPpParser {
         : braceText;
   }
 
+  static const _keywords = ['param', 'return', 'throws', 'example', 'exception'];
+
   static DocComment _build(String description, List<_Tag> tags) {
     final descriptionLines = sanitizeDocContent(description);
     final doc = DocComment.withLines(descriptionLines);
 
     for (final tag in tags) {
-      final name = tag.name.toLowerCase();
+      var name = tag.name.toLowerCase();
+      var body = tag.body;
+      var displayName = tag.name;
+      // ANTLR lexes @param/@return/@throws/@example/@exception as maximal-munch
+      // keywords, so e.g. `@returns X` is `@return` + a leftover `s` that starts
+      // the body, and `@paramName` is `@param` + `Name`. Replicate that.
+      for (final kw in _keywords) {
+        if (name.length > kw.length && name.startsWith(kw)) {
+          body = tag.name.substring(kw.length) + body;
+          name = kw;
+          displayName = kw;
+          break;
+        }
+      }
       switch (name) {
         case 'param':
-          final (first, rest) = _splitFirstWord(tag.body);
+          final (first, rest) = _splitFirstWord(body);
           doc.paramAnnotations
               .add(ParamDocCommentAnnotation(first, sanitizeDocContent(rest)));
           break;
         case 'throws':
         case 'exception':
-          final (first, rest) = _splitFirstWord(tag.body);
+          final (first, rest) = _splitFirstWord(body);
           doc.throwsAnnotations.add(
               ThrowsDocCommentAnnotation(first, sanitizeDocContent(rest)));
           break;
         case 'return':
           doc.returnAnnotation =
-              ReturnDocCommentAnnotation(sanitizeDocContent(tag.body));
+              ReturnDocCommentAnnotation(sanitizeDocContent(body));
           break;
         case 'example':
           doc.exampleAnnotation =
-              ExampleDocCommentAnnotation(sanitizeDocContent(tag.body));
+              ExampleDocCommentAnnotation(sanitizeDocContent(body));
           break;
         default:
           doc.annotations
-              .add(DocCommentAnnotation(tag.name, sanitizeDocContent(tag.body)));
+              .add(DocCommentAnnotation(displayName, sanitizeDocContent(body)));
       }
     }
     return doc;
   }
 
-  /// Splits the block-tag body into (first token, remainder) — the param /
-  /// exception name followed by the rest of the content.
+  /// Splits the block-tag body into (first NAME token, remainder) — the param /
+  /// exception name followed by the rest of the content. ANTLR captures the name
+  /// as a single NAME token (`[A-Za-z0-9$_-]+`), so `List<Foo>` yields name
+  /// `List` and `System.Ex` yields name `System` — the split stops at `<`, `.`,
+  /// etc., not at whitespace.
   static (String, String) _splitFirstWord(String body) {
     final trimmed = body.trimLeft();
-    final match = RegExp(r'^\S+').firstMatch(trimmed);
+    final match = RegExp(r'^[A-Za-z0-9$_-]+').firstMatch(trimmed);
     if (match == null) return ('', '');
     final first = match.group(0)!;
     final rest = trimmed.substring(first.length);

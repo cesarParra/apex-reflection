@@ -154,6 +154,61 @@ The standalone `ApexdocParser.parseFromBody` entry point still exists (same
 `wrapped`/bare parser) for the direct doc-comment unit tests and the legacy
 ANTLR path; it is no longer on the petitparser Apex critical path.
 
+## Benchmark: ANTLR vs petitparser on a real corpus
+
+`tool/benchmark/benchmark.dart` runs both full pipelines (`source → JSON`) over a
+real Salesforce project (2975 `.cls`, ~24 MB) and compares speed and output. The
+ANTLR baseline is faithful — original ANTLR Apex parser **and** original
+two-stage ANTLR Apexdoc parser (both still present on this branch). See
+`tool/benchmark/README.md` for usage.
+
+Headline (reference corpus, median of 3 passes; numbers are machine-specific):
+
+- **~1.45× faster** end to end (≈8.0 s → ≈5.6 s over the corpus); petitparser is
+  faster at p50/p90/p99 and on the slowest files.
+- **Output parity: ~99.5%** byte-identical JSON (2958 / 2973 files both parse).
+- **Parse failures: 1 / 2975** for petitparser (vs 1 for ANTLR).
+
+### Bugs this benchmark surfaced (and that were fixed)
+
+Running against real code — far more varied than the unit tests — exposed real
+prototype bugs, all now fixed (unit tests + the 49-case differential still green):
+
+1. **Inner `virtual`/`abstract` class modifier** — ANTLR classifies inner-type
+   modifiers with isMember=true (they flow through `memberClassBodyDeclaration`),
+   so `virtual` on an inner class becomes a dropped MemberModifier, not a
+   ClassModifier. The prefix now carries raw keywords and classifies with the
+   right isMember per site.
+2. **Generic collection literals in field initializers** — `new Map<String,Integer>{…}`
+   was misparsed because `<…>` was not balance-tracked; the comma inside the
+   generic looked like a declarator separator. This was ~99 of the original 100
+   parse failures. `_balancedValue` now balances `<…>` (with a single-char
+   fallback so a bare `a < b` comparison still parses).
+3. **`List <String>` (space before `<`)** — the type-name segment now allows
+   whitespace before its type arguments.
+4. **Unquoted annotation element values** — `@InvocableVariable(Required=false Label='x')`
+   is now parsed from the spaced text, so a bare value doesn't fuse into the next
+   key.
+5. **Dotted generic type refs** — `Database.Batchable<Object>`: ANTLR only
+   inspects `typeName(0)` for generics, so a dotted generic is a plain
+   `ReferenceObjectType(fullText)`. The type model is now per-segment and
+   classifies on the first segment only.
+6. **Apexdoc `@throws System.Ex` / `@param List<Foo>` / `@returns`** — the
+   exception/param name is now the first NAME token (stops at `.`/`<`), and the
+   five doc keywords are prefix-matched like ANTLR's maximal-munch lexer
+   (`@returns` = `@return` + `s`).
+
+### Remaining known differences (long tail, ~15 files)
+
+- Files where **ANTLR's doc parser errors** ("no viable alternative") but
+  petitparser parses successfully — petitparser is *more* correct.
+- The multi-doc-before-member / section-header quirk (ANTLR's member path takes
+  the *first* of several stacked doc comments) — tied to the unimplemented
+  group-comment feature.
+- Minor whitespace-sanitisation edges.
+- One `.cls` (`fflib_ApexMocksUtils`) uses a construct the prototype grammar
+  doesn't accept yet.
+
 ## Feasibility conclusion
 
 **Feasible.** The hard parts — the Apex declaration grammar, exact type-reference

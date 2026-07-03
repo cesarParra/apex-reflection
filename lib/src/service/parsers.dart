@@ -1,6 +1,8 @@
 import 'package:antlr4/antlr4.dart';
 import 'package:apex_reflection/src/model/doc_comment.dart';
 import 'package:apex_reflection/src/model/types.dart';
+import 'package:apex_reflection/src/service/apex_pp/apex_pp_parser.dart';
+import 'package:apex_reflection/src/service/apexdoc/apexdoc_pp_parser.dart';
 import 'package:apex_reflection/src/service/case_insensitive_input_stream.dart';
 import 'package:apex_reflection/src/service/walker.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -108,57 +110,22 @@ class Reflection {
 }
 
 class ApexParser {
+  // petitparser prototype path.
   static TypeMirror parseFromBody(String body) {
-    final input = CaseInsensitiveInputStream.fromString(body);
-    return _parse(input);
-  }
-
-  static TypeMirror _parse(InputStream input) {
-    final walkerDefinition = ApexWalkerDefinition();
-    Walker.walk(input, walkerDefinition,
-        (antlr_apex_parser.ApexParser parser) => parser.compilationUnit());
-    return walkerDefinition.getGeneratedApexType()!;
+    return ApexPpParser.parseType(body);
   }
 }
 
 class TriggerParser {
+  // petitparser prototype path.
   static TriggerMirror parseFromBody(String body) {
-    final input = CaseInsensitiveInputStream.fromString(body);
-    return _parse(input);
-  }
-
-  static TriggerMirror _parse(InputStream input) {
-    final walkerDefinition = ApexWalkerDefinition();
-    Walker.walk(input, walkerDefinition,
-        (antlr_apex_parser.ApexParser parser) => parser.triggerUnit());
-    return walkerDefinition.getGeneratedTrigger()!;
+    return ApexPpParser.parseTrigger(body);
   }
 }
 
 class ApexdocParser {
+  // petitparser prototype: replaces the two-stage ANTLR SLL/LL walker.
   static DocComment parseFromBody(String body) {
-    var sanitizedBody = body.trim();
-    // Two-stage parsing: attempt the fast SLL prediction mode first, which
-    // handles the vast majority of doc comments. SLL can report a syntax error
-    // on a small number of inputs that full LL prediction accepts (e.g. inline
-    // emails in descriptions); when that happens, fall back to LL.
-    try {
-      return _walk(sanitizedBody, PredictionMode.SLL);
-    } catch (_) {
-      try {
-        return _walk(sanitizedBody, PredictionMode.LL);
-      } catch (error) {
-        return DocComment.error(error.toString());
-      }
-    }
-  }
-
-  static DocComment _walk(String sanitizedBody, PredictionMode mode) {
-    final walkerDefinition = ApexdocWalkerDefinition(predictionMode: mode);
-    Walker.walk(
-        InputStream.fromString(sanitizedBody),
-        walkerDefinition,
-        (antlr_apexdoc_parser.ApexdocParser parser) => parser.documentation());
-    return walkerDefinition.getGeneratedDocComment();
+    return ApexdocPpParser.parse(body);
   }
 }

@@ -1,0 +1,39 @@
+Corpus: 2975 .cls files, 24.4 MB, from /Users/cesarparra/IdeaProjects/work/src-nmb-nu
+Iterations: 3   Unit of work: body -> JSON string
+
+Parse failures (of 2975):
+  ANTLR      : 1
+  petitparser: 1
+  petitparser failed on: fflib_ApexMocksUtils.cls
+Timing 2973 files parseable by both.
+
+Output parity (full JSON): 2958/2973 identical
+  first mismatches: CartSubmitter.cls, CartTestData.cls, MockPaymentGateway.cls, MockPaymentGateway2.cls, OrderItem.cls, fflib_SecurityUtils.cls, fflib_Answer.cls, fflib_AnyOrder.cls, fflib_ArgumentCaptor.cls, fflib_InvocationOnMock.cls, fflib_Match.cls, fflib_MatcherDefinitions.cls, fflib_MethodVerifier.cls, fflib_VerificationMode.cls, di_Module.cls
+
+  pass 1/3  ANTLR 8141.6 ms   petitparser 5513.4 ms
+  pass 2/3  ANTLR 8110.1 ms   petitparser 5592.8 ms
+  pass 3/3  ANTLR 7992.5 ms   petitparser 5613.3 ms
+
+== Throughput (median of 3 passes) ==
+  ANTLR      : 8110.1 ms   367 files/s, 3.0 MB/s
+  petitparser: 5592.8 ms   532 files/s, 4.4 MB/s
+  speedup    : 1.45x (petitparser vs ANTLR)
+
+== Per-file latency (ms), last pass ==
+  parser        p50     p90     p99     max
+  ANTLR         1.25    5.92   20.79  214.66
+  petitparser   0.78    4.09   15.44  202.57
+
+== Slowest files (last pass) ==
+  ANTLR       slowest:
+       214.7 ms  MetadataService.cls
+       185.6 ms  TransactionGenerator2Test.cls
+       107.3 ms  CartSubmitterTest.cls
+        96.9 ms  TestCartSubmitter.cls
+        64.1 ms  TestOrderPaymentController.cls
+  petitparser slowest:
+       202.6 ms  MetadataService.cls
+       150.1 ms  TransactionGenerator2Test.cls
+        79.1 ms  CartSubmitterTest.cls
+        70.3 ms  TestCartSubmitter.cls
+        47.6 ms  TestOrderPaymentController.cls

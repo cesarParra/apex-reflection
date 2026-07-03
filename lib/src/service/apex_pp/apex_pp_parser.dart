@@ -5,7 +5,6 @@ import 'package:apex_reflection/src/model/modifiers.dart';
 import 'package:apex_reflection/src/model/type_references.dart';
 import 'package:apex_reflection/src/model/types.dart';
 import 'package:apex_reflection/src/service/apex_listener.dart' show DeclarationDescriptor;
-import 'package:apex_reflection/src/service/utils/parsing/parsing_utils.dart';
 
 /// petitparser prototype replacing the ANTLR Apex parser.
 ///
@@ -307,8 +306,6 @@ class _Grammar {
   }
 
   Parser<String> get _block => _t(_balanced('{', '}'));
-
-  Parser<String> get _parens => _t(_balanced('(', ')'));
 
   // ---- Formal parameters -------------------------------------------------
 

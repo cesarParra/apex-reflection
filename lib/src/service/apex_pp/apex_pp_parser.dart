@@ -63,7 +63,11 @@ class _PType {
   ObjectTypeReference toReference() {
     if (arrayDims > 0) {
       final inner = _PType(name, args, arrayDims - 1);
-      return ListObjectType(inner.toReference(), canonicalText);
+      // Reproduce the ANTLR quirk: the mutable parse tree has its `[]` children
+      // stripped during recursion, so every array level's rawDeclaration ends
+      // up as the bracket-less base text.
+      final rawWithoutBrackets = _PType(name, args, 0).canonicalText;
+      return ListObjectType(inner.toReference(), rawWithoutBrackets);
     }
     final lower = name.toLowerCase();
     if (lower == 'list' && args.isNotEmpty) {
@@ -186,12 +190,36 @@ class _Grammar {
             balancedParens.optional())
         .map((v) {
       final name = v[1] as String;
-      final rawArgs =
-          v[3] == null ? '' : (v[3] as String).replaceAll(RegExp(r'\s+'), '');
+      final rawArgs = v[3] == null ? '' : _stripWsOutsideStrings(v[3] as String);
       final annotation = Annotation('@$name$rawArgs');
       annotation.elementValues = _parseElementValues(rawArgs);
       return annotation;
     }));
+  }
+
+  /// Removes whitespace between tokens but preserves it inside single-quoted
+  /// string literals — mirrors ANTLR's token-concatenated `.text`.
+  static String _stripWsOutsideStrings(String s) {
+    final sb = StringBuffer();
+    var inString = false;
+    for (var i = 0; i < s.length; i++) {
+      final c = s[i];
+      if (inString) {
+        sb.write(c);
+        if (c == '\\' && i + 1 < s.length) {
+          sb.write(s[i + 1]);
+          i++;
+        } else if (c == "'") {
+          inString = false;
+        }
+      } else if (c == "'") {
+        inString = true;
+        sb.write(c);
+      } else if (!RegExp(r'\s').hasMatch(c)) {
+        sb.write(c);
+      }
+    }
+    return sb.toString();
   }
 
   List<AnnotationElementValue> _parseElementValues(String rawArgs) {

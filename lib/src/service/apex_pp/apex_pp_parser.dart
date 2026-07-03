@@ -1,10 +1,12 @@
 import 'package:petitparser/petitparser.dart';
 
+import 'package:apex_reflection/src/model/doc_comment.dart';
 import 'package:apex_reflection/src/model/members.dart';
 import 'package:apex_reflection/src/model/modifiers.dart';
 import 'package:apex_reflection/src/model/type_references.dart';
 import 'package:apex_reflection/src/model/types.dart';
 import 'package:apex_reflection/src/service/apex_listener.dart' show DeclarationDescriptor;
+import 'package:apex_reflection/src/service/apexdoc/apexdoc_pp_parser.dart';
 
 /// petitparser prototype replacing the ANTLR Apex parser.
 ///
@@ -106,6 +108,23 @@ class _Grammar {
 
   _Grammar() {
     _build();
+  }
+
+  /// Parses a captured raw doc comment inline (eagerly, during the Apex parse)
+  /// into a [DocComment], with error isolation: a malformed doc never fails the
+  /// enclosing Apex parse — it becomes an error [DocComment] instead.
+  ///
+  /// This is called from the per-declaration builders (which run once, on the
+  /// winning parse alternative) rather than from [_prefix] — [_prefix] re-runs
+  /// on every backtracked member alternative, so parsing there would parse the
+  /// same doc several times.
+  DocComment? _parseDoc(String? raw) {
+    if (raw == null) return null;
+    try {
+      return ApexdocPpParser.parse(raw)..rawDeclaration = raw;
+    } catch (e) {
+      return DocComment.error(e.toString())..rawDeclaration = raw;
+    }
   }
 
   // ---- Lexical building blocks -------------------------------------------
@@ -348,6 +367,7 @@ class _Grammar {
           : (v[1] as _PType).toReference();
       final method = MethodMirror(
           name: v[2] as String, rawDocComment: prefix.doc, typeReference: ret)
+        ..docComment = _parseDoc(prefix.doc)
         ..parameters = v[3] as List<ParameterMirror>
         ..accessModifier = desc.accessModifier
         ..annotations = desc.annotations
@@ -364,6 +384,7 @@ class _Grammar {
       final prefix = v[0] as _Prefix;
       final desc = prefix.descriptor(isMember: true);
       final ctor = ConstructorMirror(rawDocComment: prefix.doc)
+        ..docComment = _parseDoc(prefix.doc)
         ..parameters = v[2] as List<ParameterMirror>
         ..accessModifier = desc.accessModifier
         ..annotations = desc.annotations;
@@ -379,6 +400,7 @@ class _Grammar {
           name: v[2] as String,
           rawDocComment: prefix.doc,
           typeReference: (v[1] as _PType).toReference())
+        ..docComment = _parseDoc(prefix.doc)
         ..accessModifier = desc.accessModifier
         ..annotations = desc.annotations
         ..memberModifiers = desc.memberModifiers;
@@ -398,6 +420,7 @@ class _Grammar {
       final fields = names
           .map((name) => FieldMirror(
               name: name, rawDocComment: prefix.doc, typeReference: type)
+            ..docComment = _parseDoc(prefix.doc)
             ..accessModifier = desc.accessModifier
             ..annotations = desc.annotations
             ..memberModifiers = desc.memberModifiers)
@@ -481,6 +504,7 @@ class _Grammar {
           rawDocComment: prefix.doc,
           extendedClass: ext,
           implementedInterfaces: impls)
+        ..docComment = _parseDoc(prefix.doc)
         ..accessModifier = desc.accessModifier
         ..sharingModifier = desc.sharingModifier
         ..classModifier = desc.classModifier
@@ -508,6 +532,7 @@ class _Grammar {
           name: v[2] as String,
           rawDocComment: prefix.doc,
           extendedInterfaces: ext)
+        ..docComment = _parseDoc(prefix.doc)
         ..accessModifier = desc.accessModifier
         ..sharingModifier = desc.sharingModifier
         ..annotations = desc.annotations;
@@ -519,7 +544,8 @@ class _Grammar {
 
     final enumConstant = (_prefix(isMember: true) & _identifier).map((v) {
       final prefix = v[0] as _Prefix;
-      return EnumValue(name: v[1] as String, rawDocComment: prefix.doc);
+      return EnumValue(name: v[1] as String, rawDocComment: prefix.doc)
+        ..docComment = _parseDoc(prefix.doc);
     });
     final enumDecl = (_prefix(isMember: false) &
             _kw('enum') &
@@ -531,6 +557,7 @@ class _Grammar {
       final prefix = v[0] as _Prefix;
       final desc = prefix.descriptor();
       final e = EnumMirror(name: v[2] as String, rawDocComment: prefix.doc)
+        ..docComment = _parseDoc(prefix.doc)
         ..accessModifier = desc.accessModifier
         ..annotations = desc.annotations;
       if (v[4] != null) {
@@ -562,6 +589,7 @@ class _Grammar {
           name: v[2] as String,
           rawDocComment: prefix.doc,
           typeReference: ret)
+        ..docComment = _parseDoc(prefix.doc)
         ..parameters = v[3] as List<ParameterMirror>
         ..accessModifier = iface.accessModifier
         ..annotations = [...iface.annotations, ...own];
@@ -600,7 +628,7 @@ class _Grammar {
         objectName: v[4] as String,
         events: v[6] as List<String>,
         rawDocComment: prefix.doc,
-      );
+      )..docComment = _parseDoc(prefix.doc);
     });
   }
 

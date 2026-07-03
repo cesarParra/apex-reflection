@@ -102,6 +102,32 @@ ANTLR listener supports that the prototype does not.
    `apexdoc_listener.dart`, `case_insensitive_input_stream.dart`, and the
    `antlr4` dependency.
 
+## Inline (single-pass) doc-comment parsing
+
+The ANTLR design was structurally two-pass: the Apex lexer and the Apexdoc lexer
+have **separate token vocabularies**, so a doc comment could only be captured as
+one opaque hidden-channel token and then re-parsed by a second lexer+parser
+instance (lazily, on `.docComment` access).
+
+petitparser removes that constraint — both grammars are composable parsers over
+the same character stream. The Apex parser now parses each doc comment **inline,
+during the Apex parse**, and attaches the resulting `DocComment` directly to the
+model. There is no lazy re-parse step.
+
+Details:
+- Parsing happens in the per-declaration builders (which run once, on the
+  winning parse alternative), **not** in the shared `_prefix` rule — `_prefix`
+  re-runs on every backtracked member alternative, so parsing there would parse
+  the same doc several times. `_prefix` still only captures the raw string
+  (cheap `flatten`).
+- **Error isolation:** `_parseDoc` wraps the sub-parse; a malformed doc yields an
+  error `DocComment` and never fails the enclosing Apex parse.
+- Output is byte-identical (still 279/279 and 49/49) — the change is eager vs.
+  lazy, not a change in results.
+- Laziness was dropped deliberately: this library's real output is JSON, which
+  serialises every declaration's `docComment`, so all docs are parsed anyway —
+  lazy parsing bought nothing.
+
 ## Feasibility conclusion
 
 **Feasible.** The hard parts — the Apex declaration grammar, exact type-reference

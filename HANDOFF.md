@@ -91,15 +91,15 @@ Still ANTLR (kept intentionally; **do not delete until the clean rewrite**):
 
 Which tests exercise which engine now:
 
-| Test file | Entry point | Runs on |
-|---|---|---|
-| `apexdoc_parser_test`, `doc_comment_test` | `ApexdocParser.parseFromBody` | **petitparser** |
-| `reflection.test` | `Reflection.reflect` | **petitparser** |
-| `trigger_parser_test` | `TriggerParser.parseFromBody` | **petitparser** |
-| `apex_listener_test`, `type_references_end_to_end_test`, `apexdoc_integration_test` | local `walkApex` → `Walker.walk` + `ApexWalkerDefinition` | **ANTLR** |
-| `walker_test` | `Walker.walk` directly | **ANTLR** |
-| `type_references_test` | `ObjectTypeReference(mock TypeRefContext)` | **ANTLR factory** |
-| model / serialization tests | model constructors, no parser | n/a |
+| Test file                                                                           | Entry point                                               | Runs on           |
+|-------------------------------------------------------------------------------------|-----------------------------------------------------------|-------------------|
+| `apexdoc_parser_test`, `doc_comment_test`                                           | `ApexdocParser.parseFromBody`                             | **petitparser**   |
+| `reflection.test`                                                                   | `Reflection.reflect`                                      | **petitparser**   |
+| `trigger_parser_test`                                                               | `TriggerParser.parseFromBody`                             | **petitparser**   |
+| `apex_listener_test`, `type_references_end_to_end_test`, `apexdoc_integration_test` | local `walkApex` → `Walker.walk` + `ApexWalkerDefinition` | **ANTLR**         |
+| `walker_test`                                                                       | `Walker.walk` directly                                    | **ANTLR**         |
+| `type_references_test`                                                              | `ObjectTypeReference(mock TypeRefContext)`                | **ANTLR factory** |
+| model / serialization tests                                                         | model constructors, no parser                             | n/a               |
 
 So the petitparser Apex parser is directly exercised by only `reflection.test`
 (no assertions — just "doesn't throw + serialises") and `trigger_parser_test`.
@@ -202,14 +202,14 @@ relative speedup should hold, absolute numbers will differ.
 - **Hand-maintained grammar**: correctness is on us, not a formal grammar. The
   `.g4` files were a spec; now the grammar lives in Dart combinators.
 - **Heuristics with known ceilings** (marked in code / here):
-  - Annotation element values parsed with a **regex**, not a sub-grammar.
-  - Field initializer values use a `<…>` balancing heuristic with a single-char
-    fallback (handles generic literals vs. bare comparisons; contrived mixes
-    could still be wrong — irrelevant to output since only field *names* matter).
-  - Several **ANTLR quirks are reproduced on purpose** for byte parity (array
-    `rawDeclaration`, doc keyword maximal-munch). If the clean version decides
-    ANTLR's behavior was a bug, these should be revisited (and will change
-    output).
+    - Annotation element values parsed with a **regex**, not a sub-grammar.
+    - Field initializer values use a `<…>` balancing heuristic with a single-char
+      fallback (handles generic literals vs. bare comparisons; contrived mixes
+      could still be wrong — irrelevant to output since only field *names* matter).
+    - Several **ANTLR quirks are reproduced on purpose** for byte parity (array
+      `rawDeclaration`, doc keyword maximal-munch). If the clean version decides
+      ANTLR's behavior was a bug, these should be revisited (and will change
+      output).
 - **PEG error messages are poor**: an ordered-choice failure reports the *last*
   alternative ("`enum` expected"), not the real failure point. Debugging a
   failing file means bisecting the input. Consider better error reporting in the
@@ -270,11 +270,11 @@ it (minus the intentionally-changed quirks / group gap). The differential harnes
 4. **Add the missing tests** (section 7) — pin behavior first.
 5. **Unwind ANTLR from test setups** (assertions stay; only setup changes, which
    the brief allows — log them):
-   - `type_references_test` mocks `TypeRefContext` → change
-     `ObjectTypeReference` to accept a parsed type (string / small struct).
-   - `walkApex` helpers in `apex_listener_test` /
-     `type_references_end_to_end_test` / `apexdoc_integration_test` → point at the
-     petitparser entry points.
+    - `type_references_test` mocks `TypeRefContext` → change
+      `ObjectTypeReference` to accept a parsed type (string / small struct).
+    - `walkApex` helpers in `apex_listener_test` /
+      `type_references_end_to_end_test` / `apexdoc_integration_test` → point at the
+      petitparser entry points.
 6. **Delete** `lib/src/antlr/**`, `walker.dart`, `apex_listener.dart`,
    `apexdoc_listener.dart`, `case_insensitive_input_stream.dart`, and the
    `antlr4` dependency. Move `DeclarationDescriptor` out of `apex_listener.dart`
@@ -287,15 +287,15 @@ it (minus the intentionally-changed quirks / group gap). The differential harnes
 
 Branch `petitparser`, off `main`. Chronological:
 
-| Commit | What |
-|---|---|
-| `a24b428` | Replace ANTLR Apexdoc parser with petitparser prototype |
-| `ba479fc` | Add petitparser Apex/Trigger parser; repoint entry points |
-| `53a72ef` | 49/49 JSON parity with ANTLR; add differential harness |
-| `c002d29` | Clean up warnings; add migration findings log |
+| Commit    | What                                                                                          |
+|-----------|-----------------------------------------------------------------------------------------------|
+| `a24b428` | Replace ANTLR Apexdoc parser with petitparser prototype                                       |
+| `ba479fc` | Add petitparser Apex/Trigger parser; repoint entry points                                     |
+| `53a72ef` | 49/49 JSON parity with ANTLR; add differential harness                                        |
+| `c002d29` | Clean up warnings; add migration findings log                                                 |
 | `6fa019c` | Parse doc comments inline (eager, still two composed parsers) — **"before" benchmark marker** |
-| `43e6a95` | Unify Apex + Apexdoc into one grammar (single-pass) — **"after" benchmark marker** |
-| `e8a2941` | Add ANTLR-vs-petitparser benchmark; fix 6 bugs it surfaced |
+| `43e6a95` | Unify Apex + Apexdoc into one grammar (single-pass) — **"after" benchmark marker**            |
+| `e8a2941` | Add ANTLR-vs-petitparser benchmark; fix 6 bugs it surfaced                                    |
 
 Diff `6fa019c..43e6a95` to see the single-grammar refactor in isolation.
 

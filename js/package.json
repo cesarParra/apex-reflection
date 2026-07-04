@@ -1,6 +1,6 @@
 {
   "name": "@cparra/apex-reflection",
-  "version": "3.1.0",
+  "version": "4.0.0-beta.1",
   "description": "Provides tools for reflecting Apex code, the language used in Salesforce development.",
   "main": "dist/index.mjs",
   "scripts": {
@@ -15,8 +15,9 @@
     "apex",
     "salesforce",
     "reflection",
-    "ANTLR4",
-    "apex-docs"
+    "apex-docs",
+    "apexdocs",
+    "documentation"
   ],
   "author": "Cesar Parra",
   "license": "ISC",

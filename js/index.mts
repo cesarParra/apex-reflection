@@ -101,6 +101,11 @@ export interface DocComment {
   descriptionLines: string[];
   description: string;
   error?: string;
+  /**
+   * True when the comment contains an `{@hidden}` inline tag, meaning the
+   * documented element should be excluded from generated documentation.
+   */
+  hidden?: boolean;
 }
 
 export interface AnnotationElementValue {

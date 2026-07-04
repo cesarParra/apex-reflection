@@ -33,7 +33,7 @@ const response = reflect(rawFile.toString());
 ```
 
 The `reflect` function returns a `ReflectionResult` which contains either the results of the parsed `Type`
-(which will either be a `ClassMirror`, an, or an `EnumMirror`) or a `ParsingError` if the passed in
+(which will either be a `ClassMirror`, an `InterfaceMirror`, or an `EnumMirror`) or a `ParsingError` if the passed in
 body was not parsed successfully, with a message indicating where the error occurred.
 
 ## Contributing

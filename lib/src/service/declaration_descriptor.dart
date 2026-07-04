@@ -9,7 +9,6 @@ import 'package:apex_reflection/src/model/modifiers.dart';
 /// private, which is Apex's default visibility.
 class DeclarationDescriptor {
   List<dynamic> accessModifiers = [];
-  String? docComment;
 
   get accessModifier =>
       accessModifiers.firstWhere((element) => element is AccessModifier,
@@ -27,5 +26,5 @@ class DeclarationDescriptor {
   late final List<MemberModifier> memberModifiers =
       accessModifiers.whereType<MemberModifier>().toList();
 
-  DeclarationDescriptor({required this.accessModifiers, this.docComment});
+  DeclarationDescriptor({required this.accessModifiers});
 }

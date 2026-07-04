@@ -7,7 +7,6 @@ environment:
   sdk: ">=3.10.0 <4.0.0"
 
 dependencies:
-  antlr4: 4.9.3
   json_annotation: ^4.8.1
   args: ^2.7.0
   petitparser: ^7.0.2

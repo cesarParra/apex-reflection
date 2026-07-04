@@ -1,8 +1,6 @@
 import 'package:apex_reflection/src/extension_methods/list_extensions.dart';
-import 'package:apex_reflection/src/service/utils/parsing/parsing_utils.dart';
+import 'package:apex_reflection/src/service/utils/parsing/enum_utils.dart';
 import 'package:json_annotation/json_annotation.dart';
-
-import '../antlr/grammars/apex/ApexParser.dart';
 
 part 'modifiers.g.dart';
 
@@ -49,22 +47,6 @@ enum AnnotationType {
   httpPost,
   httpPut,
   other
-}
-
-dynamic getModifierFromStringDeclaration(dynamic modifierDeclarationContext,
-    {isMember = false}) {
-  if (modifierDeclarationContext is AnnotationContext) {
-    return Annotation.fromAnnotationContext(modifierDeclarationContext);
-  }
-
-  if (modifierDeclarationContext is ModifierContext &&
-      modifierDeclarationContext.annotation() != null) {
-    return Annotation.fromAnnotationContext(
-        modifierDeclarationContext.annotation()!);
-  }
-
-  return modifierFromKeyword(modifierDeclarationContext.text,
-      isMember: isMember);
 }
 
 /// Classifies a modifier keyword into its modifier enum value, or null when
@@ -114,18 +96,6 @@ class Annotation {
   Annotation(this.rawDeclaration) {
     name = _nameFromDeclaration(rawDeclaration);
     type = _parseAnnotationTypeFromString(name);
-  }
-
-  factory Annotation.fromAnnotationContext(AnnotationContext ctx) {
-    final annotation = Annotation(ctx.text);
-    annotation.elementValues = ctx
-            .elementValuePairs()
-            ?.elementValuePairs()
-            .map((valuePair) => AnnotationElementValue(
-                valuePair.id()!.text, valuePair.elementValue()!.text))
-            .toList() ??
-        [];
-    return annotation;
   }
 
   factory Annotation.fromJson(Map<String, dynamic> json) =>

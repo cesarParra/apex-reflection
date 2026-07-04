@@ -1,16 +1,10 @@
 import 'package:apex_reflection/src/model/members.dart';
 import 'package:apex_reflection/src/model/type_references.dart';
 import 'package:apex_reflection/src/model/types.dart';
-import 'package:apex_reflection/src/service/case_insensitive_input_stream.dart';
-import 'package:apex_reflection/src/service/walker.dart';
+import 'package:apex_reflection/src/service/parsers.dart';
 import 'package:test/test.dart';
 
-ApexWalkerDefinition walkApex(String body) {
-  final apexWalkerDefinition = ApexWalkerDefinition();
-  Walker.walk(CaseInsensitiveInputStream.fromString(body), apexWalkerDefinition,
-      (parser) => parser.compilationUnit());
-  return apexWalkerDefinition;
-}
+TypeMirror parseApex(String body) => ApexParser.parseFromBody(body);
 
 main() {
   group('End-to-end ObjectTypeReference tests', () {
@@ -20,9 +14,9 @@ main() {
         private String myVar1;
       }
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
+      final generatedType = parseApex(classBody);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          generatedType as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
 
       FieldMirror field1 = generatedClass.fields
@@ -38,9 +32,9 @@ main() {
         private List<String> myVar1;
       }
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
+      final generatedType = parseApex(classBody);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          generatedType as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
 
       FieldMirror field1 = generatedClass.fields
@@ -57,9 +51,9 @@ main() {
         private Set<String> myVar1;
       }
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
+      final generatedType = parseApex(classBody);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          generatedType as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
 
       FieldMirror field1 = generatedClass.fields
@@ -76,9 +70,9 @@ main() {
         private Map<Integer, String> myVar1;
       }
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
+      final generatedType = parseApex(classBody);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          generatedType as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
 
       FieldMirror field1 = generatedClass.fields
@@ -97,9 +91,9 @@ main() {
         private Iterable<String> myVar1;
       }
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
+      final generatedType = parseApex(classBody);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          generatedType as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
 
       FieldMirror field1 = generatedClass.fields
@@ -116,9 +110,9 @@ main() {
         private List<List<String>> myVar1;
       }
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
+      final generatedType = parseApex(classBody);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          generatedType as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
 
       FieldMirror field1 = generatedClass.fields
@@ -140,9 +134,9 @@ main() {
         private Iterable<List<String>> myVar1;
       }
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
+      final generatedType = parseApex(classBody);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          generatedType as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
 
       FieldMirror field1 = generatedClass.fields
@@ -164,9 +158,9 @@ main() {
         private Set<Set<String>> myVar1;
       }
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
+      final generatedType = parseApex(classBody);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          generatedType as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
 
       FieldMirror field1 = generatedClass.fields
@@ -188,9 +182,9 @@ main() {
         private Map<String, Map<Integer, String>> myVar1;
       }
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
+      final generatedType = parseApex(classBody);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          generatedType as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
 
       FieldMirror field1 = generatedClass.fields
@@ -220,9 +214,9 @@ main() {
         private String[] myVar1;
       }
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
+      final generatedType = parseApex(classBody);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          generatedType as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
 
       FieldMirror field1 = generatedClass.fields
@@ -239,9 +233,9 @@ main() {
         private String[][] myVar1;
       }
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
+      final generatedType = parseApex(classBody);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          generatedType as ClassMirror;
       expect(generatedClass.fields.length, equals(1));
 
       FieldMirror field1 = generatedClass.fields
@@ -263,9 +257,9 @@ main() {
         public Iterable<String> start(Database.BatchableContext info) {}
       }
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
+      final generatedType = parseApex(classBody);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          generatedType as ClassMirror;
 
       MethodMirror method = generatedClass.methods
           .firstWhere((element) => element.name == 'start');
@@ -280,9 +274,9 @@ main() {
         private static void myMethod() {}
       }
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
+      final generatedType = parseApex(classBody);
       var generatedClass =
-          apexWalkerDefinition.getGeneratedApexType() as ClassMirror;
+          generatedType as ClassMirror;
       expect(generatedClass.methods.length, equals(1));
 
       MethodMirror myMethod = generatedClass.methods

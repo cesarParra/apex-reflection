@@ -5,7 +5,6 @@ import 'package:apex_reflection/src/service/apex_listener.dart';
 import 'package:apex_reflection/src/service/utils/parsing/parsing_utils.dart';
 
 import '../antlr/grammars/apex/ApexParser.dart';
-import '../model/type_references.dart';
 
 // Types
 
@@ -60,7 +59,7 @@ PropertyMirror buildProperty(
   return PropertyMirror(
       name: propertyName,
       rawDocComment: descriptor.docComment,
-      typeReference: ObjectTypeReference(ctx.typeRef()!))
+      typeReference: typeReferenceFromContext(ctx.typeRef()!))
     ..accessModifier = descriptor.accessModifier
     ..annotations = descriptor.annotations
     ..memberModifiers = descriptor.memberModifiers;
@@ -75,7 +74,7 @@ List<FieldMirror> buildFields(
       .map((e) => FieldMirror(
           name: e,
           rawDocComment: descriptor.docComment,
-          typeReference: ObjectTypeReference(ctx.typeRef()!))
+          typeReference: typeReferenceFromContext(ctx.typeRef()!))
         ..accessModifier = descriptor.accessModifier
         ..annotations = descriptor.annotations
         ..memberModifiers = descriptor.memberModifiers)
@@ -91,7 +90,7 @@ MethodMirror buildMethod(
   return MethodMirror(
       name: methodName,
       rawDocComment: descriptor.docComment,
-      typeReference: ObjectTypeReference(ctx.typeRef()))
+      typeReference: typeReferenceFromContext(ctx.typeRef()))
     ..parameters = parameters ?? []
     ..accessModifier = descriptor.accessModifier
     ..annotations = descriptor.annotations
@@ -110,7 +109,7 @@ MethodMirror buildInterfaceMethod(
   return MethodMirror(
       name: methodName,
       rawDocComment: docComment,
-      typeReference: ObjectTypeReference(ctx.typeRef()))
+      typeReference: typeReferenceFromContext(ctx.typeRef()))
     ..parameters = parameters ?? []
     ..accessModifier = parentAccessModifier
     ..annotations = parentAnnotations;

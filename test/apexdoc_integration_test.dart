@@ -1,14 +1,9 @@
 import 'package:test/test.dart';
-import 'package:apex_reflection/src/service/case_insensitive_input_stream.dart';
 
-import 'package:apex_reflection/src/service/walker.dart';
+import 'package:apex_reflection/src/model/types.dart';
+import 'package:apex_reflection/src/service/parsers.dart';
 
-ApexWalkerDefinition walkApex(String body) {
-  final apexWalkerDefinition = ApexWalkerDefinition();
-  Walker.walk(CaseInsensitiveInputStream.fromString(body), apexWalkerDefinition,
-      (parser) => parser.compilationUnit());
-  return apexWalkerDefinition;
-}
+TypeMirror parseApex(String body) => ApexParser.parseFromBody(body);
 
 void main() {
   group('Single line Apex docs', () {
@@ -17,8 +12,8 @@ void main() {
       /** MyClass description */
       class MyClass{}
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
-      expect(apexWalkerDefinition.getGeneratedApexType()!.docDescription,
+      final generatedType = parseApex(classBody);
+      expect(generatedType.docDescription,
           equals('MyClass description'));
     });
 
@@ -27,8 +22,8 @@ void main() {
       /** @description MyClass description */
       class MyClass{}
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
-      expect(apexWalkerDefinition.getGeneratedApexType()!.docDescription,
+      final generatedType = parseApex(classBody);
+      expect(generatedType.docDescription,
           equals('MyClass description'));
     });
 
@@ -37,8 +32,8 @@ void main() {
       /** MyClass description {@link https://www.example.com} */
       class MyClass{}
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
-      expect(apexWalkerDefinition.getGeneratedApexType()!.docDescription,
+      final generatedType = parseApex(classBody);
+      expect(generatedType.docDescription,
           equals('MyClass description {@link https://www.example.com}'));
     });
 
@@ -47,8 +42,8 @@ void main() {
       /** MyClass description {@contact example+test@email.com} */
       class MyClass{}
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
-      expect(apexWalkerDefinition.getGeneratedApexType()!.docDescription,
+      final generatedType = parseApex(classBody);
+      expect(generatedType.docDescription,
           equals('MyClass description {@contact example+test@email.com}'));
     });
 
@@ -57,12 +52,11 @@ void main() {
       /** MyClass description @group MyGroup */
       class MyClass{}
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
-      expect(apexWalkerDefinition.getGeneratedApexType()!.docDescription,
+      final generatedType = parseApex(classBody);
+      expect(generatedType.docDescription,
           equals('MyClass description'));
       expect(
-          apexWalkerDefinition
-              .getGeneratedApexType()!
+          generatedType
               .getAnnotationBody('group'),
           equals('MyGroup'));
     });
@@ -72,17 +66,15 @@ void main() {
       /** MyClass description @author John Smith @group MyGroup*/
       class MyClass{}
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
-      expect(apexWalkerDefinition.getGeneratedApexType()!.docDescription,
+      final generatedType = parseApex(classBody);
+      expect(generatedType.docDescription,
           equals('MyClass description'));
       expect(
-          apexWalkerDefinition
-              .getGeneratedApexType()!
+          generatedType
               .getAnnotationBody('author'),
           equals('John Smith'));
       expect(
-          apexWalkerDefinition
-              .getGeneratedApexType()!
+          generatedType
               .getAnnotationBody('group'),
           equals('MyGroup'));
     });
@@ -96,8 +88,8 @@ void main() {
        */
       class MyClass{}
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
-      expect(apexWalkerDefinition.getGeneratedApexType()!.docDescription,
+      final generatedType = parseApex(classBody);
+      expect(generatedType.docDescription,
           equals('MyClass description'));
     });
 
@@ -112,8 +104,8 @@ void main() {
        */
       class MyClass{}
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
-      expect(apexWalkerDefinition.getGeneratedApexType()?.docDescription,
+      final generatedType = parseApex(classBody);
+      expect(generatedType.docDescription,
           equals('MyClass description'));
     });
 
@@ -124,8 +116,8 @@ void main() {
        */
       class MyClass{}
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
-      expect(apexWalkerDefinition.getGeneratedApexType()!.docDescription,
+      final generatedType = parseApex(classBody);
+      expect(generatedType.docDescription,
           equals('MyClass description'));
     });
 
@@ -136,8 +128,8 @@ void main() {
        */
       class MyClass{}
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
-      expect(apexWalkerDefinition.getGeneratedApexType()!.docDescription,
+      final generatedType = parseApex(classBody);
+      expect(generatedType.docDescription,
           equals('MyClass description {@link https://www.example.com}'));
     });
 
@@ -148,8 +140,8 @@ void main() {
        */
       class MyClass{}
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
-      expect(apexWalkerDefinition.getGeneratedApexType()!.docDescription,
+      final generatedType = parseApex(classBody);
+      expect(generatedType.docDescription,
           equals('MyClass description {@contact example+test@email.com}'));
     });
 
@@ -161,12 +153,11 @@ void main() {
        */
       class MyClass{}
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
-      expect(apexWalkerDefinition.getGeneratedApexType()!.docDescription,
+      final generatedType = parseApex(classBody);
+      expect(generatedType.docDescription,
           equals('MyClass description'));
       expect(
-          apexWalkerDefinition
-              .getGeneratedApexType()!
+          generatedType
               .getAnnotationBody('group'),
           equals('MyGroup'));
     });
@@ -180,17 +171,15 @@ void main() {
        */
       class MyClass{}
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
-      expect(apexWalkerDefinition.getGeneratedApexType()!.docDescription,
+      final generatedType = parseApex(classBody);
+      expect(generatedType.docDescription,
           equals('MyClass description'));
       expect(
-          apexWalkerDefinition
-              .getGeneratedApexType()!
+          generatedType
               .getAnnotationBody('author'),
           equals('John Smith'));
       expect(
-          apexWalkerDefinition
-              .getGeneratedApexType()!
+          generatedType
               .getAnnotationBody('group'),
           equals('MyGroup'));
     });
@@ -204,8 +193,8 @@ void main() {
        *********************/
       class MyClass{}
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
-      expect(apexWalkerDefinition.getGeneratedApexType()!.docDescription,
+      final generatedType = parseApex(classBody);
+      expect(generatedType.docDescription,
           equals('MyClass description'));
     });
 
@@ -222,8 +211,8 @@ void main() {
        **********************/
       class MyClass{}
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
-      expect(apexWalkerDefinition.getGeneratedApexType()?.docDescription,
+      final generatedType = parseApex(classBody);
+      expect(generatedType.docDescription,
           equals('MyClass description'));
     });
 
@@ -234,8 +223,8 @@ void main() {
        **********************************/
       class MyClass{}
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
-      expect(apexWalkerDefinition.getGeneratedApexType()!.docDescription,
+      final generatedType = parseApex(classBody);
+      expect(generatedType.docDescription,
           equals('MyClass description'));
     });
 
@@ -246,8 +235,8 @@ void main() {
        *****************************************************/
       class MyClass{}
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
-      expect(apexWalkerDefinition.getGeneratedApexType()!.docDescription,
+      final generatedType = parseApex(classBody);
+      expect(generatedType.docDescription,
           equals('MyClass description {@link https://www.example.com}'));
     });
 
@@ -258,8 +247,8 @@ void main() {
        *******************************************************/
       class MyClass{}
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
-      expect(apexWalkerDefinition.getGeneratedApexType()!.docDescription,
+      final generatedType = parseApex(classBody);
+      expect(generatedType.docDescription,
           equals('MyClass description {@contact example+test@email.com}'));
     });
 
@@ -272,12 +261,11 @@ void main() {
        *********************/
       class MyClass{}
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
-      expect(apexWalkerDefinition.getGeneratedApexType()!.docDescription,
+      final generatedType = parseApex(classBody);
+      expect(generatedType.docDescription,
           equals('MyClass description'));
       expect(
-          apexWalkerDefinition
-              .getGeneratedApexType()!
+          generatedType
               .getAnnotationBody('group'),
           equals('MyGroup'));
     });
@@ -291,17 +279,15 @@ void main() {
        ***********************************/
       class MyClass{}
       ''';
-      final apexWalkerDefinition = walkApex(classBody);
-      expect(apexWalkerDefinition.getGeneratedApexType()!.docDescription,
+      final generatedType = parseApex(classBody);
+      expect(generatedType.docDescription,
           equals('MyClass description'));
       expect(
-          apexWalkerDefinition
-              .getGeneratedApexType()!
+          generatedType
               .getAnnotationBody('author'),
           equals('John Smith'));
       expect(
-          apexWalkerDefinition
-              .getGeneratedApexType()!
+          generatedType
               .getAnnotationBody('group'),
           equals('MyGroup'));
     });

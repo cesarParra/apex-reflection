@@ -1,65 +1,35 @@
-import 'package:antlr4/antlr4.dart';
-import 'package:apex_reflection/src/antlr/grammars/apex/ApexParser.dart';
 import 'package:apex_reflection/src/model/type_references.dart';
-import 'package:mocktail/mocktail.dart';
+import 'package:apex_reflection/src/model/types.dart';
+import 'package:apex_reflection/src/service/parsers.dart';
 import 'package:test/test.dart';
 
-mixin RuleContextToStringMixin on Object {
-  @override
-  String toString({
-    Recognizer<ATNSimulator>? recog,
-    List<String>? ruleNames,
-    RuleContext? stop,
-  }) {
-    return super.toString();
+/// Parses a class with a single field of [fieldType] and returns the field's
+/// type reference, which is how type references are produced in practice.
+ObjectTypeReference parseFieldType(String fieldType) {
+  final generatedClass = ApexParser.parseFromBody('''
+  public class MyClass {
+    private $fieldType myField;
   }
+  ''') as ClassMirror;
+  return generatedClass.fields.single.typeReference;
 }
-
-class MockTypeRefContext extends Mock
-    with RuleContextToStringMixin
-    implements TypeRefContext {
-  final String textToReturn;
-
-  @override
-  String get text => textToReturn;
-
-  MockTypeRefContext(this.textToReturn);
-}
-
-class MockTypeNameContext extends Mock
-    with RuleContextToStringMixin
-    implements TypeNameContext {}
-
-class MockTerminalNode extends Mock
-    with RuleContextToStringMixin
-    implements TerminalNode {}
-
-class MockTypeArgumentContext extends Mock
-    with RuleContextToStringMixin
-    implements TypeArgumentsContext {}
-
-class MockTypeListContext extends Mock
-    with RuleContextToStringMixin
-    implements TypeListContext {}
 
 main() {
   group('ReferenceObjectType tests', () {
-    test('Is created when a null TypeRefContext is passed to the factory', () {
-      final referenceType = ObjectTypeReference(null);
+    test('Is created for a void method return type', () {
+      final generatedClass = ApexParser.parseFromBody('''
+      public class MyClass {
+        public void doNothing() {}
+      }
+      ''') as ClassMirror;
+      final returnType = generatedClass.methods.single.typeReference;
 
-      expect(referenceType, isA<ReferenceObjectType>());
-      expect(referenceType.type, 'void');
+      expect(returnType, isA<ReferenceObjectType>());
+      expect(returnType.type, 'void');
     });
 
-    test('Can be created through the ObjectTypeReference factory', () {
-      final typeRefContext = MockTypeRefContext('String');
-      final typeNameContext = MockTypeNameContext();
-
-      when(() => typeRefContext.typeName(0)).thenReturn(typeNameContext);
-
-      when(() => typeNameContext.text).thenReturn('String');
-
-      final referenceType = ObjectTypeReference(typeRefContext);
+    test('Is created when parsing a non-collection type', () {
+      final referenceType = parseFieldType('String');
 
       expect(referenceType, isA<ReferenceObjectType>());
       expect(referenceType.type, 'String');
@@ -73,22 +43,8 @@ main() {
   });
 
   group('ListObjectType tests', () {
-    test('Can be created through the ObjectTypeReference factory', () {
-      final listTypeRefContext = MockTypeRefContext('List<String>');
-      final ofStringTypeRefContext = mockStringTypeRefContext();
-
-      final typeNameContext = MockTypeNameContext();
-      final typeArgumentContext = MockTypeArgumentContext();
-      final typeListContext = MockTypeListContext();
-
-      when(() => listTypeRefContext.typeName(0)).thenReturn(typeNameContext);
-      when(() => typeNameContext.LIST()).thenReturn(MockTerminalNode());
-      when(() => typeNameContext.typeArguments())
-          .thenReturn(typeArgumentContext);
-      when(() => typeArgumentContext.typeList()).thenReturn(typeListContext);
-      when(() => typeListContext.typeRef(0)).thenReturn(ofStringTypeRefContext);
-
-      final referenceType = ObjectTypeReference(listTypeRefContext);
+    test('Is created when parsing a List type', () {
+      final referenceType = parseFieldType('List<String>');
 
       expect(referenceType, isA<ListObjectType>());
       expect(referenceType.type, 'List');
@@ -97,22 +53,8 @@ main() {
   });
 
   group('SetObjectType tests', () {
-    test('Can be created through the ObjectTypeReference factory', () {
-      final setTypeRefContext = MockTypeRefContext('Set<String>');
-      final ofStringTypeRefContext = mockStringTypeRefContext();
-
-      final typeNameContext = MockTypeNameContext();
-      final typeArgumentContext = MockTypeArgumentContext();
-      final typeListContext = MockTypeListContext();
-
-      when(() => setTypeRefContext.typeName(0)).thenReturn(typeNameContext);
-      when(() => typeNameContext.SET()).thenReturn(MockTerminalNode());
-      when(() => typeNameContext.typeArguments())
-          .thenReturn(typeArgumentContext);
-      when(() => typeArgumentContext.typeList()).thenReturn(typeListContext);
-      when(() => typeListContext.typeRef(0)).thenReturn(ofStringTypeRefContext);
-
-      final referenceType = ObjectTypeReference(setTypeRefContext);
+    test('Is created when parsing a Set type', () {
+      final referenceType = parseFieldType('Set<String>');
 
       expect(referenceType, isA<SetObjectType>());
       expect(referenceType.type, 'Set');
@@ -121,23 +63,8 @@ main() {
   });
 
   group('MapObjectType tests', () {
-    test('Can be created through the ObjectTypeReference factory', () {
-      final setTypeRefContext = MockTypeRefContext('Map<String, String>');
-      final keyAndValue = mockStringTypeRefContext();
-
-      final typeNameContext = MockTypeNameContext();
-      final typeArgumentContext = MockTypeArgumentContext();
-      final typeListContext = MockTypeListContext();
-
-      when(() => setTypeRefContext.typeName(0)).thenReturn(typeNameContext);
-      when(() => typeNameContext.MAP()).thenReturn(MockTerminalNode());
-      when(() => typeNameContext.typeArguments())
-          .thenReturn(typeArgumentContext);
-      when(() => typeArgumentContext.typeList()).thenReturn(typeListContext);
-      when(() => typeListContext.typeRef(0)).thenReturn(keyAndValue);
-      when(() => typeListContext.typeRef(1)).thenReturn(keyAndValue);
-
-      final referenceType = ObjectTypeReference(setTypeRefContext);
+    test('Is created when parsing a Map type', () {
+      final referenceType = parseFieldType('Map<String, String>');
 
       expect(referenceType, isA<MapObjectType>());
       expect(referenceType.type, 'Map');
@@ -145,15 +72,4 @@ main() {
       expect(referenceType.valueType.type, 'String');
     });
   });
-}
-
-TypeRefContext mockStringTypeRefContext() {
-  final ofStringTypeRefContext = MockTypeRefContext('String');
-  final stringTypeNameContext = MockTypeNameContext();
-
-  when(() => ofStringTypeRefContext.typeName(0))
-      .thenReturn(stringTypeNameContext);
-  when(() => stringTypeNameContext.text).thenReturn('String');
-
-  return ofStringTypeRefContext;
 }

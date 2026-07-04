@@ -1,72 +1,15 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import '../antlr/grammars/apex/ApexParser.dart';
-
 part 'type_references.g.dart';
 
+/// A reference to a type as it appears in a declaration: a field's type, a
+/// method's return type, a parameter's type. Collection types expose the
+/// types they contain through their concrete implementations.
 abstract class ObjectTypeReference {
   late String type;
   late String rawDeclaration;
 
   Map<String, dynamic> toJson();
-
-  factory ObjectTypeReference(TypeRefContext? typeRefContext) {
-    if (typeRefContext == null) {
-      // If null is received, then we are dealing with a "void" type.
-      return ReferenceObjectType('void');
-    }
-
-    final hasArrays = typeRefContext.arraySubscripts() == null
-        ? false
-        : typeRefContext.arraySubscripts()!.text.isNotEmpty;
-    if (hasArrays) {
-      // If the type is an array (has [] at the end), we treat received
-      // TypeRefContext as a list
-      // This removes the first 2 characters: '[' and ']'
-      typeRefContext.arraySubscripts()!.children!.removeRange(0, 2);
-
-      return ListObjectType(
-          ObjectTypeReference(typeRefContext), typeRefContext.text);
-    }
-    if (typeRefContext.typeName(0)!.LIST() != null) {
-      // In Apex a list can have at MOST one type argument
-      final childTypeRefContext =
-          typeRefContext.typeName(0)!.typeArguments()!.typeList()!.typeRef(0)!;
-      return ListObjectType(
-          ObjectTypeReference(childTypeRefContext), typeRefContext.text);
-    }
-    if (typeRefContext.typeName(0)!.SET() != null) {
-      // In Apex a list can have at MOST one type argument
-      final childTypeRefContext =
-          typeRefContext.typeName(0)!.typeArguments()!.typeList()!.typeRef(0)!;
-      return SetObjectType(
-          ObjectTypeReference(childTypeRefContext), typeRefContext.text);
-    }
-    if (typeRefContext.typeName(0)!.MAP() != null) {
-      // In Apex a list can have at MOST two type arguments (key and value)
-      final keyTypeRefContext =
-          typeRefContext.typeName(0)!.typeArguments()!.typeList()!.typeRef(0)!;
-      final valueTypeRefContext =
-          typeRefContext.typeName(0)!.typeArguments()!.typeList()!.typeRef(1)!;
-      return MapObjectType(
-        ObjectTypeReference(keyTypeRefContext),
-        ObjectTypeReference(valueTypeRefContext),
-        typeRefContext.text,
-      );
-    }
-    if (typeRefContext.typeName(0)!.typeArguments() != null) {
-      // If there are type arguments (arguments between < >), it means we are dealing with a Generic type
-      final type = typeRefContext.typeName(0)!.id()!.text;
-      final childTypeRefContext =
-          typeRefContext.typeName(0)!.typeArguments()!.typeList()!.typeRef(0)!;
-      return GenericObjectType(
-           type, ObjectTypeReference(childTypeRefContext), typeRefContext.text);
-    }
-
-    // If we got to this point that means we are dealing with a regular (non-collection)
-    // type reference.
-    return ReferenceObjectType(typeRefContext.text);
-  }
 }
 
 ObjectTypeReference objectTypeFromJson(Map<String, dynamic>? json) {

@@ -4,7 +4,6 @@ import 'package:antlr4/antlr4.dart';
 import 'package:apex_reflection/src/builders/builders.dart';
 import 'package:apex_reflection/src/model/declaration_mirror.dart';
 import 'package:apex_reflection/src/model/members.dart';
-import 'package:apex_reflection/src/model/modifiers.dart';
 import 'package:apex_reflection/src/model/types.dart';
 import 'package:apex_reflection/src/service/parsers.dart';
 import 'package:apex_reflection/src/service/utils/parsing/parsing_utils.dart';
@@ -237,7 +236,7 @@ class ApexClassListener extends ApexParserBaseListener {
     }
     final annotations = ctx
         .annotations()
-        .map((e) => Annotation.fromAnnotationContext(e))
+        .map((e) => annotationFromContext(e))
         .toList();
 
     final method = buildInterfaceMethod(

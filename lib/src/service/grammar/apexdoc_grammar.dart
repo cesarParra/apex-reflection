@@ -67,6 +67,14 @@ class ApexdocGrammar {
     braceGroup.set(
         char('{') & (braceGroup | guarded(pattern('^{}'))).star() & char('}'));
 
+    // A fenced code block (``` ... ```) is literal code: an `@` inside it,
+    // such as a code sample calling an `@context` variable, must not start a
+    // block tag. The fence may span lines; leading `*` line decorations are
+    // part of the content and stripped later by [sanitizeDocContent].
+    final fencedCodeBlock = string('```') &
+        (string('```').not() & guarded(any())).star() &
+        string('```');
+
     // Backticked content also protects `@`; it cannot span lines.
     final backtickedSpan =
         char('`') & guarded(pattern('^`\n\r')).star() & char('`');
@@ -77,7 +85,10 @@ class ApexdocGrammar {
     final plainCharacter = stopAtCommentClose
         ? (string('*/').not() & pattern('^@')).map((values) => values[1] as String)
         : pattern('^@');
+    // The fence must be tried before the single-backtick span, which would
+    // otherwise consume the first two backticks of a fence as an empty span.
     final segment = braceGroup.flatten().map(_dropHiddenRegion) |
+        fencedCodeBlock.flatten() |
         backtickedSpan.flatten() |
         plainCharacter;
 

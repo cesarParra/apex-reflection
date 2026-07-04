@@ -384,6 +384,51 @@ main() {
     });
   });
 
+  group('Fenced code blocks', () {
+    test('An @ inside a fenced code block does not start a tag', () {
+      final docComment = ApexdocParser.parseFromBody('''
+      /**
+       * @example
+       * ```apex
+       * List<String> recordNames = (List<String>) expression.Evaluator.run(
+       *   'MAP(@context, Name)',
+       *   records
+       * );
+       * ```
+       */
+      ''');
+      expect(docComment.annotations, isEmpty);
+      expect(docComment.exampleAnnotation, isNotNull);
+      final exampleBody = docComment.exampleAnnotation!.body;
+      expect(exampleBody, contains("'MAP(@context, Name)',"));
+      expect(exampleBody, contains('records'));
+      expect(exampleBody, contains(');'));
+    });
+
+    test('A fence without a language tag also protects its content', () {
+      final docComment = ApexdocParser.parseFromBody('''
+      /**
+       * Call it like this:
+       * ```
+       * run('@context');
+       * ```
+       */
+      ''');
+      expect(docComment.annotations, isEmpty);
+      expect(docComment.description, contains("run('@context');"));
+    });
+
+    test('An unclosed fence does not swallow the rest of the comment', () {
+      final docComment = ApexdocParser.parseFromBody('''
+      /**
+       * Broken sample: ```apex code
+       * @param name The name.
+       */
+      ''');
+      expect(docComment.paramAnnotations.single.paramName, equals('name'));
+    });
+  });
+
   group('Whitespace and malformed content', () {
     test('Leading whitespace on the first description line is dropped', () {
       final docComment = ApexdocParser.parseFromBody('''

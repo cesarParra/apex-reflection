@@ -11,13 +11,12 @@ npm i @cparra/apex-reflection
 ## Usage
 
 This library exposes a single function that handles parsing the body of an Apex top level type (class, interface, or
-enum)
-and returns the result.
+enum) and returns the result.
 
 ```typescript
-import {reflect} from '@cparra/apex-reflection';
+import { reflect } from "@cparra/apex-reflection";
 
-const classBody = 'public with sharing class ExampleClass {}';
+const classBody = "public with sharing class ExampleClass {}";
 const response = reflect(classBody);
 ```
 
@@ -34,7 +33,7 @@ const response = reflect(rawFile.toString());
 ```
 
 The `reflect` function returns a `ReflectionResult` which contains either the results of the parsed `Type`
-(which will either be a `ClassMirror`, an `InterfaceMirror` or an `EnumMirror`) or a `ParsingError` if the passed in
+(which will either be a `ClassMirror`, an, or an `EnumMirror`) or a `ParsingError` if the passed in
 body was not parsed successfully, with a message indicating where the error occurred.
 
 ## Contributing
@@ -78,9 +77,9 @@ dart run build_runner build
 
 ### Parsing
 
-Parsing is implemented with hand-written [petitparser](https://pub.dev/packages/petitparser) grammars, with no code
-generation step. The Apex grammar parses only the declaration structure needed for reflection (bodies are skipped as
-balanced blocks), and the Apexdoc grammar is composed into it so doc comments are parsed in the same single pass. See
+Parsing is implemented with handwritten [petitparser](https://pub.dev/packages/petitparser) grammars. 
+The Apex grammar parses only the declaration structure needed for reflection (bodies are skipped as
+balanced blocks), and the Apexdoc grammar is composed into it, so doc comments are parsed in the same single pass. See
 the repository README for details.
 
 ## Typescript

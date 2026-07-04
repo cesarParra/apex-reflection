@@ -15,7 +15,7 @@ enum)
 and returns the result.
 
 ```typescript
-import {reflect} from '@cparra/apex-reflection';
+import { reflect } from '@cparra/apex-reflection';
 
 const classBody = 'public with sharing class ExampleClass {}';
 const response = reflect(classBody);
@@ -26,7 +26,7 @@ reflect
 
 ```typescript
 import * as fs from 'fs';
-import {reflect} from '@cparra/apex-reflection';
+import { reflect } from '@cparra/apex-reflection';
 
 const path = './MyClass.cls';
 const rawFile = fs.readFileSync(path);
@@ -34,7 +34,7 @@ const response = reflect(rawFile.toString());
 ```
 
 The `reflect` function returns a `ReflectionResult` which contains either the results of the parsed `Type`
-(which will either be a `ClassMirror`, an `InterfaceMirror` or an `EnumMirror`) or a `ParsingError` if the passed in
+(which will either be a `ClassMirror`, an, or an `EnumMirror`) or a `ParsingError` if the passed in
 body was not parsed successfully, with a message indicating where the error occurred.
 
 ## Contributing
@@ -84,8 +84,7 @@ dart run build_runner watch
 
 ### Parsing
 
-Parsing is implemented with hand-written [petitparser](https://pub.dev/packages/petitparser) grammars, with no code
-generation step:
+Parsing is implemented with handwritten [petitparser](https://pub.dev/packages/petitparser) grammars:
 
 - `lib/src/service/grammar/apex_grammar.dart` parses Apex type and trigger declarations. It only parses the
   *declaration structure* needed for reflection; method, constructor, and property bodies are skipped as balanced

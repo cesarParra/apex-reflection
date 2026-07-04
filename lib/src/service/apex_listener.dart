@@ -15,28 +15,10 @@ import '../antlr/grammars/apex/ApexParser.dart';
 import '../antlr/grammars/apex/ApexParserBaseListener.dart';
 import '../model/doc_comment.dart';
 
-class DeclarationDescriptor {
-  List<dynamic> accessModifiers = [];
-  String? docComment;
+import 'package:apex_reflection/src/service/declaration_descriptor.dart';
 
-  get accessModifier =>
-      accessModifiers.firstWhere((element) => element is AccessModifier,
-          orElse: () => AccessModifier.private);
-
-  get sharingModifier => accessModifiers
-      .firstWhere((element) => element is SharingModifier, orElse: () => null);
-
-  get classModifier =>
-      accessModifiers.firstWhereOrNull((element) => element is ClassModifier);
-
-  late final List<Annotation> annotations =
-      accessModifiers.whereType<Annotation>().toList();
-
-  late final List<MemberModifier> memberModifiers =
-      accessModifiers.whereType<MemberModifier>().toList();
-
-  DeclarationDescriptor({required this.accessModifiers, this.docComment});
-}
+export 'package:apex_reflection/src/service/declaration_descriptor.dart'
+    show DeclarationDescriptor;
 
 class Group {
   String? name;

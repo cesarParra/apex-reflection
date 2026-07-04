@@ -53,7 +53,6 @@ enum AnnotationType {
 
 dynamic getModifierFromStringDeclaration(dynamic modifierDeclarationContext,
     {isMember = false}) {
-  final modifierDeclaration = modifierDeclarationContext.text;
   if (modifierDeclarationContext is AnnotationContext) {
     return Annotation.fromAnnotationContext(modifierDeclarationContext);
   }
@@ -64,34 +63,45 @@ dynamic getModifierFromStringDeclaration(dynamic modifierDeclarationContext,
         modifierDeclarationContext.annotation()!);
   }
 
-  dynamic enumValue = AccessModifier.values.firstWhereOrNull((element) =>
-      describeEnum(element).toLowerCase() == modifierDeclaration.toLowerCase());
+  return modifierFromKeyword(modifierDeclarationContext.text,
+      isMember: isMember);
+}
+
+/// Classifies a modifier keyword into its modifier enum value, or null when
+/// the keyword is not a recognized modifier. Two-word sharing modifiers are
+/// expected space-stripped (`withsharing`).
+///
+/// `virtual` and `abstract` exist in both [ClassModifier] and
+/// [MemberModifier]; [isMember] decides which one wins: a `virtual` method
+/// is a member modifier, a `virtual` class is a class modifier.
+dynamic modifierFromKeyword(String keyword, {bool isMember = false}) {
+  final normalizedKeyword = keyword.toLowerCase();
+
+  dynamic enumValue = AccessModifier.values.firstWhereOrNull(
+      (element) => describeEnum(element).toLowerCase() == normalizedKeyword);
 
   if (enumValue != null) {
     return enumValue;
   }
 
   if (!isMember) {
-    enumValue = ClassModifier.values.firstWhereOrNull((element) =>
-        describeEnum(element).toLowerCase() ==
-        modifierDeclaration.toLowerCase());
+    enumValue = ClassModifier.values.firstWhereOrNull(
+        (element) => describeEnum(element).toLowerCase() == normalizedKeyword);
 
     if (enumValue != null) {
       return enumValue;
     }
   }
 
-  enumValue = SharingModifier.values.firstWhereOrNull((element) =>
-      describeEnum(element).toLowerCase() == modifierDeclaration.toLowerCase());
+  enumValue = SharingModifier.values.firstWhereOrNull(
+      (element) => describeEnum(element).toLowerCase() == normalizedKeyword);
 
   if (enumValue != null) {
     return enumValue;
   }
 
-  enumValue = MemberModifier.values.firstWhereOrNull(
-      (element) => element.value == modifierDeclaration.toLowerCase());
-
-  return enumValue;
+  return MemberModifier.values
+      .firstWhereOrNull((element) => element.value == normalizedKeyword);
 }
 
 @JsonSerializable()
@@ -102,7 +112,7 @@ class Annotation {
   List<AnnotationElementValue>? elementValues = [];
 
   Annotation(this.rawDeclaration) {
-    name = _sanitizeDeclaration(rawDeclaration).toLowerCase();
+    name = _nameFromDeclaration(rawDeclaration);
     type = _parseAnnotationTypeFromString(name);
   }
 
@@ -123,13 +133,14 @@ class Annotation {
 
   Map<String, dynamic> toJson() => _$AnnotationToJson(this);
 
-  String _sanitizeDeclaration(String declaration) {
-    var sanitizedString = declaration.replaceFirst('@', '').toLowerCase();
-    if (sanitizedString.contains('(')) {
-      sanitizedString = sanitizedString.replaceRange(
-          declaration.indexOf('(') - 1, declaration.indexOf(')'), '');
-    }
-    return sanitizedString;
+  /// Extracts the annotation's name: the identifier after `@`, regardless of
+  /// any whitespace or `(...)` parameters that follow it in the raw text.
+  static String _nameFromDeclaration(String declaration) {
+    return RegExp(r'[A-Za-z_$][A-Za-z0-9_$]*')
+            .firstMatch(declaration)
+            ?.group(0)
+            ?.toLowerCase() ??
+        '';
   }
 
   AnnotationType _parseAnnotationTypeFromString(String name) {

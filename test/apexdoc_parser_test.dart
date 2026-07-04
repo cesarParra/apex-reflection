@@ -307,4 +307,113 @@ main() {
         equals(
             'This is a sample enum. This references {@link ReferencedEnum}.'));
   });
+
+  group('Tag keyword matching', () {
+    test('@returns is an alias of @return', () {
+      final docComment = ApexdocParser.parseFromBody('''
+      /**
+        * @returns The computed result.
+        */
+      ''');
+      expect(docComment.returnAnnotation, isNotNull);
+      expect(docComment.returnAnnotation!.body, equals('The computed result.'));
+    });
+
+    test('A tag that merely starts with a keyword is a custom tag', () {
+      final docComment = ApexdocParser.parseFromBody('''
+      /**
+        * @paramountConcern Speed.
+        */
+      ''');
+      expect(docComment.paramAnnotations, isEmpty);
+      expect(docComment.annotations.single.name, equals('paramountConcern'));
+      expect(docComment.annotations.single.body, equals('Speed.'));
+    });
+
+    test('@exception is an alias of @throws', () {
+      final docComment = ApexdocParser.parseFromBody('''
+      /**
+        * @exception AuraHandledException When the request is malformed.
+        */
+      ''');
+      final thrown = docComment.throwsAnnotations.single;
+      expect(thrown.exceptionName, equals('AuraHandledException'));
+      expect(thrown.body, equals('When the request is malformed.'));
+    });
+  });
+
+  group('Parameter and exception name extraction', () {
+    test('A dotted exception name is captured whole', () {
+      final docComment = ApexdocParser.parseFromBody('''
+      /**
+        * @throws System.DmlException When saving fails.
+        */
+      ''');
+      final thrown = docComment.throwsAnnotations.single;
+      expect(thrown.exceptionName, equals('System.DmlException'));
+      expect(thrown.body, equals('When saving fails.'));
+    });
+
+    test('A generic parameter name is captured whole', () {
+      final docComment = ApexdocParser.parseFromBody('''
+      /**
+        * @param Map<Id, Account> accountsById The accounts.
+        */
+      ''');
+      expect(docComment.paramAnnotations.single.paramName,
+          equals('Map<Id, Account>'));
+    });
+
+    test('An array parameter name is captured whole', () {
+      final docComment = ApexdocParser.parseFromBody('''
+      /**
+        * @param String[] names The names.
+        */
+      ''');
+      expect(docComment.paramAnnotations.single.paramName, equals('String[]'));
+    });
+
+    test('An unbalanced angle bracket is not part of the name', () {
+      final docComment = ApexdocParser.parseFromBody('''
+      /**
+        * @param count must be < 10.
+        */
+      ''');
+      expect(docComment.paramAnnotations.single.paramName, equals('count'));
+      expect(docComment.paramAnnotations.single.body, equals('must be < 10.'));
+    });
+  });
+
+  group('Whitespace and malformed content', () {
+    test('Leading whitespace on the first description line is dropped', () {
+      final docComment = ApexdocParser.parseFromBody('''
+      /**
+        *\t\tTab-indented description.
+        */
+      ''');
+      expect(docComment.description, equals('Tab-indented description.'));
+    });
+
+    test('Indentation beyond one space is kept on later lines', () {
+      final docComment = ApexdocParser.parseFromBody('''
+      /**
+        * First line.
+        *    indented continuation
+        */
+      ''');
+      expect(docComment.descriptionLines,
+          equals(['First line.', '   indented continuation']));
+    });
+
+    test('An unbalanced brace does not derail the following tags', () {
+      final docComment = ApexdocParser.parseFromBody('''
+      /**
+        * Produces { "name": "Fred" and more
+        * @param name The name.
+        */
+      ''');
+      expect(docComment.description, contains('Produces {'));
+      expect(docComment.paramAnnotations.single.paramName, equals('name'));
+    });
+  });
 }

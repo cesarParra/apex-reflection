@@ -93,13 +93,6 @@
             </list>
           </value>
         </entry>
-        <entry key="cli_util">
-          <value>
-            <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/cli_util-0.4.2/lib" />
-            </list>
-          </value>
-        </entry>
         <entry key="code_builder">
           <value>
             <list>
@@ -177,13 +170,6 @@
             </list>
           </value>
         </entry>
-        <entry key="grinder">
-          <value>
-            <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/grinder-0.9.5/lib" />
-            </list>
-          </value>
-        </entry>
         <entry key="http_multi_server">
           <value>
             <list>
@@ -251,13 +237,6 @@
           <value>
             <list>
               <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/mime-2.0.0/lib" />
-            </list>
-          </value>
-        </entry>
-        <entry key="mocktail">
-          <value>
-            <list>
-              <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/mocktail-0.3.0/lib" />
             </list>
           </value>
         </entry>
@@ -501,7 +480,6 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/built_value-8.12.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/checked_yaml-2.0.4/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/cli_config-0.2.0/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/cli_util-0.4.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/code_builder-4.11.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/collection-1.19.1/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/convert-3.1.2/lib" />
@@ -513,7 +491,6 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/frontend_server_client-4.0.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/glob-2.1.3/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/graphs-2.3.2/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/grinder-0.9.5/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/http_multi_server-3.2.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/http_parser-4.1.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/io-1.0.5/lib" />
@@ -524,7 +501,6 @@
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/matcher-0.12.18/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/meta-1.17.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/mime-2.0.0/lib" />
-      <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/mocktail-0.3.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/node_preamble-2.0.2/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/package_config-2.2.0/lib" />
       <root url="file://$USER_HOME$/.pub-cache/hosted/pub.dev/path-1.9.1/lib" />

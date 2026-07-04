@@ -42,19 +42,25 @@ body was not parsed successfully, with a message indicating where the error occu
 Even though this library is exposed as a Node.js library, the project's source code is written in Dart. The source can
 be found in the `lib/src` directory.
 
-The Dart source code is transpiled to JS by `dart2js` through the default [grinder](https://pub.dev/packages/grinder) workflow within `tool/grind.dart`.
+The Dart source code is compiled to a WebAssembly module, which is what the npm package ships. To rebuild the
+module after changing the Dart source, run from the repository root:
 
-To generate the JS files first set up `grinder` locally by following that package's instructions through its pub.dev listing, and then you can simply run `grind`. That build takes care of combining the output with `preamble/preamble.js` to achieve compatibility with Node.js. The resulting file is `js/apex-reflection-node/out.js`.
+```shell
+dart compile wasm lib/src/node/node.dart -o js/node.wasm
+```
+
+This emits `js/node.wasm` together with its matching JS loader `js/node.mjs`; both are committed and are copied into
+the published package by the npm build in `js/` (`npm run build`).
 
 ### Tests
 
-Both the Dart source code and the JS output must be tested.
+Both the Dart source code and the packaged WebAssembly module must be tested.
 
 The Dart tests live in the `test` directory. The Dart source code must have unit tests testing each individual Dart file
 as well as end-to-end tests that verify the overall parsing functionality.
 
-The JS tests live in `js/apex-reflection-node/__tests__`. These are end-to-end tests that ensure that the transpiled JS
-code is working as intended.
+The JS tests live in `js/__tests__`. These are end-to-end tests that run against the built package (`dist/`), so they
+also guard against publishing a stale WebAssembly artifact. Run them with `npm test` from the `js` directory.
 
 ### JSON serialization
 
@@ -78,19 +84,16 @@ dart run build_runner watch
 
 ### Parsing
 
-The parsing algorithm relies on using ANTLR4 and its Dart target. 
+Parsing is implemented with hand-written [petitparser](https://pub.dev/packages/petitparser) grammars, with no code
+generation step:
 
-To generate the Antlr4 **Apex** output run:
+- `lib/src/service/grammar/apex_grammar.dart` parses Apex type and trigger declarations. It only parses the
+  *declaration structure* needed for reflection; method, constructor, and property bodies are skipped as balanced
+  blocks, which keeps the grammar immune to new expression-level Apex syntax.
+- `lib/src/service/grammar/apexdoc_grammar.dart` parses Apexdoc comments. It is composed directly into the Apex
+  grammar, so doc comments are parsed in the same single pass as the declarations around them.
 
-```shell
-java org.antlr.v4.Tool -Dlanguage=Dart lib/src/antlr/grammars/apex/ApexLexer.g4 lib/src/antlr/grammars/apex/ApexParser.g4
-```
-
-To generate the Antlr4 **Apexdoc** output run:
-
-```shell
-java org.antlr.v4.Tool -Dlanguage=Dart lib/src/antlr/grammars/apexdoc/ApexdocLexer.g4 lib/src/antlr/grammars/apexdoc/ApexdocParser.g4
-```
+Apex is a case-insensitive language, and the grammar honors that: every keyword rule matches case-insensitively.
 
 ## Typescript
 

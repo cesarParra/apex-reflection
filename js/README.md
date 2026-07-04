@@ -40,17 +40,27 @@ body was not parsed successfully, with a message indicating where the error occu
 ## Contributing
 
 Even though this library is exposed as a Node.js library, the project's source code is written in Dart. The source can
-be found in the `lib/src` directory.
+be found in the `lib/src` directory of the repository.
+
+This package ships the Dart code compiled to a WebAssembly module (`dist/node.wasm`) together with its JS loader
+(`dist/node.mjs`), loaded lazily by the thin TypeScript wrapper in `index.mts`. Node.js 22 or newer is required (the
+module uses WasmGC). To rebuild the module after changing the Dart source, run from the repository root:
+
+```shell
+dart compile wasm lib/src/node/node.dart -o js/node.wasm
+```
+
+`npm run build` compiles the TypeScript wrapper and copies the wasm module and its loader into `dist/`.
 
 ### Tests
 
-Both the Dart source code and the JS output must be tested.
+Both the Dart source code and the packaged WebAssembly module must be tested.
 
-The Dart tests live in the `test` directory. The Dart source code must have unit tests testing each individual Dart file
-as well as end-to-end tests that verify the overall parsing functionality.
+The Dart tests live in the repository's `test` directory. The Dart source code must have unit tests testing each
+individual Dart file as well as end-to-end tests that verify the overall parsing functionality.
 
-The JS tests live in `js/apex-reflection-node/__tests__`. These are end-to-end tests that ensure that the transpiled JS
-code is working as intended.
+The JS tests live in `__tests__`. These are end-to-end tests that run against the built package (`dist/`), so they
+also guard against publishing a stale WebAssembly artifact. Run them with `npm test`.
 
 ### JSON serialization
 
@@ -62,27 +72,16 @@ helps automatically create the round-trip code for serialization and de-serializ
 
 When changing any of the model classes with serialization support, to re-build the serialization code run
 
-```
-pub run build_runner build
+```shell
+dart run build_runner build
 ```
 
 ### Parsing
 
-The parsing algorithm relies on using ANTLR4 and its Dart target. Currently `dart2js` is not able to transpile the
-source from the `antrl4` library hosted in pub.dev, so we rely on a local copy that fixes the transpilation issues,
-which lives in `lib/antrl4-4.9.2`.
-
-To generate the Antlr4 Apex output run:
-
-```shell
-antlr4 -Dlanguage=Dart lib/src/antlr/grammars/apex/ApexLexer.g4 lib/src/antlr/grammars/apex/ApexParser.g4 -o lib/src/antlr/lib/apex/
-```
-
-To generate the Antlr4 Apexdoc output run:
-
-```shell
-antlr4 -Dlanguage=Dart lib/src/antlr/grammars/apexdoc/ApexdocLexer.g4 lib/src/antlr/grammars/apexdoc/ApexdocParser.g4 -o lib/src/antlr/lib/apexdoc/
-```
+Parsing is implemented with hand-written [petitparser](https://pub.dev/packages/petitparser) grammars, with no code
+generation step. The Apex grammar parses only the declaration structure needed for reflection (bodies are skipped as
+balanced blocks), and the Apexdoc grammar is composed into it so doc comments are parsed in the same single pass. See
+the repository README for details.
 
 ## Typescript
 

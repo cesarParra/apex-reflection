@@ -28,6 +28,9 @@ import 'package:apex_reflection/src/service/grammar/apexdoc_grammar.dart';
 /// be mutated mid-parse; instead the class-body rule produces a flat list of
 /// [_ClassBodyEvent]s (group boundaries and member additions in source order)
 /// which is folded with a group stack once the body has fully parsed.
+///
+/// Shared rules are `late final` fields rather than getters, so each is one
+/// node in the parser graph instead of a fresh copy per reference.
 class ApexGrammar {
   static final ApexGrammar instance = ApexGrammar._();
 
@@ -44,61 +47,74 @@ class ApexGrammar {
     _buildTypeReference();
     _declarationPrefix = _buildDeclarationPrefix();
     _classBodyItem.set(_buildClassBodyItem());
-    _buildTypeDeclaration();
-    _buildTrigger();
-    compilationUnit = (_typeDeclarationWithPrefix & _hiddenWhitespace)
-        .end()
-        .map((values) => values[0] as TypeMirror);
+    compilationUnit = _buildTypeDeclaration().end();
+    triggerUnit = _buildTrigger();
   }
-
-  late final Parser<TypeMirror> _typeDeclarationWithPrefix;
 
   // ---- Lexical building blocks -------------------------------------------
 
-  Parser get _identifierCharacter => pattern('a-zA-Z0-9_\$');
+  late final Parser _identifierCharacter = pattern('a-zA-Z0-9_\$');
+
+  /// An identifier with no trailing-whitespace handling, for composition into
+  /// larger tokens.
+  late final Parser<String> _rawIdentifier =
+      (pattern('a-zA-Z_\$') & _identifierCharacter.star()).flatten();
 
   /// Any `//` comment through the end of the line, group markers included.
   /// Only used inside skipped (balanced) regions, where group markers carry
   /// no meaning and must not disturb brace balancing.
-  Parser get _anyLineComment => string('//') & pattern('^\n\r').star();
+  late final Parser _anyLineComment = string('//') & pattern('^\n\r').star();
 
   /// A `//` comment that is *not* a group boundary marker. Group markers must
   /// stay visible to the class-body rule, so plain whitespace skipping is not
-  /// allowed to swallow them.
-  Parser get _hiddenLineComment =>
-      string('//') & _groupMarkerAhead.not() & pattern('^\n\r').star();
-
-  Parser get _groupMarkerAhead =>
-      pattern(' \t').star() &
-      (string('@start-group', ignoreCase: true) |
-          string('@end-group', ignoreCase: true));
-
-  /// A full doc comment. Only used to *skip* doc comments inside balanced
-  /// regions; real doc comments are parsed by [ApexdocGrammar].
-  Parser get _skippedDocComment =>
-      (string('/**') & (string('*/').not() & any()).star() & string('*/'))
+  /// allowed to swallow them. Flattened so consuming a comment produces one
+  /// substring instead of a list of characters.
+  late final Parser _hiddenLineComment =
+      (string('//') & _groupMarkerAhead.not() & pattern('^\n\r').star())
           .flatten();
+
+  late final Parser _groupMarkerAhead =
+      _groupMarkerTag('@start-group') | _groupMarkerTag('@end-group');
+
+  /// The distinguishing tail of a group marker after its `//`: optional
+  /// horizontal whitespace and the tag. The single definition serves both the
+  /// hidden-whitespace exclusion and the marker rule itself, so the two can
+  /// never drift apart.
+  Parser _groupMarkerTag(String tag) =>
+      pattern(' \t').star() & string(tag, ignoreCase: true);
+
+  /// Any `/* ... */` comment, doc comments included. Only used inside skipped
+  /// (balanced) regions, where a doc comment is just more text to skip.
+  late final Parser _anyBlockComment =
+      string('/*') & (string('*/').not() & any()).star() & string('*/');
 
   /// Cheap O(1) discriminator: `/**` not immediately followed by `/` (which
   /// would make it the empty block comment `/**/`). Keeps the block-comment
   /// rule from swallowing a real doc comment without scanning to `*/`.
-  Parser get _docCommentStart => string('/**') & char('/').not();
+  late final Parser _docCommentStart = string('/**') & char('/').not();
 
-  /// A `/* ... */` comment that is not a doc comment.
-  Parser get _blockComment => _docCommentStart.not() &
-      string('/*') &
-      (string('*/').not() & any()).star() &
-      string('*/');
+  /// A `/* ... */` comment that is not a doc comment, flattened for the same
+  /// reason as [_hiddenLineComment].
+  late final Parser _blockComment = (_docCommentStart.not() &
+          string('/*') &
+          (string('*/').not() & any()).star() &
+          string('*/'))
+      .flatten();
 
   /// Hidden content between tokens: whitespace and non-doc, non-group-marker
   /// comments. Doc comments and group markers are meaningful and never hidden.
-  Parser get _hiddenWhitespace =>
-      (whitespace() | _hiddenLineComment | _blockComment).star();
+  late final Parser _hiddenWhitespace =
+      (whitespace().plus().flatten() | _hiddenLineComment | _blockComment)
+          .star();
+
+  /// A doc comment as a token: the parsed comment plus trailing hidden
+  /// whitespace.
+  late final Parser<DocComment> _docComment =
+      _lexeme(ApexdocGrammar.wrappedComment);
 
   /// Matches [parser], then consumes trailing hidden whitespace; produces
   /// [parser]'s value. This is what turns a raw matcher into a token.
-  Parser<T> _lexeme<T>(Parser<T> parser) =>
-      (parser & _hiddenWhitespace).map((values) => values[0] as T);
+  Parser<T> _lexeme<T>(Parser<T> parser) => parser.skip(after: _hiddenWhitespace);
 
   /// A case-insensitive keyword with a word boundary, so `public` does not
   /// match the prefix of `publicThing`. Produces the canonical spelling.
@@ -106,24 +122,25 @@ class ApexGrammar {
       (string(word, ignoreCase: true) & _identifierCharacter.not())
           .map((_) => word));
 
-  Parser<String> get _identifier => _lexeme(
-      (pattern('a-zA-Z_\$') & _identifierCharacter.star()).flatten());
+  late final Parser<String> _identifier = _lexeme(_rawIdentifier);
 
   Parser<String> _symbol(String characters) =>
       _lexeme(string(characters).map((_) => characters));
+
+  /// A comma-separated list of one or more [item]s.
+  Parser<List<T>> _commaSeparated<T>(Parser<T> item) =>
+      item.plusSeparated(_symbol(',')).map((list) => list.elements);
 
   // ---- Type references ---------------------------------------------------
 
   void _buildTypeReference() {
     final typeArguments = _symbol('<') & _typeReferenceList & _symbol('>');
-    final rawIdentifier =
-        (pattern('a-zA-Z_\$') & _identifierCharacter.star()).flatten();
 
     // One `identifier<arguments>` segment. The identifier is a lexeme, which
     // lets whitespace sit between the name and `<` (Apex allows
     // `List <String>`).
     final segment =
-        (_lexeme(rawIdentifier) & typeArguments.optional()).map((values) {
+        (_lexeme(_rawIdentifier) & typeArguments.optional()).map((values) {
       final arguments = values[1] == null
           ? <_ParsedTypeReference>[]
           : ((values[1] as List)[1] as List).cast<_ParsedTypeReference>();
@@ -131,51 +148,42 @@ class ApexGrammar {
     });
 
     final dottedSegments =
-        (segment & (char('.') & segment).star()).map((values) {
-      return [
-        values[0] as _TypeNameSegment,
-        for (final rest in values[1] as List) rest[1] as _TypeNameSegment,
-      ];
-    });
+        segment.plusSeparated(char('.')).map((list) => list.elements);
 
     final arrayDimensions = (_symbol('[') & _symbol(']')).star();
 
-    _typeReference.set(
-        (dottedSegments & _hiddenWhitespace & arrayDimensions).map((values) =>
-            _ParsedTypeReference(values[0] as List<_TypeNameSegment>,
-                (values[2] as List).length)));
+    _typeReference.set((dottedSegments & arrayDimensions).map((values) =>
+        _ParsedTypeReference(
+            values[0] as List<_TypeNameSegment>, (values[1] as List).length)));
   }
 
-  Parser get _typeReferenceList =>
-      (_typeReference & (_symbol(',') & _typeReference).star()).map((values) {
-        return [
-          values[0] as _ParsedTypeReference,
-          for (final rest in values[1] as List)
-            rest[1] as _ParsedTypeReference,
-        ];
-      });
+  late final Parser _typeReferenceList = _commaSeparated(
+      _typeReference.map((type) => type as _ParsedTypeReference));
 
   // ---- Annotations & modifiers -------------------------------------------
 
-  Parser<Annotation> get _annotation {
-    final annotationName =
-        (pattern('a-zA-Z_\$') & _identifierCharacter.star()).flatten();
+  late final Parser<Annotation> _annotation = _buildAnnotation();
+
+  Parser<Annotation> _buildAnnotation() {
     // The parenthesized parameters, whitespace before them included, are only
     // consumed when a `(` actually follows; otherwise the annotation's raw
     // text ends at its name.
     final parameters = (_hiddenWhitespace & _balancedRegion('(', ')'))
         .map((values) => values[1] as String);
     return _lexeme(
-        (char('@') & annotationName & parameters.optional()).token().map((token) {
+        (char('@') & _rawIdentifier & parameters.optional()).token().map((token) {
       final rawParameters = token.value[2] as String?;
       // token.input is the exact source span of the annotation, so the raw
       // declaration keeps the author's original spacing.
-      return Annotation(token.input)
+      return Annotation(token.input, name: token.value[1] as String)
         ..elementValues = rawParameters == null
             ? []
             : _annotationElementValues(rawParameters);
     }));
   }
+
+  static final RegExp _elementValuePattern =
+      RegExp(r"([A-Za-z0-9_$]+)\s*=\s*('(?:[^'\\]|\\.)*'|[^\s,)]+)");
 
   /// Extracts `key = value` element pairs from the parenthesized annotation
   /// parameters. Pairs may be space- or comma-separated, and values may be
@@ -184,17 +192,10 @@ class ApexGrammar {
   /// ponytail: a regex, not a sub-grammar. Nested parentheses or `=` inside
   /// bare values would misparse. Upgrade to a real parameter grammar if such
   /// annotations ever appear in the wild.
-  List<AnnotationElementValue> _annotationElementValues(
+  static List<AnnotationElementValue> _annotationElementValues(
       String rawParameters) {
-    if (rawParameters.length < 2) {
-      return [];
-    }
-    final innerText = rawParameters.substring(1, rawParameters.length - 1);
-    if (!innerText.contains('=')) {
-      return [];
-    }
-    return RegExp(r"([A-Za-z0-9_$]+)\s*=\s*('(?:[^'\\]|\\.)*'|[^\s,)]+)")
-        .allMatches(innerText)
+    return _elementValuePattern
+        .allMatches(rawParameters.substring(1, rawParameters.length - 1))
         .map((match) => AnnotationElementValue(match.group(1)!, match.group(2)!))
         .toList();
   }
@@ -220,7 +221,9 @@ class ApexGrammar {
   /// and only classified into modifier enums by [_DeclarationPrefix.descriptor]
   /// once it is known whether they precede a member or a type, since
   /// `virtual` means something different on each.
-  Parser<String> get _modifierKeyword {
+  late final Parser<String> _modifierKeyword = _buildModifierKeyword();
+
+  Parser<String> _buildModifierKeyword() {
     final sharingModifier =
         (_keyword('with') & _keyword('sharing')).map((_) => 'withsharing') |
             (_keyword('without') & _keyword('sharing'))
@@ -244,90 +247,84 @@ class ApexGrammar {
   /// same parsed prefix can serve a member, an inner type, or a top-level
   /// type, each of which interprets it slightly differently.
   Parser<_DeclarationPrefix> _buildDeclarationPrefix() {
-    final item = _lexeme(ApexdocGrammar.wrappedComment)
-            .map<_PrefixItem>(_DocCommentItem.new) |
-        _annotation.map<_PrefixItem>(_AnnotationItem.new) |
-        _modifierKeyword.map<_PrefixItem>(_ModifierKeywordItem.new);
+    // The three item kinds are distinct runtime types (DocComment, Annotation,
+    // String), so the collected items partition by type alone.
+    final item = _docComment | _annotation | _modifierKeyword;
     return (_hiddenWhitespace & item.star()).map((values) {
-      final docComments = <DocComment>[];
-      final annotations = <Annotation>[];
-      final modifierKeywords = <String>[];
-      for (final item in (values[1] as List).cast<_PrefixItem>()) {
-        switch (item) {
-          case _DocCommentItem(:final docComment):
-            docComments.add(docComment);
-          case _AnnotationItem(:final annotation):
-            annotations.add(annotation);
-          case _ModifierKeywordItem(:final keyword):
-            modifierKeywords.add(keyword);
-        }
-      }
-      return _DeclarationPrefix(docComments, annotations, modifierKeywords);
+      final items = values[1] as List;
+      return _DeclarationPrefix(
+        items.whereType<DocComment>().toList(),
+        items.whereType<Annotation>().toList(),
+        items.whereType<String>().toList(),
+      );
     });
   }
 
   // ---- Balanced skippers -------------------------------------------------
+
+  /// An Apex string literal, escape sequences included.
+  late final Parser _stringLiteral = char("'") &
+      (string(r'\').seq(any()) | pattern(r"^'\\")).star() &
+      char("'");
 
   /// Matches a balanced region delimited by [opening]/[closing], honoring
   /// Apex string literals and comments (so delimiters inside them do not
   /// count), producing the raw matched text.
   Parser<String> _balancedRegion(String opening, String closing) {
     final region = undefined();
-    final stringLiteral = char("'") &
-        (string(r'\').seq(any()) | pattern(r"^'\\")).star() &
-        char("'");
+    // A maximal run of characters that can never be a delimiter, comment
+    // start, or string start. Plain text, the bulk of a skipped body, is
+    // consumed by this single character-class loop instead of paying the
+    // full alternation on every character.
+    final plainRun = pattern('^${_patternCharacter(opening)}'
+            '${_patternCharacter(closing)}'
+            "/'")
+        .plus();
     final nonDelimiter = (char(opening) | char(closing)).not() &
-        (_anyLineComment |
-            _blockComment |
-            _skippedDocComment |
-            stringLiteral |
-            any());
-    region.set(char(opening) & (region | nonDelimiter).star() & char(closing));
+        (_anyLineComment | _anyBlockComment | _stringLiteral | any());
+    region.set(
+        char(opening) & (plainRun | region | nonDelimiter).star() & char(closing));
     return region.flatten();
   }
 
-  Parser<String> get _block => _lexeme(_balancedRegion('{', '}'));
+  /// Escapes [character] for use inside a `pattern()` character class.
+  static String _patternCharacter(String character) =>
+      character == ']' ? r'\]' : character;
+
+  late final Parser<String> _block = _lexeme(_balancedRegion('{', '}'));
 
   // ---- Formal parameters -------------------------------------------------
 
-  Parser<List<ParameterMirror>> get _formalParameters {
+  late final Parser<List<ParameterMirror>> _formalParameters =
+      _buildFormalParameters();
+
+  Parser<List<ParameterMirror>> _buildFormalParameters() {
+    final parameterModifiers = (_keyword('final') | _annotation).star();
     final parameter =
-        (_parameterModifiers & _typeReference & _identifier).map((values) {
+        (parameterModifiers & _typeReference & _identifier).map((values) {
       return ParameterMirror(
         name: values[2] as String,
         typeReference: (values[1] as _ParsedTypeReference).toReference(),
       );
     });
-    final parameterList =
-        (parameter & (_symbol(',') & parameter).star()).map((values) {
-      return [
-        values[0] as ParameterMirror,
-        for (final rest in values[1] as List) rest[1] as ParameterMirror,
-      ];
-    });
-    return (_symbol('(') & parameterList.optional() & _symbol(')')).map(
-        (values) => (values[1] as List<ParameterMirror>?) ?? <ParameterMirror>[]);
+    return (_symbol('(') & _commaSeparated(parameter).optional() & _symbol(')'))
+        .map((values) =>
+            (values[1] as List<ParameterMirror>?) ?? <ParameterMirror>[]);
   }
-
-  Parser get _parameterModifiers => (_keyword('final') | _annotation).star();
 
   // ---- Group boundaries ----------------------------------------------------
 
   /// A `// @start-group NAME` or `// @end-group` line marker. These are
   /// excluded from hidden whitespace precisely so this rule can see them.
-  Parser<_ClassBodyEvent> get _groupLineMarker {
-    final leadingSpace = pattern(' \t').star();
+  late final Parser<_ClassBodyEvent> _groupLineMarker = _buildGroupLineMarker();
+
+  Parser<_ClassBodyEvent> _buildGroupLineMarker() {
     final restOfLine = pattern('^\n\r').star().flatten();
-    final start = (string('//') &
-            leadingSpace &
-            string('@start-group', ignoreCase: true) &
-            restOfLine)
-        .map((values) =>
-            _GroupStartEvent(_Group(name: (values[3] as String).trim())));
-    final end = (string('//') &
-            leadingSpace &
-            string('@end-group', ignoreCase: true) &
-            restOfLine)
+    final start =
+        (string('//') & _groupMarkerTag('@start-group') & restOfLine).map(
+            (values) =>
+                _GroupStartEvent(_Group(name: (values[2] as String).trim())));
+    final end = (string('//') & _groupMarkerTag('@end-group') & restOfLine)
         .map((_) => const _GroupEndEvent());
     return _lexeme((start | end).cast<_ClassBodyEvent>());
   }
@@ -337,7 +334,9 @@ class ApexGrammar {
   /// A class-body member *without* its prefix. Produces an adder that
   /// receives the already-parsed prefix, the enclosing class, and the group
   /// in scope at the member's position.
-  Parser<_MemberAdder> get _classMemberRest {
+  late final Parser<_MemberAdder> _classMemberRest = _buildClassMemberRest();
+
+  Parser<_MemberAdder> _buildClassMemberRest() {
     // Inner type: class / interface / enum.
     final innerType = _typeDeclarationRest.map<_MemberAdder>((build) {
       return (enclosingClass, prefix, enclosingGroup) {
@@ -364,23 +363,13 @@ class ApexGrammar {
             _formalParameters &
             (_block | _symbol(';')))
         .map<_MemberAdder>((values) {
-      final returnType = values[0] == null
-          ? ReferenceObjectType('void')
-          : (values[0] as _ParsedTypeReference).toReference();
+      final returnType = values[0] as ObjectTypeReference;
       final name = values[1] as String;
       final parameters = values[2] as List<ParameterMirror>;
       return (enclosingClass, prefix, enclosingGroup) {
-        final descriptor = prefix.descriptor(isMember: true);
-        final methodMirror = MethodMirror(
-            name: name,
-            rawDocComment: prefix.rawDocumentationComment,
-            typeReference: returnType)
-          ..docComment = prefix.documentationComment
-          ..parameters = parameters
-          ..accessModifier = descriptor.accessModifier
-          ..annotations = descriptor.annotations
-          ..memberModifiers = descriptor.memberModifiers;
-        _applyGroup(methodMirror, enclosingGroup);
+        final methodMirror = MethodMirror(name: name, typeReference: returnType)
+          ..parameters = parameters;
+        _decorateMember(methodMirror, prefix, enclosingGroup);
         enclosingClass.addMethod(methodMirror);
       };
     });
@@ -391,12 +380,11 @@ class ApexGrammar {
       final parameters = values[1] as List<ParameterMirror>;
       return (enclosingClass, prefix, enclosingGroup) {
         final descriptor = prefix.descriptor(isMember: true);
-        final constructorMirror =
-            ConstructorMirror(rawDocComment: prefix.rawDocumentationComment)
-              ..docComment = prefix.documentationComment
-              ..parameters = parameters
-              ..accessModifier = descriptor.accessModifier
-              ..annotations = descriptor.annotations;
+        final constructorMirror = ConstructorMirror()
+          ..docComment = prefix.documentationComment
+          ..parameters = parameters
+          ..accessModifier = descriptor.accessModifier
+          ..annotations = descriptor.annotations;
         _applyGroup(constructorMirror, enclosingGroup);
         enclosingClass.addConstructor(constructorMirror);
       };
@@ -408,16 +396,8 @@ class ApexGrammar {
       final type = (values[0] as _ParsedTypeReference).toReference();
       final name = values[1] as String;
       return (enclosingClass, prefix, enclosingGroup) {
-        final descriptor = prefix.descriptor(isMember: true);
-        final propertyMirror = PropertyMirror(
-            name: name,
-            rawDocComment: prefix.rawDocumentationComment,
-            typeReference: type)
-          ..docComment = prefix.documentationComment
-          ..accessModifier = descriptor.accessModifier
-          ..annotations = descriptor.annotations
-          ..memberModifiers = descriptor.memberModifiers;
-        _applyGroup(propertyMirror, enclosingGroup);
+        final propertyMirror = PropertyMirror(name: name, typeReference: type);
+        _decorateMember(propertyMirror, prefix, enclosingGroup);
         enclosingClass.addProperty(propertyMirror);
       };
     });
@@ -430,17 +410,9 @@ class ApexGrammar {
       final type = (values[0] as _ParsedTypeReference).toReference();
       final names = values[1] as List<String>;
       return (enclosingClass, prefix, enclosingGroup) {
-        final descriptor = prefix.descriptor(isMember: true);
         for (final name in names) {
-          final fieldMirror = FieldMirror(
-              name: name,
-              rawDocComment: prefix.rawDocumentationComment,
-              typeReference: type)
-            ..docComment = prefix.documentationComment
-            ..accessModifier = descriptor.accessModifier
-            ..annotations = descriptor.annotations
-            ..memberModifiers = descriptor.memberModifiers;
-          _applyGroup(fieldMirror, enclosingGroup);
+          final fieldMirror = FieldMirror(name: name, typeReference: type);
+          _decorateMember(fieldMirror, prefix, enclosingGroup);
           enclosingClass.addField(fieldMirror);
         }
       };
@@ -462,19 +434,29 @@ class ApexGrammar {
     ].toChoiceParser();
   }
 
-  /// A `void` or type return marker: null for `void`, a parsed type otherwise.
-  Parser get _returnType => _keyword('void').map((_) => null) | _typeReference;
-
-  Parser<List<String>> get _variableDeclarators {
-    final declarator = (_identifier & (_symbol('=') & _initializerValue).optional())
-        .map((values) => values[0] as String);
-    return (declarator & (_symbol(',') & declarator).star()).map((values) {
-      return [
-        values[0] as String,
-        for (final rest in values[1] as List) rest[1] as String,
-      ];
-    });
+  /// Applies everything a class member takes from its declaration prefix and
+  /// surrounding group: doc comment, modifiers, annotations, group.
+  static void _decorateMember(MemberMirror member, _DeclarationPrefix prefix,
+      _Group? enclosingGroup) {
+    final descriptor = prefix.descriptor(isMember: true);
+    member
+      ..docComment = prefix.documentationComment
+      ..accessModifier = descriptor.accessModifier
+      ..annotations = descriptor.annotations
+      ..memberModifiers = descriptor.memberModifiers;
+    _applyGroup(member, enclosingGroup);
   }
+
+  /// A `void` or type return marker.
+  late final Parser<ObjectTypeReference> _returnType =
+      (_keyword('void').map((_) => ReferenceObjectType('void')) |
+              _typeReference
+                  .map((type) => (type as _ParsedTypeReference).toReference()))
+          .cast<ObjectTypeReference>();
+
+  late final Parser<List<String>> _variableDeclarators = _commaSeparated(
+      (_identifier & (_symbol('=') & _initializerValue).optional())
+          .map((values) => values[0] as String));
 
   /// A field initializer value: everything up to a top-level `,` or `;`,
   /// honoring nested `()`, `{}`, `[]`, `<...>` generic literals and string
@@ -488,16 +470,15 @@ class ApexGrammar {
   /// ponytail: a contrived initializer mixing an unbalanced `<` with a
   /// balanced-looking one could misgroup. Harmless in practice, since only
   /// the field *names* reach the model, never the initializer text.
-  Parser get _initializerValue {
-    final stringLiteral = char("'") &
-        (string(r'\').seq(any()) | pattern(r"^'\\")).star() &
-        char("'");
+  late final Parser _initializerValue = _buildInitializerValue();
+
+  Parser _buildInitializerValue() {
     final nestedRegion = _balancedRegion('(', ')') |
         _balancedRegion('{', '}') |
         _balancedRegion('[', ']') |
         _balancedRegion('<', '>');
     final plainRun = pattern("^,;()<>[\\]{}'").plus();
-    final piece = nestedRegion | stringLiteral | plainRun | pattern('<>');
+    final piece = nestedRegion | _stringLiteral | plainRun | pattern('<>');
     return _lexeme(piece.plus().flatten());
   }
 
@@ -515,8 +496,7 @@ class ApexGrammar {
             addMember(enclosingClass, prefix, enclosingGroup)),
       ];
     });
-    final strayDocComment =
-        _lexeme(ApexdocGrammar.wrappedComment).map((docComment) {
+    final strayDocComment = _docComment.map((docComment) {
       final groupEvent = _groupEventFromDocComment(docComment);
       return [if (groupEvent != null) groupEvent];
     });
@@ -526,7 +506,7 @@ class ApexGrammar {
 
   // ---- Type declarations ---------------------------------------------------
 
-  void _buildTypeDeclaration() {
+  Parser<TypeMirror> _buildTypeDeclaration() {
     final classRest = (_keyword('class') &
             _identifier &
             (_keyword('extends') & _typeReference).optional() &
@@ -553,7 +533,6 @@ class ApexGrammar {
         final descriptor = prefix.descriptor();
         final classMirror = ClassMirror(
             name: name,
-            rawDocComment: prefix.rawDocumentationComment,
             extendedClass: extendedClass,
             implementedInterfaces: implementedInterfaces)
           ..docComment = prefix.documentationComment
@@ -587,9 +566,7 @@ class ApexGrammar {
       return (prefix) {
         final descriptor = prefix.descriptor();
         final interfaceMirror = InterfaceMirror(
-            name: name,
-            rawDocComment: prefix.rawDocumentationComment,
-            extendedInterfaces: extendedInterfaces)
+            name: name, extendedInterfaces: extendedInterfaces)
           ..docComment = prefix.documentationComment
           ..accessModifier = descriptor.accessModifier
           ..sharingModifier = descriptor.sharingModifier
@@ -603,30 +580,21 @@ class ApexGrammar {
 
     final enumConstant = (_declarationPrefix & _identifier).map((values) {
       final prefix = values[0] as _DeclarationPrefix;
-      return EnumValue(
-          name: values[1] as String,
-          rawDocComment: prefix.rawDocumentationComment)
+      return EnumValue(name: values[1] as String)
         ..docComment = prefix.documentationComment;
     });
     final enumRest = (_keyword('enum') &
             _identifier &
             _symbol('{') &
-            (enumConstant & (_symbol(',') & enumConstant).star()).optional() &
+            _commaSeparated(enumConstant).optional() &
             _trailingBodyClutter &
             _symbol('}'))
         .map<_TypeBuilder>((values) {
       final name = values[1] as String;
-      final constants = <EnumValue>[];
-      if (values[3] != null) {
-        constants.add(values[3][0] as EnumValue);
-        for (final rest in values[3][1] as List) {
-          constants.add(rest[1] as EnumValue);
-        }
-      }
+      final constants = (values[3] as List<EnumValue>?) ?? <EnumValue>[];
       return (prefix) {
         final descriptor = prefix.descriptor();
-        final enumMirror = EnumMirror(
-            name: name, rawDocComment: prefix.rawDocumentationComment)
+        final enumMirror = EnumMirror(name: name)
           ..docComment = prefix.documentationComment
           ..accessModifier = descriptor.accessModifier
           ..annotations = descriptor.annotations;
@@ -639,8 +607,7 @@ class ApexGrammar {
 
     _typeDeclarationRest
         .set([classRest, interfaceRest, enumRest].toChoiceParser());
-    _typeDeclarationWithPrefix =
-        (_declarationPrefix & _typeDeclarationRest).map((values) {
+    return (_declarationPrefix & _typeDeclarationRest).map((values) {
       final prefix = values[0] as _DeclarationPrefix;
       final build = values[1] as _TypeBuilder;
       return build(prefix);
@@ -650,31 +617,29 @@ class ApexGrammar {
   /// Stray group markers or doc comments at the end of a body, attached to no
   /// declaration. Consumed so a trailing `/** @end-group */` or orphaned doc
   /// comment before the closing brace cannot fail the parse.
-  Parser get _trailingBodyClutter =>
-      (_groupLineMarker | _lexeme(ApexdocGrammar.wrappedComment)).star();
+  late final Parser _trailingBodyClutter =
+      (_groupLineMarker | _docComment).star();
 
   /// One item of an interface body: a method, or group-comment clutter.
   ///
   /// Group markers are consumed but not applied inside interface bodies:
   /// interfaces only contain methods, and grouping them has never been part
   /// of the model's output.
-  Parser<MethodMirror Function(InterfaceMirror)?> get _interfaceBodyItem {
+  late final Parser<MethodMirror Function(InterfaceMirror)?>
+      _interfaceBodyItem = _buildInterfaceBodyItem();
+
+  Parser<MethodMirror Function(InterfaceMirror)?> _buildInterfaceBodyItem() {
     final methodRest =
         (_returnType & _identifier & _formalParameters & _symbol(';'))
             .map((values) {
-      final returnType = values[0] == null
-          ? ReferenceObjectType('void')
-          : (values[0] as _ParsedTypeReference).toReference();
+      final returnType = values[0] as ObjectTypeReference;
       final name = values[1] as String;
       final parameters = values[2] as List<ParameterMirror>;
       return (InterfaceMirror interfaceMirror, _DeclarationPrefix prefix) {
         // Interface methods inherit the interface's visibility and
         // annotations; their own annotations are appended.
         final ownAnnotations = prefix.descriptor(isMember: true).annotations;
-        return MethodMirror(
-            name: name,
-            rawDocComment: prefix.rawDocumentationComment,
-            typeReference: returnType)
+        return MethodMirror(name: name, typeReference: returnType)
           ..docComment = prefix.documentationComment
           ..parameters = parameters
           ..accessModifier = interfaceMirror.accessModifier
@@ -688,32 +653,25 @@ class ApexGrammar {
           InterfaceMirror, _DeclarationPrefix);
       return (interfaceMirror) => build(interfaceMirror, prefix);
     });
-    final clutter = (_groupLineMarker | _lexeme(ApexdocGrammar.wrappedComment))
+    final clutter = (_groupLineMarker | _docComment)
         .map<MethodMirror Function(InterfaceMirror)?>((_) => null);
     return (method | clutter).cast<MethodMirror Function(InterfaceMirror)?>();
   }
 
   // ---- Triggers ------------------------------------------------------------
 
-  void _buildTrigger() {
+  Parser<TriggerMirror> _buildTrigger() {
     // A trigger event is one or more words (`before insert`); the model keeps
     // them space-stripped (`beforeinsert`).
     final triggerEvent = (_identifier & _identifier.star()).map((values) {
       return [values[0] as String, ...(values[1] as List).cast<String>()]
           .join();
     });
-    final triggerEvents = (_symbol('(') &
-            triggerEvent &
-            (_symbol(',') & triggerEvent).star() &
-            _symbol(')'))
-        .map((values) {
-      return [
-        values[1] as String,
-        for (final rest in values[2] as List) rest[1] as String,
-      ];
-    });
+    final triggerEvents =
+        (_symbol('(') & _commaSeparated(triggerEvent) & _symbol(')'))
+            .map((values) => values[1] as List<String>);
 
-    triggerUnit = (_declarationPrefix &
+    return (_declarationPrefix &
             _keyword('trigger') &
             _identifier &
             _keyword('on') &
@@ -728,7 +686,6 @@ class ApexGrammar {
         name: values[2] as String,
         objectName: values[4] as String,
         events: values[6] as List<String>,
-        rawDocComment: prefix.rawDocumentationComment,
       )..docComment = prefix.documentationComment;
     });
   }
@@ -823,7 +780,7 @@ class _TypeNameSegment {
 
   _TypeNameSegment(this.identifier, this.typeArguments);
 
-  String get text => typeArguments.isEmpty
+  late final String text = typeArguments.isEmpty
       ? identifier
       : '$identifier<${typeArguments.map((argument) => argument.canonicalText).join(',')}>';
 }
@@ -836,9 +793,9 @@ class _ParsedTypeReference {
 
   _ParsedTypeReference(this.segments, this.arrayDimensions);
 
-  String get canonicalText =>
+  late final String canonicalText =
       segments.map((segment) => segment.text).join('.') +
-      ('[]' * arrayDimensions);
+          ('[]' * arrayDimensions);
 
   ObjectTypeReference toReference() {
     // `Type[]` is sugar for `List<Type>`: each array dimension peels off into
@@ -881,56 +838,39 @@ class _DeclarationPrefix {
 
   _DeclarationPrefix(this.docComments, this.annotations, this.modifierKeywords);
 
+  /// Each doc comment's group-boundary classification (null for an ordinary
+  /// doc comment), computed once and shared by [documentationComment] and
+  /// [groupEvents].
+  late final List<_ClassBodyEvent?> _groupEventPerDocComment = [
+    for (final docComment in docComments) _groupEventFromDocComment(docComment),
+  ];
+
   /// The doc comment documenting the declaration itself: the closest one,
   /// skipping doc comments that are really group boundaries. When an author
   /// stacks several doc comments on one declaration, the nearest wins.
-  DocComment? get documentationComment {
-    for (final docComment in docComments.reversed) {
-      if (_groupEventFromDocComment(docComment) == null) {
-        return docComment;
+  late final DocComment? documentationComment = _closestContentDocComment();
+
+  DocComment? _closestContentDocComment() {
+    for (var index = docComments.length - 1; index >= 0; index--) {
+      if (_groupEventPerDocComment[index] == null) {
+        return docComments[index];
       }
     }
     return null;
   }
 
-  String? get rawDocumentationComment => documentationComment?.rawDeclaration;
-
   /// Group boundaries expressed as doc comments within this prefix, in
   /// source order.
-  List<_ClassBodyEvent> get groupEvents => [
-        for (final docComment in docComments)
-          if (_groupEventFromDocComment(docComment) case final event?) event,
-      ];
+  late final List<_ClassBodyEvent> groupEvents =
+      _groupEventPerDocComment.nonNulls.toList();
 
   /// Classifies the raw modifier keywords now that the declaration kind is
   /// known. [isMember] steers `virtual`/`abstract` toward member modifiers
   /// (methods) instead of class modifiers (types).
-  DeclarationDescriptor descriptor({bool isMember = false}) {
-    return DeclarationDescriptor(accessModifiers: <dynamic>[
-      ...annotations,
-      ...modifierKeywords
-          .map((keyword) => modifierFromKeyword(keyword, isMember: isMember)),
-    ]);
-  }
-}
-
-/// One collected item of a declaration prefix.
-sealed class _PrefixItem {}
-
-final class _DocCommentItem extends _PrefixItem {
-  final DocComment docComment;
-
-  _DocCommentItem(this.docComment);
-}
-
-final class _AnnotationItem extends _PrefixItem {
-  final Annotation annotation;
-
-  _AnnotationItem(this.annotation);
-}
-
-final class _ModifierKeywordItem extends _PrefixItem {
-  final String keyword;
-
-  _ModifierKeywordItem(this.keyword);
+  DeclarationDescriptor descriptor({bool isMember = false}) =>
+      DeclarationDescriptor.classify(
+        annotations: annotations,
+        modifierKeywords: modifierKeywords,
+        isMember: isMember,
+      );
 }

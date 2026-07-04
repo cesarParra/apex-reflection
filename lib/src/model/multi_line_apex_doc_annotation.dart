@@ -61,9 +61,3 @@ extension on Iterable<String> {
     }
   }
 }
-
-extension ReversedIterable<E> on Iterable<E> {
-  Iterable<E> get reversed {
-    return toList().reversed;
-  }
-}

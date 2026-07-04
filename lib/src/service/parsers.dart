@@ -124,7 +124,9 @@ class ApexdocParser {
 }
 
 T _parseOrThrow<T>(Parser<T> parser, String body) {
-  final result = parser.parse(body.trim());
+  // No trimming: the grammar consumes leading and trailing hidden whitespace
+  // itself, and trimming would copy the whole source string first.
+  final result = parser.parse(body);
   if (result is Failure) {
     throw Exception(
         'Error parsing Apex Body. ${result.message} at ${result.position}');

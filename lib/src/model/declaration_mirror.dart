@@ -14,8 +14,12 @@ mixin DocsCommentAwareness {
   @JsonKey()
   DocComment? get docComment => _docComment ??= _parseDocComment();
 
+  /// Assigning a parsed doc comment keeps [rawDocComment] in sync with it, so
+  /// the raw and parsed views of a declaration's documentation can never
+  /// disagree.
   set docComment(DocComment? value) {
     _docComment = value;
+    rawDocComment = value?.rawDeclaration;
   }
 
   DocComment? _parseDocComment() {

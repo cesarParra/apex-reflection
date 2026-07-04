@@ -6,14 +6,13 @@ part of 'modifiers.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Annotation _$AnnotationFromJson(Map<String, dynamic> json) => Annotation(
-      json['rawDeclaration'] as String,
-    )
-      ..name = json['name'] as String
+Annotation _$AnnotationFromJson(Map<String, dynamic> json) =>
+    Annotation(json['rawDeclaration'] as String, name: json['name'] as String?)
       ..type = $enumDecode(_$AnnotationTypeEnumMap, json['type'])
       ..elementValues = (json['elementValues'] as List<dynamic>?)
           ?.map(
-              (e) => AnnotationElementValue.fromJson(e as Map<String, dynamic>))
+            (e) => AnnotationElementValue.fromJson(e as Map<String, dynamic>),
+          )
           .toList();
 
 Map<String, dynamic> _$AnnotationToJson(Annotation instance) =>
@@ -48,15 +47,9 @@ const _$AnnotationTypeEnumMap = {
 };
 
 AnnotationElementValue _$AnnotationElementValueFromJson(
-        Map<String, dynamic> json) =>
-    AnnotationElementValue(
-      json['key'] as String,
-      json['value'] as String,
-    );
+  Map<String, dynamic> json,
+) => AnnotationElementValue(json['key'] as String, json['value'] as String);
 
 Map<String, dynamic> _$AnnotationElementValueToJson(
-        AnnotationElementValue instance) =>
-    <String, dynamic>{
-      'key': instance.key,
-      'value': instance.value,
-    };
+  AnnotationElementValue instance,
+) => <String, dynamic>{'key': instance.key, 'value': instance.value};

@@ -1,5 +1,3 @@
-import 'package:apex_reflection/src/extension_methods/list_extensions.dart';
-import 'package:apex_reflection/src/service/utils/parsing/enum_utils.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'modifiers.g.dart';
@@ -49,43 +47,6 @@ enum AnnotationType {
   other
 }
 
-/// Classifies a modifier keyword into its modifier enum value, or null when
-/// the keyword is not a recognized modifier. Two-word sharing modifiers are
-/// expected space-stripped (`withsharing`).
-///
-/// `virtual` and `abstract` exist in both [ClassModifier] and
-/// [MemberModifier]; [isMember] decides which one wins: a `virtual` method
-/// is a member modifier, a `virtual` class is a class modifier.
-dynamic modifierFromKeyword(String keyword, {bool isMember = false}) {
-  final normalizedKeyword = keyword.toLowerCase();
-
-  dynamic enumValue = AccessModifier.values.firstWhereOrNull(
-      (element) => describeEnum(element).toLowerCase() == normalizedKeyword);
-
-  if (enumValue != null) {
-    return enumValue;
-  }
-
-  if (!isMember) {
-    enumValue = ClassModifier.values.firstWhereOrNull(
-        (element) => describeEnum(element).toLowerCase() == normalizedKeyword);
-
-    if (enumValue != null) {
-      return enumValue;
-    }
-  }
-
-  enumValue = SharingModifier.values.firstWhereOrNull(
-      (element) => describeEnum(element).toLowerCase() == normalizedKeyword);
-
-  if (enumValue != null) {
-    return enumValue;
-  }
-
-  return MemberModifier.values
-      .firstWhereOrNull((element) => element.value == normalizedKeyword);
-}
-
 @JsonSerializable()
 class Annotation {
   String rawDeclaration;
@@ -93,9 +54,11 @@ class Annotation {
   late AnnotationType type;
   List<AnnotationElementValue>? elementValues = [];
 
-  Annotation(this.rawDeclaration) {
-    name = _nameFromDeclaration(rawDeclaration);
-    type = _parseAnnotationTypeFromString(name);
+  /// [name] is the annotation's identifier when the caller already parsed it
+  /// (the grammar does); otherwise it is extracted from [rawDeclaration].
+  Annotation(this.rawDeclaration, {String? name}) {
+    this.name = (name ?? _nameFromDeclaration(rawDeclaration)).toLowerCase();
+    type = _annotationTypesByName[this.name] ?? AnnotationType.other;
   }
 
   factory Annotation.fromJson(Map<String, dynamic> json) =>
@@ -103,21 +66,16 @@ class Annotation {
 
   Map<String, dynamic> toJson() => _$AnnotationToJson(this);
 
+  static final RegExp _namePattern = RegExp(r'[A-Za-z_$][A-Za-z0-9_$]*');
+
   /// Extracts the annotation's name: the identifier after `@`, regardless of
   /// any whitespace or `(...)` parameters that follow it in the raw text.
-  static String _nameFromDeclaration(String declaration) {
-    return RegExp(r'[A-Za-z_$][A-Za-z0-9_$]*')
-            .firstMatch(declaration)
-            ?.group(0)
-            ?.toLowerCase() ??
-        '';
-  }
+  static String _nameFromDeclaration(String declaration) =>
+      _namePattern.firstMatch(declaration)?.group(0) ?? '';
 
-  AnnotationType _parseAnnotationTypeFromString(String name) {
-    return AnnotationType.values.firstWhere(
-        (element) => describeEnum(element).toLowerCase() == name,
-        orElse: () => AnnotationType.other);
-  }
+  static final Map<String, AnnotationType> _annotationTypesByName = {
+    for (final type in AnnotationType.values) type.name.toLowerCase(): type,
+  };
 }
 
 @JsonSerializable()

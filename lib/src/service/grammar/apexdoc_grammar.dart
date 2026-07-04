@@ -79,17 +79,19 @@ class ApexdocGrammar {
     final backtickedSpan =
         char('`') & guarded(pattern('^`\n\r')).star() & char('`');
 
-    // One unit of running text: a protected region or a single character that
-    // is not `@` (an unprotected `@` always ends the current run because it
-    // may start a block tag).
-    final plainCharacter = stopAtCommentClose
-        ? (string('*/').not() & pattern('^@')).map((values) => values[1] as String)
-        : pattern('^@');
+    // Running text between protected regions. A maximal run of characters
+    // that cannot start a tag (`@`), a protected region (`{`, backtick), or
+    // the comment close (`*`, conservatively) is consumed in one step; the
+    // guarded single character is the fallback for the excluded characters
+    // themselves when they turn out to be plain text.
+    final plainRun = pattern('^@`{*').plus().flatten();
+    final plainCharacter = guarded(pattern('^@'));
     // The fence must be tried before the single-backtick span, which would
     // otherwise consume the first two backticks of a fence as an empty span.
     final segment = braceGroup.flatten().map(_dropHiddenRegion) |
         fencedCodeBlock.flatten() |
         backtickedSpan.flatten() |
+        plainRun |
         plainCharacter;
 
     final textRun = segment.star().map((parts) => parts.join());
@@ -104,10 +106,11 @@ class ApexdocGrammar {
     });
   }
 
+  static final RegExp _hiddenRegionPattern =
+      RegExp(r'^\{@hidden', caseSensitive: false);
+
   static String _dropHiddenRegion(String braceGroupText) {
-    return RegExp(r'^\{@hidden', caseSensitive: false).hasMatch(braceGroupText)
-        ? ''
-        : braceGroupText;
+    return _hiddenRegionPattern.hasMatch(braceGroupText) ? '' : braceGroupText;
   }
 
   static DocComment _buildDocComment(String description, List<_BlockTag> tags) {
@@ -145,10 +148,12 @@ class ApexdocGrammar {
   /// `<...>` type arguments and `[]` array suffixes, so `@throws System.Ex`
   /// names `System.Ex` and `@param Map<Id, Foo> x` names `Map<Id, Foo>`. An
   /// unbalanced `<` (a comparison, say) is not part of the name.
+  static final RegExp _leadingNamePattern =
+      RegExp(r'^[A-Za-z0-9$_-]+(?:\.[A-Za-z0-9$_-]+)*');
+
   static (String, String) _splitLeadingName(String content) {
     final trimmed = content.trimLeft();
-    final match =
-        RegExp(r'^[A-Za-z0-9$_-]+(?:\.[A-Za-z0-9$_-]+)*').firstMatch(trimmed);
+    final match = _leadingNamePattern.firstMatch(trimmed);
     if (match == null) {
       return ('', '');
     }

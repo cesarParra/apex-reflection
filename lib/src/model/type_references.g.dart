@@ -7,16 +7,15 @@ part of 'type_references.dart';
 // **************************************************************************
 
 ReferenceObjectType _$ReferenceObjectTypeFromJson(Map<String, dynamic> json) =>
-    ReferenceObjectType(
-      json['type'] as String,
-    )..rawDeclaration = json['rawDeclaration'] as String;
+    ReferenceObjectType(json['type'] as String)
+      ..rawDeclaration = json['rawDeclaration'] as String;
 
 Map<String, dynamic> _$ReferenceObjectTypeToJson(
-        ReferenceObjectType instance) =>
-    <String, dynamic>{
-      'type': instance.type,
-      'rawDeclaration': instance.rawDeclaration,
-    };
+  ReferenceObjectType instance,
+) => <String, dynamic>{
+  'type': instance.type,
+  'rawDeclaration': instance.rawDeclaration,
+};
 
 ListObjectType _$ListObjectTypeFromJson(Map<String, dynamic> json) =>
     ListObjectType(

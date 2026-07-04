@@ -6,25 +6,30 @@ part of 'doc_comment.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-DocComment _$DocCommentFromJson(Map<String, dynamic> json) => DocComment(
-      json['description'] as String,
-    )
+DocComment _$DocCommentFromJson(Map<String, dynamic> json) =>
+    DocComment(json['description'] as String)
       ..rawDeclaration = json['rawDeclaration'] as String?
       ..paramAnnotations = (json['paramAnnotations'] as List<dynamic>)
-          .map((e) =>
-              ParamDocCommentAnnotation.fromJson(e as Map<String, dynamic>))
+          .map(
+            (e) =>
+                ParamDocCommentAnnotation.fromJson(e as Map<String, dynamic>),
+          )
           .toList()
       ..returnAnnotation = json['returnAnnotation'] == null
           ? null
           : ReturnDocCommentAnnotation.fromJson(
-              json['returnAnnotation'] as Map<String, dynamic>)
+              json['returnAnnotation'] as Map<String, dynamic>,
+            )
       ..exampleAnnotation = json['exampleAnnotation'] == null
           ? null
           : ExampleDocCommentAnnotation.fromJson(
-              json['exampleAnnotation'] as Map<String, dynamic>)
+              json['exampleAnnotation'] as Map<String, dynamic>,
+            )
       ..throwsAnnotations = (json['throwsAnnotations'] as List<dynamic>)
-          .map((e) =>
-              ThrowsDocCommentAnnotation.fromJson(e as Map<String, dynamic>))
+          .map(
+            (e) =>
+                ThrowsDocCommentAnnotation.fromJson(e as Map<String, dynamic>),
+          )
           .toList()
       ..annotations = (json['annotations'] as List<dynamic>)
           .map((e) => DocCommentAnnotation.fromJson(e as Map<String, dynamic>))
@@ -48,69 +53,57 @@ Map<String, dynamic> _$DocCommentToJson(DocComment instance) =>
     };
 
 DocCommentAnnotation _$DocCommentAnnotationFromJson(
-        Map<String, dynamic> json) =>
-    DocCommentAnnotation(
-      json['name'] as String,
-      json['body'],
-    )..bodyLines =
-        (json['bodyLines'] as List<dynamic>).map((e) => e as String).toList();
+  Map<String, dynamic> json,
+) => DocCommentAnnotation(json['name'] as String, json['body'])
+  ..bodyLines = (json['bodyLines'] as List<dynamic>)
+      .map((e) => e as String)
+      .toList();
 
 Map<String, dynamic> _$DocCommentAnnotationToJson(
-        DocCommentAnnotation instance) =>
-    <String, dynamic>{
-      'name': instance.name,
-      'bodyLines': instance.bodyLines,
-      'body': instance.body,
-    };
+  DocCommentAnnotation instance,
+) => <String, dynamic>{
+  'name': instance.name,
+  'bodyLines': instance.bodyLines,
+  'body': instance.body,
+};
 
 ParamDocCommentAnnotation _$ParamDocCommentAnnotationFromJson(
-        Map<String, dynamic> json) =>
-    ParamDocCommentAnnotation(
-      json['paramName'] as String,
-      (json['bodyLines'] as List<dynamic>).map((e) => e as String).toList(),
-    );
+  Map<String, dynamic> json,
+) => ParamDocCommentAnnotation(json['paramName'] as String, json['bodyLines']);
 
 Map<String, dynamic> _$ParamDocCommentAnnotationToJson(
-        ParamDocCommentAnnotation instance) =>
-    <String, dynamic>{
-      'bodyLines': instance.bodyLines,
-      'paramName': instance.paramName,
-    };
+  ParamDocCommentAnnotation instance,
+) => <String, dynamic>{
+  'bodyLines': instance.bodyLines,
+  'paramName': instance.paramName,
+};
 
 ReturnDocCommentAnnotation _$ReturnDocCommentAnnotationFromJson(
-        Map<String, dynamic> json) =>
-    ReturnDocCommentAnnotation(
-      (json['bodyLines'] as List<dynamic>).map((e) => e as String).toList(),
-    );
+  Map<String, dynamic> json,
+) => ReturnDocCommentAnnotation(json['bodyLines']);
 
 Map<String, dynamic> _$ReturnDocCommentAnnotationToJson(
-        ReturnDocCommentAnnotation instance) =>
-    <String, dynamic>{
-      'bodyLines': instance.bodyLines,
-    };
+  ReturnDocCommentAnnotation instance,
+) => <String, dynamic>{'bodyLines': instance.bodyLines};
 
 ThrowsDocCommentAnnotation _$ThrowsDocCommentAnnotationFromJson(
-        Map<String, dynamic> json) =>
-    ThrowsDocCommentAnnotation(
-      json['exceptionName'] as String,
-      (json['bodyLines'] as List<dynamic>).map((e) => e as String).toList(),
-    );
+  Map<String, dynamic> json,
+) => ThrowsDocCommentAnnotation(
+  json['exceptionName'] as String,
+  json['bodyLines'],
+);
 
 Map<String, dynamic> _$ThrowsDocCommentAnnotationToJson(
-        ThrowsDocCommentAnnotation instance) =>
-    <String, dynamic>{
-      'bodyLines': instance.bodyLines,
-      'exceptionName': instance.exceptionName,
-    };
+  ThrowsDocCommentAnnotation instance,
+) => <String, dynamic>{
+  'bodyLines': instance.bodyLines,
+  'exceptionName': instance.exceptionName,
+};
 
 ExampleDocCommentAnnotation _$ExampleDocCommentAnnotationFromJson(
-        Map<String, dynamic> json) =>
-    ExampleDocCommentAnnotation(
-      (json['bodyLines'] as List<dynamic>).map((e) => e as String).toList(),
-    );
+  Map<String, dynamic> json,
+) => ExampleDocCommentAnnotation(json['bodyLines']);
 
 Map<String, dynamic> _$ExampleDocCommentAnnotationToJson(
-        ExampleDocCommentAnnotation instance) =>
-    <String, dynamic>{
-      'bodyLines': instance.bodyLines,
-    };
+  ExampleDocCommentAnnotation instance,
+) => <String, dynamic>{'bodyLines': instance.bodyLines};

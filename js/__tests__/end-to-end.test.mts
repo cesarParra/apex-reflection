@@ -678,6 +678,38 @@ describe("Class reflection", () => {
 
     await runAllStrategies(testBody);
   });
+
+  test("an @ inside a fenced example block does not start a new tag", async () => {
+    async function testBody(reflect: ReflectionStrategy) {
+      const classBody = `
+      public class MyClass {
+        /**
+         * @example
+         * \`\`\`apex
+         * Object result = run('MAP(@context, Name)', records);
+         * \`\`\`
+         */
+        public void myMethod() {}
+      }
+    `;
+
+      const result = await reflect(classBody);
+      assert.equal(result.error, null);
+
+      const typeResult = result.typeMirror as ClassMirror;
+      const docComment = typeResult.methods[0].docComment;
+      // A stale wasm artifact without fence support truncates the example at
+      // the @ and leaks the remainder into a bogus "context" annotation.
+      assert.deepEqual(docComment.annotations, []);
+      assert.ok(
+        docComment.exampleAnnotation?.bodyLines.includes(
+          "Object result = run('MAP(@context, Name)', records);",
+        ),
+      );
+    }
+
+    await runAllStrategies(testBody);
+  });
 });
 
 describe("Trigger reflection", () => {

@@ -1,11 +1,9 @@
-import 'package:antlr4/antlr4.dart';
 import 'package:apex_reflection/src/model/doc_comment.dart';
 import 'package:apex_reflection/src/model/types.dart';
-import 'package:apex_reflection/src/service/case_insensitive_input_stream.dart';
-import 'package:apex_reflection/src/service/walker.dart';
+import 'package:apex_reflection/src/service/grammar/apex_grammar.dart';
+import 'package:apex_reflection/src/service/grammar/apexdoc_grammar.dart';
 import 'package:json_annotation/json_annotation.dart';
-import '../antlr/grammars/apex/ApexParser.dart' as antlr_apex_parser;
-import '../antlr/grammars/Apexdoc/ApexdocParser.dart' as antlr_apexdoc_parser;
+import 'package:petitparser/petitparser.dart';
 
 part 'parsers.g.dart';
 
@@ -109,56 +107,29 @@ class Reflection {
 
 class ApexParser {
   static TypeMirror parseFromBody(String body) {
-    final input = CaseInsensitiveInputStream.fromString(body);
-    return _parse(input);
-  }
-
-  static TypeMirror _parse(InputStream input) {
-    final walkerDefinition = ApexWalkerDefinition();
-    Walker.walk(input, walkerDefinition,
-        (antlr_apex_parser.ApexParser parser) => parser.compilationUnit());
-    return walkerDefinition.getGeneratedApexType()!;
+    return _parseOrThrow(ApexGrammar.instance.compilationUnit, body);
   }
 }
 
 class TriggerParser {
   static TriggerMirror parseFromBody(String body) {
-    final input = CaseInsensitiveInputStream.fromString(body);
-    return _parse(input);
-  }
-
-  static TriggerMirror _parse(InputStream input) {
-    final walkerDefinition = ApexWalkerDefinition();
-    Walker.walk(input, walkerDefinition,
-        (antlr_apex_parser.ApexParser parser) => parser.triggerUnit());
-    return walkerDefinition.getGeneratedTrigger()!;
+    return _parseOrThrow(ApexGrammar.instance.triggerUnit, body);
   }
 }
 
 class ApexdocParser {
   static DocComment parseFromBody(String body) {
-    var sanitizedBody = body.trim();
-    // Two-stage parsing: attempt the fast SLL prediction mode first, which
-    // handles the vast majority of doc comments. SLL can report a syntax error
-    // on a small number of inputs that full LL prediction accepts (e.g. inline
-    // emails in descriptions); when that happens, fall back to LL.
-    try {
-      return _walk(sanitizedBody, PredictionMode.SLL);
-    } catch (_) {
-      try {
-        return _walk(sanitizedBody, PredictionMode.LL);
-      } catch (error) {
-        return DocComment.error(error.toString());
-      }
-    }
+    return ApexdocGrammar.parse(body);
   }
+}
 
-  static DocComment _walk(String sanitizedBody, PredictionMode mode) {
-    final walkerDefinition = ApexdocWalkerDefinition(predictionMode: mode);
-    Walker.walk(
-        InputStream.fromString(sanitizedBody),
-        walkerDefinition,
-        (antlr_apexdoc_parser.ApexdocParser parser) => parser.documentation());
-    return walkerDefinition.getGeneratedDocComment();
+T _parseOrThrow<T>(Parser<T> parser, String body) {
+  // No trimming: the grammar consumes leading and trailing hidden whitespace
+  // itself, and trimming would copy the whole source string first.
+  final result = parser.parse(body);
+  if (result is Failure) {
+    throw Exception(
+        'Error parsing Apex Body. ${result.message} at ${result.position}');
   }
+  return result.value;
 }

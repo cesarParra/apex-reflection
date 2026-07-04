@@ -13,13 +13,7 @@ function fail(message) {
 
 function main() {
   const projectRoot = path.resolve(__dirname, "..");
-  const src = path.join(projectRoot, "node.wasm");
   const distDir = path.join(projectRoot, "dist");
-  const dst = path.join(distDir, "node.wasm");
-
-  if (!fs.existsSync(src)) {
-    fail(`source file not found: ${src}`);
-  }
 
   try {
     fs.mkdirSync(distDir, { recursive: true });
@@ -29,17 +23,29 @@ function main() {
     );
   }
 
-  try {
-    fs.copyFileSync(src, dst);
-  } catch (e) {
-    fail(
-      `failed to copy node.wasm to dist: ${e && e.message ? e.message : String(e)}`,
+  // The wasm module and its loader are emitted as a matched pair by
+  // `dart compile wasm`; shipping one without the other risks an ABI
+  // mismatch, so both are copied together.
+  for (const fileName of ["node.wasm", "node.mjs"]) {
+    const src = path.join(projectRoot, fileName);
+    const dst = path.join(distDir, fileName);
+
+    if (!fs.existsSync(src)) {
+      fail(`source file not found: ${src}`);
+    }
+
+    try {
+      fs.copyFileSync(src, dst);
+    } catch (e) {
+      fail(
+        `failed to copy ${fileName} to dist: ${e && e.message ? e.message : String(e)}`,
+      );
+    }
+
+    process.stdout.write(
+      `[apex-reflection] copy-node-wasm-to-dist: copied ${src} -> ${dst}\n`,
     );
   }
-
-  process.stdout.write(
-    `[apex-reflection] copy-node-wasm-to-dist: copied ${src} -> ${dst}\n`,
-  );
 }
 
 main();

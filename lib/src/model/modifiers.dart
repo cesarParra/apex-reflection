@@ -1,8 +1,4 @@
-import 'package:apex_reflection/src/extension_methods/list_extensions.dart';
-import 'package:apex_reflection/src/service/utils/parsing/parsing_utils.dart';
 import 'package:json_annotation/json_annotation.dart';
-
-import '../antlr/grammars/apex/ApexParser.dart';
 
 part 'modifiers.g.dart';
 
@@ -51,49 +47,6 @@ enum AnnotationType {
   other
 }
 
-dynamic getModifierFromStringDeclaration(dynamic modifierDeclarationContext,
-    {isMember = false}) {
-  final modifierDeclaration = modifierDeclarationContext.text;
-  if (modifierDeclarationContext is AnnotationContext) {
-    return Annotation.fromAnnotationContext(modifierDeclarationContext);
-  }
-
-  if (modifierDeclarationContext is ModifierContext &&
-      modifierDeclarationContext.annotation() != null) {
-    return Annotation.fromAnnotationContext(
-        modifierDeclarationContext.annotation()!);
-  }
-
-  dynamic enumValue = AccessModifier.values.firstWhereOrNull((element) =>
-      describeEnum(element).toLowerCase() == modifierDeclaration.toLowerCase());
-
-  if (enumValue != null) {
-    return enumValue;
-  }
-
-  if (!isMember) {
-    enumValue = ClassModifier.values.firstWhereOrNull((element) =>
-        describeEnum(element).toLowerCase() ==
-        modifierDeclaration.toLowerCase());
-
-    if (enumValue != null) {
-      return enumValue;
-    }
-  }
-
-  enumValue = SharingModifier.values.firstWhereOrNull((element) =>
-      describeEnum(element).toLowerCase() == modifierDeclaration.toLowerCase());
-
-  if (enumValue != null) {
-    return enumValue;
-  }
-
-  enumValue = MemberModifier.values.firstWhereOrNull(
-      (element) => element.value == modifierDeclaration.toLowerCase());
-
-  return enumValue;
-}
-
 @JsonSerializable()
 class Annotation {
   String rawDeclaration;
@@ -101,21 +54,11 @@ class Annotation {
   late AnnotationType type;
   List<AnnotationElementValue>? elementValues = [];
 
-  Annotation(this.rawDeclaration) {
-    name = _sanitizeDeclaration(rawDeclaration).toLowerCase();
-    type = _parseAnnotationTypeFromString(name);
-  }
-
-  factory Annotation.fromAnnotationContext(AnnotationContext ctx) {
-    final annotation = Annotation(ctx.text);
-    annotation.elementValues = ctx
-            .elementValuePairs()
-            ?.elementValuePairs()
-            .map((valuePair) => AnnotationElementValue(
-                valuePair.id()!.text, valuePair.elementValue()!.text))
-            .toList() ??
-        [];
-    return annotation;
+  /// [name] is the annotation's identifier when the caller already parsed it
+  /// (the grammar does); otherwise it is extracted from [rawDeclaration].
+  Annotation(this.rawDeclaration, {String? name}) {
+    this.name = (name ?? _nameFromDeclaration(rawDeclaration)).toLowerCase();
+    type = _annotationTypesByName[this.name] ?? AnnotationType.other;
   }
 
   factory Annotation.fromJson(Map<String, dynamic> json) =>
@@ -123,20 +66,16 @@ class Annotation {
 
   Map<String, dynamic> toJson() => _$AnnotationToJson(this);
 
-  String _sanitizeDeclaration(String declaration) {
-    var sanitizedString = declaration.replaceFirst('@', '').toLowerCase();
-    if (sanitizedString.contains('(')) {
-      sanitizedString = sanitizedString.replaceRange(
-          declaration.indexOf('(') - 1, declaration.indexOf(')'), '');
-    }
-    return sanitizedString;
-  }
+  static final RegExp _namePattern = RegExp(r'[A-Za-z_$][A-Za-z0-9_$]*');
 
-  AnnotationType _parseAnnotationTypeFromString(String name) {
-    return AnnotationType.values.firstWhere(
-        (element) => describeEnum(element).toLowerCase() == name,
-        orElse: () => AnnotationType.other);
-  }
+  /// Extracts the annotation's name: the identifier after `@`, regardless of
+  /// any whitespace or `(...)` parameters that follow it in the raw text.
+  static String _nameFromDeclaration(String declaration) =>
+      _namePattern.firstMatch(declaration)?.group(0) ?? '';
+
+  static final Map<String, AnnotationType> _annotationTypesByName = {
+    for (final type in AnnotationType.values) type.name.toLowerCase(): type,
+  };
 }
 
 @JsonSerializable()

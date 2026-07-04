@@ -9,6 +9,57 @@ ClassMirror parseClass(String body) =>
     ApexParser.parseFromBody(body) as ClassMirror;
 
 main() {
+  group('Case insensitivity', () {
+    // Apex is a case-insensitive language: every keyword must be recognized
+    // regardless of casing.
+    test('Keywords are recognized in any casing', () {
+      final generatedClass = parseClass('''
+      PUBLIC WITH SHARING ABSTRACT CLASS MyClass EXTENDS BaseClass IMPLEMENTS MyInterface {
+        PRIVATE STATIC FINAL String myField = 'x';
+        PROTECTED VOID doWork(FINAL Integer count) {}
+        PUBLIC VIRTUAL CLASS Inner {}
+        PUBLIC ENUM Season { WINTER }
+        PUBLIC INTERFACE Nested { VOID run(); }
+      }
+      ''');
+      expect(generatedClass.accessModifier, equals(AccessModifier.public));
+      expect(generatedClass.sharingModifier,
+          equals(SharingModifier.withSharing));
+      expect(generatedClass.isAbstract, isTrue);
+      expect(generatedClass.extendedClass, equals('BaseClass'));
+      expect(generatedClass.implementedInterfaces.single,
+          equals('MyInterface'));
+      expect(generatedClass.fields.single.memberModifiers,
+          contains(MemberModifier.static));
+      expect(generatedClass.methods.single.typeReference.type, equals('void'));
+      expect(generatedClass.classes.single.isVirtual, isTrue);
+      expect(generatedClass.enums.single.values.single.name, equals('WINTER'));
+      expect(generatedClass.interfaces.single.methods.single.name,
+          equals('run'));
+    });
+
+    test('Collection types are classified in any casing', () {
+      final generatedClass = parseClass('''
+      public class MyClass {
+        public LIST<String> items;
+        public map<ID, Account> accountsById;
+        public SeT<String> names;
+      }
+      ''');
+      expect(generatedClass.fields[0].typeReference.type, equals('List'));
+      expect(generatedClass.fields[1].typeReference.type, equals('Map'));
+      expect(generatedClass.fields[2].typeReference.type, equals('Set'));
+    });
+
+    test('Trigger keywords are recognized in any casing', () {
+      final trigger = TriggerParser.parseFromBody('''
+      TRIGGER MyTrigger ON Account (BEFORE INSERT, AFTER UPDATE) { }
+      ''');
+      expect(trigger.name, equals('MyTrigger'));
+      expect(trigger.events, hasLength(2));
+    });
+  });
+
   group('Inner type modifiers', () {
     test('Inner classes keep their virtual modifier', () {
       final generatedClass = parseClass('''

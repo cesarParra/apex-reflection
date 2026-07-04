@@ -488,7 +488,7 @@ main() {
     });
   });
 
-  group('Official ApexDoc spec coverage', () {
+  group('Reference forms and tag casing', () {
     test('A capitalized @Description tag still populates the description', () {
       final docComment = ApexdocParser.parseFromBody('''
       /**
@@ -498,7 +498,7 @@ main() {
       expect(docComment.description, 'This is a description');
     });
 
-    test('Preserves official @see reference forms verbatim', () {
+    test('Preserves @see reference forms verbatim', () {
       final docComment = ApexdocParser.parseFromBody('''
       /**
         * Description.

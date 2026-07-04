@@ -222,7 +222,6 @@ class CompiledApp {
       _217: (o, p) => o[p],
       _218: (o, p, v) => o[p] = v,
       _220: o => o instanceof Array,
-      _227: (a, s) => a.join(s),
       _231: a => a.length,
       _233: (a, i) => a[i],
       _239: o => o instanceof Uint8Array,

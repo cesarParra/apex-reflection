@@ -153,6 +153,7 @@ main() {
       comment.exampleAnnotation =
           ExampleDocCommentAnnotation(['doSomething();']);
       comment.annotations.add(DocCommentAnnotation('see', 'OtherClass'));
+      comment.hidden = true;
 
       final json = jsonEncode(comment.toJson());
       final deserialized =
@@ -177,6 +178,17 @@ main() {
       expect(deserialized.annotations, hasLength(1));
       expect(deserialized.annotations.first.name, equals('see'));
       expect(deserialized.annotations.first.body, equals('OtherClass'));
+      expect(deserialized.hidden, isTrue);
+    });
+
+    test('DocComment.hidden defaults to false when missing from JSON', () {
+      final comment = DocComment('A description');
+      final json = jsonDecode(jsonEncode(comment.toJson()))
+          as Map<String, dynamic>;
+      json.remove('hidden');
+
+      final deserialized = DocComment.fromJson(json);
+      expect(deserialized.hidden, isFalse);
     });
 
     test(

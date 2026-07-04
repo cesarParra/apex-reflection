@@ -11,7 +11,9 @@ import 'package:apex_reflection/src/model/multi_line_apex_doc_annotation.dart';
 /// comment. A literal `@` inside running text does not start a tag when it is
 /// protected inside backticks, an inline `{@link ...}`-style tag, or any
 /// balanced `{ ... }` group. `{@hidden ...}` regions are dropped from the
-/// output entirely.
+/// output entirely and mark the comment as [DocComment.hidden], which per the
+/// official ApexDoc spec means the documented element should be excluded from
+/// generated documentation.
 ///
 /// [wrappedComment] matches a full `/** ... */` comment *including* the
 /// delimiters. Because the wrapper is part of the grammar (instead of being
@@ -88,19 +90,23 @@ class ApexdocGrammar {
     final plainCharacter = guarded(pattern('^@'));
     // The fence must be tried before the single-backtick span, which would
     // otherwise consume the first two backticks of a fence as an empty span.
+    // A dropped `{@hidden ...}` region leaves a marker among the segments so
+    // that, once the text is joined, the comment can still be flagged hidden.
     final segment = braceGroup.flatten().map(_dropHiddenRegion) |
         fencedCodeBlock.flatten() |
         backtickedSpan.flatten() |
         plainRun |
         plainCharacter;
 
-    final textRun = segment.star().map((parts) => parts.join());
+    final textRun = segment.star().map((parts) => _TextRun(
+        parts.whereType<String>().join(),
+        parts.any((part) => part is _HiddenRegionMarker)));
     final tagName = pattern('a-zA-Z0-9\$_-').plus().flatten();
     final blockTag = (char('@') & tagName & textRun)
-        .map((values) => _BlockTag(values[1] as String, values[2] as String));
+        .map((values) => _BlockTag(values[1] as String, values[2] as _TextRun));
 
     return (textRun & blockTag.star()).map((values) {
-      final description = values[0] as String;
+      final description = values[0] as _TextRun;
       final tags = (values[1] as List).cast<_BlockTag>();
       return _buildDocComment(description, tags);
     });
@@ -109,34 +115,40 @@ class ApexdocGrammar {
   static final RegExp _hiddenRegionPattern =
       RegExp(r'^\{@hidden', caseSensitive: false);
 
-  static String _dropHiddenRegion(String braceGroupText) {
-    return _hiddenRegionPattern.hasMatch(braceGroupText) ? '' : braceGroupText;
+  static Object _dropHiddenRegion(String braceGroupText) {
+    return _hiddenRegionPattern.hasMatch(braceGroupText)
+        ? const _HiddenRegionMarker()
+        : braceGroupText;
   }
 
-  static DocComment _buildDocComment(String description, List<_BlockTag> tags) {
-    final docComment = DocComment.withLines(sanitizeDocContent(description));
+  static DocComment _buildDocComment(
+      _TextRun description, List<_BlockTag> tags) {
+    final docComment =
+        DocComment.withLines(sanitizeDocContent(description.text));
+    docComment.hidden = description.containsHidden ||
+        tags.any((tag) => tag.content.containsHidden);
 
     for (final tag in tags) {
       switch (tag.name.toLowerCase()) {
         case 'param':
-          final (parameterName, content) = _splitLeadingName(tag.content);
+          final (parameterName, content) = _splitLeadingName(tag.content.text);
           docComment.paramAnnotations.add(ParamDocCommentAnnotation(
               parameterName, sanitizeDocContent(content)));
         case 'throws' || 'exception':
-          final (exceptionName, content) = _splitLeadingName(tag.content);
+          final (exceptionName, content) = _splitLeadingName(tag.content.text);
           docComment.throwsAnnotations.add(ThrowsDocCommentAnnotation(
               exceptionName, sanitizeDocContent(content)));
         // `@returns` is a pervasive JSDoc-ism; honoring it as an alias keeps
         // the author's clear intent instead of demoting it to an unknown tag.
         case 'return' || 'returns':
           docComment.returnAnnotation =
-              ReturnDocCommentAnnotation(sanitizeDocContent(tag.content));
+              ReturnDocCommentAnnotation(sanitizeDocContent(tag.content.text));
         case 'example':
-          docComment.exampleAnnotation =
-              ExampleDocCommentAnnotation(sanitizeDocContent(tag.content));
+          docComment.exampleAnnotation = ExampleDocCommentAnnotation(
+              sanitizeDocContent(tag.content.text));
         default:
-          docComment.annotations.add(
-              DocCommentAnnotation(tag.name, sanitizeDocContent(tag.content)));
+          docComment.annotations.add(DocCommentAnnotation(
+              tag.name, sanitizeDocContent(tag.content.text)));
       }
     }
     return docComment;
@@ -186,7 +198,21 @@ class ApexdocGrammar {
 /// up to the next tag or the end of the comment.
 class _BlockTag {
   final String name;
-  final String content;
+  final _TextRun content;
 
   _BlockTag(this.name, this.content);
+}
+
+/// A run of doc text, flagged when a `{@hidden ...}` region was dropped from
+/// it.
+class _TextRun {
+  final String text;
+  final bool containsHidden;
+
+  _TextRun(this.text, this.containsHidden);
+}
+
+/// Stands in for a dropped `{@hidden ...}` region in a segment list.
+class _HiddenRegionMarker {
+  const _HiddenRegionMarker();
 }

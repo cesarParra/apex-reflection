@@ -18,6 +18,14 @@ class DocComment {
   List<DocCommentAnnotation> annotations = [];
   String? error;
 
+  /// Whether the comment contains an `{@hidden}` inline tag anywhere in its
+  /// text. Per the official ApexDoc spec, `{@hidden}` means the documented
+  /// element should be excluded from generated documentation; consumers are
+  /// expected to honor this flag. The hidden region's text itself is stripped
+  /// from the parsed output.
+  @JsonKey(defaultValue: false)
+  bool hidden = false;
+
   DocComment(String description) {
     _descriptionLines = [if (description.isNotEmpty) description];
   }
@@ -41,8 +49,8 @@ class DocComment {
       return _descriptionLines;
     }
 
-    final descriptionTag = annotations
-        .firstWhereOrNull((element) => element.name == 'description');
+    final descriptionTag = annotations.firstWhereOrNull(
+        (element) => element.name.toLowerCase() == 'description');
     return descriptionTag?.bodyLines ?? [];
   }
 

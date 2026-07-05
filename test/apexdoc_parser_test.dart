@@ -29,6 +29,32 @@ main() {
     final docComment = ApexdocParser.parseFromBody(docBody);
     expect(docComment.description,
         'This is a description\n\nThis is more description');
+    expect(docComment.hidden, isTrue);
+  });
+
+  test('Comments without {@hidden} are not marked as hidden', () {
+    final docComment =
+        ApexdocParser.parseFromBody('/** This is a description */');
+    expect(docComment.hidden, isFalse);
+  });
+
+  test('A bare {@hidden} tag marks the comment as hidden', () {
+    final docComment =
+        ApexdocParser.parseFromBody('/** This is a description {@hidden} */');
+    expect(docComment.hidden, isTrue);
+    expect(docComment.description, 'This is a description');
+  });
+
+  test('{@hidden} in a tag body marks the comment as hidden', () {
+    final docBody = '''
+    /**
+      * This is a description
+      * @param name The name. {@hidden internal note}
+      */
+    ''';
+    final docComment = ApexdocParser.parseFromBody(docBody);
+    expect(docComment.hidden, isTrue);
+    expect(docComment.paramAnnotations.single.body, 'The name.');
   });
 
   test('Can parse a multi line simple doc comment with multiple blank lines',
@@ -459,6 +485,58 @@ main() {
       ''');
       expect(docComment.description, contains('Produces {'));
       expect(docComment.paramAnnotations.single.paramName, equals('name'));
+    });
+  });
+
+  group('Reference forms and tag casing', () {
+    test('A capitalized @Description tag still populates the description', () {
+      final docComment = ApexdocParser.parseFromBody('''
+      /**
+        * @Description This is a description
+        */
+      ''');
+      expect(docComment.description, 'This is a description');
+    });
+
+    test('Preserves @see reference forms verbatim', () {
+      final docComment = ApexdocParser.parseFromBody('''
+      /**
+        * Description.
+        * @see AccountManager#getAccount(Id, Boolean)
+        * @see "Salesforce Security Guide"
+        * @see <a href="https://example.com">Example</a>
+        */
+      ''');
+      final seeAnnotations = docComment.annotationsByName('see');
+      expect(seeAnnotations, hasLength(3));
+      expect(seeAnnotations[0].body, 'AccountManager#getAccount(Id, Boolean)');
+      expect(seeAnnotations[1].body, '"Salesforce Security Guide"');
+      expect(
+          seeAnnotations[2].body, '<a href="https://example.com">Example</a>');
+    });
+
+    test('Preserves {@link Class#member} inline references verbatim', () {
+      final docComment = ApexdocParser.parseFromBody('''
+      /**
+        * See {@link AccountManager#getAccount(Id)} for details.
+        */
+      ''');
+      expect(docComment.description,
+          'See {@link AccountManager#getAccount(Id)} for details.');
+    });
+
+    test('Multiple @author tags are all captured', () {
+      final docComment = ApexdocParser.parseFromBody('''
+      /**
+        * Description.
+        * @author First Author
+        * @author Second Author
+        */
+      ''');
+      final authors = docComment.annotationsByName('author');
+      expect(authors, hasLength(2));
+      expect(authors[0].body, 'First Author');
+      expect(authors[1].body, 'Second Author');
     });
   });
 }
